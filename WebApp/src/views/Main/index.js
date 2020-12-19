@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AdminLayout from "../../layouts/Admin.js";
 import AuthLayout from '../../layouts/Auth';
+import GuestLayout from '../../layouts/Guest';
 import * as actions from '../../store/actions/index'
 
 class Main extends Component {
@@ -29,7 +30,8 @@ class Main extends Component {
       <div className="wrapper">
         <Switch>
           <Route path="/auth" render={props => <AuthLayout {...props} />} />
-          <Redirect from="/" to="/auth" />
+          {/* <Redirect from="/" to="/auth" /> */}
+          <Route path="/search" render={props => <GuestLayout {...props} />} />
         </Switch>
       </div>
     )

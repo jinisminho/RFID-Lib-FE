@@ -5,3 +5,7 @@ export {
     authCheckState,
     changePassword,
 } from './auth'
+
+export {
+    getBooks,
+} from './guest'
