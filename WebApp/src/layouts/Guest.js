@@ -36,7 +36,7 @@ class Guest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: []
         }
         this.fetchData = this.fetchData.bind(this);
         this.getBooks = this.getBooks.bind(this);

@@ -20,7 +20,7 @@ const getBooksFailed = (state, action) =>{
 }
 
 export default function reducer(state = {
-  data: null,
+  data: [],
   error: null,
   loading: false
 }, action) {

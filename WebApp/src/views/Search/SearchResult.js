@@ -20,7 +20,20 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 // core components
+
 import { SearchResultTbl } from "components/Tables/SearchResultTbl";
+import { COLUMNS_2 } from 'components/Tables/columnsSearchResult'
+import MUIDataTable from "mui-datatables";
+
+const options = {
+  filterType: 'checkbox',
+  selectableRowsHideCheckboxes: true,
+  print: false,
+  download: false,
+  jumpToPage: true,
+  rowsPerPageOptions: [5, 10, 15, 100],
+  search: false
+};
 
 class SearchResult extends React.Component {
   render() {
@@ -32,14 +45,21 @@ class SearchResult extends React.Component {
           <Row>
             <div className="col">
               <Card className="shadow">
-                <CardHeader className="border-0">
+                {/* <CardHeader className="border-0">
                   <h3 className="mb-0">Result</h3>
-                </CardHeader>
+                </CardHeader> */}
 
-                <SearchResultTbl data={this.props.data}></SearchResultTbl>
+                {/* <SearchResultTbl data={this.props.data}></SearchResultTbl> */}
+
+                <MUIDataTable
+                  title={"Result"}
+                  data={this.props.data}
+                  columns={COLUMNS_2}
+                  options={options}
+                />
 
 
-                <CardFooter className="py-4">
+                {/* <CardFooter className="py-4">
                   <nav aria-label="...">
                     <Pagination
                       className="pagination justify-content-end mb-0"
@@ -90,7 +110,8 @@ class SearchResult extends React.Component {
                       </PaginationItem>
                     </Pagination>
                   </nav>
-                </CardFooter>
+                </CardFooter> */}
+
               </Card>
             </div>
           </Row>
