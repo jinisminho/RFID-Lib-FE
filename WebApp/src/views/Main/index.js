@@ -29,7 +29,7 @@ class Main extends Component {
       <div className="wrapper">
         <Switch>
           <Route path="/auth" render={props => <AuthLayout {...props} />} />
-          <Redirect from="/" to="/auth" />
+          <Redirect from="/" to="/guest" />
         </Switch>
       </div>
     )

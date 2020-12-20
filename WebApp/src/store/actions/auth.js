@@ -26,7 +26,6 @@ export const authFail =(error) =>{
 }
 
 export const logout =()=>{
-    console.log(localStorage.getItem("expiryDate"))
     localStorage.removeItem('accessToken')
     localStorage.removeItem('expiryDate')
     localStorage.removeItem('userId')
@@ -42,7 +41,6 @@ export const checkAuthTimeOut = (expirationTime) =>{
     console.log(expirationTime)
     return dispatch =>{
         setTimeout(()=>{
-            console.log("---------")
             dispatch(logout())
         },expirationTime)
     }
