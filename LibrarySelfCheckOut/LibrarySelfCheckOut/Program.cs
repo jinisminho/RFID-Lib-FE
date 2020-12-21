@@ -18,7 +18,7 @@ namespace LibrarySelfCheckOut
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());
-            APIHelper.initializeClient();
+            //APIHelper.initializeClient();
         }
     }
 }

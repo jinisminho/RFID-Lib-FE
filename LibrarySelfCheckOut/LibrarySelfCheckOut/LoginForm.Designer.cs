@@ -42,10 +42,10 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Calibri", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label2.Location = new System.Drawing.Point(162, 723);
+            this.label2.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(102, 682);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(920, 46);
+            this.label2.Size = new System.Drawing.Size(932, 44);
             this.label2.TabIndex = 1;
             this.label2.Text = "PLEASE SCAN YOUR STUDENT CARD TO START CHECK-OUT";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -66,10 +66,11 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Calibri", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label3.Location = new System.Drawing.Point(146, 531);
+            this.label3.Font = new System.Drawing.Font("UD Digi Kyokasho N-B", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label3.Location = new System.Drawing.Point(109, 548);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(951, 97);
+            this.label3.Size = new System.Drawing.Size(919, 92);
             this.label3.TabIndex = 4;
             this.label3.Text = "WELCOME TO ABC LIBRARY";
             // 
@@ -97,19 +98,19 @@
             // 
             this.lbMessage.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbMessage.AutoSize = true;
-            this.lbMessage.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbMessage.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbMessage.Location = new System.Drawing.Point(546, 811);
+            this.lbMessage.Location = new System.Drawing.Point(444, 839);
             this.lbMessage.Name = "lbMessage";
-            this.lbMessage.Size = new System.Drawing.Size(182, 35);
+            this.lbMessage.Size = new System.Drawing.Size(315, 33);
             this.lbMessage.TabIndex = 7;
-            this.lbMessage.Text = "INVALID CARD";
+            this.lbMessage.Text = "INVALID STUDENT CARD";
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1193, 866);
+            this.ClientSize = new System.Drawing.Size(1193, 929);
             this.Controls.Add(this.lbMessage);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtStudentRFID);

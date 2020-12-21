@@ -18,7 +18,7 @@ namespace LibrarySelfCheckOut.Processors
         {
             //call api 
             Console.WriteLine(studentRFID);
-            if (studentRFID.Equals(123))
+            if (studentRFID.Equals("123"))
             {
                 return "valid";
             }

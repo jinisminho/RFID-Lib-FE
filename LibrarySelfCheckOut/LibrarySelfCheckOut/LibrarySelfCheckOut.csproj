@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Access\Image\modern-library-with-bookshelf-illustration_1262-16576.jpg" />
+    <Content Include="Access\Image\—Pngtree—library cartoon banner illustration_1065759.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
