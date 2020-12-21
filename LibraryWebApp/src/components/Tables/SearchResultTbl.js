@@ -19,8 +19,7 @@ import {
     UncontrolledTooltip
 } from "reactstrap";
 import { useTable, usePagination } from 'react-table'
-import { COLUMNS } from './columnsSearchResult'
-import { emptyRenderer } from 'react-table/dist/react-table.development';
+import { COLUMNS } from './SearchResultCols'
 
 export const SearchResultTbl = props => {
 

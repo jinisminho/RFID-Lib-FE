@@ -23,14 +23,10 @@ import { Container, Row, Col, Alert } from "reactstrap";
 
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
-
-import routes from "routes.js";
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/index'
 import SearchForm from 'views/Search/Search'
 import SearchResult from 'views/Search/SearchResult'
-
-import Spinner from 'components/Spinner/Spinner'
 
 class Guest extends React.Component {
     constructor(props) {
@@ -41,7 +37,7 @@ class Guest extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.getBooks = this.getBooks.bind(this);
     }
-    
+
     componentDidMount() {
         document.body.classList.add("bg-default");
     }
@@ -57,7 +53,7 @@ class Guest extends React.Component {
     }
 
     render() {
-        let form = <SearchForm onSubmit={(value) => this.getBooks(value.search)} />
+        let form = <SearchForm style={{ "max-width": '80%' }} onSubmit={(value) => this.getBooks(value.search)} />
 
         return (
             <>
@@ -90,7 +86,7 @@ class Guest extends React.Component {
                         </div>
                     </div>
                     {/* Page content */}
-                    <Container className="mt--8 pb-5">
+                    <Container className="mt--8 pb-5" style={{ "max-width": '80%' }}>
                         <Row className="justify-content-center">
                             <Col className="col-md-5 col-lg-5 col-sm-6 h-100 col-md-offset-3 col-lg-offset-3">
                             </Col>
@@ -99,7 +95,7 @@ class Guest extends React.Component {
                             {form}
                         </Row>
                         <Row className="justify-content-center">
-                            <Route path="/search/result" ><SearchResult data={this.props.data}/></Route>
+                            <Route path="/search/result" ><SearchResult className="mt-1 pb-auto mw-100" data={this.props.data} /></Route>
                         </Row>
                     </Container>
                 </div>

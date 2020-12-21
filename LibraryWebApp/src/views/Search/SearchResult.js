@@ -21,8 +21,7 @@ import {
 } from "reactstrap";
 // core components
 
-import { SearchResultTbl } from "components/Tables/SearchResultTbl";
-import { COLUMNS_2 } from 'components/Tables/columnsSearchResult'
+import { COLUMNS_2 } from 'components/Tables/SearchResultCols'
 import MUIDataTable from "mui-datatables";
 
 const options = {
@@ -40,7 +39,7 @@ class SearchResult extends React.Component {
     return (
       <>
         {/* Page content */}
-        <Container>
+        <Container className={this.props.className}>
           {/* Table */}
           <Row>
             <div className="col">
