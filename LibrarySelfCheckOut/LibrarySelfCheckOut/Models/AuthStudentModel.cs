@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibrarySelfCheckOut.Models
 {
-    public class Student
+    public class AuthStudentModel
     {
         public long id { get; set; }
         public string username { get; set; }

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E97E6F2C-8BF3-4BBE-BAFB-FD812F5D048E}</ProjectGuid>
+    <ProjectGuid>{C2FFD353-9F20-4261-B440-0E2487A7DE01}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>LibrarySelfCheckOut</RootNamespace>
-    <AssemblyName>LibrarySelfCheckOut</AssemblyName>
+    <RootNamespace>LibrarySelfReturn</RootNamespace>
+    <AssemblyName>LibrarySelfReturn</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -90,7 +90,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Access\Image\modern-library-with-bookshelf-illustration_1262-16576.jpg" />
     <Content Include="Access\Image\—Pngtree—library cartoon banner illustration_1065759.jpg" />
   </ItemGroup>
   <ItemGroup />

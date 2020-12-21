@@ -33,7 +33,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtStudentRFID = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
             this.lbMessage = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -79,20 +78,9 @@
             this.txtStudentRFID.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtStudentRFID.Location = new System.Drawing.Point(485, 782);
             this.txtStudentRFID.Name = "txtStudentRFID";
-            this.txtStudentRFID.Size = new System.Drawing.Size(171, 22);
+            this.txtStudentRFID.Size = new System.Drawing.Size(226, 22);
             this.txtStudentRFID.TabIndex = 5;
             this.txtStudentRFID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtStudentRFID_KeyDown);
-            // 
-            // btnLogin
-            // 
-            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnLogin.Location = new System.Drawing.Point(687, 782);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(75, 23);
-            this.btnLogin.TabIndex = 6;
-            this.btnLogin.Text = "Login";
-            this.btnLogin.UseVisualStyleBackColor = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // lbMessage
             // 
@@ -112,7 +100,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1193, 929);
             this.Controls.Add(this.lbMessage);
-            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtStudentRFID);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
@@ -131,7 +118,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStudentRFID;
-        private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Label lbMessage;
     }
 }

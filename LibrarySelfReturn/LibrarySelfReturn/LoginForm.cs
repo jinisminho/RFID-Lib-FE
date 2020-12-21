@@ -7,35 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LibrarySelfCheckOut.Models;
-using LibrarySelfCheckOut.Processors;
+using LibrarySelfReturn.Models;
+using LibrarySelfReturn.Processors;
 
-namespace LibrarySelfCheckOut
+namespace LibrarySelfReturn
 {
     public partial class LoginForm : Form
     {
-
         private string studentFRID;
+
         public LoginForm()
         {
             InitializeComponent();
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-      
+
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
             this.txtStudentRFID.Focus();
             this.lbMessage.Hide();
-
         }
 
-     
         private void txtStudentRFID_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 studentFRID = this.txtStudentRFID.Text;
                 this.txtStudentRFID.Text = "";
@@ -59,13 +57,11 @@ namespace LibrarySelfCheckOut
             }
         }
 
-
-        //with api
         private async void checkLogin(string studentRFID)
         {
             this.txtStudentRFID.Text = "";
             AuthStudentModel student = await AuthProcessor.checkLoginAPI(studentRFID);
-            if(student != null) //check RFID duoi db where activate + student role
+            if (student != null) //check RFID duoi db where activate + student role
             {
                 //tim thay chuyen form kem theo 2 param student id + username
                 var studentId = student.id;
@@ -86,5 +82,5 @@ namespace LibrarySelfCheckOut
                 t.Start();
             }
         }
-    } 
+    }
 }
