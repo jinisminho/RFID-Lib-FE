@@ -27,15 +27,20 @@ import { connect } from 'react-redux'
 import * as actions from '../store/actions/index'
 import SearchForm from 'views/Search/Search'
 import SearchResult from 'views/Search/SearchResult'
+import BookDetailModal from '../components/Modals/BookDetailModal';
 
 class Guest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            showDetail: false,
+            detailData: null
         }
         this.fetchData = this.fetchData.bind(this);
         this.getBooks = this.getBooks.bind(this);
+        this.setStateDetailData = this.setStateDetailData.bind(this);
+        this.handleDetailCancel = this.handleDetailCancel.bind(this);
     }
 
     componentDidMount() {
@@ -50,6 +55,38 @@ class Guest extends React.Component {
     getBooks(searchStr) {
         this.props.onGetBooks(searchStr)
         this.props.history.push('/search/result');
+    }
+    setStateDetailData(rowData,rowMeta) {
+        console.log("rowData: " + rowData);
+        console.log("rowMeta: " + rowMeta);
+        console.log(rowMeta);
+        console.log(this.props.data[rowMeta["rowIndex"]]);
+
+        // var detailObj = {"title":"","author":""}
+        var objArr = []
+
+        // detailObj["title"] = data[0]
+        // detailObj["author"] = data[1]
+        
+        // objArr.push(detailObj)
+
+        objArr.push(this.props.data[rowMeta["rowIndex"]])
+        
+        this.setState({
+            showDetail: true,
+            detailData: objArr
+        })
+
+        // this.setState({
+        //     showDetail: true,
+        //     detailData: this.props.data[rowMeta["rowIndex"]]
+        // })
+    }
+    handleDetailCancel = () => {
+        this.setState({
+            showDetail: false,
+            detailData: null
+        })
     }
 
     render() {
@@ -95,7 +132,13 @@ class Guest extends React.Component {
                             {form}
                         </Row>
                         <Row className="justify-content-center">
-                            <Route path="/search/result" ><SearchResult className="mt-1 pb-auto mw-100" data={this.props.data} /></Route>
+                            <Route path="/search/result" ><SearchResult className="mt-1 pb-auto mw-100" data={this.props.data} onRowClick={(rowData,rowMeta)=> {this.setStateDetailData(rowData,rowMeta)}} /></Route>
+                            <BookDetailModal
+                                show={this.state.showDetail}
+                                hide={() => this.handleDetailCancel()}
+                                data={this.state.detailData}
+                                title="Detail"
+                            />
                         </Row>
                     </Container>
                 </div>

@@ -21,21 +21,26 @@ import {
 } from "reactstrap";
 // core components
 
-import { COLUMNS_2 } from 'components/Tables/SearchResultCols'
+import { COLUMNS_2, COLUMNS_3, COLUMNS_4 } from 'components/Tables/SearchResultCols'
 import MUIDataTable from "mui-datatables";
 
-const options = {
-  filterType: 'checkbox',
-  selectableRowsHideCheckboxes: true,
-  print: false,
-  download: false,
-  jumpToPage: true,
-  rowsPerPageOptions: [5, 10, 15, 100],
-  search: false
-};
 
-class SearchResult extends React.Component {
-  render() {
+
+class SearchResult extends React.Component { 
+
+  render() { 
+
+    const options = {
+      filterType: 'checkbox',
+      selectableRowsHideCheckboxes: true,
+      print: false,
+      download: false,
+      jumpToPage: true,
+      rowsPerPageOptions: [5, 10, 15, 100],
+      search: false,
+      onRowClick: this.props.onRowClick
+    };
+
     return (
       <>
         {/* Page content */}
@@ -53,7 +58,7 @@ class SearchResult extends React.Component {
                 <MUIDataTable
                   title={"Result"}
                   data={this.props.data}
-                  columns={COLUMNS_2}
+                  columns={COLUMNS_4(this.props.data)}
                   options={options}
                 />
 
