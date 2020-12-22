@@ -7,7 +7,17 @@ function login(username,password){
             "role":"ADMIN",
             "username":"test"
         },"status":true}
-    }else{
+    }
+    else if(username=="st" && password=="st"){
+        return {"data":{
+            "accessToken":"214",
+            "expiryDate":"2020-12-30",
+            "userId":"2",
+            "role":"STUDENT",
+            "username":"st"
+        },"status":true}
+    }
+    else{
         return {"err":"Unauthorized","status":false}
     }
 }
