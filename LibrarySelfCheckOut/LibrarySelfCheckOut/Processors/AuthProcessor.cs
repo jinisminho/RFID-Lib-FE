@@ -15,10 +15,10 @@ namespace LibrarySelfCheckOut.Processors
     {
 
         //tam thoi
-        public static string checkLogin(string studentRFID)
+        public static string checkLogin(long studentRFID)
         {
             //call api 
-            if (studentRFID.Equals("123"))
+            if (studentRFID == 123)
             {
                 return "valid";
             }
@@ -26,7 +26,7 @@ namespace LibrarySelfCheckOut.Processors
         }
 
 
-        public static async Task<AuthStudentModel> checkLoginAPI(String studentRFID)
+        public static async Task<AuthStudentModel> checkLoginAPI(long studentRFID)
         {
             AuthStudentModel student = await AuthAPI.findStudentByRFID(studentRFID);
             return student;

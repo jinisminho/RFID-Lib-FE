@@ -42,11 +42,11 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(102, 682);
+            this.label2.Location = new System.Drawing.Point(211, 672);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(932, 44);
+            this.label2.Size = new System.Drawing.Size(742, 44);
             this.label2.TabIndex = 1;
-            this.label2.Text = "PLEASE SCAN YOUR STUDENT CARD TO START CHECK-OUT";
+            this.label2.Text = "PLEASE SCAN YOUR STUDENT CARD TO LOGIN\r\n";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1

@@ -11,15 +11,16 @@ namespace LibrarySelfCheckOut.APIs
 {
     public class AuthAPI
     {
-        public static async Task<AuthStudentModel> findStudentByRFID(String studentRFID)
+        public static async Task<AuthStudentModel> findStudentByRFID(long studentRFID)
         {
-            string url = "";
+            string url = $"win/auth?studentRFID=" + studentRFID;
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
 
                     AuthStudentModel student = await response.Content.ReadAsAsync<AuthStudentModel>();
+                   
                     return student;
                 }else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {

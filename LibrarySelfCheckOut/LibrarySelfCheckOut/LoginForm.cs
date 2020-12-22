@@ -15,13 +15,13 @@ namespace LibrarySelfCheckOut
     public partial class LoginForm : Form
     {
 
-        private string studentFRID;
+        private long studentFRID;
         public LoginForm()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
       
         }
 
@@ -37,11 +37,14 @@ namespace LibrarySelfCheckOut
         {
             if(e.KeyCode == Keys.Enter)
             {
-                studentFRID = this.txtStudentRFID.Text;
+                studentFRID = long.Parse(this.txtStudentRFID.Text);
                 this.txtStudentRFID.Text = "";
+                this.txtStudentRFID.Focus();
+
                 if (AuthProcessor.checkLogin(studentFRID).Equals("valid"))
                 {
-                    //chuyen trang
+                    CheckOutForm checkOutForm = new CheckOutForm("tramphse130038@fpt.edu.com", 4 , 1);
+                    checkOutForm.ShowDialog();
                 }
                 else
                 {
@@ -61,15 +64,19 @@ namespace LibrarySelfCheckOut
 
 
         //with api
-        private async void checkLogin(string studentRFID)
+        private async void checkLogin(long studentRFID)
         {
             this.txtStudentRFID.Text = "";
+            this.txtStudentRFID.Focus();
             AuthStudentModel student = await AuthProcessor.checkLoginAPI(studentRFID);
             if(student != null) //check RFID duoi db where activate + student role
             {
                 //tim thay chuyen form kem theo 2 param student id + username
-                var studentId = student.id;
-                var studentUsername = student.username;
+                long studentId = student.id;
+                string studentUsername = student.username;
+                int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
+                CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                checkOutForm.ShowDialog();
 
             }
             else //khong tim thay student

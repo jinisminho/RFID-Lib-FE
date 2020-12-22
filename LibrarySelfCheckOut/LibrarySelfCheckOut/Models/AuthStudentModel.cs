@@ -8,10 +8,12 @@ namespace LibrarySelfCheckOut.Models
 {
     public class AuthStudentModel
     {
+    
         public long id { get; set; }
         public string username { get; set; }
         public string name { get; set; }
         public string role { get; set; }
+        public int maxNumberBorrowAllowed { get; set; }
 
     }
 }
