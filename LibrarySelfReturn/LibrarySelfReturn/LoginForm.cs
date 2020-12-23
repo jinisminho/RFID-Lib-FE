@@ -14,7 +14,7 @@ namespace LibrarySelfReturn
 {
     public partial class LoginForm : Form
     {
-        private string studentFRID;
+        private long studentFRID;
 
         public LoginForm()
         {
@@ -35,11 +35,12 @@ namespace LibrarySelfReturn
         {
             if (e.KeyCode == Keys.Enter)
             {
-                studentFRID = this.txtStudentRFID.Text;
+                studentFRID = long.Parse(this.txtStudentRFID.Text);
                 this.txtStudentRFID.Text = "";
                 if (AuthProcessor.checkLogin(studentFRID).Equals("valid"))
                 {
-                    //chuyen trang
+                    ReturnForm returnForm = new ReturnForm("tramphse130038@fpt.edu.com", 1);
+                    returnForm.ShowDialog();
                 }
                 else
                 {
@@ -57,16 +58,18 @@ namespace LibrarySelfReturn
             }
         }
 
-        private async void checkLogin(string studentRFID)
+        private async void checkLogin(long studentRFID)
         {
             this.txtStudentRFID.Text = "";
+            this.txtStudentRFID.Focus();
             AuthStudentModel student = await AuthProcessor.checkLoginAPI(studentRFID);
             if (student != null) //check RFID duoi db where activate + student role
             {
                 //tim thay chuyen form kem theo 2 param student id + username
                 var studentId = student.id;
                 var studentUsername = student.username;
-
+                ReturnForm returnForm = new ReturnForm(studentUsername,studentId);
+                returnForm.ShowDialog();
             }
             else //khong tim thay student
             {

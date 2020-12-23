@@ -65,11 +65,11 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(129, 681);
+            this.label1.Location = new System.Drawing.Point(199, 670);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(875, 44);
+            this.label1.Size = new System.Drawing.Size(742, 44);
             this.label1.TabIndex = 2;
-            this.label1.Text = "PLEASE SCAN YOUR STUDENT CARD TO START RETURN";
+            this.label1.Text = "PLEASE SCAN YOUR STUDENT CARD TO LOGIN";
             // 
             // txtStudentRFID
             // 

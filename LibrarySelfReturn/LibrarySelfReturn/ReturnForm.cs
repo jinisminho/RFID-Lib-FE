@@ -7,46 +7,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LibrarySelfCheckOut.Models;
-using LibrarySelfCheckOut.Processors;
+using LibrarySelfReturn.Models;
+using LibrarySelfReturn.Processors;
 
-namespace LibrarySelfCheckOut
+namespace LibrarySelfReturn
 {
-    public partial class CheckOutForm : Form
+    public partial class ReturnForm : Form
     {
         private string username;
 
-        private int maxNumberBorrowAllowed;
-
         private long studentId;
 
-        private List<BookModel> bookList;
-
+        private List<BookReturnModel> bookList;
 
         private long bookRFID;
 
-        public CheckOutForm(string username, int maxNumberBorrowAllowed, long studentId)
+        private string transactionId;
+        public ReturnForm(string username, long studentId)
         {
             InitializeComponent();
-            this.username = username;
-            this.maxNumberBorrowAllowed = maxNumberBorrowAllowed;
-            this.studentId = studentId;
-
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
 
+            this.transactionId = "ST" + DateTime.Now.ToString("MMddyyyyHHmmss");
+            Console.WriteLine(transactionId);
+            this.username = username;
+            this.studentId = studentId;
             this.txtBookRFID.Focus();
 
             //assign value
-            this.bookList = new List<BookModel>();
+            this.bookList = new List<BookReturnModel>();
             this.lbUsername.Text = $"Welcome, " + username;
-            this.lbNoticeMaxBookBorrowAllowed.Text = $"NOTICE: Each student is allowed to borrow maximum " + maxNumberBorrowAllowed + " books each time.";
             this.lbDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-
-
         }
-
 
         private async void txtBookRFID_KeyDown(object sender, KeyEventArgs e)
         {
@@ -55,40 +49,29 @@ namespace LibrarySelfCheckOut
                 this.bookRFID = long.Parse(this.txtBookRFID.Text);
                 this.txtBookRFID.Text = "";
                 this.txtBookRFID.Focus();
-                if (bookList.Count >= maxNumberBorrowAllowed)
+                //call api đổi status hien len panel
+                BookReturnModel book = await BookReturnProcessor.returnABook(this.bookRFID, this.studentId, transactionId);
+                if(book == null)
                 {
-                    //show message box ok
-                    MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books", "Maximum Book Borrow Allowed");
+                    MessageBox.Show("System Error. Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
                 else
                 {
-                    //call api
-                    BookModel book = await BookProcessor.findBookByRFID(this.bookRFID);
-                    if (book == null)
-                    {
-                        MessageBox.Show("System Error. Please try again", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    }
-                    else
-                    {
-                        bookList.Add(book);
-                        BookItem bookItem = new BookItem(bookList.Count, book);
-                        bookItem.Width = this.flowLayoutPanelBookList.Width - 30;
-                        this.flowLayoutPanelBookList.Controls.Add(bookItem);
-                    }
+                    bookList.Add(book);
+                    BookItem bookItem = new BookItem(bookList.Count, book);
+                    bookItem.Width = this.flowLayoutPanelBookList.Width - 30;
+                    this.flowLayoutPanelBookList.Controls.Add(bookItem);
                 }
-                 
             }
         }
 
-       
         private async void btLogout_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to logout?", "LOGOUT", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (dialogResult == DialogResult.Yes)
             {
-                List<long> bookIdList = bookList.Select(b => b.id).ToList();
-                String msg = await BookProcessor.addBookBorrow(studentId, bookIdList);
+                String msg = await BookReturnProcessor.sendEmailForReturnTransaction(transactionId);
                 if (msg != null && msg != "failed")
                 {
                     this.Close();

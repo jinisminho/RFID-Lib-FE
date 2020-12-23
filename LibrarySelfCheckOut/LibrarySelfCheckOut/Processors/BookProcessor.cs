@@ -21,7 +21,7 @@ namespace LibrarySelfCheckOut.Processors
 
         public static async Task<String> addBookBorrow (long studentId, List<long> bookIdList)
         {
-            string msg = await BookAPI.addBookBorrow(studentId, bookIdList);
+            //string msg = await BookAPI.addBookBorrow(studentId, bookIdList);
 
             return "OK";
         }
