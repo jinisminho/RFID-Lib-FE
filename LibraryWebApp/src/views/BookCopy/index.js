@@ -25,14 +25,14 @@ import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
-import BookForm from './bookForm'
+import CopyForm from './copyForm'
 import {
     Card,
     CardHeader,
     CardFooter,
     Container
 } from "reactstrap";
-class Book extends React.Component {
+class BookCopy extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,6 +40,7 @@ class Book extends React.Component {
             successNotice: '',
             successShow: false,
             errorShow: false,
+            errMsg:"",
             confirmDelete: false,
             deleteId: null,
             updateFormShow: false,
@@ -55,19 +56,25 @@ class Book extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add book successfully"
+            msg = "Add book copy successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update book successfully"
+            msg = "Update book copy successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Delete book successfully"
+            msg = "Delete book copy successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
         }
-        if (this.props.error != null && !this.state.errorShow) {
-            this.setState({ errorShow: true })
+        if ((this.props.error != null || this.props.bookError != null) && !this.state.errorShow) {
+            let errMsg=null
+            if(this.props.error != null){
+                errMsg=this.props.error
+            }else if(this.props.bookError){
+                errMsg=this.props.bookError
+            }
+            this.setState({ errorShow: true,errMsg:errMsg })
         }
     }
     inputChangedHandler = (event) => {
@@ -97,10 +104,12 @@ class Book extends React.Component {
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
+        this.props.onGetBook()
     }
     handleAddSubmit(values) {
+        console.log(values)
         this.setState({ addFormShow: false })
-        this.props.onAddBook(values)
+        this.props.onAddCopy(values)
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -114,11 +123,11 @@ class Book extends React.Component {
     }
     handleUpdateSubmit(values) {
         this.setState({ updateFormShow: false })
-        this.props.onUpdateBook(values)
+        this.props.onUpdateCopy(values)
     }
     handleDeleteSubmit() {
         this.setState({ confirmDelete: false})
-        this.props.onDeleteBook(this.state.deleteId)
+        this.props.onDeleteCopy(this.state.deleteId)
     }
     handleDeleteCancel = () => {
         this.setState({
@@ -141,21 +150,9 @@ class Book extends React.Component {
         )
     }
     getInitialValues = () => {
-        let author=[]
-        if(this.state.updateData && this.state.updateData.author.length>0){
-            this.state.updateData.author.forEach(el => {
-            author.push({"author":el})
-            });
-        }
         return {
-            isbn: this.state.updateData ? this.state.updateData.isbn : '',
-            title: this.state.updateData ? this.state.updateData.title : '',
-            publisher: this.state.updateData ? this.state.updateData.publisher : '',
-            language: this.state.updateData ? this.state.updateData.language : '',
-            nop: this.state.updateData ? this.state.updateData.nop : '',
-            category: this.state.updateData ? this.state.updateData.category : '',
-            edition: this.state.updateData ? this.state.updateData.edition : '',
-            members: author,
+            code: this.state.updateData ? this.state.updateData.code : '',
+            book: this.state.updateData ? this.state.updateData.book : '',
             id:this.state.updateData ? this.state.updateData.id : ''
         };
     }
@@ -186,7 +183,7 @@ class Book extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Book
+                            </span> <i className="fa fa-plus"></i> Add Book Copy
                         </button>
                     </Col>
                 </Row>
@@ -203,41 +200,42 @@ class Book extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="title" width="12%" dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="author" width="12%" dataAlign="center">Author</TableHeaderColumn>
-                    <TableHeaderColumn dataField="publisher" width="12%" dataAlign="center">Publisher</TableHeaderColumn>
-                    <TableHeaderColumn dataField="language" width="12%" dataAlign="center" >Language</TableHeaderColumn>
-                    <TableHeaderColumn dataField="nop" dataAlign="center" width="12%" >Number of page</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="edition" dataAlign="center" width="12%">Edition</TableHeaderColumn>
+                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
+                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
+                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
+                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
+                    <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Book</Modal.Title>
+                        <Modal.Title>Add Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <CopyForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}  dataList={this.props.bookData}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Book</Modal.Title>
+                        <Modal.Title>Update Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <CopyForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} dataList={this.props.bookData}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Delete Book</Modal.Title>
+                        <Modal.Title>Delete Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
                         <h1 className="text-danger display-1"><i className="fas fa-trash-alt"></i></h1>
-                        <h4>You will not be able to recover this book</h4>
+                        <h4>You will not be able to recover this book copy</h4>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
@@ -259,7 +257,7 @@ class Book extends React.Component {
                 <Container className="mt--7" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Book tables</h3>
+                            <h3 className="mb-0">Book copy tables</h3>
                         </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
@@ -281,7 +279,7 @@ class Book extends React.Component {
                             </Modal.Header>
                             <Modal.Body className="text-center">
                                 <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                                <h2>{this.props.error}</h2>
+                                <h2>{this.state.errMsg}</h2>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => this.handleModalClose()}>
@@ -299,25 +297,28 @@ class Book extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.book.loading,
-        data: state.book.data,
-        error: state.book.error,
-        totalSize: state.book.total,
-        page: state.book.page,
-        sizePerPage: state.book.sizePerPage,
-        deleteSuccess: state.book.deleteSuccess,
-        updateSuccess: state.book.updateSuccess,
-        addSuccess: state.book.addSuccess
+        loading: state.copy.loading,
+        data: state.copy.data,
+        bookData: state.copy.bookData,
+        error: state.copy.error,
+        bookError: state.copy.bookError,
+        totalSize: state.copy.total,
+        page: state.copy.page,
+        sizePerPage: state.copy.sizePerPage,
+        deleteSuccess: state.copy.deleteSuccess,
+        updateSuccess: state.copy.updateSuccess,
+        addSuccess: state.copy.addSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search) => dispatch(actions.getBook(page, size, search)),
-        onDeleteBook: (id) => dispatch(actions.deleteBook(id)),
-        onUpdateBook: (data) => dispatch(actions.updateBook(data)),
-        onAddBook: (data) => dispatch(actions.addBook(data))
+        onFetchData: (page, size, search) => dispatch(actions.getCopy(page, size, search)),
+        onDeleteCopy: (id) => dispatch(actions.deleteCopy(id)),
+        onUpdateCopy: (data) => dispatch(actions.updateCopy(data)),
+        onAddCopy: (data) => dispatch(actions.addCopy(data)),
+        onGetBook: () => dispatch(actions.getAllBook())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Book)
+export default connect(mapStateToProps, mapDispatchToProps)(BookCopy)

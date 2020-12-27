@@ -15,11 +15,27 @@ var arrayOfBooks = [{"id":1,"title":"Harry","author":["JK","aa"], "isbn":"043970
 {"id":15,"title":"Harry15","author":["JK"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
 {"id":16,"title":"Harry16","author":["JK"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4}];
 
-function getBooks(keywords,page,sizePerPage){
+var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"123123123"},
+{"id":2,"book":1,"title":"Harry2","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"111111111"},
+{"id":3,"book":2,"title":"Harry3","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"222222222"},
+{"id":4,"book":3,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"333333333"},
+{"id":5,"book":4,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"444444444"},
+{"id":6,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"555555555"},
+{"id":7,"book":2,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"666666666"},
+{"id":8,"book":3,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"777777777"},
+{"id":9,"book":4,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"888888888"},
+{"id":10,"book":5,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"999999999"},
+{"id":11,"book":6,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"121212121"},
+{"id":12,"book":7,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"code":"1311313131"}
+]
+function getBooks(){
+    return {"data": arrayOfBooks, "status":true};
+}
+function getCopy(keywords,page,sizePerPage){
     var arr = [];
-    for(var i = 0 ; i< arrayOfBooks.length; i++){
+    for(var i = 0 ; i< arrayOfCopy.length; i++){
 
-        var obj = arrayOfBooks[i];
+        var obj = arrayOfCopy[i];
         var title = obj["title"];
 
         // if(!keywords) {alert ("keywords is false or 0 or undefined or null")} 
@@ -39,45 +55,37 @@ function getBooks(keywords,page,sizePerPage){
     }
     return {"data": rs, "total":arr.length,"status":true};
 }
-function addBooks(data){
-    let id=arrayOfBooks[arrayOfBooks.length-1]["id"]+1
-    data["id"]=id
-    let author=[]
-    data["members"].forEach(el => {
-        author.push(el["author"])
-    });
-    data["author"]=author
-    delete data["members"]
-    arrayOfBooks.push(data)
+function addCopy(data){
+    let id=arrayOfCopy[arrayOfCopy.length-1]["id"]+1
+    let rs={}
+    for(var i = 0 ; i< arrayOfBooks.length; i++){
+        if(data["book"]==arrayOfBooks[i]["id"]){
+            let tmp = arrayOfBooks[i]
+            delete tmp["id"]
+            rs=tmp
+        }
+    }
+    rs["id"]=id
+    rs["code"]=data["code"]
+    arrayOfCopy.push(rs)
     return {"status":true};
 }
-function updateBooks(data){
+function updateCopy(data){
     let id=data["id"]
-    arrayOfBooks.forEach(el => {
+    arrayOfCopy.forEach(el => {
         if(el["id"]==id){
-            let authors=[]
-            data["members"].forEach(author => {
-                authors.push(author["author"])
-            })
-            el["title"]=data["title"]
-            el["isbn"]=data["isbn"]
-            el["publisher"]=data["publisher"]
-            el["language"]=data["language"]
-            el["nop"]=data["nop"]
-            el["category"]=data["category"]
-            el["edition"]=data["edition"]
-            el["author"]=authors
+            el["code"]=data["code"]
         }
     });
     return {"status":true};
 }
 
-function deleteBook(id){
-    arrayOfBooks.forEach((el,idx) => {
+function deleteCopy(id){
+    arrayOfCopy.forEach((el,idx) => {
         if(el["id"]==id){
-            arrayOfBooks.splice(idx,1)
+            arrayOfCopy.splice(idx,1)
         }
     })
     return {"status":true};
 }
-export {getBooks, addBooks,updateBooks,deleteBook}
+export {getBooks, getCopy,addCopy,updateCopy,deleteCopy}
