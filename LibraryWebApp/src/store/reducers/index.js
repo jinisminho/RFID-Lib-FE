@@ -1,9 +1,9 @@
 import { reducer as formReducer } from 'redux-form'
 import Auth from './Auth';
 import guest from './guest'; 
-import book from './Admin/Book'; 
-import copy from './Admin/BookCopy'; 
-import checkout from './Admin/Checkout'; 
+import book from './Librarian/Book'; 
+import copy from './Librarian/BookCopy'; 
+import checkout from './Librarian/Checkout'; 
 import info from './Student/info';
 import infoLside from './Librarian/info'; 
 export default {

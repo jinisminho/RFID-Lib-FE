@@ -23,12 +23,43 @@ import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import RentingInf from "views/Librarian/RentingInfo.js";
+import Book from "views/Book/index.js";
+import BookCopy from "views/BookCopy/index.js";
+import Checkout from "views/Checkout/index.js";
 var routes = [
   {
     path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
+    layout: "/librarian"
+  },
+  {
+    path: "/book",
+    name: "Books",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Book,
+    layout: "/librarian"
+  },
+  {
+    path: "/copy",
+    name: "Copy of book",
+    icon: "ni ni-books text-primary",
+    component: BookCopy,
+    layout: "/librarian"
+  },
+  {
+    path: "/checkout",
+    name: "Check out books",
+    icon: "fas fa-shopping-cart text-primary",
+    component: Checkout,
+    layout: "/librarian"
+  },
+  {
+    path: "/renting",
+    name: "Renting Information",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: RentingInf,
     layout: "/librarian"
   },
   {
@@ -57,12 +88,6 @@ var routes = [
     name: "Tables",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: "/librarian"
-  },{
-    path: "/renting",
-    name: "Renting Information",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
     layout: "/librarian"
   },
   {

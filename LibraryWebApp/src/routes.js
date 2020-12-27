@@ -22,9 +22,7 @@ import Register from "views/examples/Register.js";
 import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
-import Book from "views/Book/index.js";
-import BookCopy from "views/BookCopy/index.js";
-import Checkout from "views/Checkout/index.js";
+
 
 var routes = [
   {
@@ -34,27 +32,7 @@ var routes = [
     component: Index,
     layout: "/admin"
   },
-  {
-    path: "/book",
-    name: "Books",
-    icon: "ni ni-book-bookmark text-primary",
-    component: Book,
-    layout: "/admin"
-  },
-  {
-    path: "/copy",
-    name: "Copy of book",
-    icon: "ni ni-books text-primary",
-    component: BookCopy,
-    layout: "/admin"
-  },
-  {
-    path: "/checkout",
-    name: "Check out books",
-    icon: "fas fa-shopping-cart text-primary",
-    component: Checkout,
-    layout: "/admin"
-  },
+  
   {
     path: "/icons",
     name: "Icons",

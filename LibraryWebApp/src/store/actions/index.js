@@ -9,12 +9,19 @@ export {
 export {
     getBooks,
 } from './guest'
+
+export {
+    getRentingInfo as getRentingInfoLibrarianSide,
+    getExtendedHistory,
+    extendDue
+} from './Librarian/info'
+
 export {
     getBook,
     addBook,
     updateBook,
     deleteBook
-} from './Admin/Book'
+} from './Librarian/Book'
 
 export {
     getCopy,
@@ -22,19 +29,13 @@ export {
     updateCopy,
     deleteCopy,
     getAllBook
-} from './Admin/BookCopy'
+} from './Librarian/BookCopy'
 
 export {
     getStudent,
     getStudentBook
-} from './Admin/Checkout'
+} from './Librarian/Checkout'
 
 export {
     getRentingInfo,
 } from './Student/info'
-
-export {
-    getRentingInfo as getRentingInfoLibrarianSide,
-    getExtendedHistory,
-    extendDue
-} from './Librarian/info'

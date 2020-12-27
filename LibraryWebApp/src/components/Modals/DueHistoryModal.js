@@ -6,17 +6,6 @@ import './myModal.css';
 
 
 const extendedDueModal = (props) => {
-  function getName(cell, row) {
-
-    let res = "";
-
-    cell.forEach(element => {
-      res += element["name"] + "; "
-    });
-
-    return res;
-    
-  }
 
   return (
     
