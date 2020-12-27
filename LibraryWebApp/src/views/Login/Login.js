@@ -34,10 +34,10 @@ import {
   Col
 } from "reactstrap";
 const renderField = ({ input, placeholder, type, meta: { touched, error} }) => (
-  <div>
+    <>
       <Input {...input} placeholder={placeholder} type={type}/>
       {touched && ((error && <span className="text-danger">{error}</span>))}
-      </div>
+      </>
 )
 const required = value => value ? undefined : 'Required'
 const Login = ({

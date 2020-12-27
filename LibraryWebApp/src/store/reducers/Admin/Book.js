@@ -32,77 +32,76 @@ const getBookFail = (state, action) =>{
   })
 }
 
-// const deleteCategoryStart = (state, action) =>{
-//   return updateObject(state,{
-//     error:null,
-//     loading:true,
-//     deleteSuccess:false,
-//   })
-// }
-// const deleteCategorySuccess = (state, action)=>{
-//   return updateObject(state,{
-//       error:null,
-//       loading:false,
-//       deleteSuccess:true
-//   })
-// }
-// const deleteCategoryFail = (state, action) =>{
-//   return updateObject(state,{
-//       error:action.error,
-//       loading:false,
-//       total:0,
-//       page:1,
-//       sizePerPage:20,
-//   })
-// }
+const deleteBookStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    deleteSuccess:false,
+  })
+}
+const deleteBookSuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+      deleteSuccess:true
+  })
+}
+const deleteBookFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      total:0,
+      page:1,
+      sizePerPage:20,
+  })
+}
 
-// const updateCategoryStart = (state, action) =>{
-//   return updateObject(state,{
-//     error:null,
-//     loading:true,
-//     updateSuccess:false,
-//   })
-// }
-// const updateCategorySuccess = (state, action)=>{
-//   return updateObject(state,{
-//       error:null,
-//       loading:false,
-//       updateSuccess:true
-//   })
-// }
-// const updateCategoryFail = (state, action) =>{
-//   return updateObject(state,{
-//       error:action.error,
-//       loading:false,
-//       total:0,
-//       page:1,
-//       sizePerPage:20,
-//   })
-// }
+const updateBookStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    updateSuccess:false,
+  })
+}
+const updateBookSuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+      updateSuccess:true
+  })
+}
+const updateBookFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      total:0,
+      page:1,
+      sizePerPage:20,
+  })
+}
 
-// const addCategoryStart = (state, action) =>{
-//   return updateObject(state,{
-//     error:null,
-//     loading:true,
-//     addSuccess:false,
-//   })
-// }
-// const addCategorySuccess = (state, action)=>{
-//   return updateObject(state,{
-//       error:null,
-//       loading:false,
-//       addSuccess:true
-//   })
-// }
-// const addCategoryFail = (state, action) =>{
-//   return updateObject(state,{
-//       error:action.error,
-//       loading:false,
-//       total:0,
-//       page:1,
-//       sizePerPage:20,
-//   })
-// }
+const addBookStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    addSuccess:false,
+  })
+}
+const addBookSuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+      addSuccess:true
+  })
+}
+const addBookFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      page:1,
+      sizePerPage:10,
+  })
+}
 export default function reducer(state = {
     data: null,
     total:0,
@@ -119,18 +118,18 @@ export default function reducer(state = {
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
     case actionTypes.ADMIN_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
     case actionTypes.ADMIN_GET_BOOKS_FAILED: return getBookFail(state, action)
-    
-    // case actionTypes.DELETE_CATEGORY_START: return deleteCategoryStart(state, action)
-    // case actionTypes.DELETE_CATEGORY_FAILED: return deleteCategoryFail(state, action)
-    // case actionTypes.DELETE_CATEGORY_SUCCESS: return deleteCategorySuccess(state, action)
-    
-    // case actionTypes.UPDATE_CATEGORY_START: return updateCategoryStart(state, action)
-    // case actionTypes.UPDATE_CATEGORY_FAILED: return updateCategoryFail(state, action)
-    // case actionTypes.UPDATE_CATEGORY_SUCCESS: return updateCategorySuccess(state, action)
 
-    // case actionTypes.ADD_CATEGORY_START: return addCategoryStart(state, action)
-    // case actionTypes.ADD_CATEGORY_FAILED: return addCategoryFail(state, action)
-    // case actionTypes.ADD_CATEGORY_SUCCESS: return addCategorySuccess(state, action)
+    case actionTypes.ADD_BOOK_START: return addBookStart(state, action)
+    case actionTypes.ADD_BOOK_SUCCESS: return addBookSuccess(state, action)
+    case actionTypes.ADD_BOOK_FAILED: return addBookFail(state, action)
+    
+    case actionTypes.DELETE_BOOK_START: return deleteBookStart(state, action)
+    case actionTypes.DELETE_BOOK_FAILED: return deleteBookFail(state, action)
+    case actionTypes.DELETE_BOOK_SUCCESS: return deleteBookSuccess(state, action)
+    
+    case actionTypes.UPDATE_BOOK_START: return updateBookStart(state, action)
+    case actionTypes.UPDATE_BOOK_FAILED: return updateBookFail(state, action)
+    case actionTypes.UPDATE_BOOK_SUCCESS: return updateBookSuccess(state, action)
    
 }
 return state
