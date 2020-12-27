@@ -25,7 +25,7 @@ import { Container, Row, Col, Alert } from "reactstrap";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/index'
-import SearchForm from 'views/Search/Search'
+import SearchForm from 'components/Forms/SearchForm'
 import SearchResult from 'views/Search/SearchResult'
 import BookDetailModal from '../components/Modals/BookDetailModal';
 
@@ -38,9 +38,8 @@ class Guest extends React.Component {
             detailData: null
         }
         this.fetchData = this.fetchData.bind(this);
-        this.getBooks = this.getBooks.bind(this);
         this.setStateDetailData = this.setStateDetailData.bind(this);
-        this.handleDetailCancel = this.handleDetailCancel.bind(this);
+        this.handleDetailClose = this.handleDetailClose.bind(this);
     }
 
     componentDidMount() {
@@ -50,25 +49,11 @@ class Guest extends React.Component {
         document.body.classList.remove("bg-default");
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchStr = this.props.searchStr) {
-        this.props.onFetchData(page - 1, sizePerPage, searchStr)
-    }
-    getBooks(searchStr) {
-        this.props.onGetBooks(searchStr)
+        this.props.onFetchData(page,sizePerPage,searchStr)
         this.props.history.push('/search/result');
     }
     setStateDetailData(rowData,rowMeta) {
-        console.log("rowData: " + rowData);
-        console.log("rowMeta: " + rowMeta);
-        console.log(rowMeta);
-        console.log(this.props.data[rowMeta["rowIndex"]]);
-
-        // var detailObj = {"title":"","author":""}
         var objArr = []
-
-        // detailObj["title"] = data[0]
-        // detailObj["author"] = data[1]
-        
-        // objArr.push(detailObj)
 
         objArr.push(this.props.data[rowMeta["rowIndex"]])
         
@@ -76,13 +61,8 @@ class Guest extends React.Component {
             showDetail: true,
             detailData: objArr
         })
-
-        // this.setState({
-        //     showDetail: true,
-        //     detailData: this.props.data[rowMeta["rowIndex"]]
-        // })
     }
-    handleDetailCancel = () => {
+    handleDetailClose = () => {
         this.setState({
             showDetail: false,
             detailData: null
@@ -90,7 +70,7 @@ class Guest extends React.Component {
     }
 
     render() {
-        let form = <SearchForm style={{ "max-width": '80%' }} onSubmit={(value) => this.getBooks(value.search)} />
+        let form = <SearchForm editClassName="shadow mw-100" onSubmit={(value) => this.fetchData(1, 10,value.search)} formTitle="Quick Search for Book" />
 
         return (
             <>
@@ -135,7 +115,7 @@ class Guest extends React.Component {
                             <Route path="/search/result" ><SearchResult className="mt-1 pb-auto mw-100" data={this.props.data} onRowClick={(rowData,rowMeta)=> {this.setStateDetailData(rowData,rowMeta)}} /></Route>
                             <BookDetailModal
                                 show={this.state.showDetail}
-                                hide={() => this.handleDetailCancel()}
+                                hide={() => this.handleDetailClose()}
                                 data={this.state.detailData}
                                 title="Detail"
                             />
@@ -149,13 +129,17 @@ class Guest extends React.Component {
 const mapStateToProps = state => {
     return {
         data: state.guest.data,
+        error: state.guest.error,
+        totalSize: state.guest.total,
+        page: state.guest.page,
+        sizePerPage: state.guest.sizePerPage
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         // onFetchData: (page, size, searchStr) => dispatch(actions.getBooks(page, size, searchStr)),
-        onGetBooks: (searchStr) => dispatch(actions.getBooks(searchStr)),
+        onFetchData: (page,size,searchStr) => dispatch(actions.getBooks(page,size,searchStr)),
     }
 }
 

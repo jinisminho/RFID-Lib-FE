@@ -17,6 +17,15 @@ function login(username,password){
             "username":"st"
         },"status":true}
     }
+    else if(username=="li" && password=="li"){
+        return {"data":{
+            "accessToken":"215",
+            "expiryDate":"2020-12-30",
+            "userId":"3",
+            "role":"LIBRARIAN",
+            "username":"li"
+        },"status":true}
+    }
     else{
         return {"err":"Unauthorized","status":false}
     }

@@ -12,3 +12,13 @@ export {
 export {
     getBook,
 } from './Admin/Book'
+
+export {
+    getRentingInfo,
+} from './Student/info'
+
+export {
+    getRentingInfo as getRentingInfoLibrarianSide,
+    getExtendedHistory,
+    extendDue
+} from './Librarian/info'

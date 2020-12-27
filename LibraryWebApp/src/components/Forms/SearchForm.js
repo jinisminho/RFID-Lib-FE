@@ -31,20 +31,25 @@ import {
   InputGroupText,
   InputGroup,
   Row,
-  Col
+  Col,
+  Container,
 } from "reactstrap";
-const renderField = ({ input, placeholder, type}) => (
-    <Input {...input} placeholder={placeholder} type={type} />
+const renderField = ({ input, placeholder, type }) => (
+  <Input {...input} placeholder={placeholder} type={type} />
 )
 const Search = ({
   submitting,
   handleSubmit,
+  formTitle,
+  editClassName,
+  editStyle
 }) => (
   <>
-    <Col>
-      <Card className="bg-secondary shadow border-0">
+    <Container className={editClassName} style={editStyle}>
+
+      <Card>
         <CardHeader className="bg-transparent ">
-          <h2 className="text-center">Quick search for books</h2>
+          <h2 className="text-center">{formTitle}</h2>
         </CardHeader>
         <CardBody className="px-lg-5 py-lg-5">
           <Form onSubmit={handleSubmit}>
@@ -59,10 +64,10 @@ const Search = ({
                     </InputGroupAddon>
                     {/* <Input name="search" placeholder="Search" type="text" /> */}
                     <Field
-                    name="search"
-                    type="text"
-                    placeholder="Search"
-                    component={renderField} />
+                      name="search"
+                      type="text"
+                      placeholder="Search"
+                      component={renderField} />
                   </InputGroup>
                 </FormGroup>
               </Col>
@@ -75,7 +80,9 @@ const Search = ({
           </Form>
         </CardBody>
       </Card>
-    </Col>
+
+    </Container>
+
   </>
 );
 

@@ -26,9 +26,9 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import * as actions from '../store/actions/index'
 import { connect } from 'react-redux'
 
-import routes from "routes/studentRoutes";
+import routes from "routes/librarianRoutes";
 
-class Student extends React.Component {
+class Librarian extends React.Component {
   componentDidUpdate(e) {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -36,7 +36,7 @@ class Student extends React.Component {
   }
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/student") {
+      if (prop.layout === "/librarian") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -68,7 +68,7 @@ class Student extends React.Component {
           {...this.props}
           routes={routes}
           logo={{
-            innerLink: "/student/index",
+            innerLink: "/librarian/index",
             imgSrc: require("assets/img/brand/argon-react.png"),
             imgAlt: "..."
           }}
@@ -81,7 +81,7 @@ class Student extends React.Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/student/index" />
+            <Redirect from="*" to="/librarian/index" />
           </Switch>
         </div>
       </>
@@ -104,5 +104,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Student)
+export default connect(mapStateToProps, mapDispatchToProps)(Librarian)
 

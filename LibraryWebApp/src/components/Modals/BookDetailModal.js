@@ -7,7 +7,6 @@ import './myModal.css';
 
 const bookDetailModal = (props) => {
   function getName(cell, row) {
-    console.log(cell);
 
     let res = "";
 
@@ -16,6 +15,7 @@ const bookDetailModal = (props) => {
     });
 
     return res;
+    
   }
 
   return (

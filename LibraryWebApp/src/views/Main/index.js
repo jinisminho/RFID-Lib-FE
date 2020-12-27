@@ -6,6 +6,7 @@ import AdminLayout from "../../layouts/Admin.js";
 import AuthLayout from '../../layouts/Auth';
 import GuestLayout from '../../layouts/Guest';
 import StudentLayout from '../../layouts/Student';
+import LibrarianLayout from '../../layouts/Librarian';
 import * as actions from '../../store/actions/index'
 
 class Main extends Component {
@@ -50,6 +51,14 @@ class Main extends Component {
             <Switch>
             <Route path="/student" render={props => <StudentLayout {...props} />} />
             <Redirect to="/student" />
+          </Switch>
+        )
+      }
+      else if (localStorage.getItem("role") == "LIBRARIAN") {
+        display = (
+            <Switch>
+            <Route path="/librarian" render={props => <LibrarianLayout {...props} />} />
+            <Redirect to="/librarian" />
           </Switch>
         )
       }

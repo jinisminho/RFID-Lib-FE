@@ -22,48 +22,48 @@ import Register from "views/examples/Register.js";
 import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
-import RentingInf from "views/Student/RentingInfo.js";
+import RentingInf from "views/Librarian/RentingInfo.js";
 var routes = [
   {
     path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/student"
+    layout: "/librarian"
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "ni ni-planet text-blue",
     component: Icons,
-    layout: "/student"
+    layout: "/librarian"
   },
   {
     path: "/maps",
     name: "Maps",
     icon: "ni ni-pin-3 text-orange",
     component: Maps,
-    layout: "/student"
+    layout: "/librarian"
   },
   {
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: "/student"
+    layout: "/librarian"
   },
   {
     path: "/tables",
     name: "Tables",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: "/student"
+    layout: "/librarian"
   },{
     path: "/renting",
     name: "Renting Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: RentingInf,
-    layout: "/student"
+    layout: "/librarian"
   },
   {
     path: "/login",
