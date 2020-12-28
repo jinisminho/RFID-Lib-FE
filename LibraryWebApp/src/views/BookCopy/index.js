@@ -74,7 +74,7 @@ class BookCopy extends React.Component {
             }else if(this.props.bookError){
                 errMsg=this.props.bookError
             }
-            this.setState({ errorShow: true,errMsg:errMsg })
+            this.setState({ errorShow: true,errMsg:errMsg,searchValue:'' })
         }
     }
     inputChangedHandler = (event) => {

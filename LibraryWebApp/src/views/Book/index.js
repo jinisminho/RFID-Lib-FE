@@ -67,7 +67,7 @@ class Book extends React.Component {
             this.setState({ successShow: true, successNotice: msg })
         }
         if (this.props.error != null && !this.state.errorShow) {
-            this.setState({ errorShow: true })
+            this.setState({ errorShow: true, searchValue:'' })
         }
     }
     inputChangedHandler = (event) => {
