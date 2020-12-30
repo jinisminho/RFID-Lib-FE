@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LibrarySelfCheckOut.Utils;
 
-namespace LibrarySelfCheckOut
+namespace LibrarySelfReturn
 {
     static class Program
     {
@@ -19,6 +18,7 @@ namespace LibrarySelfCheckOut
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());
             //APIHelper.initializeClient();
+
         }
     }
 }

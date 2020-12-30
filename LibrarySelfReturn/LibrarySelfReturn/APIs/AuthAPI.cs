@@ -4,10 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using LibrarySelfCheckOut.Models;
-using LibrarySelfCheckOut.Utils;
+using LibrarySelfReturn.Models;
+using LibrarySelfReturn.Utils;
 
-namespace LibrarySelfCheckOut.APIs
+namespace LibrarySelfReturn.APIs
 {
     public class AuthAPI
     {
@@ -20,9 +20,9 @@ namespace LibrarySelfCheckOut.APIs
                 {
 
                     AuthStudentModel student = await response.Content.ReadAsAsync<AuthStudentModel>();
-                   
                     return student;
-                }else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     return null;
                 }

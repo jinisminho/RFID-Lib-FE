@@ -1,15 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using LibrarySelfCheckOut.APIs;
-using LibrarySelfCheckOut.Models;
-using LibrarySelfCheckOut.Utils;
+using LibrarySelfReturn.APIs;
+using LibrarySelfReturn.Models;
 
-namespace LibrarySelfCheckOut.Processors
+namespace LibrarySelfReturn.Processors
 {
     public class AuthProcessor
     {
@@ -31,6 +28,5 @@ namespace LibrarySelfCheckOut.Processors
             AuthStudentModel student = await AuthAPI.findStudentByRFID(studentRFID);
             return student;
         }
-
     }
 }
