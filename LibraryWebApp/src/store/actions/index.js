@@ -39,3 +39,7 @@ export {
 export {
     getRentingInfo,
 } from './Student/info'
+
+export {
+    getReturningStudent,
+} from './Librarian/ReturnBook'

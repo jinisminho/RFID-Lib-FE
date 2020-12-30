@@ -26,6 +26,8 @@ import RentingInf from "views/Librarian/RentingInfo.js";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
+import ReturnBook from "views/ReturnBook/index.js";
+
 var routes = [
   {
     path: "/index",
@@ -53,6 +55,13 @@ var routes = [
     name: "Check out books",
     icon: "fas fa-shopping-cart text-primary",
     component: Checkout,
+    layout: "/librarian"
+  },
+  {
+    path: "/return",
+    name: "Return books",
+    icon: "fas fa-shopping-cart text-primary",
+    component: ReturnBook,
     layout: "/librarian"
   },
   {
