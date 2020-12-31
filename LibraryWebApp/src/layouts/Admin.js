@@ -26,7 +26,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import * as actions from '../store/actions/index'
 import { connect } from 'react-redux'
 
-import routes from "routes.js";
+import routes from "routes/adminRoutes";
 
 class Admin extends React.Component {
   componentDidUpdate(e) {
