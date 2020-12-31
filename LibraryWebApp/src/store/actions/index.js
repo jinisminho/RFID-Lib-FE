@@ -42,4 +42,5 @@ export {
 
 export {
     getReturningStudent,
+    getReturningBook
 } from './Librarian/ReturnBook'

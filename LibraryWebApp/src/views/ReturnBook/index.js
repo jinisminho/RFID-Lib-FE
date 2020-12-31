@@ -14,6 +14,7 @@ import {
     Container
 } from "reactstrap";
 import StudentInfoCard from './studentInfoCard'
+import Books from './returningBooks'
 
 
 class ReturnBook extends React.Component {
@@ -26,8 +27,8 @@ class ReturnBook extends React.Component {
             successShow: false,
             errorShow: false,
             bookShow:false,
-            errMsg:"",
-       
+            errMsg:'',
+            bookList: [],
         }
         this.fetchData = this.fetchData.bind(this);
     }
@@ -68,15 +69,15 @@ class ReturnBook extends React.Component {
     }
 
     handleBookSearch() {
-        // this.setState({
-        //     successShow: false,
-        //     errorShow: false
-        // })
-        // this.fetchBookData()
+        this.setState({
+            successShow: false,
+            errorShow: false
+        })
+        this.fetchBookData()
     }
 
     fetchBookData(){
-        //this.props.onGetBook(this.state.bookSearchValue)
+        this.props.onGetBook(this.state.bookSearchValue)
     }
 
     fetchData(){
@@ -97,6 +98,7 @@ class ReturnBook extends React.Component {
         };
     }
 
+
     render(){
 
         let studentDisplay = null
@@ -112,25 +114,24 @@ class ReturnBook extends React.Component {
         
         if(this.state.bookShow==true){
             bookDisplay= 
-        <Container className="mt-7" fluid>
+        <Container className="mt-4" fluid>
             <Row>
                 <Card className="shadow w-100">
                      <CardHeader className="border-0">
-                        <h3 className="mb-0">List of books</h3>
+                        <h3 className="mb-0">Returning books</h3>
                     </CardHeader>
-                    <InputGroup className="mb-3">
-                        <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Book Code" />
+                    <InputGroup className="mb-3 col-5">
+                        <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Scanning book to get book's code" />
                         <InputGroup.Append>
-                            <button onClick={() => this.handleBookSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
+                            <button onClick={() => this.handleBookSearch()} className="btn btn-simple">RETURN</button>
                         </InputGroup.Append>
                     </InputGroup>
                 </Card>
             </Row>
         </Container>
-        
         }
 
-
+    
         return(
         <>
             <StudentHeader />
@@ -157,6 +158,11 @@ class ReturnBook extends React.Component {
                 </Row>
             </Container>
             {bookDisplay}
+
+            
+            <Books books={this.props.bookData}/>
+
+
         </>
         )
     }
@@ -169,13 +175,14 @@ const mapStateToProps = state => {
         bookData: state.returnBook.bookData,
         bookLoading: state.returnBook.bookLoading,
         error: state.returnBook.error,
-        bookError: state.copy.bookError,
+        bookError: state.returnBook.bookError,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (search) => dispatch(actions.getReturningStudent(search)),
+        onGetBook: (search) => dispatch(actions.getReturningBook(search))
     }
 }
 

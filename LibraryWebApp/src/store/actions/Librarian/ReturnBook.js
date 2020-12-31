@@ -1,35 +1,69 @@
 import * as actionTypes from '../actionTypes'
-import * as checkoutPrototype from '../../prototype/return'
+import * as returnPrototype from '../../prototype/return'
 
-export const getStudentSuccess = (data) => {
+export const getReturningStudentSuccess = (data) => {
     return {
-        type: actionTypes.GET_STUDENT_SUCCESS,
+        type: actionTypes.LIB_RETURN_GET_STUDENT_SUCCESS,
         data: data
     }
 }
 
-export const getStudentFailed = (error) => {
+export const getReturningStudentFailed = (error) => {
     return {
-        type: actionTypes.GET_STUDENT_FAILED,
+        type: actionTypes.LIB_RETURN_GET_STUDENT_FAILED,
         error: error
     }
 }
 
-export const getStudentStart = () => {
+export const getReturningStudentStart = () => {
     return {
-        type: actionTypes.GET_STUDENT_START
+        type: actionTypes.LIB_RETURN_GET_STUDENT_START
     }
 }
 
 export const getReturningStudent = (search) => {
-    console.log("action/ getreturning student")
     return dispatch => {
-        dispatch(getStudentStart())
-        let response=checkoutPrototype.getStudent(search)
+        dispatch(getReturningStudentStart())
+        let response= returnPrototype.getStudent(search)
         if(response.status){
-            dispatch(getStudentSuccess(response.data))
+            dispatch(getReturningStudentSuccess(response.data))
         }else{
-            dispatch(getStudentFailed(response.err))
+            dispatch(getReturningStudentFailed(response.err))
+        }
+    }
+
+}
+
+
+
+export const getReturningBookSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_RETURN_GET_BOOK_SUCCESS,
+        bookData: data
+    }
+}
+
+export const getReturningBookFail = (error) => {
+    return {
+        type: actionTypes.LIB_RETURN_GET_BOOK_FAILED,
+        error: error
+    }
+}
+
+export const getReturningBookStart = () => {
+    return {
+        type: actionTypes.LIB_RETURN_GET_BOOK_START
+    }
+}
+
+export const getReturningBook = (search) => {
+    return dispatch => {
+        dispatch(getReturningBookStart())
+        let response=returnPrototype.getBook(search)
+        if(response.status){
+            dispatch(getReturningBookSuccess(response.data))
+        }else{
+            dispatch(getReturningBookFail(response.err))
         }
     }
 
