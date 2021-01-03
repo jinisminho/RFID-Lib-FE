@@ -21,8 +21,8 @@ import {
 } from "reactstrap";
 // core components
 
-import { COLUMNS_2, COLUMNS_3, COLUMNS_4 } from 'components/Tables/SearchResultCols'
 import MUIDataTable from "mui-datatables";
+import { COLUMNS_5 } from "components/Tables/SearchResultCols";
 
 
 
@@ -56,9 +56,9 @@ class SearchResult extends React.Component {
                 {/* <SearchResultTbl data={this.props.data}></SearchResultTbl> */}
 
                 <MUIDataTable
-                  title={"Result"}
+                  title={"Result - Click the row for more details"}
                   data={this.props.data}
-                  columns={COLUMNS_4(this.props.data)}
+                  columns={COLUMNS_5(this.props.data)}
                   options={options}
                 />
 

@@ -42,7 +42,8 @@ const Search = ({
   handleSubmit,
   formTitle,
   editClassName,
-  editStyle
+  editStyle,
+  placeholder
 }) => (
   <>
     <Container className={editClassName} style={editStyle}>
@@ -66,7 +67,7 @@ const Search = ({
                     <Field
                       name="search"
                       type="text"
-                      placeholder="Search"
+                      placeholder={placeholder}
                       component={renderField} />
                   </InputGroup>
                 </FormGroup>

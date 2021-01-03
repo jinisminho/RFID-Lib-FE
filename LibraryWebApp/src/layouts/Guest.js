@@ -70,7 +70,7 @@ class Guest extends React.Component {
     }
 
     render() {
-        let form = <SearchForm editClassName="shadow mw-100" onSubmit={(value) => this.fetchData(1, 10,value.search)} formTitle="Quick Search for Book" />
+        let form = <SearchForm editClassName="shadow mw-100" onSubmit={(value) => this.fetchData(1, 10,value.search)} formTitle="Quick Search for Book" placeholder="e.g. George Orwell, 0439708184, &quot;On the Origin of Species&quot;"/>
 
         return (
             <>
@@ -103,7 +103,7 @@ class Guest extends React.Component {
                         </div>
                     </div>
                     {/* Page content */}
-                    <Container className="mt--8 pb-5" style={{ "max-width": '80%' }}>
+                    <Container className="mt--8 pb-5" style={{ "maxWidth": '80%' }}>
                         <Row className="justify-content-center">
                             <Col className="col-md-5 col-lg-5 col-sm-6 h-100 col-md-offset-3 col-lg-offset-3">
                             </Col>
