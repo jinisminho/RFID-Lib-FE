@@ -20,7 +20,8 @@ export {
     getBook,
     addBook,
     updateBook,
-    deleteBook
+    deleteBook,
+    addBookCopy
 } from './Librarian/Book'
 
 export {
@@ -44,3 +45,10 @@ export {
     getReturningStudent,
     getReturningBook
 } from './Librarian/ReturnBook'
+
+export {
+    getStaff,
+    addStaff,
+    updateStaff,
+    deleteStaff
+} from './Admin/Staff'

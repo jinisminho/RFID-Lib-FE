@@ -48,91 +48,60 @@ const renderField = ({ input, placeholder, type, meta: { touched, error } }) => 
                 </Popover>
             }
         >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
         </OverlayTrigger>))}
     </>
 )
-const renderAuthors = ({ fields, meta: { error, submitFailed } }) => (
-    <>
-        {fields.map((member, index) =>
-            <InputGroup className="mb-3" key={index}>
-                <Field
-                    name={`${member}.author`}
-                    type="text"
-                    placeholder="Author's name"
-                    component={renderField}
-                    label="Author's Name" />
-                <InputGroupAddon addonType="append">
-                    <button
-                        className="btn btn-wd btn-danger "
-                        type="button"
-                        onClick={() => fields.remove(index)}>x</button>
-                </InputGroupAddon>
-            </InputGroup>
-        )}
-        <button className="btn btn-wd btn-primary " type="button" onClick={() => fields.push({})}>Add Author</button>
-        {submitFailed && error && <span className="text-danger">{error}</span>}
-    </>
-)
-const validateNumber = value => {
-    if(value < 1) {
-      return 1
-    } else {
-      return value
-    }
-  }
+
 const validate = values => {
-    const errors = {}
-    if (!values.isbn) {
-        errors.isbn = 'ISBN is required'
+    const errors = {};
+    if (!values.address) {
+        errors.address = 'Address  is required';
+    } else if (values.address.length < 3) {
+        errors.address = 'Must be 3 characters or more';
     }
-    if (!values.title) {
-        errors.title = 'Book title is required'
+    if (!values.firstname) {
+        errors.firstName = 'First name is required';
+    } else if (values.firstName.length > 100) {
+        errors.firstName = 'First name length is less than 100';
     }
-    if (!values.publisher) {
-        errors.publisher = 'Publisher is required'
+    if (!values.lastname) {
+        errors.lastName = 'Last name is required';
+    } else if (values.lastName.length > 50) {
+        errors.lastName = 'Last name length is less than 50';
     }
-    if (!values.language) {
-        errors.language = 'Language is required'
+    if (!values.username) {
+        errors.username = 'Username is required';
+    } else if (values.username.length < 6) {
+        errors.username = 'Must be 6 characters or more';
     }
-    if (!values.nop) {
-        errors.nop = 'Number of page is required'
-    } else if (!/^[0-9]+$/i.test(values.nop)) {
-        errors.nop = 'Number of page is not valid'
+    if (!values.password) {
+        errors.password = 'Password is required';
+    } else if (values.password.length < 6) {
+        errors.password = 'Must be 6 characters or more';
     }
-    if (!values.category) {
-        errors.category = 'Category is required'
+    if (!values.phone) {
+        errors.phone = 'Phone number is required';
+    } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
+        errors.phone = 'Invalid phone';
     }
-    if (!values.sub) {
-        errors.sub = 'Sub title is required'
+    if (!values.socialId) {
+        errors.socialId = 'Social ID is required';
+    } else if (!/^[0-9]{12}$/i.test(values.socialId)) {
+        errors.socialId = 'Invalid Social ID';
     }
-    if (!values.ddc) {
-        errors.ddc = 'DDC title is required'
+    if (!values.email) {
+        errors.email = 'Email is required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address'
     }
-    if (!values.edition) {
-        errors.edition = 'Edition is required'
-    } else if (!/^[0-9]+$/i.test(values.edition)) {
-        errors.edition = 'Edition is not valid'
+    if (!values.dob) {
+        errors.dob = 'Date of birth is required';
     }
-    if (!values.members || !values.members.length) {
-        errors.members = { _error: 'At least one author must be entered' }
-    } else {
-        const membersArrayErrors = []
-        values.members.forEach((member, memberIndex) => {
-            const memberErrors = {}
-            if (!member || !member.author) {
-                memberErrors.author = 'Author name is required'
-                membersArrayErrors[memberIndex] = memberErrors
-            }
-            return memberErrors
-        })
-        if (membersArrayErrors.length) {
-            errors.members = membersArrayErrors
-        }
-    }
-    return errors
-}
-const BookForm = ({
+    return errors;
+};
+
+const StaffForm = ({
     handleSubmit,
     handleCancel
 }) => (
@@ -147,10 +116,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="isbn"
+                            name="firstName"
+                            component={renderField}
                             type="text"
-                            placeholder="ISBN"
-                            component={renderField} />
+                            placeholder="Enter first name"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -161,10 +131,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="title"
+                            name="lastName"
+                            component={renderField}
                             type="text"
-                            placeholder="Title"
-                            component={renderField} />
+                            placeholder="Enter last Name"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -175,10 +146,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="sub"
+                            name="username"
+                            component={renderField}
                             type="text"
-                            placeholder="Sub Title"
-                            component={renderField} />
+                            placeholder="Enter username"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -189,10 +161,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="ddc"
-                            type="text"
-                            placeholder="DDC"
-                            component={renderField} />
+                            name="password"
+                            component={renderField}
+                            type="password"
+                            placeholder="Enter password"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -203,10 +176,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="publisher"
-                            type="text"
-                            placeholder="Publisher"
-                            component={renderField} />
+                            name="email"
+                            component={renderField}
+                            type="email"
+                            placeholder="Email"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -217,25 +191,11 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="language"
+                            name="phone"
+                            component={renderField}
                             type="text"
-                            placeholder="Language"
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-file" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="nop"
-                            normalize={validateNumber}
-                            type="number"
-                            placeholder="Number of page"
-                            component={renderField} />
+                            placeholder="Enter phone number"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
@@ -246,38 +206,56 @@ const BookForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="category"
+                            name="address"
+                            component={renderField}
                             type="text"
-                            placeholder="Category"
-                            component={renderField} />
+                            placeholder="Enter address"
+                        />
                     </InputGroup>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                                <i className="fas fa-code-branch" />
+                                <i className="fas fa-list-alt" />
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="edition"
-                            normalize={validateNumber}
-                            type="number"
-                            placeholder="Edition"
-                            component={renderField} />
+                                    name="dob"
+                                    component="input"
+                                    className="form-control"
+                                    type="date"
+                                />
                     </InputGroup>
                 </FormGroup>
-                <FieldArray name="members" component={renderAuthors} />
+                <div className="form-group">
+                            <label className="control-label">Gender</label>
+                            <div>
+
+                                <Field name="gender" component={renderField}
+                                    type="radio" value="M"
+                                    label='Male'
+
+                                />
+
+                                <br />
+
+                                <Field name="gender" component={renderField} label='Female'
+                                    type="radio" value="F"
+                                />
+
+                            </div>
+                        </div>
                 <div className="text-right">
-                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                    <span className="btn-label">
-                    </span> Cancel
+                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
                 </button>
-                <button type="submit" className="btn btn-wd btn-success ">
-                    <span className="btn-label">
-                    </span> Save
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
                 </button>
-            </div>
+                </div>
             </Form>
         </CardBody>
     </Card>
@@ -286,4 +264,4 @@ const BookForm = ({
 export default reduxForm({
     form: 'fieldArrays',
     validate
-})(BookForm)
+})(StaffForm)

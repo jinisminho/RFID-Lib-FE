@@ -29,8 +29,9 @@ const getBookStart = (state, action) =>{
     })
   }
   const getBookSuccess = (state, action)=>{
+    let bookList = [...state.bookData,action.bookData]
     return updateObject(state,{
-        bookData: state.bookData.push(action.bookData),
+        bookData: bookList,
         bookError:null,
         bookLoading:false,
     })

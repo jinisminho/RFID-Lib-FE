@@ -23,16 +23,14 @@ import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } f
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
-import UpdateButton from '../../components/Button/UpdateButton'
-import DeleteButton from '../../components/Button/DeleteButton'
-// import CopyForm from './copyForm'
+import StudentHeader from '../../components/Headers/StudentHeader.js';
 import {
     Card,
     CardHeader,
     CardFooter,
     Container
 } from "reactstrap";
-import StudentForm from "./studentForm";
+import StudentInfoCard from "./studentInfoCard";
 class Checkout extends React.Component {
     constructor(props) {
         super(props);
@@ -48,9 +46,9 @@ class Checkout extends React.Component {
         }
         this.fetchData = this.fetchData.bind(this);
     }
-   
     componentDidUpdate() {
         let msg=null
+        
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
         }
@@ -101,53 +99,95 @@ class Checkout extends React.Component {
     getInitialValues = () => {
         return {
             name: this.props.studentData ? this.props.studentData.name : '',
-            id:this.props.studentData ? this.props.studentData.id : ''
+            id: this.props.studentData ? this.props.studentData.id : '',
+            img: this.props.studentData ? this.props.studentData.img : '',
+            department:  this.props.studentData ? this.props.studentData.department : '',
+            username:  this.props.studentData ? this.props.studentData.username : '',
         };
     }
     render() {
         let studentDisplay = null
+
         if (this.props.studentLoading) {
             studentDisplay = <Spinner />
         }
         if(this.props.studentData != null){
-            studentDisplay= <StudentForm  initialValues={this.getInitialValues()}/>
+            studentDisplay= <StudentInfoCard  student={this.getInitialValues()}/>
         }
         let bookDisplay=null
+        const options = {
+            sizePerPage: 5,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: false,
+        };
         if(this.state.bookShow==true){
-            bookDisplay=<Card className="shadow col-6">
-            <CardHeader className="border-0">
-                <h3 className="mb-0">List of books</h3>
-            </CardHeader>
-            <InputGroup className="mb-3">
-                            <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Student number" />
-                            <InputGroup.Append>
-                                <button onClick={() => this.handleBookSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
-                            </InputGroup.Append>
-            </InputGroup>
-        </Card>
+            bookDisplay= 
+        <Container className="mt-4" fluid>
+            <Row>
+                <Card className="shadow w-100">
+                     <CardHeader className="border-0">
+                        <h3 className="mb-0">Checking out books</h3>
+                    </CardHeader>
+                    <InputGroup className="mb-3 col-5">
+                        <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Scanning book to get book's code" />
+                        <InputGroup.Append>
+                            <button onClick={() => this.handleBookSearch()} className="btn btn-simple">Search</button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Card>
+            <BootstrapTable
+                    data={this.props.bookData}
+                    options={options}
+                    remote
+                    striped
+                    hover
+                    condensed
+                    className="mt-3"
+                >
+                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
+                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
+                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
+                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
+                    <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                </BootstrapTable>
+            </Row>
+            
+        </Container>
         }
         return (
             <>
-                <Header />
+            <StudentHeader/>
                 <Container className="mt--7" fluid>
-                    <Row>
-
-                    <Card className="shadow col-5 mr-5 ml-3">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Student information</h3>
-                        </CardHeader>
-                        <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Student number" />
-                            <InputGroup.Append>
-                                <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                        {studentDisplay}
+                <Row>
+                    <Card className="shadow w-100">
+                        <Row>
+                        <Col className="col-4">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0">Student information</h3>
+                            </CardHeader>
+                            <InputGroup className="mb-3 col-12">
+                                <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Student number" />
+                                <InputGroup.Append>
+                                    <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                       <Col className="col-6">
+                           {studentDisplay}
+                       </Col>
+                        </Row>
                     </Card>
-                    {bookDisplay}
-                    </Row>
-
-                </Container>
+                </Row>
+            </Container>
+            {bookDisplay}
                 <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>
@@ -180,7 +220,6 @@ class Checkout extends React.Component {
         );
     }
 }
-
 const mapStateToProps = state => {
     return {
         studentLoading: state.checkout.studentLoading,
@@ -195,7 +234,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (search) => dispatch(actions.getStudent(search)),
-        onGetBook: () => dispatch(actions.getStudentBook())
+        onGetBook: (search) => dispatch(actions.getStudentBook(search))
     }
 }
 

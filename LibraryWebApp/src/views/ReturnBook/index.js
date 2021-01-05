@@ -111,7 +111,14 @@ class ReturnBook extends React.Component {
         }
 
         let bookDisplay=null
-        
+        const options = {
+            sizePerPage: 5,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: false,
+        };
         if(this.state.bookShow==true){
             bookDisplay= 
         <Container className="mt-4" fluid>
@@ -127,10 +134,30 @@ class ReturnBook extends React.Component {
                         </InputGroup.Append>
                     </InputGroup>
                 </Card>
+            <BootstrapTable
+                    data={this.props.bookData}
+                    options={options}
+                    remote
+                    striped
+                    hover
+                    condensed
+                    className="mt-3"
+                >
+                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
+                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
+                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
+                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
+                    <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                </BootstrapTable>
             </Row>
+            
         </Container>
         }
-
     
         return(
         <>
@@ -158,11 +185,6 @@ class ReturnBook extends React.Component {
                 </Row>
             </Container>
             {bookDisplay}
-
-            
-            <Books books={this.props.bookData}/>
-
-
         </>
         )
     }

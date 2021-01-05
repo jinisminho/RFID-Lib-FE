@@ -8,7 +8,8 @@ const getBookStart = (state, action) =>{
     loading:true,
     deleteSuccess:false,
     updateSuccess:false,
-    addSuccess:false
+    addSuccess:false,
+    copySuccess:false
   })
 }
 const getBookSuccess = (state, action)=>{
@@ -102,6 +103,28 @@ const addBookFail = (state, action) =>{
       sizePerPage:10,
   })
 }
+const addCopyStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    copySuccess:false,
+  })
+}
+const addCopySuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+      copySuccess:true
+  })
+}
+const addCopyFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      page:1,
+      sizePerPage:10,
+  })
+}
 export default function reducer(state = {
     data: null,
     total:0,
@@ -111,8 +134,8 @@ export default function reducer(state = {
     sizePerPage:10,
     deleteSuccess: false,
     updateSuccess:false,
-    addSuccess:false
-    
+    addSuccess:false,
+    copySuccess:false
 }, action) {
   switch(action.type){
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
@@ -130,6 +153,10 @@ export default function reducer(state = {
     case actionTypes.UPDATE_BOOK_START: return updateBookStart(state, action)
     case actionTypes.UPDATE_BOOK_FAILED: return updateBookFail(state, action)
     case actionTypes.UPDATE_BOOK_SUCCESS: return updateBookSuccess(state, action)
+
+    case actionTypes.ADD_COPY_BOOK_START: return addCopyStart(state, action)
+    case actionTypes.ADD_COPY_BOOK_FAILED: return addCopyFail(state, action)
+    case actionTypes.ADD_COPY_BOOK_SUCCESS: return addCopySuccess(state, action)
    
 }
 return state
