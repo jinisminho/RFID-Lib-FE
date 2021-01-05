@@ -11,9 +11,11 @@ const extendDueModal = props => {
       <Modal.Body>
         <ExtendDueForm
           handleCancel={props.hide}
-          onSubmit={props.submitCancel}
-          minDate ={props.minDate}
-          maxDate ={props.maxDate}
+          onSubmit={props.submit}
+          // minDate ={props.minDate}
+          // maxDate ={props.maxDate}
+          dueDate = {props.dueDate}
+          numOfDateToAdd = {props.numOfDateToAdd}
         />
       </Modal.Body>
     </Modal>

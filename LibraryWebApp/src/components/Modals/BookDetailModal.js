@@ -10,17 +10,20 @@ const bookDetailModal = (props) => {
 
     let res = "";
 
+    let i = 0;
+
     cell.forEach(element => {
-      res += element["name"] + "; "
+      i < cell.length - 1 ? res += " " + element["name"] + " , " : res += " " + element["name"] + " ";
+      i++;
     });
 
     return res;
-    
+
   }
 
   return (
-    
-    
+
+
     <Modal dialogClassName="book-detail-modal" backdrop="static" aria-labelledby="contained-modal-title-vcenter" show={props.show} onHide={props.hide} centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -33,15 +36,15 @@ const bookDetailModal = (props) => {
           striped
           hover
         >
-          <TableHeaderColumn dataField="title" isKey dataAlign="center" width="15%">Title</TableHeaderColumn>
-          <TableHeaderColumn dataField="authors" dataFormat={getName} dataAlign="center" width="15%">Authors</TableHeaderColumn>
-          <TableHeaderColumn dataField="isbn" dataAlign="center" width="15%">ISBN</TableHeaderColumn>
-          <TableHeaderColumn dataField="publisher" dataAlign="center" width="15%">Publisher</TableHeaderColumn>
-          <TableHeaderColumn dataField="language" dataAlign="center" width="15%">Language</TableHeaderColumn>
-          <TableHeaderColumn dataField="nop" dataAlign="center" width="5%">NOP</TableHeaderColumn>
-          <TableHeaderColumn dataField="category" dataAlign="center" width="15%">Category</TableHeaderColumn>
-          <TableHeaderColumn dataField="edition" dataAlign="center" width="5%">Edition</TableHeaderColumn>
-          <TableHeaderColumn dataField="stock" dataAlign="center" width="5%">Available</TableHeaderColumn>
+          <TableHeaderColumn dataField="title" isKey dataAlign="center" width="24%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
+          <TableHeaderColumn dataField="authors" dataFormat={getName} dataAlign="center" width="15%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Authors</TableHeaderColumn>
+          <TableHeaderColumn dataField="isbn" dataAlign="center" width="15%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
+          <TableHeaderColumn dataField="publisher" dataAlign="center" width="10%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Publisher</TableHeaderColumn>
+          <TableHeaderColumn dataField="language" dataAlign="center" width="5%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Language</TableHeaderColumn>
+          <TableHeaderColumn dataField="nop" dataAlign="center" width="5%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>NOP</TableHeaderColumn>
+          <TableHeaderColumn dataField="category" dataAlign="center" width="10%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Category</TableHeaderColumn>
+          <TableHeaderColumn dataField="edition" dataAlign="center" width="6%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Edition</TableHeaderColumn>
+          <TableHeaderColumn dataField="stock" dataAlign="center" width="10%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Available</TableHeaderColumn>
         </BootstrapTable>
       </Modal.Body>
       <Modal.Footer>

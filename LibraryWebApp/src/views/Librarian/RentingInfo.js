@@ -48,17 +48,17 @@ class RentingInfo extends Component {
             returnedData: null,
             showHistory: false,
             studentId: null,
-            bookId: null,
+            book: null,
             showExtdForm: false,
             libraryCardId: null,
-            minDate: null
+            dueDate: null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
-        
+
     }
 
     componentDidMount() {
@@ -122,24 +122,28 @@ class RentingInfo extends Component {
         return cell.title;
     }
 
+    isbnFormatter(cell, row) {
+        return cell.isbn;
+    }
+
     otherFormatter(cell, row) {
         var stdId = row.borrower.id
-        var bokId = row.book.id
+        var bok = row.book
         let date = MyUltil.convertToDate(row.dateDue)
-        date.setDate(date.getDate() + 1)
-        
+
         return (
             <div>
                 <button className="btn btn-fill btn-info" onClick={() => this.setState({
                     showExtdForm: true,
                     studentId: stdId,
-                    bookId: bokId,
-                    minDate: date
+                    book: bok,
+                    dueDate: date,
+                    libraryCardId: row.id
                 })} >Extend due date</button>
                 <button className="btn btn-fill btn-info" onClick={() => this.setState({
                     showHistory: true,
                     studentId: stdId,
-                    bookId: bokId
+                    book: bok
                 })} ><i className="ni ni-collection" /></button>
             </div>
         )
@@ -151,7 +155,7 @@ class RentingInfo extends Component {
             historyData: null
         })
     }
-    
+
     handleExtdFormClose = () => {
         this.setState({
             showExtdForm: false,
@@ -159,10 +163,21 @@ class RentingInfo extends Component {
         })
     }
 
-    handleExtdSubmit(date, libraryCardId) {
+    // handleExtdSubmit(date, libraryCardId) {
+    //     this.setState({ showExtdForm: false })
+    //     const doExtdThenReloadTable = async () => { 
+    //         await this.props.onCancelOrder(date, libraryCardId)
+    //         await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
+    //         return
+    //     }
+    //     return doExtdThenReloadTable()
+    // }
+
+    handleExtdSubmit(libraryCardId) {
+        console.log(libraryCardId);
         this.setState({ showExtdForm: false })
-        const doExtdThenReloadTable = async () => { 
-            await this.props.onCancelOrder(date, libraryCardId)
+        const doExtdThenReloadTable = async () => {
+            await this.props.onExtdSubmit(libraryCardId)
             await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
             return
         }
@@ -210,6 +225,7 @@ class RentingInfo extends Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
                     <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
                     <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
@@ -247,6 +263,7 @@ class RentingInfo extends Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
                     <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
                     <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
@@ -293,7 +310,7 @@ class RentingInfo extends Component {
             </div>
         )
 
-        let form = <SearchForm editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.searchValue = value.search)} formTitle="Search Renting Information By Student ID" />
+        let form = <SearchForm placeholder="e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.searchValue = value.search)} formTitle="Search Renting Information By Student ID" />
 
         return (
             <>
@@ -328,18 +345,19 @@ class RentingInfo extends Component {
                             show={this.state.showHistory}
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
-                            title="Detail"
-                            onShow={() => this.props.getExtendedHistoryInfo(1, 100, this.state.studentId, this.state.bookId)}
+                            title={this.state.book ? " Due Date History of [" + this.state.book.title + " - ISBN:" + this.state.book.isbn + "]" : "Default"}
+                            onShow={() => this.props.getExtendedHistoryInfo(1, 100, this.state.studentId, this.state.book.id)}
                         />
 
                         <ExtendDueModal
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Extend Due Date"
-                            submitCancel={(datePicker) => this.handleExtdSubmit(datePicker, this.state.libraryCardId)}
-                            minDate={this.state.minDate}
+                            // submit={(datePicker) => this.handleExtdSubmit(datePicker, this.state.libraryCardId)}
+                            submit={() => this.handleExtdSubmit(this.state.libraryCardId)}
+                            dueDate={this.state.dueDate}
+                            numOfDateToAdd={7}
                         />
-
 
                     </Row>
 
@@ -364,8 +382,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, studentId) => dispatch(actions.getRentingInfoLibrarianSide(page, size, studentId)),
-        getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistory(page, size, studentId, bookId)),
-        onCancelOrder: (date, libraryCardId) => dispatch(actions.extendDue(date, libraryCardId))
+        getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistoryLibrarianSide(page, size, studentId, bookId)),
+        onExtdSubmit: (libraryCardId) => dispatch(actions.extendDueLibrarianSide(libraryCardId))
     }
 }
 
