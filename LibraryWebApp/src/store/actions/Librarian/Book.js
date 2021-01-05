@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import * as booksPrototype from '../../prototype/bookMng'
+import { $CombinedState } from 'redux'
 
 export const getBookSuccess = (data, total, page, sizePerPage) => {
     return {
@@ -67,6 +68,7 @@ export const addBookSuccess =()=>{
         type: actionTypes.ADD_BOOK_SUCCESS,
     })
 } 
+
 export const addBook = (data) => {
     return dispatch => {
         dispatch(addBookStart())    
@@ -86,6 +88,35 @@ export const addBook = (data) => {
         
     }
 }
+
+export const addCopyStart =()=>{
+    return({
+        type: actionTypes.ADD_COPY_BOOK_START
+    })
+} 
+export const addCopyFail =(error)=>{
+    return({
+        type: actionTypes.ADD_COPY_BOOK_FAILED,
+        error:error
+    })
+} 
+export const addCopySuccess =()=>{
+    return({
+        type: actionTypes.ADD_COPY_BOOK_SUCCESS,
+    })
+} 
+export const addBookCopy = (data) => {
+    return dispatch => {
+        dispatch(addCopyStart())    
+        let response=booksPrototype.copyBook(data)
+        if(response.status==true){
+            dispatch(addCopySuccess())
+        }else{
+            dispatch(addCopyFail(response.error))
+        }
+    }
+}
+
 
 export const updateBookStart =()=>{
     return({

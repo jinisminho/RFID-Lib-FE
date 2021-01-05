@@ -20,21 +20,20 @@ import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
-import * as actions from '../../store/actions/index'
+import * as actions from '../../../store/actions/index'
 import { connect } from 'react-redux'
-import Spinner from '../../components/Spinner/Spinner'
-import UpdateButton from '../../components/Button/UpdateButton'
-import DeleteButton from '../../components/Button/DeleteButton'
-import BookForm from './bookForm'
-import CopyForm from './copyForm'
-import NotiModal from '../../components/Modals/NotiModal'
+import Spinner from '../../../components/Spinner/Spinner'
+import UpdateButton from '../../../components/Button/UpdateButton'
+import DeleteButton from '../../../components/Button/DeleteButton'
+import StaffForm from './staffForm'
+import SwitchControl from "../../../components/Switch/Switch";
+import moment from 'moment'
 import {
     Card,
     CardHeader,
-    CardFooter,
     Container
 } from "reactstrap";
-class Book extends React.Component {
+class Staff extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,22 +58,19 @@ class Book extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add book successfully"
+            msg = "Add staff successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update book successfully"
+            msg = "Update staff successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Delete book successfully"
-        }
-        if (this.props.copySuccess) {
-            msg = "Add book copy successfully"
+            msg = "Delete staff successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
         }
         if (this.props.error != null && !this.state.errorShow) {
-            this.setState({ errorShow: true, searchValue:'' })
+            this.setState({ errorShow: true, searchValue: '' })
         }
     }
     inputChangedHandler = (event) => {
@@ -94,7 +90,6 @@ class Book extends React.Component {
     handleSizePerPageChange(sizePerPage) {
         // When changing the size per page always navigating to the first page
         this.fetchData(1, sizePerPage, this.state.searchValue);
-
     }
     handleAddCancel = () => {
         this.setState({
@@ -107,7 +102,7 @@ class Book extends React.Component {
     }
     handleAddSubmit(values) {
         this.setState({ addFormShow: false })
-        this.props.onAddBook(values)
+        this.props.onAddStaff(values)
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -119,23 +114,13 @@ class Book extends React.Component {
             updateData: null,
         })
     }
-    handleCopyCancel = () => {
-        this.setState({
-            copyShow: false,
-            copyData: null,
-        })
-    }
     handleUpdateSubmit(values) {
         this.setState({ updateFormShow: false })
-        this.props.onUpdateBook(values)
-    }
-    handleCopySubmit(values) {
-        this.setState({ copyShow: false })
-        this.props.onAddCopy(values)
+        this.props.onUpdateStaff(values)
     }
     handleDeleteSubmit() {
-        this.setState({ confirmDelete: false})
-        this.props.onDeleteBook(this.state.deleteId)
+        this.setState({ confirmDelete: false })
+        this.props.onDeleteStaff(this.state.deleteId)
     }
     handleDeleteCancel = () => {
         this.setState({
@@ -153,37 +138,17 @@ class Book extends React.Component {
                 <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
-                })}/>      
-                <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
-                    copyShow: true,
-                    copyData: row
-                })}>Make Copy</Button>        
+                })} />
+                <label className="custom-toggle m-0 mx-3">
+                    <input onChange={() => {
+                    this.handleChangeSwitch(row.id, !row.active);
+                }} defaultChecked={row.active} type="checkbox" />
+                    <span className="custom-toggle-slider rounded-circle" />
+                </label>
             </div>
         )
     }
-    bookDescriptionFormat(cell, row) {
-        let author=row.author.join()
-        return (
-            <Row>
-               
-                <Col className="col-6">Title: {row.title}</Col>
-                <Col className="col-6">Subtitle: {row.sub}</Col>
-                <Col className="col-4">DDC: {row.ddc}</Col>
-                <Col className="col-4">Author: {author}</Col>
-                <Col className="col-4">Publisher:{row.publisher}</Col>
-                <Col className="col-4">Language: {row.language}</Col>
-                <Col className="col-4">Number of page: {row.nop}</Col>
-                <Col className="col-4">Edition: {row.edition}</Col>
-            </Row>
-            )
-    }
     getInitialValues = () => {
-        let author=[]
-        if(this.state.updateData && this.state.updateData.author.length>0){
-            this.state.updateData.author.forEach(el => {
-            author.push({"author":el})
-            });
-        }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
@@ -194,15 +159,7 @@ class Book extends React.Component {
             nop: this.state.updateData ? this.state.updateData.nop : '',
             category: this.state.updateData ? this.state.updateData.category : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
-            members: author,
-            id:this.state.updateData ? this.state.updateData.id : ''
-        };
-    }
-    getInitialCopyValues(){
-        return {
-            isbn: this.state.copyData ? this.state.copyData.isbn : '',
-            title: this.state.copyData ? this.state.copyData.title : '',
-            id:this.state.copyData ? this.state.copyData.id : ''
+            id: this.state.updateData ? this.state.updateData.id : ''
         };
     }
     render() {
@@ -232,7 +189,7 @@ class Book extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Book
+                            </span> <i className="fa fa-plus"></i> Add Staff
                         </button>
                     </Col>
                 </Row>
@@ -247,53 +204,88 @@ class Book extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="55%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn
+                        dataField="id"
+                        isKey
+                        dataAlign="center"
+                        width="10%"
+                    >
+                        Id
+          </TableHeaderColumn>
+                    <TableHeaderColumn
+                        dataField="username"
+                        dataAlign="center"
+                        width="15%"
+                    >
+                        Username
+          </TableHeaderColumn>
+                    <TableHeaderColumn
+                        dataField="firstname"
+                        dataAlign="center"
+                        width="15%"
+                    >
+                        First name
+          </TableHeaderColumn>
+                    <TableHeaderColumn
+                        dataField="lastname"
+                        dataAlign="center"
+                        width="15%"
+                    >
+                        Last name
+          </TableHeaderColumn>
+                    <TableHeaderColumn dataField="gender" dataAlign="center" width="10%">
+                        Gender
+          </TableHeaderColumn>
+                    <TableHeaderColumn dataField="phone" dataAlign="center" width="15%">
+                        Phone
+          </TableHeaderColumn>
+                    <TableHeaderColumn
+                        dataField="active"
+                        dataAlign="center"
+                        dataFormat={this.activeFormatter}
+                        width="20%"
+                    >
+                        Active
+          </TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Book</Modal.Title>
+                        <Modal.Title>Add Staff</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <StaffForm initialValues={{
+                                    gender:'M',
+                                    dob:moment().subtract(18,'years').startOf("year").format('YYYY-MM-DD')
+                                }} 
+                                handleCancel={() => this.handleAddCancel()} 
+                                onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Book</Modal.Title>
+                        <Modal.Title>Update Staff</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
-                    </Modal.Body>
-                </Modal>
-                <Modal backdrop="static" show={this.state.copyShow} onHide={() => this.handleCopyCancel()}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Make Book Copy</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <CopyForm initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
+                        <StaffForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Delete Book</Modal.Title>
+                        <Modal.Title>Delete Staff</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
                         <h1 className="text-danger display-1"><i className="fas fa-trash-alt"></i></h1>
-                        <h4>You will not be able to recover this book</h4>
+                        <h4>You will not be able to recover this staff</h4>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
-                                    Close
+                        <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
+                            Close
                     </Button>
-                    <Button variant="danger" onClick={() => this.handleDeleteSubmit()}>
-                                    OK
+                        <Button variant="danger" onClick={() => this.handleDeleteSubmit()}>
+                            OK
                     </Button>
                     </Modal.Footer>
                 </Modal>
@@ -308,7 +300,7 @@ class Book extends React.Component {
                 <Container className="mt--7" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Book tables</h3>
+                            <h3 className="mb-0">Staff tables</h3>
                         </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
@@ -348,27 +340,25 @@ class Book extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.book.loading,
-        data: state.book.data,
-        error: state.book.error,
-        totalSize: state.book.total,
-        page: state.book.page,
-        sizePerPage: state.book.sizePerPage,
-        deleteSuccess: state.book.deleteSuccess,
-        copySuccess: state.book.copySuccess,
-        updateSuccess: state.book.updateSuccess,
-        addSuccess: state.book.addSuccess
+        loading: state.staff.loading,
+        data: state.staff.data,
+        error: state.staff.error,
+        totalSize: state.staff.total,
+        page: state.staff.page,
+        sizePerPage: state.staff.sizePerPage,
+        deleteSuccess: state.staff.deleteSuccess,
+        updateSuccess: state.staff.updateSuccess,
+        addSuccess: state.staff.addSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search) => dispatch(actions.getBook(page, size, search)),
-        onDeleteBook: (id) => dispatch(actions.deleteBook(id)),
-        onUpdateBook: (data) => dispatch(actions.updateBook(data)),
-        onAddBook: (data) => dispatch(actions.addBook(data)),
-        onAddCopy: (data) => dispatch(actions.addBookCopy(data))
+        onFetchData: (page, size, search) => dispatch(actions.getStaff(page, size, search)),
+        onDeleteStaff: (id) => dispatch(actions.deleteStaff(id)),
+        onUpdateStaff: (data) => dispatch(actions.updateStaff(data)),
+        onAddStaff: (data) => dispatch(actions.addStaff(data))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Book)
+export default connect(mapStateToProps, mapDispatchToProps)(Staff)

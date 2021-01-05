@@ -31,10 +31,9 @@ import {
     InputGroup,
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-
-const renderField = ({ input, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input,disabled, placeholder, type, meta: { touched, error } }) => (
     <>
-        <Input {...input} placeholder={placeholder} type={type} />
+        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
         {touched && ((error && <OverlayTrigger
             trigger={['hover', 'focus']}
             placement="right"
@@ -50,24 +49,71 @@ const renderField = ({ input, placeholder, type, meta: { touched, error } }) => 
         </OverlayTrigger>))}
     </>
 )
+const renderCode = ({ fields, meta: { error, submitFailed } }) => (
+    <>
+        {fields.map((member, index) =>
+            <InputGroup className="mb-3" key={index}>
+                <Field
+                    name={`${member}.code`}
+                    type="text"
+                    placeholder="Book's code"
+                    component={renderField}
+                    label="Book's Code" />
+                <InputGroupAddon addonType="append">
+                    <button
+                        className="btn btn-wd btn-danger "
+                        type="button"
+                        onClick={() => fields.remove(index)}>x</button>
+                </InputGroupAddon>
+            </InputGroup>
+        )}
+        <button className="btn btn-wd btn-primary " type="button" onClick={() => fields.push({})}>Add Copy</button>
+        {submitFailed && error && <span className="text-danger">{error}</span>}
+    </>
+)
+
 const validate = values => {
     const errors = {}
-    if (!values.code) {
-        errors.code = 'Code is required'
-    }
-    if (!values.book) {
-        errors.book = 'Book is required';
+    if (!values.members || !values.members.length) {
+        errors.members = { _error: 'At least one code must be entered' }
+    } else {
+        const membersArrayErrors = []
+        values.members.forEach((member, memberIndex) => {
+            const memberErrors = {}
+            if (!member || !member.code) {
+                memberErrors.code = "Book's code is required"
+                membersArrayErrors[memberIndex] = memberErrors
+            }
+            return memberErrors
+        })
+        if (membersArrayErrors.length) {
+            errors.members = membersArrayErrors
+        }
     }
     return errors
 }
 const CopyForm = ({
     handleSubmit,
-    handleCancel,
-    dataList
+    handleCancel
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
+            <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="fas fa-barcode" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="isbn"
+                            type="text"
+                            placeholder="isbn"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
                 <FormGroup className="mb-3">
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
@@ -76,33 +122,14 @@ const CopyForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="book"
-                            component="select"
-                            className="form-control"
-                            value="1"
-                        > 
-                            {
-                                dataList.map(el=>
-                                    <option key={el.id} value={el.id}>{el.title}</option>
-                                )
-                            }
-                        </Field>
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="code"
+                            name="title"
                             type="text"
-                            placeholder="Code"
+                            placeholder="title"
+                            disabled
                             component={renderField} />
                     </InputGroup>
                 </FormGroup>
+                <FieldArray name="members" component={renderCode} />
                 <div className="text-right">
                 <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                     <span className="btn-label">

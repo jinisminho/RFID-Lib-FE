@@ -55,10 +55,10 @@ export const getStudentBookStart = () => {
         type: actionTypes.GET_STUDENT_BOOK_START
     }
 }
-export const getStudentBook = () => {
+export const getStudentBook = (code) => {
     return dispatch => {
         dispatch(getStudentBookStart())
-        let response=checkoutPrototype.getBook()
+        let response=checkoutPrototype.getBook(code)
         if(response.status){
             dispatch(getStudentBookSuccess(response.data))
         }else{

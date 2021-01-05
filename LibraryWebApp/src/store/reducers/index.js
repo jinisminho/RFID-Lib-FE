@@ -7,7 +7,7 @@ import checkout from './Librarian/Checkout';
 import info from './Student/info';
 import infoLside from './Librarian/info'; 
 import returnBook from './Librarian/ReturnBook';
-
+import staff from './Admin/Staff';
 export default {
   Auth,
   guest,
@@ -17,5 +17,6 @@ export default {
   returnBook,
   info,
   infoLside,
+  staff,
   form: formReducer,
 };

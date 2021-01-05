@@ -25,7 +25,9 @@ import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
-import CopyForm from './copyForm'
+import CopyAddForm from './copyAddForm'
+import CopyUpdateForm from './copyUpdateForm'
+
 import {
     Card,
     CardHeader,
@@ -107,7 +109,6 @@ class BookCopy extends React.Component {
         this.props.onGetBook()
     }
     handleAddSubmit(values) {
-        console.log(values)
         this.setState({ addFormShow: false })
         this.props.onAddCopy(values)
     }
@@ -148,6 +149,21 @@ class BookCopy extends React.Component {
                 })}/>              
             </div>
         )
+    }
+    bookDescriptionFormat(cell, row) {
+        let author=row.author.join()
+        return (
+            <Row>
+                <Col className="col-6">Title: {row.title}</Col>
+                <Col className="col-6">Subtitle: {row.sub}</Col>
+                <Col className="col-4">DDC: {row.ddc}</Col>
+                <Col className="col-4">Author: {author}</Col>
+                <Col className="col-4">Publisher:{row.publisher}</Col>
+                <Col className="col-4">Language: {row.language}</Col>
+                <Col className="col-4">Number of page: {row.nop}</Col>
+                <Col className="col-4">Edition: {row.edition}</Col>
+            </Row>
+            )
     }
     getInitialValues = () => {
         return {
@@ -200,15 +216,10 @@ class BookCopy extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                 >
-                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
-                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
-                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
-                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
+                    <TableHeaderColumn dataField="code" width="12%" isKey dataAlign="center">Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="12%" dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
@@ -217,7 +228,7 @@ class BookCopy extends React.Component {
                         <Modal.Title>Add Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}  dataList={this.props.bookData}/>
+                        <CopyAddForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}  dataList={this.props.bookData}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
@@ -225,7 +236,7 @@ class BookCopy extends React.Component {
                         <Modal.Title>Update Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} dataList={this.props.bookData}/>
+                        <CopyUpdateForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} dataList={this.props.bookData}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
