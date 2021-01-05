@@ -46,3 +46,8 @@ export {
     getReturningStudent,
     getReturningBook
 } from './Librarian/ReturnBook'
+
+export {
+    getRequestedBooks,
+    deleteRequestedBook
+} from './Admin/RequestedBook'
