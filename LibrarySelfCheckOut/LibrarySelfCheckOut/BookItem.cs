@@ -20,8 +20,7 @@ namespace LibrarySelfCheckOut
             InitializeComponent();
             this.lbIndex.Text = index + ".";
             this.lbTitle.Text = book.title;
-            this.lbBookDescription.Text = book.author + " - " + book.edition + " edt - " + book.publishedYear;
-            this.lbDueDate.Text = book.dueDate;
+            this.lbBookDescription.Text = book.authors + " - " + book.edition + " edt";
         }
 
         private void BookItem_Load(object sender, EventArgs e)

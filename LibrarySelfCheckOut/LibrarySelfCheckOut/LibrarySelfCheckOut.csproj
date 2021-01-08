@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Models\AuthStudentModel.cs" />
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\CheckOutResponseModel.cs" />
     <Compile Include="Processors\AuthProcessor.cs" />
     <Compile Include="Processors\BookProcessor.cs" />
     <Compile Include="Program.cs" />
@@ -81,6 +82,7 @@
       <DependentUpon>BookItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Prototype\AuthData.cs" />
+    <Compile Include="Prototype\BookData.cs" />
     <Compile Include="Success_Form.cs">
       <SubType>Form</SubType>
     </Compile>

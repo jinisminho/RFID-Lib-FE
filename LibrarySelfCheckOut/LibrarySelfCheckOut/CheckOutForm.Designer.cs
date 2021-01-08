@@ -36,10 +36,11 @@
             this.txtBookRFID = new System.Windows.Forms.TextBox();
             this.panelHead = new System.Windows.Forms.Panel();
             this.panelCenter = new System.Windows.Forms.Panel();
+            this.lbSession = new System.Windows.Forms.Label();
             this.btLogout = new System.Windows.Forms.Button();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
-            this.lbSession = new System.Windows.Forms.Label();
+            this.timerAutoCallApi = new System.Windows.Forms.Timer(this.components);
             this.panelHead.SuspendLayout();
             this.panelCenter.SuspendLayout();
             this.SuspendLayout();
@@ -117,6 +118,18 @@
             this.panelCenter.Size = new System.Drawing.Size(1778, 661);
             this.panelCenter.TabIndex = 6;
             // 
+            // lbSession
+            // 
+            this.lbSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbSession.AutoSize = true;
+            this.lbSession.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbSession.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbSession.Location = new System.Drawing.Point(30, 575);
+            this.lbSession.Name = "lbSession";
+            this.lbSession.Size = new System.Drawing.Size(388, 49);
+            this.lbSession.TabIndex = 5;
+            this.lbSession.Text = "SESSION TIMEOUT: 30";
+            // 
             // btLogout
             // 
             this.btLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -148,17 +161,10 @@
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
             // 
-            // lbSession
+            // timerAutoCallApi
             // 
-            this.lbSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSession.AutoSize = true;
-            this.lbSession.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbSession.ForeColor = System.Drawing.Color.Firebrick;
-            this.lbSession.Location = new System.Drawing.Point(30, 575);
-            this.lbSession.Name = "lbSession";
-            this.lbSession.Size = new System.Drawing.Size(388, 49);
-            this.lbSession.TabIndex = 5;
-            this.lbSession.Text = "SESSION TIMEOUT: 30";
+            this.timerAutoCallApi.Interval = 5000;
+            this.timerAutoCallApi.Tick += new System.EventHandler(this.timerAutoCallApi_Tick);
             // 
             // CheckOutForm
             // 
@@ -190,5 +196,6 @@
         private System.Windows.Forms.Button btLogout;
         private System.Windows.Forms.Timer timerSession;
         private System.Windows.Forms.Label lbSession;
+        private System.Windows.Forms.Timer timerAutoCallApi;
     }
 }
