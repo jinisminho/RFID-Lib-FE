@@ -18,7 +18,7 @@ namespace LibrarySelfCheckOut.Processors
         public static string checkLogin(long studentRFID)
         {
             //call api 
-            if (studentRFID == 123)
+            if (studentRFID == 001730002)
             {
                 return "valid";
             }
