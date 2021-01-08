@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbUsername = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbNoticeMaxBookBorrowAllowed = new System.Windows.Forms.Label();
@@ -35,8 +36,10 @@
             this.txtBookRFID = new System.Windows.Forms.TextBox();
             this.panelHead = new System.Windows.Forms.Panel();
             this.panelCenter = new System.Windows.Forms.Panel();
-            this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.btLogout = new System.Windows.Forms.Button();
+            this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
+            this.timerSession = new System.Windows.Forms.Timer(this.components);
+            this.lbSession = new System.Windows.Forms.Label();
             this.panelHead.SuspendLayout();
             this.panelCenter.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +49,7 @@
             this.lbUsername.AutoSize = true;
             this.lbUsername.Font = new System.Drawing.Font("UD Digi Kyokasho N-B", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbUsername.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lbUsername.Location = new System.Drawing.Point(28, 23);
+            this.lbUsername.Location = new System.Drawing.Point(30, 31);
             this.lbUsername.Name = "lbUsername";
             this.lbUsername.Size = new System.Drawing.Size(616, 50);
             this.lbUsername.TabIndex = 0;
@@ -56,7 +59,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(33, 93);
+            this.label1.Location = new System.Drawing.Point(33, 107);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(655, 33);
             this.label1.TabIndex = 1;
@@ -66,7 +69,7 @@
             // 
             this.lbNoticeMaxBookBorrowAllowed.AutoSize = true;
             this.lbNoticeMaxBookBorrowAllowed.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbNoticeMaxBookBorrowAllowed.Location = new System.Drawing.Point(35, 137);
+            this.lbNoticeMaxBookBorrowAllowed.Location = new System.Drawing.Point(35, 169);
             this.lbNoticeMaxBookBorrowAllowed.Name = "lbNoticeMaxBookBorrowAllowed";
             this.lbNoticeMaxBookBorrowAllowed.Size = new System.Drawing.Size(677, 22);
             this.lbNoticeMaxBookBorrowAllowed.TabIndex = 2;
@@ -105,6 +108,7 @@
             // 
             // panelCenter
             // 
+            this.panelCenter.Controls.Add(this.lbSession);
             this.panelCenter.Controls.Add(this.btLogout);
             this.panelCenter.Controls.Add(this.flowLayoutPanelBookList);
             this.panelCenter.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -112,15 +116,6 @@
             this.panelCenter.Name = "panelCenter";
             this.panelCenter.Size = new System.Drawing.Size(1778, 661);
             this.panelCenter.TabIndex = 6;
-            // 
-            // flowLayoutPanelBookList
-            // 
-            this.flowLayoutPanelBookList.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.flowLayoutPanelBookList.AutoScroll = true;
-            this.flowLayoutPanelBookList.Location = new System.Drawing.Point(39, 37);
-            this.flowLayoutPanelBookList.Name = "flowLayoutPanelBookList";
-            this.flowLayoutPanelBookList.Size = new System.Drawing.Size(1687, 532);
-            this.flowLayoutPanelBookList.TabIndex = 0;
             // 
             // btLogout
             // 
@@ -138,6 +133,33 @@
             this.btLogout.UseVisualStyleBackColor = false;
             this.btLogout.Click += new System.EventHandler(this.btLogout_Click);
             // 
+            // flowLayoutPanelBookList
+            // 
+            this.flowLayoutPanelBookList.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.flowLayoutPanelBookList.AutoScroll = true;
+            this.flowLayoutPanelBookList.Location = new System.Drawing.Point(39, 37);
+            this.flowLayoutPanelBookList.Name = "flowLayoutPanelBookList";
+            this.flowLayoutPanelBookList.Size = new System.Drawing.Size(1687, 532);
+            this.flowLayoutPanelBookList.TabIndex = 0;
+            // 
+            // timerSession
+            // 
+            this.timerSession.Enabled = true;
+            this.timerSession.Interval = 1000;
+            this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
+            // 
+            // lbSession
+            // 
+            this.lbSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbSession.AutoSize = true;
+            this.lbSession.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbSession.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbSession.Location = new System.Drawing.Point(30, 575);
+            this.lbSession.Name = "lbSession";
+            this.lbSession.Size = new System.Drawing.Size(388, 49);
+            this.lbSession.TabIndex = 5;
+            this.lbSession.Text = "SESSION TIMEOUT: 30";
+            // 
             // CheckOutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -150,6 +172,7 @@
             this.panelHead.ResumeLayout(false);
             this.panelHead.PerformLayout();
             this.panelCenter.ResumeLayout(false);
+            this.panelCenter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -165,5 +188,7 @@
         private System.Windows.Forms.Panel panelCenter;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelBookList;
         private System.Windows.Forms.Button btLogout;
+        private System.Windows.Forms.Timer timerSession;
+        private System.Windows.Forms.Label lbSession;
     }
 }

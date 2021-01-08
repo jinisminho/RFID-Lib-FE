@@ -25,6 +25,11 @@ namespace LibrarySelfCheckOut
 
         private long bookRFID;
 
+        private int sesionTime = 60;
+
+      
+
+
         public CheckOutForm(string username, int maxNumberBorrowAllowed, long studentId)
         {
             InitializeComponent();
@@ -35,6 +40,8 @@ namespace LibrarySelfCheckOut
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
+
 
             this.txtBookRFID.Focus();
 
@@ -100,6 +107,18 @@ namespace LibrarySelfCheckOut
             }
             else if (dialogResult == DialogResult.No)
             {
+            }
+        }
+
+        private void sessionTimer_Tick(object sender, EventArgs e)
+        {
+            this.sesionTime -= 1;
+            this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
+            if (this.sesionTime == 0)
+            {
+                this.timerSession.Stop();
+                this.timerSession.Enabled = false;
+                this.Close();
             }
         }
     }

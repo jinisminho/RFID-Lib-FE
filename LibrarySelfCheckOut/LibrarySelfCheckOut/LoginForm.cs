@@ -16,12 +16,16 @@ namespace LibrarySelfCheckOut
     {
 
         private long studentFRID;
+        private long pin;
+        private int sesionTime;
+
         public LoginForm()
         {
             InitializeComponent();
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            this.sesionTime = 30;
       
         }
 
@@ -29,7 +33,10 @@ namespace LibrarySelfCheckOut
         {
             this.txtStudentRFID.Focus();
             this.lbMessage.Hide();
-
+            this.txtPass.Hide();
+            this.lbPin.Hide();
+            this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
+            this.sessionTimer.Start();
         }
 
      
@@ -37,19 +44,39 @@ namespace LibrarySelfCheckOut
         {
             if(e.KeyCode == Keys.Enter)
             {
-                studentFRID = long.Parse(this.txtStudentRFID.Text);
-                this.txtStudentRFID.Text = "";
-                this.txtStudentRFID.Focus();
+                try
+                {
+                    studentFRID = long.Parse(this.txtStudentRFID.Text);
 
-                if (AuthProcessor.checkLogin(studentFRID).Equals("valid"))
-                {
-                    CheckOutForm checkOutForm = new CheckOutForm("tramphse130038@fpt.edu.com", 4 , 1);
-                    checkOutForm.ShowDialog();
                 }
-                else
+                catch (FormatException)
                 {
+
+                }
+                this.txtPass.Show();
+                this.lbPin.Show();
+                this.txtPass.Focus();
+            }
+        }
+
+
+        private void txtPass_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    pin = long.Parse(this.txtPass.Text);
+                }
+                catch (FormatException)
+                { 
+
+                }
+                AuthStudentModel student = AuthProcessor.checkLogin(studentFRID, pin);
+                if(student == null || (student !=null && student.role != "ROLE_STUDENT") || (student != null && student.status == "DEACTIVE"))
+                {
+                    this.lbMessage.Text = "INVALID STUDENT CARD PLEASE SCAN AGAIN";
                     this.lbMessage.Show();
-                    this.txtStudentRFID.Focus();
                     var t = new Timer();
                     t.Interval = 2500;
                     t.Tick += (s, d) =>
@@ -59,17 +86,40 @@ namespace LibrarySelfCheckOut
                     };
                     t.Start();
                 }
+                else
+                {
+                    if(student.status == "NOT_RETURN")
+                    {
+                        MessageBox.Show("Please contact librarian to return over due books and pay fine to unblock your account", "Account Blocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        long studentId = student.id;
+                        string studentUsername = student.username;
+                        int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
+                        this.sessionTimer.Stop();
+                        this.sessionTimer.Enabled = false;
+                        CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                        checkOutForm.ShowDialog();
+                        this.Close();
+
+                    }
+                }
+
+                this.txtStudentRFID.Text = "";
+                this.txtPass.Text = "";
+                this.txtStudentRFID.Focus();
+                this.txtPass.Hide();
+                this.lbPin.Hide();
             }
         }
 
-
-        //with api
         private async void checkLogin(long studentRFID)
         {
             this.txtStudentRFID.Text = "";
             this.txtStudentRFID.Focus();
             AuthStudentModel student = await AuthProcessor.checkLoginAPI(studentRFID);
-            if(student != null) //check RFID duoi db where activate + student role
+            if (student != null) //check RFID duoi db where activate + student role
             {
                 //tim thay chuyen form kem theo 2 param student id + username
                 long studentId = student.id;
@@ -91,6 +141,18 @@ namespace LibrarySelfCheckOut
                     t.Stop();
                 };
                 t.Start();
+            }
+        }
+
+        private void sessionTimer_Tick(object sender, EventArgs e)
+        {
+            this.sesionTime -= 1;
+            this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
+            if(this.sesionTime == 0)
+            {
+                this.sessionTimer.Stop();
+                this.sessionTimer.Enabled = false;
+                this.Close();
             }
         }
     } 

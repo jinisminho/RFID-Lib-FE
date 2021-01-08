@@ -80,6 +80,7 @@
     <Compile Include="BookItem.Designer.cs">
       <DependentUpon>BookItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Prototype\AuthData.cs" />
     <Compile Include="Success_Form.cs">
       <SubType>Form</SubType>
     </Compile>

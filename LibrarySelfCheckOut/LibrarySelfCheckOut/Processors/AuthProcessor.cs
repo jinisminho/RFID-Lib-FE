@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LibrarySelfCheckOut.APIs;
 using LibrarySelfCheckOut.Models;
+using LibrarySelfCheckOut.Prototype;
 using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut.Processors
@@ -15,15 +16,13 @@ namespace LibrarySelfCheckOut.Processors
     {
 
         //tam thoi
-        public static string checkLogin(long studentRFID)
+        public static AuthStudentModel checkLogin(long id, long pin)
         {
-            //call api 
-            if (studentRFID == 001730002)
-            {
-                return "valid";
-            }
-            return "invalid";
+            AuthData data = new AuthData();
+            AuthStudentModel student = data.findStudentByIdAndPin(id, pin);
+            return student;
         }
+
 
 
         public static async Task<AuthStudentModel> checkLoginAPI(long studentRFID)

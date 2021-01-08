@@ -59,7 +59,7 @@ class RequestNewBook extends Component{
             successShow: false,
             errorShow: false
         })
-        this.props.onSubmitNewBook(this.state.isbn)
+        this.props.onSubmitNewBook(this.state.isbn.trim())
     }
 
     refreshData(){
