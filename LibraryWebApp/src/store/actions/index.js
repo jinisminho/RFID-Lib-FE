@@ -52,5 +52,5 @@ export {
     getStaff,
     addStaff,
     updateStaff,
-    deleteStaff
+    changeStatusStaff
 } from './Admin/Staff'

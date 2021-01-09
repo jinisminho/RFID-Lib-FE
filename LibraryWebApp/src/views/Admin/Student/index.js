@@ -33,7 +33,7 @@ import {
     CardHeader,
     Container
 } from "reactstrap";
-class Staff extends React.Component {
+class Student extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -391,4 +391,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Staff)
+export default connect(mapStateToProps, mapDispatchToProps)(Student)
