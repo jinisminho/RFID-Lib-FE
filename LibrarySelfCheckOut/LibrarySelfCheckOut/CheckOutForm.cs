@@ -20,13 +20,11 @@ namespace LibrarySelfCheckOut
 
         private long studentId;
 
-        private List<BookModel> bookList;
-
         private List<long> bookCodeList;
 
         private long bookRFID;
 
-        private int sesionTime = 60;
+        private int sesionTime = 90;
 
         private int numberOfBookScanned = 0;
 
@@ -39,17 +37,16 @@ namespace LibrarySelfCheckOut
             this.username = username;
             this.maxNumberBorrowAllowed = maxNumberBorrowAllowed;
             this.studentId = studentId;
+            this.spiner.Hide();
 
             //this.TopMost = true;
             //this.FormBorderStyle = FormBorderStyle.None;
             //this.WindowState = FormWindowState.Maximized;
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
-
-
+            this.pnReturnSt.Hide();
             this.txtBookRFID.Focus();
 
             //assign value
-            this.bookList = new List<BookModel>();
             this.bookCodeList = new List<long>();
             this.lbUsername.Text = $"Welcome, " + username;
             this.lbNoticeMaxBookBorrowAllowed.Text = $"NOTICE: Each student is allowed to borrow maximum " + maxNumberBorrowAllowed + " books each time.";
@@ -63,30 +60,34 @@ namespace LibrarySelfCheckOut
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.numberOfBookScanned += 1;
-                Console.WriteLine(this.numberOfBookScanned);
-
-                //neu bat dau scan thi auto call api sau 5s
-                if (this.numberOfBookScanned == 1)
+                try
                 {
-                    this.timerAutoCallApi.Enabled = true;
-                    this.timerAutoCallApi.Start();
+                    this.bookRFID = long.Parse(this.txtBookRFID.Text);
+
+                    this.numberOfBookScanned += 1;
+                    //neu bat dau scan thi auto call api sau 5s
+                    if (this.numberOfBookScanned == 1)
+                    {
+                        this.timerAutoCallApi.Enabled = true;
+                        this.timerAutoCallApi.Start();
+                        this.spiner.Show();
+                    }
+                    if (bookCodeList.Count >= maxNumberBorrowAllowed)
+                    {
+                        //show message box ok
+                        resetState();
+                        MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!", "Maximum Book Borrow Allowed");
+                    }
+                    else
+                    {
+                        bookCodeList.Add(this.bookRFID);
+                    }
                 }
-
-
-                this.bookRFID = long.Parse(this.txtBookRFID.Text);
+                catch (FormatException)
+                {
+                }
                 this.txtBookRFID.Text = "";
                 this.txtBookRFID.Focus();
-                if (bookCodeList.Count >= maxNumberBorrowAllowed)
-                {
-                    //show message box ok
-                    this.timerAutoCallApi.Enabled = false;
-                    MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books", "Maximum Book Borrow Allowed");
-                }
-                else
-                {
-                    bookCodeList.Add(this.bookRFID);
-                }
             }
         }
 
@@ -112,13 +113,15 @@ namespace LibrarySelfCheckOut
 
         private void timerAutoCallApi_Tick(object sender, EventArgs e)
         {
+            Console.WriteLine("tick rồi");
             if (wasCallAPI == false)
             {
-                Console.WriteLine("Timer start call api");
-                wasCallAPI = true;
-                CheckOutResponseModel rs = BookProcessor.checkout(bookCodeList);
+                this.txtBookRFID.Enabled = false;
+                this.wasCallAPI = true;
+                CheckOutResponseModel rs = BookProcessor.checkout(bookCodeList, studentId);
                 if (rs.isSuccess)
                 {
+                    this.spiner.Hide();
                     if (rs.canBorrowAll)
                     {
                         int count = 0;
@@ -127,32 +130,41 @@ namespace LibrarySelfCheckOut
                         {
                             count++;
                             BookItem item = new BookItem(count, b);
-                            item.Width = flowLayoutPanelBookList.Width;
+                            item.Width = flowLayoutPanelBookList.Width - 10;
                             this.flowLayoutPanelBookList.Controls.Add(item);
-                            this.txtBookRFID.Enabled = false;
                         }
+                        this.lbReturnNotice.Text = "Check out successfully. Please return before: " + rs.dueDate;
+                        this.pnReturnSt.Show();
                     }
                     else
                     {
-                        this.timerAutoCallApi.Enabled = false;
-                        string msg = "You're not allowed to borrow: " + string.Join(",", rs.books.Select(b => b.title)) + ".";
+                        //khi co sach ko duoc muon
+                        resetState();
+                        string msg = "You're not allowed to borrow: " + string.Join(",", rs.books.Select(b => b.title)) + ". Please scan again!";
                         DialogResult dialogResult = MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.wasCallAPI = false;
 
                     }
                 }
                 else
                 {
-                    //bao loi
-                    this.wasCallAPI = false;
-                    this.timerAutoCallApi.Enabled = false;
-                    MessageBox.Show("systemr", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    resetState();
+                    MessageBox.Show(rs.errorMessage, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
             }
-              
-               
-            
         }
 
+        private void resetState()
+        {
+            this.bookCodeList.Clear();
+            this.numberOfBookScanned = 0;
+            this.txtBookRFID.Enabled = true;
+            this.txtBookRFID.Focus();
+            this.timerAutoCallApi.Enabled = false;
+            this.wasCallAPI = false;
+            this.timerAutoCallApi.Enabled = false;
+            this.spiner.Hide();
+
+        }
     }
 }

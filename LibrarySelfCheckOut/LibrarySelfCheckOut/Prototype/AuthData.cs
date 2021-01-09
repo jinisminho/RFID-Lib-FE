@@ -28,5 +28,12 @@ namespace LibrarySelfCheckOut.Prototype
             return rs;
         }
 
+        public AuthStudentModel findStudentById(long id)
+        {
+            AuthStudentModel rs = null;
+            rs = students.Where(s => s.id == id).Select(s => s).FirstOrDefault();
+            return rs;
+        }
+
     }
 }

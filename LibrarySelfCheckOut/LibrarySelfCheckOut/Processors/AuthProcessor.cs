@@ -23,13 +23,15 @@ namespace LibrarySelfCheckOut.Processors
             return student;
         }
 
-
-
-        public static async Task<AuthStudentModel> checkLoginAPI(long studentRFID)
+        public static AuthStudentModel checkLogin(long id)
         {
-            AuthStudentModel student = await AuthAPI.findStudentByRFID(studentRFID);
+            AuthData data = new AuthData();
+            AuthStudentModel student = data.findStudentById(id);
             return student;
         }
+
+
+
 
     }
 }

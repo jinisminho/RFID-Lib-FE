@@ -17,7 +17,7 @@ namespace LibrarySelfCheckOut.Prototype
             BookModel book2 = new BookModel(2,2, "Belonging", "Nora Krug", 3, true);
             BookModel book3 = new BookModel(3,3, "SUQAR", "Greg Malouf, Lucy Malouf, Alan Benson ", 9, true);
             BookModel book4 = new BookModel(4,4, "Hamilton", "Lin - Manuel Miranda, Jeremy McCarter ", 9, true);
-            BookModel book5 = new BookModel(5,5, "The Outsider", "Stephen King ", 9, true);
+            BookModel book5 = new BookModel(5,5, "The Outsider", "Stephen King ", 9, false);
             BookModel book6 = new BookModel(6,6, "Candy Is Magic", "", 6, false);
 
             books.Add(book1);

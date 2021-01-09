@@ -11,13 +11,18 @@ namespace LibrarySelfCheckOut.Processors
 {
     public class BookProcessor
     {
-       public static CheckOutResponseModel checkout(List<long> bookCodeList)
+        public static CheckOutResponseModel checkout(List<long> bookCodeList, long studentID)
         {
             BookData data = new BookData();
             return data.checkout(bookCodeList);
         }
 
 
+        public static ReturnResponseModel returnBooks(List<long> bookCodeList)
+        {
 
+            BookReturnData data = new BookReturnData();
+            return data.returnBook(bookCodeList);
+        }
     }
 }

@@ -53,6 +53,12 @@
   <ItemGroup>
     <Compile Include="APIs\AuthAPI.cs" />
     <Compile Include="APIs\BookAPI.cs" />
+    <Compile Include="BookReturnItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BookReturnItem.Designer.cs">
+      <DependentUpon>BookReturnItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Button_WOC.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,9 +74,17 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AuthStudentModel.cs" />
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookReturnModel.cs" />
     <Compile Include="Models\CheckOutResponseModel.cs" />
+    <Compile Include="Models\ReturnResponseModel.cs" />
     <Compile Include="Processors\AuthProcessor.cs" />
     <Compile Include="Processors\BookProcessor.cs" />
     <Compile Include="Program.cs" />
@@ -83,21 +97,28 @@
     </Compile>
     <Compile Include="Prototype\AuthData.cs" />
     <Compile Include="Prototype\BookData.cs" />
-    <Compile Include="Success_Form.cs">
+    <Compile Include="Prototype\BookReturnData.cs" />
+    <Compile Include="ReturnForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Success_Form.Designer.cs">
-      <DependentUpon>Success_Form.cs</DependentUpon>
+    <Compile Include="ReturnForm.Designer.cs">
+      <DependentUpon>ReturnForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
     <EmbeddedResource Include="BookItem.resx">
       <DependentUpon>BookItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookReturnItem.resx">
+      <DependentUpon>BookReturnItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckOutForm.resx">
       <DependentUpon>CheckOutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -109,8 +130,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Success_Form.resx">
-      <DependentUpon>Success_Form.cs</DependentUpon>
+    <EmbeddedResource Include="ReturnForm.resx">
+      <DependentUpon>ReturnForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -131,6 +152,20 @@
     <None Include="Resources\check-circle.gif" />
     <None Include="Resources\remove-icon-21.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\success-icon-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\giphy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Spinner-1s-200px.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\borrow-book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return-book.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
