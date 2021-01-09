@@ -40,7 +40,10 @@ export {
 export {
     getRentingInfo,
     getExtendedHistory,
-    extendDue
+    extendDue,
+    addReminder,
+    getStudentProfile,
+    updateStudentProfile
 } from './Student/info'
 
 export {
@@ -59,3 +62,8 @@ export{
     requestNewBook,
     refreshRequestNewBook
 }from './Student/RequestNewBook'
+
+export {
+    getBook as getBookStudentSide,
+    getWhislist
+} from './Student/Book'

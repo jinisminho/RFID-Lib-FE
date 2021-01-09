@@ -51,6 +51,7 @@ function addBooks(data){
     arrayOfBooks.push(data)
     return {"status":true};
 }
+
 function updateBooks(data){
     let id=data["id"]
     arrayOfBooks.forEach(el => {

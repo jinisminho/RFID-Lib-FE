@@ -1,0 +1,46 @@
+.img-overlay-wrap {
+    position: relative;
+    display: inline-block; /* <= shrinks container to image size */
+    transition: transform 150ms ease-in-out;
+  }
+  
+  .img-overlay-wrap img { /* <= optional, for responsiveness */
+     display: block;
+     max-width: 100%;
+     height: auto;
+  }
+  
+  .img-overlay-wrap svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  /* .img-overlay-wrap:hover {
+    transform: rotate( 15deg );
+  } */
+
+  .shadow, .my-card-profile-image img {
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important; }
+
+    .my-card-profile-image {
+        position: relative; }
+        .my-card-profile-image img {
+            max-width: 180px;
+            border-radius: 0.375rem;
+            transform: translate(-50%, -30%);
+            position: absolute;
+            left: 50%;
+            transition: all 0.15s ease; }
+        /* .my-card-profile-image img:hover {
+        transform: translate(-50%, -33%); } */
+
+        .my-card-profile-image svg {
+            position: absolute;
+            max-width: 180px;
+            border-radius: 0.375rem;
+            transform: translate(-42%, 10%);
+            position: absolute;
+            left: 50%;
+            transition: all 0.15s ease;
+          }

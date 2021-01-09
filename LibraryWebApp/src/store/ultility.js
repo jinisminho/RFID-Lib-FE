@@ -41,8 +41,41 @@ export function compareDate(date1, date2) {
     );
 }
 
+export function bookDescriptionFormat(cell, row) {
+    let res = "";
+    let authors = row.authors;
+    let authorStr = "";
+    
+    let i = 0;
+    authors.forEach(element => {
+        i < authors.length - 1 ? authorStr += " " + element + " , " : authorStr += " " + element + " ";
+        i++;
+    });
+
+    res += row.sub ? row.title + " - " + row.sub : row.title
+    res +=  " / By " + authorStr + " - Publisher:" + row.publisher + " - " + row.language + " - " + row.nop + " pages - Edition: " + row.edition 
+
+    return res;
+
+    // let authorStr = row.author.join();
+    // return (
+    //     <Row>
+
+    //         <Col className="col-6">Title: {row.title}</Col>
+    //         <Col className="col-6">Subtitle: {row.sub}</Col>
+    //         <Col className="col-4">DDC: {row.ddc}</Col>
+    //         <Col className="col-4">Author: {authorStr}</Col>
+    //         <Col className="col-4">Publisher:{row.publisher}</Col>
+    //         <Col className="col-4">Language: {row.language}</Col>
+    //         <Col className="col-4">Number of page: {row.nop}</Col>
+    //         <Col className="col-4">Edition: {row.edition}</Col>
+    //     </Row>
+    // )
+}
+
 export default {
     updateObject,
     convertToDate,
-    compareDate
+    compareDate,
+    bookDescriptionFormat
 };

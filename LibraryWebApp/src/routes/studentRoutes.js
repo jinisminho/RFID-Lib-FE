@@ -16,7 +16,7 @@
 
 */
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
+import Profil from "views/examples/Profile.js";
 import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
 import Login from "views/Login/Login.js";
@@ -24,6 +24,8 @@ import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import RentingInf from "views/Student/RentingInfo.js";
 import RequestNewBook from 'views/RequestNewBook/index.js'
+import Book from "views/Student/Book.js"
+import Profile from "views/Student/Profile.js"
 
 var routes = [
   {
@@ -31,6 +33,27 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
+    layout: "/student"
+  },
+  {
+    path: "/book",
+    name: "Books",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Book,
+    layout: "/student"
+  },
+  {
+    path: "/renting",
+    name: "Renting Information",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: RentingInf,
+    layout: "/student"
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
     layout: "/student"
   },
   {
@@ -51,7 +74,7 @@ var routes = [
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
-    component: Profile,
+    component: Profil,
     layout: "/student"
   },
   {
@@ -59,12 +82,6 @@ var routes = [
     name: "Tables",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: "/student"
-  },{
-    path: "/renting",
-    name: "Renting Information",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
     layout: "/student"
   },
   {
