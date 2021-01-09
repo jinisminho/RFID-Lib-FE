@@ -26,19 +26,29 @@ import { COLUMNS_5 } from "components/Tables/SearchResultCols";
 
 
 
-class SearchResult extends React.Component { 
+class SearchResult extends React.Component {
 
-  render() { 
-
+  // constructor(props) {
+  //   super(props);
+  //   this.onTableChange = this.onTableChange.bind(this);
+  // }
+  render() {
     const options = {
+      viewColumns: false,
       filterType: 'checkbox',
       selectableRowsHideCheckboxes: true,
       print: false,
       download: false,
       jumpToPage: true,
+      page: this.props.page,
+      rowsPerPage: this.props.rowsPerPage,
       rowsPerPageOptions: [5, 10, 15, 100],
       search: false,
-      onRowClick: this.props.onRowClick
+      onRowClick: this.props.onRowClick,
+      serverSide: true,
+      count: this.props.count,
+      onChangePage: (currentPage) => {this.props.onChangePage(currentPage)} ,
+      onChangeRowsPerPage: (numberOfRows) => {this.props.onChangeRowsPerPage(numberOfRows)}
     };
 
     return (

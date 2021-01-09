@@ -1,12 +1,12 @@
 export const arrayOfBooks = [
-{"id":1, "stock": 6, "title":"Harry","authors":[{"id":1,"name":"Jk"},{"id":2,"name":"kj"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":2, "stock": 7,"title":"Harry2","authors":[{"id":1,"name":"k"},{"id":2,"name":"kj"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":3, "stock": 6,"title":"Harry3","authors":[{"id":1,"name":"J. K. Rowling"},{"id":2,"name":"kj"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":4, "stock": 0,"title":"Harry4","authors":[{"id":1,"name":"J. K. Rowling"},{"id":2,"name":"kj"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":5, "stock": 5,"title":"Harry5","authors":[{"id":1,"name":"J. K. Rowling"},{"id":2,"name":"kjj"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":6, "stock": 13,"title":"Strange Case of Dr Jekyll and Mr Hyde","authors":[{"id":1,"name":"Robert Louis Stevenson"}], "isbn":"978-0-553-21277-8", "publisher":"Longmans, Green & Co.","language":"English","nop":141,"category":"novel","edition":1},
-{"id":7, "stock": 10,"title":"Sapiens: A Brief History of Humankind","authors":[{"id":1,"name":"Yuval Noah Harari"}], "isbn":"978-0062316097", "publisher":"Harper","language":"English","nop":	443,"category":"Non-fiction","edition":1},
-{"id":8, "stock": 11,"title":"Harry8","authors":[{"id":1,"name":"J. K. Rowling"},{"id":2,"name":"Rowling"},{"id":3,"name":"testing This"}], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
+  { "id": 1, "stock": 6, "title": "Harry", "authors": [{ "id": 1, "name": "Jk" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 2, "stock": 7, "title": "Harry2", "authors": [{ "id": 1, "name": "k" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 3, "stock": 6, "title": "Harry3", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 4, "stock": 0, "title": "Harry4", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 5, "stock": 5, "title": "Harry5", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kjj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "authors": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "category": "novel", "edition": 1 },
+  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "authors": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "category": "Non-fiction", "edition": 1 },
+  { "id": 8, "stock": 11, "title": "Harry8", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
 ];
 
 export const rentingInfo = [
@@ -148,22 +148,36 @@ export const extendedDueHistory = [
     "dateExtended": "February 1, 2021 15:15:30",
     "dateDue": "January 30, 2021 23:59:59"
   },
-  
+
   {
     "id": 4,
     "dateExtended": "",
     "dateDue": "February 15, 2021 23:59:59"
   },
+]
 
-  {
-    "id": 5,
-    "dateExtended": "September 2, 2021 15:15:30",
-    "dateDue": "September 1, 2021 23:59:59"
-  },
 
+export var studentProfiles = [
   {
-    "id": 6,
-    "dateExtended": "",
-    "dateDue": "September 15, 2021 23:59:59"
+    "id": 1,
+    "username": "JohnDoe001",
+    "email": "KR291964@test.com",
+    "fstName": "KR291964",
+    "lstName": "KR291964",
+    "imgSrc": ""
+  },{
+    "id": 2,
+    "username": "JohnDoe002",
+    "email": "KR291965@test.com",
+    "fstName": "KR291964",
+    "lstName": "KR291964",
+    "imgSrc": ""
+  },{
+    "id": 3,
+    "username": "JohnDoe003",
+    "email": "KR291966@test.com",
+    "fstName": "KR291964",
+    "lstName": "KR291964",
+    "imgSrc": ""
   },
 ]

@@ -10,7 +10,7 @@ const getBooksSuccess = (state, action) => {
     error: null,
     loading: false,
     total:action.total,
-    page:action.page+1,
+    page:action.page,
     sizePerPage: action.sizePerPage
   })
 }
@@ -21,7 +21,7 @@ const getBooksFailed = (state, action) => {
     loading: false,
     total:0,
     page:1,
-    sizePerPage:10,
+    sizePerPage:5,
   })
 }
 
@@ -31,7 +31,7 @@ export default function reducer(state = {
   loading: false,
   total: 0,
   page: 1,
-  sizePerPage: 10,
+  sizePerPage: 5,
 }, action) {
   switch (action.type) {
     case actionTypes.GET_BOOKS_START: return getBooksStart(state, action)

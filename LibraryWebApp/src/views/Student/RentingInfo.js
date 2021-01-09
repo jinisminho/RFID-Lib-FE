@@ -19,7 +19,7 @@ import React from "react";
 import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -161,9 +161,9 @@ class RentingInfo extends React.Component {
 
     handleHistoryClose = () => {
         this.setState({
-            showHistory: false,
-            historyData: null
+            showHistory: false
         })
+        
     }
 
     handleExtdFormClose = () => {
@@ -184,10 +184,10 @@ class RentingInfo extends React.Component {
     // }
 
     handleExtdSubmit(libraryCardId) {
-        console.log(libraryCardId);
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
             await this.props.onExtdSubmit(libraryCardId)
+            await this.setState({successShow: true})
             await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
             return
         }
@@ -320,6 +320,16 @@ class RentingInfo extends React.Component {
             </div>
         )
 
+
+        let errorMsg = null
+        let msg = null
+        if (this.props.error && this.state.errorShow) {
+            errorMsg = <Alert bsStyle="danger" onDismiss={() => this.setState({ errorShow: false })}>{this.props.error.message}</Alert>
+        }
+        if (this.props.successMsg && this.state.successShow) {
+            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false })} dismissible>{this.props.successMsg}</Alert>
+        }
+
         return (
             <>
                 <Header />
@@ -328,6 +338,8 @@ class RentingInfo extends React.Component {
                         <CardHeader className="border-0">
                             <h3 className="mb-0">Over Due</h3>
                         </CardHeader>
+                        {errorMsg}
+                        {msg}
                         {display1}
                     </Card>
                     <Card className="shadow mt-1 pb-auto">
@@ -378,7 +390,8 @@ const mapStateToProps = state => {
         totalSize: state.info.total,
         page: state.info.page,
         sizePerPage: state.info.sizePerPage,
-        historyData: state.info.historyData   
+        historyData: state.info.historyData,
+        successMsg: state.info.successMsg
     }
 }
 
