@@ -1,14 +1,14 @@
-var arrayOfStaffs = [{"id":1,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":false},
-{"id":2,"username":"tramph","firstname":"Tram","lastname":"Phan","gender":"F", "phone":"0213456789","active":false},
-{"id":3,"username":"hoangpm","firstname":"Hoang","lastname":"Pham","gender":"M", "phone":"0213456789","active":true},
-{"id":4,"username":"kiennt","firstname":"Kien","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":false},
-{"id":5,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":true},
-{"id":6,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":false},
-{"id":7,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":true},
-{"id":8,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":false},
-{"id":9,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":true},
-{"id":10,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":false},
-{"id":11,"username":"khangndn","firstname":"Khang","lastname":"Nguyen","gender":"M", "phone":"0213456789","active":true},];
+var arrayOfStaffs = [{"id":1,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":false},
+{"id":2,"username":"tramph","name":"Tram","gender":"F", "phone":"0213456789","status":false},
+{"id":3,"username":"hoangpm","name":"Hoang","gender":"M", "phone":"0213456789","status":true},
+{"id":4,"username":"kiennt","name":"Kien","gender":"M", "phone":"0213456789","status":false},
+{"id":5,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":true},
+{"id":6,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":false},
+{"id":7,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":true},
+{"id":8,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":false},
+{"id":9,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":true},
+{"id":10,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":false},
+{"id":11,"username":"khangndn","name":"Khang","gender":"M", "phone":"0213456789","status":true},];
 
 function getStaff(keywords,page,sizePerPage){
     var arr = [];
@@ -42,20 +42,21 @@ function addStaff(data){
 }
 function updateStaff(data){
     let id=data["id"]
-    arrayOfStaffs.forEach(el => {
+    arrayOfStaffs.forEach((el,idx) => {
         if(el["id"]==id){
+            arrayOfStaffs[idx]=data
         }
     });
     return {"status":true};
 }
 
-function deleteStaff(id){
+function changeStatusStaff(id,status){
     arrayOfStaffs.forEach((el,idx) => {
         if(el["id"]==id){
-            arrayOfStaffs.splice(idx,1)
+            el["status"]=status
         }
     })
     return {"status":true};
 }
 
-export {getStaff, addStaff,updateStaff,deleteStaff}
+export {getStaff, addStaff,updateStaff,changeStatusStaff}

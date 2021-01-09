@@ -122,9 +122,9 @@ export default function reducer(state = {
     case actionTypes.ADD_STAFF_SUCCESS: return addStaffSuccess(state, action)
     case actionTypes.ADD_STAFF_FAILED: return addStaffFail(state, action)
     
-    case actionTypes.DELETE_STAFF_START: return deleteStaffStart(state, action)
-    case actionTypes.DELETE_STAFF_FAILED: return deleteStaffFail(state, action)
-    case actionTypes.DELETE_STAFF_SUCCESS: return deleteStaffSuccess(state, action)
+    case actionTypes.CHANGE_STATUS_STAFF_START: return deleteStaffStart(state, action)
+    case actionTypes.CHANGE_STATUS_STAFF_FAILED: return deleteStaffFail(state, action)
+    case actionTypes.CHANGE_STATUS_STAFF_SUCCESS: return deleteStaffSuccess(state, action)
     
     case actionTypes.UPDATE_STAFF_START: return updateStaffStart(state, action)
     case actionTypes.UPDATE_STAFF_FAILED: return updateStaffFail(state, action)
