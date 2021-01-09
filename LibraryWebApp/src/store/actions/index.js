@@ -54,3 +54,8 @@ export {
     updateStaff,
     deleteStaff
 } from './Admin/Staff'
+
+export{
+    requestNewBook,
+    refreshRequestNewBook
+}from './Student/RequestNewBook'

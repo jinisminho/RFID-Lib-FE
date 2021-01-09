@@ -23,6 +23,8 @@ import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import RentingInf from "views/Student/RentingInfo.js";
+import RequestNewBook from 'views/RequestNewBook/index.js'
+
 var routes = [
   {
     path: "/index",
@@ -63,6 +65,13 @@ var routes = [
     name: "Renting Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: RentingInf,
+    layout: "/student"
+  },
+  {
+    path: "/requestNewBook",
+    name: "Request New Book",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: RequestNewBook,
     layout: "/student"
   },
   {
