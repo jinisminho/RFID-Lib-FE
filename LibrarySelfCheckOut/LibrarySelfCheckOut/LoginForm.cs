@@ -60,7 +60,7 @@ namespace LibrarySelfCheckOut
                     {
                         if (student.status == "NOT_RETURN")
                         {
-                            DialogResult dialog =  MessageBox.Show("Please contact librarian to return over due books and pay fine to unblock your account", "Account Blocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            DialogResult dialog =  MessageBox.Show("Please return over dued book(s) at the librarian counter to continue borrowing book", "Account Blocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if(dialog == DialogResult.OK)
                             {
                                 this.Close();

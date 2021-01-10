@@ -163,7 +163,7 @@
             // 
             // timerCallReturnAPI
             // 
-            this.timerCallReturnAPI.Interval = 6000;
+            this.timerCallReturnAPI.Interval = 10000;
             this.timerCallReturnAPI.Tick += new System.EventHandler(this.timerCallReturnAPI_Tick);
             // 
             // ReturnForm
