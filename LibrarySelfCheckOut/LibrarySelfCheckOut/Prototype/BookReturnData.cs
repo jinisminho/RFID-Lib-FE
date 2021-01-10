@@ -14,11 +14,11 @@ namespace LibrarySelfCheckOut.Prototype
         public BookReturnData()
         {
             BookReturnModel b1 = new BookReturnModel(1, 1, "The Hobbit", "se130038");
-            BookReturnModel b2 = new BookReturnModel(2, 1, "Belonging", "se130038");
-            BookReturnModel b3 = new BookReturnModel(3, 1, "SUQAR", "se130038");
-            BookReturnModel b4 = new BookReturnModel(4, 1, "Hamilton", "se130038");
-            BookReturnModel b5 = new BookReturnModel(5, 1, "The Outsider", "se130056");
-            BookReturnModel b6 = new BookReturnModel(6, 1, "Candy Is Magic", "se130054");
+            BookReturnModel b2 = new BookReturnModel(2, 2, "Belonging", "se130038");
+            BookReturnModel b3 = new BookReturnModel(3, 3, "SUQAR", "se130038");
+            BookReturnModel b4 = new BookReturnModel(4, 4, "Hamilton", "se130038");
+            BookReturnModel b5 = new BookReturnModel(5, 5, "The Outsider", "se130056");
+            BookReturnModel b6 = new BookReturnModel(6, 6, "Candy Is Magic", "se130054");
 
             books.Add(b1);
             books.Add(b2);

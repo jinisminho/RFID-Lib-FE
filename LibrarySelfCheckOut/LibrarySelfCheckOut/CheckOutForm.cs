@@ -30,6 +30,8 @@ namespace LibrarySelfCheckOut
 
         private bool wasCallAPI = false;
 
+        private IDictionary<long, long> bookCodeMap;
+
 
         public CheckOutForm(string username, int maxNumberBorrowAllowed, long studentId)
         {
@@ -48,6 +50,7 @@ namespace LibrarySelfCheckOut
 
             //assign value
             this.bookCodeList = new List<long>();
+            this.bookCodeMap = new Dictionary<long, long>();
             this.lbUsername.Text = $"Welcome, " + username;
             this.lbNoticeMaxBookBorrowAllowed.Text = $"NOTICE: Each student is allowed to borrow maximum " + maxNumberBorrowAllowed + " books each time.";
             this.lbDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
@@ -63,24 +66,27 @@ namespace LibrarySelfCheckOut
                 try
                 {
                     this.bookRFID = long.Parse(this.txtBookRFID.Text);
-
-                    this.numberOfBookScanned += 1;
-                    //neu bat dau scan thi auto call api sau 5s
-                    if (this.numberOfBookScanned == 1)
+                    if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
-                        this.timerAutoCallApi.Enabled = true;
-                        this.timerAutoCallApi.Start();
-                        this.spiner.Show();
-                    }
-                    if (bookCodeList.Count >= maxNumberBorrowAllowed)
-                    {
-                        //show message box ok
-                        resetState();
-                        MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!", "Maximum Book Borrow Allowed");
-                    }
-                    else
-                    {
-                        bookCodeList.Add(this.bookRFID);
+                        this.numberOfBookScanned++;
+                        //neu bat dau scan thi auto call api sau 5s
+                        if (this.numberOfBookScanned == 1)
+                        {
+                            this.timerAutoCallApi.Enabled = true;
+                            this.timerAutoCallApi.Start();
+                            this.spiner.Show();
+                        }
+                        if (bookCodeList.Count >= maxNumberBorrowAllowed)
+                        {
+                            //show message box ok
+                            resetState();
+                            MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!", "Maximum Book Borrow Allowed");
+                        }
+                        else
+                        {
+                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            bookCodeList.Add(this.bookRFID);
+                        }
                     }
                 }
                 catch (FormatException)
@@ -164,6 +170,7 @@ namespace LibrarySelfCheckOut
             this.wasCallAPI = false;
             this.timerAutoCallApi.Enabled = false;
             this.spiner.Hide();
+            this.bookCodeMap.Clear();
 
         }
     }

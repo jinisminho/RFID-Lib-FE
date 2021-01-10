@@ -204,7 +204,7 @@
             // 
             // timerAutoCallApi
             // 
-            this.timerAutoCallApi.Interval = 5000;
+            this.timerAutoCallApi.Interval = 10000;
             this.timerAutoCallApi.Tick += new System.EventHandler(this.timerAutoCallApi_Tick);
             // 
             // CheckOutForm

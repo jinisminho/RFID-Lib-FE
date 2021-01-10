@@ -24,17 +24,21 @@ namespace LibrarySelfCheckOut
 
         private bool wasCallAPI = false;
 
+        private IDictionary<long, long> bookCodeMap;
+
         public ReturnForm()
         {
             InitializeComponent();
             //this.TopMost = true;
             //this.FormBorderStyle = FormBorderStyle.None;
             //this.WindowState = FormWindowState.Maximized;
-           // this.spiner.Hide();
+            this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
             this.lbSessionTimeOut.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.bookCodeList = new List<long>();
+            this.bookCodeMap = new Dictionary<long, long>();
+
         }
 
         private void timerCallReturnAPI_Tick(object sender, EventArgs e)
@@ -83,19 +87,23 @@ namespace LibrarySelfCheckOut
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Console.WriteLine("enter");
-                numberOfBookScanned++;
+
                 try
                 {
                     this.bookRFID = long.Parse(this.txtBookCode.Text);
-                    if (this.numberOfBookScanned == 1)
+                    if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
-                        Console.WriteLine("tang");
-                        this.timerCallReturnAPI.Enabled = true;
-                        this.timerCallReturnAPI.Start();
-                        this.spiner.Show();
+                        numberOfBookScanned++;
+                        if (this.numberOfBookScanned == 1)
+                        {
+                            Console.WriteLine("tang");
+                            this.timerCallReturnAPI.Enabled = true;
+                            this.timerCallReturnAPI.Start();
+                            this.spiner.Show();
+                        }
+                        bookCodeList.Add(this.bookRFID);
+                        bookCodeMap.Add(this.bookRFID, this.bookRFID);
                     }
-                    bookCodeList.Add(this.bookRFID);
                 }
                 catch (FormatException)
                 {
@@ -117,6 +125,7 @@ namespace LibrarySelfCheckOut
             this.numberOfBookScanned = 0;
             this.spiner.Hide();
             this.wasCallAPI = false;
+            this.bookCodeMap.Clear();
         }
 
         private void btDone_Click(object sender, EventArgs e)
