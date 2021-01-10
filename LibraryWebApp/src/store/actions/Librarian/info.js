@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import * as prototype from '../../prototype/rentingInfo'
+import * as prototype from '../../prototype/Info'
 import MyUltil from "store/ultility"
 
 

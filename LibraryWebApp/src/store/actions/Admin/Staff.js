@@ -94,30 +94,30 @@ export const updateStaff = (data) => {
     }
 }
 
-export const deleteStaffStart =()=>{
+export const changeStatusStaffStart =()=>{
     return({
-        type: actionTypes.DELETE_STAFF_START
+        type: actionTypes.CHANGE_STATUS_STAFF_START
     })
 } 
-export const deleteStaffFail =(error)=>{
+export const changeStatusStaffFail =(error)=>{
     return({
-        type: actionTypes.DELETE_STAFF_FAILED,
+        type: actionTypes.CHANGE_STATUS_STAFF_FAILED,
         error:error
     })
 } 
-export const deleteStaffSuccess =()=>{
+export const changeStatusStaffSuccess =()=>{
     return({
-        type: actionTypes.DELETE_STAFF_SUCCESS,
+        type: actionTypes.CHANGE_STATUS_STAFF_SUCCESS,
     })
 } 
-export const deleteStaff = (id) => {
+export const changeStatusStaff = (id,status) => {
     return dispatch => {
-        dispatch(deleteStaffStart())    
-        let response=staffPrototype.deleteStaff(id)
+        dispatch(changeStatusStaffStart())    
+        let response=staffPrototype.changeStatusStaff(id,status)
         if(response.status==true){
-            dispatch(deleteStaffSuccess())
+            dispatch(changeStatusStaffSuccess())
         }else{
-            dispatch(deleteStaffFail(response.error))
+            dispatch(changeStatusStaffFail(response.error))
         }
     }
 }

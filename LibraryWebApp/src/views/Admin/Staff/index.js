@@ -41,8 +41,9 @@ class Staff extends React.Component {
             successNotice: '',
             successShow: false,
             errorShow: false,
-            confirmDelete: false,
-            deleteId: null,
+            confirmActiveStatus: false,
+            confirmDisableStatus:false,
+            statusId: null,
             copyShow: false,
             copyData: null,
             updateFormShow: false,
@@ -64,7 +65,7 @@ class Staff extends React.Component {
             msg = "Update staff successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Delete staff successfully"
+            msg = "Change staff status successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -118,47 +119,63 @@ class Staff extends React.Component {
         this.setState({ updateFormShow: false })
         this.props.onUpdateStaff(values)
     }
-    handleDeleteSubmit() {
-        this.setState({ confirmDelete: false })
-        this.props.onDeleteStaff(this.state.deleteId)
+    handleChangeStatusSubmit(status) {
+        this.setState({ confirmActiveStatus: false,confirmDisableStatus:false })
+        this.props.onChangeStatusStaff(this.state.statusId,status)
     }
-    handleDeleteCancel = () => {
+    handleChangeStatusCancel = () => {
         this.setState({
-            confirmDelete: false,
-            deleteId: null,
+            confirmActiveStatus: false,
+            confirmDisableStatus:false,
+            statusId: null,
         })
     }
+    statusFormat(cell,row){
+        let status = null
+        if(!row.status){
+            status = <span className="text-danger">disable</span>
+        }else{
+            status = <span className="text-success">active</span>
+        }
+        return(
+            <>{status}</>
+        )
+    }
     activeFormatter(cell, row) {
+        let status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-danger btn-simple btn-icon" onClick={() => this.setState({
+            confirmDisableStatus: true,
+            statusId: row.id
+        })}>
+                        <i className="fa fa-trash"></i> Disable
+                    </button>
+                    if (!row.status){
+                        status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-primary btn-simple btn-icon" onClick={() => this.setState({
+                            confirmActiveStatus: true,
+                            statusId: row.id
+                        })}> <i className="fa fa-check"></i> Enable
+                        </button>
+                    }
         return (
             <div>
                 <UpdateButton clicked={() => this.setState({
                     updateFormShow: true,
                     updateData: row
                 })} />
-                <DeleteButton clicked={() => this.setState({
-                    confirmDelete: true,
-                    deleteId: row.id
-                })} />
-                <label className="custom-toggle m-0 mx-3">
-                    <input onChange={() => {
-                    this.handleChangeSwitch(row.id, !row.active);
-                }} defaultChecked={row.active} type="checkbox" />
-                    <span className="custom-toggle-slider rounded-circle" />
-                </label>
+                {status}
+                
             </div>
         )
     }
     getInitialValues = () => {
         return {
-            isbn: this.state.updateData ? this.state.updateData.isbn : '',
-            title: this.state.updateData ? this.state.updateData.title : '',
-            sub: this.state.updateData ? this.state.updateData.sub : '',
-            ddc: this.state.updateData ? this.state.updateData.ddc : '',
-            publisher: this.state.updateData ? this.state.updateData.publisher : '',
-            language: this.state.updateData ? this.state.updateData.language : '',
-            nop: this.state.updateData ? this.state.updateData.nop : '',
-            category: this.state.updateData ? this.state.updateData.category : '',
-            edition: this.state.updateData ? this.state.updateData.edition : '',
+            name: this.state.updateData ? this.state.updateData.name : '',
+            username: this.state.updateData ? this.state.updateData.username : '',
+            password: this.state.updateData ? this.state.updateData.password : '',
+            email: this.state.updateData ? this.state.updateData.email : '',
+            phone: this.state.updateData ? this.state.updateData.phone : '',
+            address: this.state.updateData ? this.state.updateData.address : '',
+            dob: this.state.updateData ? this.state.updateData.dob : '',
+            gender: this.state.updateData ? this.state.updateData.gender : '',
             id: this.state.updateData ? this.state.updateData.id : ''
         };
     }
@@ -219,20 +236,14 @@ class Staff extends React.Component {
                         width="15%"
                     >
                         Username
+
           </TableHeaderColumn>
                     <TableHeaderColumn
-                        dataField="firstname"
+                        dataField="name"
                         dataAlign="center"
                         width="15%"
                     >
-                        First name
-          </TableHeaderColumn>
-                    <TableHeaderColumn
-                        dataField="lastname"
-                        dataAlign="center"
-                        width="15%"
-                    >
-                        Last name
+                        Name
           </TableHeaderColumn>
                     <TableHeaderColumn dataField="gender" dataAlign="center" width="10%">
                         Gender
@@ -240,13 +251,16 @@ class Staff extends React.Component {
                     <TableHeaderColumn dataField="phone" dataAlign="center" width="15%">
                         Phone
           </TableHeaderColumn>
+          <TableHeaderColumn dataField="status" dataAlign="center" width="15%" dataFormat={this.statusFormat}>
+                        Status
+          </TableHeaderColumn>
                     <TableHeaderColumn
-                        dataField="active"
+                        dataField="action"
                         dataAlign="center"
                         dataFormat={this.activeFormatter}
                         width="20%"
                     >
-                        Active
+                        Action
           </TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
@@ -271,20 +285,36 @@ class Staff extends React.Component {
                         <StaffForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
+                <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Delete Staff</Modal.Title>
+                        <Modal.Title>Disable Staff</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
                         <h1 className="text-danger display-1"><i className="fas fa-trash-alt"></i></h1>
-                        <h4>You will not be able to recover this staff</h4>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
+                        <Button variant="secondary" onClick={() => this.handleChangeStatusCancel()}>
                             Close
                     </Button>
-                        <Button variant="danger" onClick={() => this.handleDeleteSubmit()}>
+                        <Button variant="danger" onClick={() => this.handleChangeStatusSubmit(false)}>
+                            OK
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal backdrop="static" show={this.state.confirmActiveStatus} onHide={() => this.handleChangeStatusCancel()}>
+                    <Modal.Header className="bg-primary" closeButton>
+                        <Modal.Title>Activate Staff</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center">
+                        <h1>Are you sure?</h1>
+                        <h1 className="text-primary display-1"><i className="fas fa-check"></i></h1>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => this.handleChangeStatusCancel()}>
+                            Close
+                    </Button>
+                        <Button variant="success" onClick={() => this.handleChangeStatusSubmit(true)}>
                             OK
                     </Button>
                     </Modal.Footer>
@@ -355,7 +385,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getStaff(page, size, search)),
-        onDeleteStaff: (id) => dispatch(actions.deleteStaff(id)),
+        onChangeStatusStaff: (id,status) => dispatch(actions.changeStatusStaff(id,status)),
         onUpdateStaff: (data) => dispatch(actions.updateStaff(data)),
         onAddStaff: (data) => dispatch(actions.addStaff(data))
     }

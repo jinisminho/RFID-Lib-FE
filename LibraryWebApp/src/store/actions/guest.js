@@ -4,7 +4,12 @@ import * as booksPrototype from '../prototype/search'
 
 export const getBooksStart = (data, total, page, sizePerPage) => {
     return {
-        type: actionTypes.GET_BOOKS_START
+        type: actionTypes.GET_BOOKS_START,
+        total:0,
+        data: null,
+        page:0,
+        sizePerPage:sizePerPage,
+        error: null
     };
 }
 export const getBooksFailed = (error) => {
@@ -22,12 +27,12 @@ export const getBooksSuccess = (data, total, page, sizePerPage) => {
         sizePerPage:sizePerPage
     };
 }
-export const getBooks = (page,size,searchStr) => {
+export const getBooks = (searchStr,page,size) => {
     return dispatch => {
         dispatch(getBooksStart());
-        let response = booksPrototype.getBooks(searchStr)
+        let response = booksPrototype.getBooks(searchStr,page,size)
         if (response.status) {
-            dispatch(getBooksSuccess(response.data,0,page,size))
+            dispatch(getBooksSuccess(response.data,response.total,page,size))
         } else {
             dispatch(getBooksFailed(response.err))
         }

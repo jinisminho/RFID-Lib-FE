@@ -35,11 +35,16 @@ class Guest extends React.Component {
         this.state = {
             data: [],
             showDetail: false,
-            detailData: null
+            detailData: null,
+            searchStr: ''
         }
         this.fetchData = this.fetchData.bind(this);
         this.setStateDetailData = this.setStateDetailData.bind(this);
         this.handleDetailClose = this.handleDetailClose.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleSizePerPageChange = this.handleSizePerPageChange.bind(this);
+
     }
 
     componentDidMount() {
@@ -48,15 +53,14 @@ class Guest extends React.Component {
     componentWillUnmount() {
         document.body.classList.remove("bg-default");
     }
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchStr = this.props.searchStr) {
-        this.props.onFetchData(page,sizePerPage,searchStr)
-        this.props.history.push('/search/result');
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchStr = this.state.searchStr) {
+        this.props.onFetchData(page - 1, sizePerPage, searchStr)
     }
-    setStateDetailData(rowData,rowMeta) {
+    setStateDetailData(rowData, rowMeta) {
         var objArr = []
 
         objArr.push(this.props.data[rowMeta["rowIndex"]])
-        
+
         this.setState({
             showDetail: true,
             detailData: objArr
@@ -69,8 +73,36 @@ class Guest extends React.Component {
         })
     }
 
+    handleSearch(searchVal) {     
+        
+        const doFetchData = async () => {
+            await this.setState({
+                successShow: false,
+                errorShow: false,
+                searchStr: searchVal
+            })
+            await this.fetchData(1, this.props.sizePerPage, this.state.searchStr)           
+            this.props.history.push('/search/result');
+
+            return
+        }
+
+        return doFetchData()
+
+    }
+
+    handlePageChange(page) {
+        this.fetchData(page+1, this.props.sizePerPage, this.state.searchStr);
+    }
+
+    handleSizePerPageChange(sizePerPage) {
+        // When changing the size per page always navigating to the first page
+        this.fetchData(1, sizePerPage, this.state.searchStr);
+
+    }
+
     render() {
-        let form = <SearchForm editClassName="shadow mw-100" onSubmit={(value) => this.fetchData(1, 10,value.search)} formTitle="Quick Search for Book" placeholder="e.g. George Orwell, 0439708184, &quot;On the Origin of Species&quot;"/>
+        let form = <SearchForm editClassName="shadow mw-100" onSubmit={(value) => this.handleSearch(value.search)} formTitle="Quick Search for Book" placeholder="e.g. George Orwell, 0439708184, &quot;On the Origin of Species&quot;" />
 
         return (
             <>
@@ -112,7 +144,17 @@ class Guest extends React.Component {
                             {form}
                         </Row>
                         <Row className="justify-content-center">
-                            <Route path="/search/result" ><SearchResult className="mt-1 pb-auto mw-100" data={this.props.data} onRowClick={(rowData,rowMeta)=> {this.setStateDetailData(rowData,rowMeta)}} /></Route>
+                            <Route path="/search/result" >
+                                <SearchResult
+                                    className="mt-1 pb-auto mw-100" 
+                                    data={this.props.data}
+                                    count={this.props.totalSize}
+                                    rowsPerPage={this.props.sizePerPage}
+                                    onChangePage={this.handlePageChange}
+                                    onChangeRowsPerPage={this.handleSizePerPageChange}
+                                    page={this.props.page}
+                                    onRowClick={(rowData, rowMeta) => { this.setStateDetailData(rowData, rowMeta) }} />
+                            </Route>
                             <BookDetailModal
                                 show={this.state.showDetail}
                                 hide={() => this.handleDetailClose()}
@@ -139,7 +181,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         // onFetchData: (page, size, searchStr) => dispatch(actions.getBooks(page, size, searchStr)),
-        onFetchData: (page,size,searchStr) => dispatch(actions.getBooks(page,size,searchStr)),
+        onFetchData: (page, size, searchStr) => dispatch(actions.getBooks(searchStr, page, size)),
     }
 }
 

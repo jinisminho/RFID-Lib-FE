@@ -28,6 +28,7 @@ import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
+import Student from "views/Admin/Student/index.js";
 
 var routes = [
   {
@@ -105,6 +106,12 @@ var routes = [
     name: "Staff Management",
     icon: "fa fa-users text-red",
     component: Staff,
+    layout: "/admin"
+  },{
+    path: "/student",
+    name: "Student Management",
+    icon: "fa fa-book-reader text-red",
+    component: Student,
     layout: "/admin"
   }
 ];

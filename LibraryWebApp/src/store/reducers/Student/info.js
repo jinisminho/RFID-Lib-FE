@@ -59,19 +59,97 @@ const getExtendedHistoryInfoFail = (state, action) => {
 const extendDueStart = (state, action) => {
   return updateObject(state, {
     error: null,
-    loading: true
+    loading: true,
+    successMsg: null
   })
 }
 const extendDueSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
-    loading: false
+    loading: false,
+    successMsg: 'extended'
   })
 }
 const extendDueFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
-    loading: false
+    loading: false,
+    successMsg: null
+  })
+}
+
+const addReminderStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    successMsg: null
+  })
+}
+const addReminderSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    successMsg: action.msg
+  })
+}
+const addReminderFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    successMsg: null
+  })
+}
+
+const getStudentProfileStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true
+  })
+}
+const getStudentProfileSuccess = (state, action) => {
+  return updateObject(state, {
+    usrName: action.data["username"],
+    email: action.data["email"],
+    fstName: action.data["fstName"],
+    lstName: action.data["lstName"],
+    profile: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getStudentProfileFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 10,
+    data: null,
+  })
+}
+
+const updateStudentProfileStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    successMsg: null
+  })
+}
+const updateStudentProfileSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    successMsg: 'update profile success'
+  })
+}
+const updateStudentProfileFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 10,
+    data: null,
   })
 }
 
@@ -82,8 +160,13 @@ export default function reducer(state = {
   loading: false,
   page: 1,
   sizePerPage: 10,
-  historyData: null
-
+  historyData: null,
+  successMsg: null,
+  usrName: '',
+  email: '',
+  fstName: '',
+  lstName: '',
+  profile: null
 }, action) {
   switch (action.type) {
     case actionTypes.STUDENT_GET_RENTINGINFO_START: return getRentingInfoStart(state, action)
@@ -95,6 +178,15 @@ export default function reducer(state = {
     case actionTypes.STUDENT_EXTEND_DUE_START: return extendDueStart(state, action)
     case actionTypes.STUDENT_EXTEND_DUE_SUCCESS: return extendDueSuccess(state, action)
     case actionTypes.STUDENT_EXTEND_DUE_FAILED: return extendDueFail(state, action)
+    case actionTypes.STUDENT_ADD_REMINDER_START: return addReminderStart(state, action)
+    case actionTypes.STUDENT_ADD_REMINDER_SUCCESS: return addReminderSuccess(state, action)
+    case actionTypes.STUDENT_ADD_REMINDER_FAILED: return addReminderFail(state, action)
+    case actionTypes.STUDENT_GET_PROFILE_START: return getStudentProfileStart(state, action)
+    case actionTypes.STUDENT_GET_PROFILE_SUCCESS: return getStudentProfileSuccess(state, action)
+    case actionTypes.STUDENT_GET_PROFILE_FAILED: return getStudentProfileFail(state, action)
+    case actionTypes.STUDENT_UPDATE_PROFILE_START: return updateStudentProfileStart(state, action)
+    case actionTypes.STUDENT_UPDATE_PROFILE_SUCCESS: return updateStudentProfileSuccess(state, action)
+    case actionTypes.STUDENT_UPDATE_PROFILE_FAILED: return updateStudentProfileFail(state, action)
 
   }
   return state

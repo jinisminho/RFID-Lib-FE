@@ -8,6 +8,8 @@ import info from './Student/info';
 import infoLside from './Librarian/info'; 
 import returnBook from './Librarian/ReturnBook';
 import staff from './Admin/Staff';
+import requestNewBook from './Student/requestNewBook';
+import bookStu from './Student/book'
 export default {
   Auth,
   guest,
@@ -18,5 +20,7 @@ export default {
   info,
   infoLside,
   staff,
+  requestNewBook,
+  bookStu,
   form: formReducer,
 };
