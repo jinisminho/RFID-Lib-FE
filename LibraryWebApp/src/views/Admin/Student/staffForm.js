@@ -30,26 +30,35 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
-    CardFooter
+    CardFooter,
+    Label
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
+import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
-        <Input {...input} placeholder={placeholder} type={type} />
-        {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-                <Popover>
-                    <Popover.Content>
-                        <span className="text-danger">{error}</span>
-                    </Popover.Content>
-                </Popover>
-            }
-        >
-            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+
     </>
 )
 
@@ -99,115 +108,79 @@ const StaffForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="name"
-                            component={renderField}
-                            type="text"
-                            placeholder="Enter Staff Name"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="name"
+                        component={renderField}
+                        type="text"
+                        placeholder="Enter Staff Name"
+                        title="Name"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-closed-captioning" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="username"
-                            component={renderField}
-                            type="text"
-                            placeholder="Enter username"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="username"
+                        component={renderField}
+                        type="text"
+                        placeholder="Enter username"
+                        title="Username"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="password"
-                            component={renderField}
-                            type="password"
-                            placeholder="Enter password"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="password"
+                        component={renderField}
+                        type="password"
+                        placeholder="Enter password"
+                        title="Password"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-newspaper" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="email"
-                            component={renderField}
-                            type="email"
-                            placeholder="Email"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="email"
+                        component={renderField}
+                        type="email"
+                        placeholder="Email"
+                        title="Email"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-language" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="phone"
-                            component={renderField}
-                            type="text"
-                            placeholder="Enter phone number"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="phone"
+                        component={renderField}
+                        type="text"
+                        placeholder="Enter phone number"
+                        title="Phone"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-list-alt" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="address"
-                            component={renderField}
-                            type="text"
-                            placeholder="Enter address"
-                        />
-                    </InputGroup>
+                    <Field
+                        name="address"
+                        component={renderField}
+                        type="text"
+                        placeholder="Enter address"
+                        title="Address"
+                    />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-list-alt" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                                    name="dob"
-                                    component="input"
-                                    className="form-control"
-                                    type="date"
-                                />
-                    </InputGroup>
+                    <Row>
+                        <Label>Date of Birth</Label>
+                    </Row>
+                    <Row>
+                        <InputGroup className="input-group-alternative">
+                            <Field
+                                name="dob"
+                                component="input"
+                                className="form-control"
+                                type="date"
+                            />
+                        </InputGroup>
+                    </Row>
                 </FormGroup>
                 <div className="form-group">
-                            <label className="font-weight-bold mr-4">Gender:</label>
-                            <Field name="gender" checked component="input" type="radio" value="M"/><label className="ml-1 mr-3"> Male</label>
-                            <Field name="gender" component="input" type="radio" value="F"/><label className="ml-1 mr-3">Female</label>
-                        </div>
+                    <label className="font-weight-bold mr-4">Gender:</label>
+                    <Field name="gender" checked component="input" type="radio" value="M" /><label className="ml-1 mr-3"> Male</label>
+                    <Field name="gender" component="input" type="radio" value="F" /><label className="ml-1 mr-3">Female</label>
+                </div>
                 <div className="text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                         <span className="btn-label">

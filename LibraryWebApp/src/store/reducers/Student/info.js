@@ -4,7 +4,7 @@ import { updateObject } from '../../ultility'
 
 const getRentingInfoStart = (state, action) => {
   return updateObject(state, {
-    error: null,
+    errOnFetch: null,
     loading: true
   })
 }
@@ -12,7 +12,7 @@ const getRentingInfoSuccess = (state, action) => {
   return updateObject(state, {
     data: action.data,
     total: action.total,
-    error: null,
+    errOnFetch: null,
     loading: false,
     page: action.page + 1,
     sizePerPage: action.sizePerPage
@@ -20,7 +20,7 @@ const getRentingInfoSuccess = (state, action) => {
 }
 const getRentingInfoFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
+    errOnFetch: action.error,
     loading: false,
     total: 0,
     page: 1,
@@ -78,28 +78,6 @@ const extendDueFail = (state, action) => {
   })
 }
 
-const addReminderStart = (state, action) => {
-  return updateObject(state, {
-    error: null,
-    loading: true,
-    successMsg: null
-  })
-}
-const addReminderSuccess = (state, action) => {
-  return updateObject(state, {
-    error: null,
-    loading: false,
-    successMsg: action.msg
-  })
-}
-const addReminderFail = (state, action) => {
-  return updateObject(state, {
-    error: action.error,
-    loading: false,
-    successMsg: null
-  })
-}
-
 const getStudentProfileStart = (state, action) => {
   return updateObject(state, {
     error: null,
@@ -108,10 +86,6 @@ const getStudentProfileStart = (state, action) => {
 }
 const getStudentProfileSuccess = (state, action) => {
   return updateObject(state, {
-    usrName: action.data["username"],
-    email: action.data["email"],
-    fstName: action.data["fstName"],
-    lstName: action.data["lstName"],
     profile: action.data,
     error: null,
     loading: false,
@@ -124,7 +98,7 @@ const getStudentProfileFail = (state, action) => {
     total: 0,
     page: 1,
     sizePerPage: 10,
-    data: null,
+    profile: null,
   })
 }
 
@@ -153,20 +127,63 @@ const updateStudentProfileFail = (state, action) => {
   })
 }
 
+const getWishlistStart = (state, action) =>{
+  return updateObject(state,{
+    error:null, 
+    loading:true,
+  })
+}
+const getWishlistSuccess = (state, action)=>{
+  return updateObject(state,{
+      wishlistData: action.data,
+      wishlistTotalSize:action.total,
+      wishlistPage:action.page+1,
+      loading:false
+  })
+}
+const getWishlistFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      wishlistTotalSize:0,
+      wishlistPage:1,
+      
+  })
+}
+
+const addReminderStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    successMsg: null
+  })
+}
+const addReminderSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    successMsg: action.msg
+  })
+}
+const addReminderFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    successMsg: null
+  })
+}
+
 export default function reducer(state = {
   data: null,
   total: 0,
   error: null,
+  errOnFetch: null,
   loading: false,
   page: 1,
   sizePerPage: 10,
   historyData: null,
   successMsg: null,
-  usrName: '',
-  email: '',
-  fstName: '',
-  lstName: '',
-  profile: null
+  profile: []
 }, action) {
   switch (action.type) {
     case actionTypes.STUDENT_GET_RENTINGINFO_START: return getRentingInfoStart(state, action)
@@ -187,6 +204,9 @@ export default function reducer(state = {
     case actionTypes.STUDENT_UPDATE_PROFILE_START: return updateStudentProfileStart(state, action)
     case actionTypes.STUDENT_UPDATE_PROFILE_SUCCESS: return updateStudentProfileSuccess(state, action)
     case actionTypes.STUDENT_UPDATE_PROFILE_FAILED: return updateStudentProfileFail(state, action)
+    case actionTypes.STUDENT_GET_WISHLIST_START: return getWishlistStart(state, action)
+    case actionTypes.STUDENT_GET_WISHLIST_SUCCESS: return getWishlistSuccess(state, action)
+    case actionTypes.STUDENT_GET_WISHLIST_FAILED: return getWishlistFail(state, action)  
 
   }
   return state

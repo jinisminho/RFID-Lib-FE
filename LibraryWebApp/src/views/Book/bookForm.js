@@ -30,11 +30,38 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
-    CardFooter
+    CardFooter,
+    Label
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
+import Row from "reactstrap/lib/Row";
 
-const renderField = ({ input, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
+    <>
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+    </>
+)
+const renderFieldAlter = ({ input, placeholder, type, meta: { touched, error } }) => (
     <>
         <Input {...input} placeholder={placeholder} type={type} />
         {touched && ((error && <OverlayTrigger
@@ -48,39 +75,48 @@ const renderField = ({ input, placeholder, type, meta: { touched, error } }) => 
                 </Popover>
             }
         >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
         </OverlayTrigger>))}
     </>
 )
 const renderAuthors = ({ fields, meta: { error, submitFailed } }) => (
     <>
+        <Row>
+            <Label>Author</Label>
+        </Row>
         {fields.map((member, index) =>
-            <InputGroup className="mb-3" key={index}>
-                <Field
-                    name={`${member}.author`}
-                    type="text"
-                    placeholder="Author's name"
-                    component={renderField}
-                    label="Author's Name" />
-                <InputGroupAddon addonType="append">
-                    <button
-                        className="btn btn-wd btn-danger "
-                        type="button"
-                        onClick={() => fields.remove(index)}>x</button>
-                </InputGroupAddon>
-            </InputGroup>
+            <Row key={index}>
+                <InputGroup className="mb-3 input-group-alternative">
+                    <Field
+                        name={`${member}.author`}
+                        type="text"
+                        placeholder="Author's name"
+                        component={renderFieldAlter}
+                        label="Author's Name" />
+                    <InputGroupAddon addonType="append">
+                        <button
+                            className="btn btn-wd btn-danger "
+                            type="button"
+                            onClick={() => fields.remove(index)}>x</button>
+                    </InputGroupAddon>
+                </InputGroup>
+            </Row>
+
         )}
-        <button className="btn btn-wd btn-primary " type="button" onClick={() => fields.push({})}>Add Author</button>
-        {submitFailed && error && <span className="text-danger">{error}</span>}
+        <Row>
+            <button className="btn btn-wd btn-primary " type="button" onClick={() => fields.push({})}>Add Author</button>
+            {submitFailed && error && <span className="text-danger">{error}</span>}
+        </Row>
+
     </>
 )
 const validateNumber = value => {
-    if(value < 1) {
-      return 1
+    if (value < 1) {
+        return 1
     } else {
-      return value
+        return value
     }
-  }
+}
 const validate = values => {
     const errors = {}
     if (!values.isbn) {
@@ -140,144 +176,92 @@ const BookForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="isbn"
-                            type="text"
-                            placeholder="ISBN"
-                            component={renderField} />
-                    </InputGroup>
+
+                    <Field
+                        name="isbn"
+                        type="text"
+                        placeholder="ISBN"
+                        title="ISBN"
+                        component={renderField} />
+
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="title"
-                            type="text"
-                            placeholder="Title"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="title"
+                        type="text"
+                        placeholder="Title"
+                        title="Title"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-closed-captioning" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="sub"
-                            type="text"
-                            placeholder="Sub Title"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="sub"
+                        type="text"
+                        placeholder="Sub Title"
+                        title="Sub Title"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="ddc"
-                            type="text"
-                            placeholder="DDC"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="ddc"
+                        type="text"
+                        placeholder="DDC"
+                        title="DDC"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-newspaper" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="publisher"
-                            type="text"
-                            placeholder="Publisher"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="publisher"
+                        type="text"
+                        placeholder="Publisher"
+                        title="Publisher"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-language" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="language"
-                            type="text"
-                            placeholder="Language"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="language"
+                        type="text"
+                        placeholder="Language"
+                        title="Language"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-file" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="nop"
-                            normalize={validateNumber}
-                            type="number"
-                            placeholder="Number of page"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="nop"
+                        normalize={validateNumber}
+                        type="number"
+                        placeholder="Number of page"
+                        title="Number of page"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-list-alt" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="category"
-                            type="text"
-                            placeholder="Category"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="category"
+                        type="text"
+                        placeholder="Category"
+                        title="Category"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-code-branch" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="edition"
-                            normalize={validateNumber}
-                            type="number"
-                            placeholder="Edition"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="edition"
+                        normalize={validateNumber}
+                        type="number"
+                        placeholder="Edition"
+                        title="Edition"
+                        component={renderField} />
                 </FormGroup>
                 <FieldArray name="members" component={renderAuthors} />
                 <div className="text-right">
-                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                    <span className="btn-label">
-                    </span> Cancel
+                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
                 </button>
-                <button type="submit" className="btn btn-wd btn-success ">
-                    <span className="btn-label">
-                    </span> Save
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
                 </button>
-            </div>
+                </div>
             </Form>
         </CardBody>
     </Card>

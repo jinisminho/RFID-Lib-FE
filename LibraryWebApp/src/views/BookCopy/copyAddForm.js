@@ -29,6 +29,7 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Label,
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 import  Select  from 'react-select'
@@ -136,11 +137,13 @@ const CopyAddForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
+                        <Label>Book</Label>
                         <Field name="book" 
                             data={dataList}
                             component={renderDropdown} 
                         />
                 </FormGroup>
+                <Label className="pr-2">Copy</Label>
                 <FieldArray name="members" component={renderCode} />
                 <div className="text-right">
                 <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >

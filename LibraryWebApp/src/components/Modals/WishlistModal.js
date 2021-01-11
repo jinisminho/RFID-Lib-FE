@@ -6,7 +6,7 @@ import './myModal.css';
 import MyUltil from 'store/ultility'
 
 
-const whislistModal = (props) => {
+const wishlistModal = (props) => {
     const options = {
         onPageChange: handlePageChange,
         page: props.page,
@@ -59,4 +59,4 @@ const whislistModal = (props) => {
         </Modal>
     );
 }
-export default whislistModal
+export default wishlistModal

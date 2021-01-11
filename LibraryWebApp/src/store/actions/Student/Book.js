@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes'
-import * as prototype from '../../prototype/search'
+import * as prototype from '../../prototype/bookStudent'
 import { $CombinedState } from 'redux'
 
 export const getBookSuccess = (data, total, page, sizePerPage) => {
@@ -51,39 +51,3 @@ export const getBook = (search,page,size) => {
 
 }
 
-//get Whislist
-export const getWhislistSuccess = (data, total, page, sizePerPage) => {
-    return {
-        type: actionTypes.STUDENT_GET_WHISLIST_SUCCESS,
-        total:total,
-        data: data,
-        page:page,
-        sizePerPage:sizePerPage
-    }
-}
-
-export const getWhislistFailed = (error) => {
-    return {
-        type: actionTypes.STUDENT_GET_WHISLIST_FAILED,
-        error: error
-    }
-}
-
-export const getWhislistStart = () => {
-    return {
-        type: actionTypes.STUDENT_GET_WHISLIST_START
-    }
-}
-
-export const getWhislist = (search,page,size) => {
-    return dispatch => {
-        dispatch(getWhislistStart())
-        let response=prototype.getWhislist(page,size)
-        if(response.status){
-            dispatch(getWhislistSuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getWhislistFailed(response.err))
-        }
-    }
-
-}
