@@ -30,7 +30,7 @@ export const getRentingInfoStart = () => {
 export const getRentingInfo = (page,size,studentId) => {
     return dispatch => {
         dispatch(getRentingInfoStart())
-        let response=prototype.getRentingInfos()
+        let response=prototype.getRentingInfos(studentId)
         if(!studentId) response.status = false
         if(response.status){
             dispatch(getRentingInfoSuccess(response.data,response.total,page,size))
@@ -127,62 +127,22 @@ export const extendDueStart = () => {
     }
 }
 
-// export const extendDue = (date, libraryCardId) => {
-//     return dispatch => {
-
-//         dispatch(extendDueStart())
-
-//         let response
-
-//         if(!date && !libraryCardId) {
-//             response = {"err":"Error at extendDue","status":false}
-//         } else if (MyUltil.compareDate(date, Date.now()) < 0) {
-//             response = {"err":"Date can not smaller than Date right now","status":false}
-//         } else {
-//             response= {"status":true};
-//         }
-
-//         if(response.status){
-//             dispatch(extendDueSuccess(response.status))
-//         }else{
-//             dispatch(extendDueFailed(response.err))
-//         }
-
-//         // let stuId = localStorage.getItem('userId')
-//         // let url='/books'
-//         // if(search){
-//         //     url+='?page='+page+'&size='+size+"&name="+search
-//         // }else {
-//         //     url+='?page='+page+'&size='+size
-//         // }
-//         // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-//         //     .then(response => {
-//         //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-//         //     })
-//         //     .catch(error => {
-//         //         dispatch(getBookFail(error))
-//         //     });
-//     }
-// }
-
-export const extendDue = (libraryCardId) => {
+export const extendDue = (studentId, bookId) => {
     return dispatch => {
-
-        console.log(libraryCardId);
-
         dispatch(extendDueStart())
 
         let response
 
-        if(!libraryCardId) {
-            response = {"err":"Error at extendDue","status":false}
-        }else {
-            response= {"status":true};
+        if (!studentId && !bookId) {
+            response = { "err": "Error: Extend due date Failed", "status": false }
+        } else {
+            prototype.addDueDate(studentId, bookId).status ? response = { "status": true } :  response = { "err": "Error at extendDue", "status": false };
+            // response = { "status": true };
         }
 
-        if(response.status){
+        if (response.status) {
             dispatch(extendDueSuccess(response.status))
-        }else{
+        } else {
             dispatch(extendDueFailed(response.err))
         }
 
@@ -201,4 +161,38 @@ export const extendDue = (libraryCardId) => {
         //         dispatch(getBookFail(error))
         //     });
     }
+}
+
+//get student
+export const getStudentSuccess = (data) => {
+    return {
+        type: actionTypes.LIBRARIAN_INFO_GET_STUDENT_SUCCESS,
+        data: data
+    }
+}
+
+export const getStudentFailed = (error) => {
+    return {
+        type: actionTypes.LIBRARIAN_INFO_GET_STUDENT_FAILED,
+        error: error
+    }
+}
+
+export const getStudentStart = () => {
+    return {
+        type: actionTypes.LIBRARIAN_INFO_GET_STUDENT_START
+    }
+}
+
+export const getStudent = (search) => {
+    return dispatch => {
+        dispatch(getStudentStart())
+        let response=prototype.getStudent(search)
+        if(response.status){
+            dispatch(getStudentSuccess(response.data))
+        }else{
+            dispatch(getStudentFailed(response.err))
+        }
+    }
+
 }

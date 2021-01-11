@@ -22,13 +22,12 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { Alert } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
-import Spinner from '../../components/Spinner/Spinner'
 import {
     Card,
     CardHeader,
-    CardFooter,
     Container,
     Row,
+    Col
 } from "reactstrap";
 import MyUltil from "store/ultility"
 import { element } from "prop-types";
@@ -50,20 +49,22 @@ class RentingInfo extends React.Component {
             studentId: null,
             book: null,
             showExtdForm: false,
-            libraryCardId: null,
             dueDate: null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
+        this.otherFormatter2 = this.otherFormatter2.bind(this);
+        this.dateFormatter = this.dateFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
     }
 
     componentDidMount() {
 
         const doGetUserIdThenFetchData = async () => {
-            let userid = localStorage.getItem("userId");
+            // let userid = localStorage.getItem("userId");
+            let userid = 1;
             if (userid) {
                 await this.setState({ searchValue: userid })
                 await this.fetchData();
@@ -143,51 +144,62 @@ class RentingInfo extends React.Component {
 
         return (
             <div>
-                <button className="btn btn-fill btn-info" onClick={() => this.setState({
-                    showExtdForm: true,
-                    studentId: stdId,
-                    book: bok,
-                    dueDate: date,
-                    libraryCardId: row.id
-                })} >Extend due date</button>
-                <button className="btn btn-fill btn-info" onClick={() => this.setState({
+                <button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
                     showHistory: true,
                     studentId: stdId,
                     book: bok
-                })} ><i className="ni ni-collection" /></button>
+                })} ><i className="ni ni-collection" /> Due Date History </button>
             </div>
         )
+    }
+    otherFormatter2(cell, row) {
+        var stdId = row.borrower.id
+        var bok = row.book
+        let date = MyUltil.convertToDate(row.dateDue)
+
+        return (
+            <div>
+                <Row>
+                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block text-truncate" onClick={() => this.setState({
+                        showExtdForm: true,
+                        studentId: stdId,
+                        book: bok,
+                        dueDate: date,
+                    })} >Extend due date</button></Col>
+                    <Col lg="4"><button className="btn btn-fill btn-primary btn-sm btn-block" onClick={() => this.setState({
+                        showHistory: true,
+                        studentId: stdId,
+                        book: bok
+                    })} ><i className="ni ni-collection" /></button></Col>
+                </Row>
+
+
+            </div>
+        )
+    }
+
+    dateFormatter(cell, row) {
+        return MyUltil.convertToDate(cell).toDateString()
     }
 
     handleHistoryClose = () => {
         this.setState({
             showHistory: false
         })
-        
+
     }
 
     handleExtdFormClose = () => {
         this.setState({
             showExtdForm: false,
-            libraryCardId: null
         })
     }
 
-    // handleExtdSubmit(date, libraryCardId) {
-    //     this.setState({ showExtdForm: false })
-    //     const doExtdThenReloadTable = async () => { 
-    //         await this.props.onCancelOrder(date, libraryCardId)
-    //         await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
-    //         return
-    //     }
-    //     return doExtdThenReloadTable()
-    // }
-
-    handleExtdSubmit(libraryCardId) {
+    handleExtdSubmit(bookId, studentId) {
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
-            await this.props.onExtdSubmit(libraryCardId)
-            await this.setState({successShow: true})
+            await this.props.onExtdSubmit(bookId, studentId)
+            await this.setState({ successShow: true, errorShow: true })
             await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
             return
         }
@@ -232,13 +244,14 @@ class RentingInfo extends React.Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
@@ -270,14 +283,15 @@ class RentingInfo extends React.Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
-                    <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter2} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -308,26 +322,29 @@ class RentingInfo extends React.Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateReturned" dataFormat={this.dateFormatter} dataAlign="center" >Returned Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
             </div>
         )
 
-
         let errorMsg = null
         let msg = null
+        if (this.props.errOnFetchBook && this.state.errorShow) {
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })}>{this.props.errOnFetch}</Alert>
+        }
         if (this.props.error && this.state.errorShow) {
-            errorMsg = <Alert bsStyle="danger" onDismiss={() => this.setState({ errorShow: false })}>{this.props.error.message}</Alert>
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.error}</Alert>
         }
         if (this.props.successMsg && this.state.successShow) {
-            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false })} dismissible>{this.props.successMsg}</Alert>
+            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
         }
 
         return (
@@ -368,8 +385,7 @@ class RentingInfo extends React.Component {
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Extend Due Date"
-                            // submit={(datePicker) => this.handleExtdSubmit(datePicker, this.state.libraryCardId)}
-                            submit={() => this.handleExtdSubmit(this.state.libraryCardId)}
+                            submit={() => this.handleExtdSubmit(this.state.studentId, this.state.book.id)}
                             dueDate={this.state.dueDate}
                             numOfDateToAdd={7}
                         />
@@ -391,7 +407,8 @@ const mapStateToProps = state => {
         page: state.info.page,
         sizePerPage: state.info.sizePerPage,
         historyData: state.info.historyData,
-        successMsg: state.info.successMsg
+        successMsg: state.info.successMsg,
+        errOnFetch: state.infoLside.errOnFetch
     }
 }
 
@@ -399,7 +416,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getRentingInfo(page, size, search)),
         getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistory(page, size, studentId, bookId)),
-        onExtdSubmit: (libraryCardId) => dispatch(actions.extendDue(libraryCardId))
+        onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDue(studentId, bookId))
     }
 }
 

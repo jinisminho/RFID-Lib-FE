@@ -35,7 +35,6 @@ import {
     Container,
 } from "reactstrap";
 //css
-import './student.css';
 
 
 class BookStu extends React.Component {
@@ -91,42 +90,18 @@ class BookStu extends React.Component {
         this.props.onFetchData(studentId)
     }
 
-    fileSelectHandler = (event) => {
-        // const image = event.target.files[0]
-        // const uploadTask = storage.ref(`images/${image.name}`).put(image)
-        // uploadTask.on('state_changed',
-        // (snapshot)=>{
-        //     this.setState({imageLoading:true})
-        // },
-        // (error)=>{
-        //     console.log(error)
-        //     this.setState({imageLoading:false})
-        // },
-        // ()=>{
-        //     this.setState({imageLoading:false})
-        //     storage.ref('images').child(image.name).getDownloadURL().then(url =>{
-        //         this.props.onUpdateImage(this.state.updateImageId, url)
-        //     })
-        // }
-        // )
-
-        document.getElementById('profileImg').src = window.URL.createObjectURL(event.target.files[0])
-
-        this.setState({ edited: true, selectedImage: event.target.files[0] })
-    }
-
     getInitialValues = () => {
         return {
-            username: this.props.usrName,
-            email: this.props.email,
-            fstName: this.props.fstName,
-            lstName: this.props.lstName
+            fullname: this.props.profile.fullname,
+            email: this.props.profile.email,
+            department: this.props.profile.department,
+            phone: this.props.profile.phone
         };
     }
 
     onSubmit = (form) => {
         // console.log(JSON.stringify(form, null, 2));
-        this.props.onSubmitUpdate(this.state.studentId, this.state.selectedImage, form)
+        this.props.onSubmitUpdate(this.state.studentId, form)
         this.setState({successShow: true, submited: true})
         this.fetchData()
     }
@@ -151,6 +126,7 @@ class BookStu extends React.Component {
                                             disabled={!(this.props.formEnabled || (this.state.edited && this.props.formIsValid))}
                                             label="Submit"
                                             block
+                                            text-truncate
                                         >
                                             Save
                                         </Button>
@@ -161,24 +137,18 @@ class BookStu extends React.Component {
                                 <Row className="justify-content-center">
                                     <Col className="order-lg-2" lg="3">
 
-                                        <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Upload new Profile Picture</Tooltip>}>
-                                            <div className="my-card-profile-image">
-                                                <a href="#pablo" onClick={() => { document.getElementById("selectImage").click() }}>
+                                        
+                                            <div className="card-profile-image">
+                                                <a href="#pablo">
                                                     <img
                                                         alt="..."
                                                         id="profileImg"
                                                         className="rounded-circle"
                                                         src='#'
                                                     />
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">
-                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
-                                                    </svg>
-
-                                                    <input onChange={this.fileSelectHandler} accept="image/*" id="selectImage" type="file" style={{ display: 'none' }} />
                                                 </a>
                                             </div>
-                                        </OverlayTrigger>
+                                        
 
                                     </Col>
                                 </Row>
@@ -237,10 +207,6 @@ const mapStateToProps = state => {
         page: state.bookStu.page,
         sizePerPage: state.bookStu.sizePerPage,
         successMsg: state.info.successMsg,
-        usrName: state.info.usrName,
-        email: state.info.email,
-        fstName: state.info.fstName,
-        lstName: state.info.lstName,
         profile: state.info.profile,
         formEnabled: isValid('ProfileForm')(state) && !isSubmitting('ProfileForm')(state) && isDirty('ProfileForm')(state),
         formIsValid: isValid('ProfileForm')(state)
@@ -251,7 +217,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (studentId) => dispatch(actions.getStudentProfile(studentId)),
         submitForm: () => dispatch(submit('ProfileForm')),
-        onSubmitUpdate: (studentId,iamge,form) => dispatch(actions.updateStudentProfile(studentId,iamge,form))
+        onSubmitUpdate: (studentId,form) => dispatch(actions.updateStudentProfile(studentId,form))
     }
 }
 

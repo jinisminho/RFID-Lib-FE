@@ -29,30 +29,6 @@ const getBookFail = (state, action) =>{
   })
 }
 
-const getWhislistStart = (state, action) =>{
-  return updateObject(state,{
-    error:null, 
-    loading:true,
-  })
-}
-const getWhislistSuccess = (state, action)=>{
-  return updateObject(state,{
-      whislistData: action.data,
-      whislistTotalSize:action.total,
-      whislistPage:action.page+1,
-      loading:false
-  })
-}
-const getWhislistFail = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      loading:false,
-      whislistTotalSize:0,
-      whislistPage:1,
-      
-  })
-}
-
 export default function reducer(state = {
     data: null,
     total:0,
@@ -60,16 +36,13 @@ export default function reducer(state = {
     loading:false,
     page:1,
     sizePerPage:10,
-    whislistData: null,
-    whislistTotalSize: null,
+    WishlistData: null,
+    wishlistTotalSize: null,
 }, action) {
   switch(action.type){
     case actionTypes.STUDENT_GET_BOOKS_START: return getBookStart(state, action)
     case actionTypes.STUDENT_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
     case actionTypes.STUDENT_GET_BOOKS_FAILED: return getBookFail(state, action)
-    case actionTypes.STUDENT_GET_WHISLIST_START: return getWhislistStart(state, action)
-    case actionTypes.STUDENT_GET_WHISLIST_SUCCESS: return getWhislistSuccess(state, action)
-    case actionTypes.STUDENT_GET_WHISLIST_FAILED: return getWhislistFail(state, action)  
 }
 return state
 }

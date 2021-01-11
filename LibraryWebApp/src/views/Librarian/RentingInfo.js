@@ -19,21 +19,22 @@ import React, { Component } from "react";
 import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
-import Spinner from '../../components/Spinner/Spinner'
 import {
     Card,
     CardHeader,
     Container,
     Row,
+    Col
 } from "reactstrap";
 import MyUltil from "store/ultility"
 import 'views/Librarian/librarian.css'
 import SearchForm from '../../components/Forms/SearchForm'
 import DueHistoryModal from '../../components/Modals/DueHistoryModal';
 import ExtendDueModal from '../../components/Modals/ExtendDueModal';
+import StudentInfoCard from 'views/Checkout/studentInfoCard'
 
 class RentingInfo extends Component {
     constructor(props) {
@@ -50,31 +51,20 @@ class RentingInfo extends Component {
             studentId: null,
             book: null,
             showExtdForm: false,
-            libraryCardId: null,
             dueDate: null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
+        this.otherFormatter2 = this.otherFormatter2.bind(this);
+        this.dateFormatter = this.dateFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
 
     }
 
     componentDidMount() {
 
-    }
-
-    inputChangedHandler = (event) => {
-        this.setState({ searchValue: event.target.value })
-    }
-
-    handleSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
-        this.fetchData(1, 10, this.state.searchValue)
     }
 
     handlePageChange(page, sizePerPage) {
@@ -88,7 +78,7 @@ class RentingInfo extends Component {
 
     }
 
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.studentId) {
 
         const doFetchData = async () => {
             await this.props.onFetchData(page - 1, sizePerPage, searchValue)
@@ -111,6 +101,7 @@ class RentingInfo extends Component {
                     returnedData: Object.keys(retrnedDta).length > 0 ? retrnedDta : null
                 })
             }
+            await this.props.getStudent(searchValue)
 
             return
         }
@@ -133,55 +124,77 @@ class RentingInfo extends Component {
 
         return (
             <div>
-                <button className="btn btn-fill btn-info" onClick={() => this.setState({
-                    showExtdForm: true,
-                    studentId: stdId,
-                    book: bok,
-                    dueDate: date,
-                    libraryCardId: row.id
-                })} >Extend due date</button>
-                <button className="btn btn-fill btn-info" onClick={() => this.setState({
+                <button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
                     showHistory: true,
                     studentId: stdId,
                     book: bok
-                })} ><i className="ni ni-collection" /></button>
+                })} ><i className="ni ni-collection" /> Due Date History </button>
             </div>
         )
     }
 
+    otherFormatter2(cell, row) {
+        var stdId = row.borrower.id
+        var bok = row.book
+        let date = MyUltil.convertToDate(row.dateDue)
+
+        return (
+            <div>
+                <Row>
+                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block text-truncate" onClick={() => this.setState({
+                        showExtdForm: true,
+                        studentId: stdId,
+                        book: bok,
+                        dueDate: date,
+                    })} >Extend due date</button></Col>
+                    <Col lg="4"><button className="btn btn-fill btn-primary btn-sm btn-block" onClick={() => this.setState({
+                        showHistory: true,
+                        studentId: stdId,
+                        book: bok
+                    })} ><i className="ni ni-collection" /></button></Col>
+                </Row>
+
+
+            </div>
+        )
+    }
+
+    dateFormatter(cell, row) {
+        return MyUltil.convertToDate(cell).toDateString()
+    }
+
     handleHistoryClose = () => {
         this.setState({
-            showHistory: false,
-            historyData: null
+            showHistory: false
         })
+
     }
 
     handleExtdFormClose = () => {
         this.setState({
             showExtdForm: false,
-            libraryCardId: null
         })
     }
 
-    // handleExtdSubmit(date, libraryCardId) {
-    //     this.setState({ showExtdForm: false })
-    //     const doExtdThenReloadTable = async () => { 
-    //         await this.props.onCancelOrder(date, libraryCardId)
-    //         await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
-    //         return
-    //     }
-    //     return doExtdThenReloadTable()
-    // }
-
-    handleExtdSubmit(libraryCardId) {
-        console.log(libraryCardId);
+    handleExtdSubmit(bookId, studentId) {
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
-            await this.props.onExtdSubmit(libraryCardId)
-            await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
+            await this.props.onExtdSubmit(bookId, studentId)
+            await this.setState({ successShow: true, errorShow: true })
+            await this.fetchData(this.props.page, this.props.sizePerPage, this.state.studentId)
             return
         }
         return doExtdThenReloadTable()
+    }
+
+    getInitialValues = () => {
+        return {
+            name: this.props.studentData ? this.props.studentData.name : '',
+            id: this.props.studentData ? this.props.studentData.id : '',
+            img: this.props.studentData ? this.props.studentData.img : '',
+            department: this.props.studentData ? this.props.studentData.department : '',
+            username: this.props.studentData ? this.props.studentData.username : '',
+        };
     }
 
     render() {
@@ -222,13 +235,14 @@ class RentingInfo extends Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
@@ -260,14 +274,15 @@ class RentingInfo extends Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.isbnFormatter} dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn> */}
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
-                    <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter2} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -298,19 +313,50 @@ class RentingInfo extends Component {
                     striped
                     hover
                     condensed
+                    className="ml-4 mr-4"
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateLent" dataAlign="center">Lent Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateReturned" dataAlign="center" >Returned Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" dataFormat={this.dateFormatter} dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateReturned" dataFormat={this.dateFormatter} dataAlign="center" >Returned Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataFormat={this.dateFormatter} dataAlign="center">Due</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
             </div>
         )
 
-        let form = <SearchForm placeholder="e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.searchValue = value.search)} formTitle="Search Renting Information By Student ID" />
+        let studentInfo
+        if (this.props.studentData) {
+            studentInfo = (
+                <Container className="pb-4">
+                    <Row>
+                        <Card className="shadow w-100">
+                            <Row>
+                                <Col className="col-6">
+                                    <StudentInfoCard student={this.getInitialValues()} />
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Row>
+                </Container>
+            )
+        }
+
+        let form = <SearchForm placeholder="e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.studentId = value.search)} formTitle="Search Renting Information By Student ID" />
+
+        let errorMsg = null
+        let msg = null
+
+        if (this.props.errOnFetch && this.state.errorShow) {
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })}>{this.props.errOnFetch}</Alert>
+        }
+        if (this.props.error && this.state.errorShow) {
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.error}</Alert>
+        }
+        if (this.props.successMsg && this.state.successShow) {
+            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
+        }
 
         return (
             <>
@@ -320,6 +366,14 @@ class RentingInfo extends Component {
                         {form}
                     </Row>
                     <Row className="justify-content-center">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            <CardHeader className="border-0 ">
+                                <h3 className="mb-0">Student Infomation</h3>
+                            </CardHeader>
+                            {studentInfo}
+                            {errorMsg}
+                            {msg}
+                        </Card>
                         <Card className="shadow mt-1 pb-auto w-100">
                             <CardHeader className="border-0 ">
                                 <h3 className="mb-0">Over Due</h3>
@@ -354,7 +408,7 @@ class RentingInfo extends Component {
                             hide={() => this.handleExtdFormClose()}
                             title="Extend Due Date"
                             // submit={(datePicker) => this.handleExtdSubmit(datePicker, this.state.libraryCardId)}
-                            submit={() => this.handleExtdSubmit(this.state.libraryCardId)}
+                            submit={() => this.handleExtdSubmit(this.state.studentId, this.state.book.id)}
                             dueDate={this.state.dueDate}
                             numOfDateToAdd={7}
                         />
@@ -375,7 +429,10 @@ const mapStateToProps = state => {
         totalSize: state.infoLside.total,
         page: state.infoLside.page,
         sizePerPage: state.infoLside.sizePerPage,
-        historyData: state.infoLside.historyData
+        historyData: state.infoLside.historyData,
+        successMsg: state.infoLside.successMsg,
+        errOnFetch: state.infoLside.errOnFetch,
+        studentData: state.infoLside.studentData,
     }
 }
 
@@ -383,7 +440,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, studentId) => dispatch(actions.getRentingInfoLibrarianSide(page, size, studentId)),
         getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistoryLibrarianSide(page, size, studentId, bookId)),
-        onExtdSubmit: (libraryCardId) => dispatch(actions.extendDueLibrarianSide(libraryCardId))
+        onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDueLibrarianSide(studentId, bookId)),
+        getStudent: (search) => dispatch(actions.getStudentLibInfo(search)),
     }
 }
 
