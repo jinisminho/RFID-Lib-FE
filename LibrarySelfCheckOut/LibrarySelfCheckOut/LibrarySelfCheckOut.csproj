@@ -105,6 +105,7 @@
       <DependentUpon>ReturnForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
+    <Compile Include="Utils\Constant.cs" />
     <EmbeddedResource Include="BookItem.resx">
       <DependentUpon>BookItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\return-book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\scan-pay-payment-15-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert-card.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

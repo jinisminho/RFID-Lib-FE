@@ -13,12 +13,20 @@ namespace LibrarySelfCheckOut
     public partial class BookReturnItem : UserControl
     {
 
-        public BookReturnItem(int index, string username, string bookTitle)
+        public BookReturnItem(int index, string username, string bookTitle, string status)
         {
             InitializeComponent();
-            this.lbUser.Text = username;
-            this.lbBook.Text = bookTitle;
+            this.lbUser.Text = "Patron: "  + username;
+            this.lbBook.Text = "Book: " + bookTitle;
             this.lbIndex.Text = index + ".";
+            if (status.Contains("CANNOT"))
+            {
+                this.lbStatus.Text = "Status: CANNOT RETURN - contact librarian for overdue return";
+            }
+            else
+            {
+                this.lbStatus.Text = "Status: RETURNED";
+            }
         }
     }
 }

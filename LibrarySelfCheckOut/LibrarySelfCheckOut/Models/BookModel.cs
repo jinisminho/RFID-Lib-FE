@@ -1,10 +1,12 @@
-﻿namespace LibrarySelfCheckOut.Models
+﻿using System;
+
+namespace LibrarySelfCheckOut.Models
 {
     public class BookModel
     {
-        public BookModel(long code, long id, string title, string authors, int edition, bool ableToBorrow)
+        public BookModel(String rfid, long id, string title, string authors, int edition, bool ableToBorrow)
         {
-            this.code = code;
+            this.rfid = rfid;
             this.id = id;
             this.title = title;
             this.authors = authors;
@@ -12,7 +14,7 @@
             this.ableToBorrow = ableToBorrow;
         }
 
-        public long code { get; set; }
+        public String rfid { get; set; }
         public long id { get; set; }
         public string title { get; set; }
         public string authors { get; set; }

@@ -16,17 +16,17 @@ namespace LibrarySelfCheckOut.Processors
     {
 
         //tam thoi
-        public static AuthStudentModel checkLogin(long id, long pin)
+        public static AuthStudentModel checkLogin(String rfid, long pin)
         {
             AuthData data = new AuthData();
-            AuthStudentModel student = data.findStudentByIdAndPin(id, pin);
+            AuthStudentModel student = data.findStudentByIdAndPin(rfid, pin);
             return student;
         }
 
-        public static AuthStudentModel checkLogin(long id)
+        public static AuthStudentModel checkLogin(String rfid)
         {
             AuthData data = new AuthData();
-            AuthStudentModel student = data.findStudentById(id);
+            AuthStudentModel student = data.findStudentById(rfid);
             return student;
         }
 

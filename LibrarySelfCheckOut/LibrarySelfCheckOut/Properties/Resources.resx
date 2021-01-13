@@ -124,8 +124,11 @@
   <data name="borrow-book" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\borrow-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="success-icon-10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\success-icon-10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="return-book" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\return-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="scan-pay-payment-15-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\scan-pay-payment-15-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8_ok_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8_ok_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,13 +136,16 @@
   <data name="giphy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\giphy.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="success-icon-10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\success-icon-10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="remove-icon-21" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\remove-icon-21.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Spinner-1s-200px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Spinner-1s-200px.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="return-book" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\return-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="insert-card" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\insert-card.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
