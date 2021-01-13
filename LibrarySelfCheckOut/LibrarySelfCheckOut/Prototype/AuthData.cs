@@ -13,25 +13,25 @@ namespace LibrarySelfCheckOut.Prototype
 
         public AuthData()
         {
-            AuthStudentModel auth1 = new AuthStudentModel(001730002,2222,"se130038","Phan Hoang Tram","ROLE_STUDENT",4,"ACTIVE");
-            AuthStudentModel auth2 = new AuthStudentModel(001730003, 2222, "se130038", "Phan Hoang Tram", "ROLE_STUDENT", 4, "NOT_RETURN");
-            AuthStudentModel auth3 = new AuthStudentModel(001730001, 2222, "se130038", "Phan Hoang Tram", "ROLE_STUDENT", 4, "DEACTIVE");
+            AuthStudentModel auth1 = new AuthStudentModel("001730002",1,2222,"se130038","Phan Hoang Tram", "ROLE_PATRON", 4,"ACTIVE");
+            AuthStudentModel auth2 = new AuthStudentModel("001730003",2, 2222, "se130038", "Phan Hoang Tram", "ROLE_PATRON", 4, "NOT_RETURN");
+            AuthStudentModel auth3 = new AuthStudentModel("001730001",3, 2222, "se130038", "Phan Hoang Tram", "ROLE_PATRON", 4, "DEACTIVE");
             students.Add(auth1);
             students.Add(auth2);
             students.Add(auth3);
         }
 
-        public AuthStudentModel findStudentByIdAndPin(long id, long pin)
+        public AuthStudentModel findStudentByIdAndPin(String rfid, long pin)
         {
             AuthStudentModel rs = null;
-            rs = students.Where(s => s.id == id && s.pin == pin).Select(s => s).FirstOrDefault();
+            rs = students.Where(s => s.rfid == rfid && s.pin == pin).Select(s => s).FirstOrDefault();
             return rs;
         }
 
-        public AuthStudentModel findStudentById(long id)
+        public AuthStudentModel findStudentById(String rfid)
         {
             AuthStudentModel rs = null;
-            rs = students.Where(s => s.id == id).Select(s => s).FirstOrDefault();
+            rs = students.Where(s => s.rfid == rfid).Select(s => s).FirstOrDefault();
             return rs;
         }
 

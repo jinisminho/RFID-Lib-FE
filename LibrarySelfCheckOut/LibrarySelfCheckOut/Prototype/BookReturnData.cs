@@ -13,12 +13,13 @@ namespace LibrarySelfCheckOut.Prototype
 
         public BookReturnData()
         {
-            BookReturnModel b1 = new BookReturnModel(1, 1, "The Hobbit", "se130038");
-            BookReturnModel b2 = new BookReturnModel(2, 2, "Belonging", "se130038");
-            BookReturnModel b3 = new BookReturnModel(3, 3, "SUQAR", "se130038");
-            BookReturnModel b4 = new BookReturnModel(4, 4, "Hamilton", "se130038");
-            BookReturnModel b5 = new BookReturnModel(5, 5, "The Outsider", "se130056");
-            BookReturnModel b6 = new BookReturnModel(6, 6, "Candy Is Magic", "se130054");
+            //1st param is rfid
+            BookReturnModel b1 = new BookReturnModel("1", 1, "The Hobbit", "se130038","RETURNED");
+            BookReturnModel b2 = new BookReturnModel("2", 2, "Belonging", "se130038", "RETURNED");
+            BookReturnModel b3 = new BookReturnModel("3", 3, "SUQAR", "se130038", "RETURNED");
+            BookReturnModel b4 = new BookReturnModel("4", 4, "Hamilton", "se130038", "CANNOT RETURN");
+            BookReturnModel b5 = new BookReturnModel("5", 5, "The Outsider", "se130056", "CANNOT RETURN");
+            BookReturnModel b6 = new BookReturnModel("6", 6, "Candy Is Magic", "se130054", "CANNOT RETURN");
 
             books.Add(b1);
             books.Add(b2);
@@ -29,12 +30,12 @@ namespace LibrarySelfCheckOut.Prototype
         }
 
 
-        public ReturnResponseModel returnBook(List<long> bookCodeList)
+        public ReturnResponseModel returnBook(List<String> bookCodeList)
         {
             List<BookReturnModel> rs = new List<BookReturnModel>();
-            foreach (long code in bookCodeList)
+            foreach (String code in bookCodeList)
             {
-                BookReturnModel tmp = books.Where(b => b.code == code).Select(b => b).FirstOrDefault();
+                BookReturnModel tmp = books.Where(b => b.rfid == code).Select(b => b).FirstOrDefault();
                 if(tmp == null)
                 {
                     return new ReturnResponseModel(false, "Wrong Book Code", null);

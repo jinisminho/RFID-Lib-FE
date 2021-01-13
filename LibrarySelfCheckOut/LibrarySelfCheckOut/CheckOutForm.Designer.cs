@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.lbUsername = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbIntruction = new System.Windows.Forms.Label();
             this.lbNoticeMaxBookBorrowAllowed = new System.Windows.Forms.Label();
             this.txtBookRFID = new System.Windows.Forms.TextBox();
             this.panelHead = new System.Windows.Forms.Panel();
@@ -40,10 +40,9 @@
             this.pnReturnSt = new System.Windows.Forms.Panel();
             this.lbReturnNotice = new System.Windows.Forms.Label();
             this.lbSession = new System.Windows.Forms.Label();
-            this.btLogout = new System.Windows.Forms.Button();
+            this.btDone = new System.Windows.Forms.Button();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
-            this.timerAutoCallApi = new System.Windows.Forms.Timer(this.components);
             this.panelHead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.panelCenter.SuspendLayout();
@@ -61,15 +60,15 @@
             this.lbUsername.TabIndex = 0;
             this.lbUsername.Text = "Welcome, tramphse@gmail.com";
             // 
-            // label1
+            // lbIntruction
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(33, 107);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(655, 33);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Scanning each book you would like to borow";
+            this.lbIntruction.AutoSize = true;
+            this.lbIntruction.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lbIntruction.Location = new System.Drawing.Point(33, 107);
+            this.lbIntruction.Name = "lbIntruction";
+            this.lbIntruction.Size = new System.Drawing.Size(566, 33);
+            this.lbIntruction.TabIndex = 1;
+            this.lbIntruction.Text = "Please put your books on the scanner";
             // 
             // lbNoticeMaxBookBorrowAllowed
             // 
@@ -94,7 +93,7 @@
             this.panelHead.Controls.Add(this.spiner);
             this.panelHead.Controls.Add(this.lbUsername);
             this.panelHead.Controls.Add(this.txtBookRFID);
-            this.panelHead.Controls.Add(this.label1);
+            this.panelHead.Controls.Add(this.lbIntruction);
             this.panelHead.Controls.Add(this.lbDate);
             this.panelHead.Controls.Add(this.lbNoticeMaxBookBorrowAllowed);
             this.panelHead.Dock = System.Windows.Forms.DockStyle.Top;
@@ -128,7 +127,7 @@
             // 
             this.panelCenter.Controls.Add(this.pnReturnSt);
             this.panelCenter.Controls.Add(this.lbSession);
-            this.panelCenter.Controls.Add(this.btLogout);
+            this.panelCenter.Controls.Add(this.btDone);
             this.panelCenter.Controls.Add(this.flowLayoutPanelBookList);
             this.panelCenter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCenter.Location = new System.Drawing.Point(0, 268);
@@ -170,22 +169,22 @@
             this.lbSession.TabIndex = 5;
             this.lbSession.Text = "SESSION TIMEOUT: 30";
             // 
-            // btLogout
+            // btDone
             // 
-            this.btLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btLogout.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btLogout.FlatAppearance.BorderSize = 0;
-            this.btLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btLogout.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btLogout.ForeColor = System.Drawing.Color.White;
-            this.btLogout.Location = new System.Drawing.Point(1527, 589);
-            this.btLogout.Name = "btLogout";
-            this.btLogout.Size = new System.Drawing.Size(199, 47);
-            this.btLogout.TabIndex = 2;
-            this.btLogout.Text = "DONE";
-            this.btLogout.UseMnemonic = false;
-            this.btLogout.UseVisualStyleBackColor = false;
-            this.btLogout.Click += new System.EventHandler(this.btLogout_Click);
+            this.btDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDone.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btDone.FlatAppearance.BorderSize = 0;
+            this.btDone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btDone.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btDone.ForeColor = System.Drawing.Color.White;
+            this.btDone.Location = new System.Drawing.Point(1527, 589);
+            this.btDone.Name = "btDone";
+            this.btDone.Size = new System.Drawing.Size(199, 47);
+            this.btDone.TabIndex = 2;
+            this.btDone.Text = "EXIT";
+            this.btDone.UseMnemonic = false;
+            this.btDone.UseVisualStyleBackColor = false;
+            this.btDone.Click += new System.EventHandler(this.btLogout_Click);
             // 
             // flowLayoutPanelBookList
             // 
@@ -201,11 +200,6 @@
             this.timerSession.Enabled = true;
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
-            // 
-            // timerAutoCallApi
-            // 
-            this.timerAutoCallApi.Interval = 10000;
-            this.timerAutoCallApi.Tick += new System.EventHandler(this.timerAutoCallApi_Tick);
             // 
             // CheckOutForm
             // 
@@ -230,16 +224,15 @@
         #endregion
 
         private System.Windows.Forms.Label lbUsername;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbIntruction;
         private System.Windows.Forms.Label lbNoticeMaxBookBorrowAllowed;
         private System.Windows.Forms.TextBox txtBookRFID;
         private System.Windows.Forms.Panel panelHead;
         private System.Windows.Forms.Panel panelCenter;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelBookList;
-        private System.Windows.Forms.Button btLogout;
+        private System.Windows.Forms.Button btDone;
         private System.Windows.Forms.Timer timerSession;
         private System.Windows.Forms.Label lbSession;
-        private System.Windows.Forms.Timer timerAutoCallApi;
         private System.Windows.Forms.Panel pnReturnSt;
         private System.Windows.Forms.Label lbReturnNotice;
         private System.Windows.Forms.PictureBox spiner;
