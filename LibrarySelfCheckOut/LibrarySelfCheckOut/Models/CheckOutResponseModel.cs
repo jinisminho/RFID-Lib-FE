@@ -8,21 +8,16 @@ namespace LibrarySelfCheckOut.Models
 {
     public class CheckOutResponseModel
     {
-        public CheckOutResponseModel(bool isSuccess, bool canBorrowAll, string errorMessage, List<BookModel> books, string dueDate)
-        {
-            this.isSuccess = isSuccess;
-            this.canBorrowAll = canBorrowAll;
-            this.errorMessage = errorMessage;
-            this.books = books;
-            this.dueDate = dueDate;
-        }
-
         public bool isSuccess { get; set; }
-        
-        public bool canBorrowAll { get; set; }
         public string errorMessage { get; set; }
         public List<BookModel> books { get; set; }
-        public string dueDate { get; set; }
+
+        public CheckOutResponseModel(bool isSuccess, string errorMessage, List<BookModel> books)
+        {
+            this.isSuccess = isSuccess;
+            this.errorMessage = errorMessage;
+            this.books = books;
+        }
 
     }
 }

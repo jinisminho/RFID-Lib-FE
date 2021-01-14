@@ -70,9 +70,9 @@
             this.lbInstruction.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbInstruction.Location = new System.Drawing.Point(39, 25);
             this.lbInstruction.Name = "lbInstruction";
-            this.lbInstruction.Size = new System.Drawing.Size(799, 38);
+            this.lbInstruction.Size = new System.Drawing.Size(670, 38);
             this.lbInstruction.TabIndex = 2;
-            this.lbInstruction.Text = "PLEASE PUT YOUR BOOKS ON THE SCANNER";
+            this.lbInstruction.Text = "Place book(s) on the scanner to return";
             // 
             // panel2
             // 

@@ -15,13 +15,6 @@ namespace LibrarySelfCheckOut.Processors
     public class AuthProcessor
     {
 
-        //tam thoi
-        public static AuthStudentModel checkLogin(String rfid, long pin)
-        {
-            AuthData data = new AuthData();
-            AuthStudentModel student = data.findStudentByIdAndPin(rfid, pin);
-            return student;
-        }
 
         public static AuthStudentModel checkLogin(String rfid)
         {

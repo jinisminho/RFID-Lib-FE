@@ -91,9 +91,9 @@ namespace LibrarySelfCheckOut
                             bookCodeList.Add(this.bookRFID);
                         }
                     }
-                    this.txtBookRFID.Text = "";
-                    this.txtBookRFID.Focus();
                 }
+                this.txtBookRFID.Text = "";
+                this.txtBookRFID.Focus();
             }
         }
 
@@ -140,7 +140,7 @@ namespace LibrarySelfCheckOut
             this.txtBookRFID.Focus();
             this.spiner.Hide();
             this.btDone.Text = BT_TXT_EXIT;
-            this.lbIntruction.Text = "Please put your books on the scanner";
+            this.lbIntruction.Text = "Place book(s) on the scanner to check out";
         }
 
         private void callCheckOutAPI()
@@ -153,30 +153,19 @@ namespace LibrarySelfCheckOut
             if (rs.isSuccess)
             {
                 this.spiner.Hide();
-                if (rs.canBorrowAll)
+                int count = 0;
+                //show return at
+                foreach (BookModel b in rs.books)
                 {
-                    int count = 0;
-                    //show return at
-                    foreach (BookModel b in rs.books)
-                    {
-                        count++;
-                        BookItem item = new BookItem(count, b);
-                        item.Width = flowLayoutPanelBookList.Width - 10;
-                        this.flowLayoutPanelBookList.Controls.Add(item);
-                    }
-                    this.lbReturnNotice.Text = "Check out successfully. Please return before: " + rs.dueDate;
-                    this.lbNoticeMaxBookBorrowAllowed.Hide();
-                    this.pnReturnSt.Show();
-                    this.btDone.Text = BT_TXT_DONE;
+                    count++;
+                    BookItem item = new BookItem(count, b);
+                    item.Width = flowLayoutPanelBookList.Width - 10;
+                    this.flowLayoutPanelBookList.Controls.Add(item);
                 }
-                else
-                {
-                    //khi co sach ko duoc muon
-                    resetState();
-                    string msg = "You're not allowed to borrow: " + string.Join(",", rs.books.Select(b => b.title)) + ". Please scan again!";
-                    DialogResult dialogResult = MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
+                //this.lbReturnNotice.Text = "Check out successfully. Please return before: " + rs.dueDate;
+                //this.pnReturnSt.Show();
+                this.lbNoticeMaxBookBorrowAllowed.Hide();
+                this.btDone.Text = BT_TXT_DONE;
             }
             else
             {

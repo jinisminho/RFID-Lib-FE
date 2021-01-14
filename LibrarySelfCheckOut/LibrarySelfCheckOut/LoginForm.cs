@@ -35,12 +35,9 @@ namespace LibrarySelfCheckOut
         {
             this.txtStudentRFID.Focus();
             this.lbMessage.Hide();
-            this.txtPass.Hide();
-            this.lbPin.Hide();
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
             this.lbIncorrectPin.Hide();
-            this.txtPass.Enabled = false;
         }
 
      
@@ -99,47 +96,7 @@ namespace LibrarySelfCheckOut
         }
 
 
-        private void txtPass_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if(this.txtPass.Text.Length > 0)
-                {
-                    try
-                    {
-                        pin = long.Parse(this.txtPass.Text);
-                        AuthStudentModel student = AuthProcessor.checkLogin(studentFRID, pin);
-                        if (student == null)
-                        {
-                            showInvalidPINMsg();
-                        }
-                        else
-                        {
-                            long studentId = student.id;
-                            string studentUsername = student.username;
-                            int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
-                            CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
-                            checkOutForm.ShowDialog();
-                            resetLogin();
-                            this.Close();
-                        }
-
-                    }
-                    catch (FormatException)
-                    {
-                        showInvalidPINMsg();
-                    }
-                }
-                else
-                {
-                    showInvalidPINMsg();
-                }
-
-                
-                
-            }
-        }
-
+      
        
 
         private void sessionTimer_Tick(object sender, EventArgs e)
@@ -162,13 +119,9 @@ namespace LibrarySelfCheckOut
         private void resetLogin()
         {
             this.txtStudentRFID.Enabled = true;
-            this.txtPass.Enabled = true;
             this.sessionTimer.Enabled = true;
             this.txtStudentRFID.Text = "";
-            this.txtPass.Text = "";
             this.txtStudentRFID.Focus();
-            this.txtPass.Hide();
-            this.lbPin.Hide();
         }
 
         private void showInvalidPINMsg()
@@ -188,10 +141,7 @@ namespace LibrarySelfCheckOut
                 t.Stop();
             };
             t.Start();
-           
-            this.txtPass.Text = "";
-            this.txtPass.Focus();
-        }
+                   }
 
         private void showIvalidStudentCard()
         {

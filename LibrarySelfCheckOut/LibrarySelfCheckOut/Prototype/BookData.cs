@@ -14,12 +14,12 @@ namespace LibrarySelfCheckOut.Prototype
         public BookData()
         {
             //1st param is rfid
-            BookModel book1 = new BookModel("1",1, "The Hobbit", "J.R.R Tolken", 12, true);
-            BookModel book2 = new BookModel("2",2, "Belonging", "Nora Krug", 3, true);
-            BookModel book3 = new BookModel("3",3, "SUQAR", "Greg Malouf, Lucy Malouf, Alan Benson ", 9, true);
-            BookModel book4 = new BookModel("4",4, "Hamilton", "Lin - Manuel Miranda, Jeremy McCarter ", 9, true);
-            BookModel book5 = new BookModel("5",5, "The Outsider", "Stephen King ", 9, false);
-            BookModel book6 = new BookModel("6",6, "Candy Is Magic", "", 6, false);
+            BookModel book1 = new BookModel("1",1, "The Hobbit", true, "01/14/2021");
+            BookModel book2 = new BookModel("2",2, "Belonging", true, "01/14/2021");
+            BookModel book3 = new BookModel("3",3, "SUQAR", true, "01/14/2021");
+            BookModel book4 = new BookModel("4",4, "Hamilton",true, "01/14/2021");
+            BookModel book5 = new BookModel("5",5, "The Outsider",false, "01/14/2021");
+            BookModel book6 = new BookModel("6",6, "Candy Is Magic", false, "01/14/2021");
 
             books.Add(book1);
             books.Add(book2);
@@ -31,28 +31,17 @@ namespace LibrarySelfCheckOut.Prototype
 
         public CheckOutResponseModel checkout (List<String> bookCodeList)
         {
-            List<BookModel> checkedBook = new List<BookModel>();
-            List<BookModel> bookCannotBorrow = new List<BookModel>();
+            List<BookModel> rs = new List<BookModel>();
             foreach(String code in bookCodeList)
             {
                 BookModel tmp = books.Where(b => b.rfid == code).Select(b => b).FirstOrDefault();
-                if (tmp.ableToBorrow)
+                if(tmp == null)
                 {
-                    checkedBook.Add(tmp);
+                    return new CheckOutResponseModel(false, "Wrong book Code", null);
                 }
-                else
-                {
-                    bookCannotBorrow.Add(tmp);
-                }
+                rs.Add(tmp);
             }
-            if(bookCannotBorrow.Count > 0)
-            {
-                return new CheckOutResponseModel(true, false, "", bookCannotBorrow, "");
-            }
-            else
-            {
-                return new CheckOutResponseModel(true, true, "", checkedBook, "2021/12/12");
-            }
+            return new CheckOutResponseModel(true, "", rs);
         }
 
 

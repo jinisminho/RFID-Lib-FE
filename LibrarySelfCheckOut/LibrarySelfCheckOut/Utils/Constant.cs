@@ -9,5 +9,7 @@ namespace LibrarySelfCheckOut.Utils
     public class Constant
     {
         public static string PATRON_CARD_PREFIX = "PAT#";
+
+        public static int TID_LENGTH = 1;
     }
 }
