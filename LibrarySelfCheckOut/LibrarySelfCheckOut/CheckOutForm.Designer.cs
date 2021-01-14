@@ -66,15 +66,15 @@
             this.lbIntruction.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbIntruction.Location = new System.Drawing.Point(33, 107);
             this.lbIntruction.Name = "lbIntruction";
-            this.lbIntruction.Size = new System.Drawing.Size(566, 33);
+            this.lbIntruction.Size = new System.Drawing.Size(634, 33);
             this.lbIntruction.TabIndex = 1;
-            this.lbIntruction.Text = "Please put your books on the scanner";
+            this.lbIntruction.Text = "Place book(s) on the scanner to check out";
             // 
             // lbNoticeMaxBookBorrowAllowed
             // 
             this.lbNoticeMaxBookBorrowAllowed.AutoSize = true;
             this.lbNoticeMaxBookBorrowAllowed.Font = new System.Drawing.Font("UD Digi Kyokasho NK-R", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbNoticeMaxBookBorrowAllowed.Location = new System.Drawing.Point(35, 169);
+            this.lbNoticeMaxBookBorrowAllowed.Location = new System.Drawing.Point(35, 164);
             this.lbNoticeMaxBookBorrowAllowed.Name = "lbNoticeMaxBookBorrowAllowed";
             this.lbNoticeMaxBookBorrowAllowed.Size = new System.Drawing.Size(677, 22);
             this.lbNoticeMaxBookBorrowAllowed.TabIndex = 2;

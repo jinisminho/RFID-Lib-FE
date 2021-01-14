@@ -19,8 +19,19 @@ namespace LibrarySelfCheckOut
         {
             InitializeComponent();
             this.lbIndex.Text = index + ".";
-            this.lbTitle.Text = book.title;
-            this.lbBookDescription.Text = book.authors + " - " + book.edition + " edt";
+            this.lbBook.Text = book.title;
+            if (book.isBorrowed)
+            {
+                this.lbStatus.ForeColor = Color.Green;
+                this.lbStatus.Text = "Status: CHECKED OUT";
+                this.lbDueDate.Text = "Due date: " + book.dueDate;
+            }
+            else
+            {
+                this.lbStatus.ForeColor = Color.Red;
+                this.lbStatus.Text = "Status: NOT ALLOWED TO CHECK OUT";
+                this.lbDueDate.Text = "";
+            }
         }
 
         private void BookItem_Load(object sender, EventArgs e)

@@ -66,7 +66,7 @@ namespace LibrarySelfCheckOut
             if (e.KeyCode == Keys.Enter)
             {
                 this.bookRFID = this.txtBookCode.Text.Trim();
-                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX))
+                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) && this.bookRFID.Length == Constant.TID_LENGTH)
                 {
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
@@ -79,9 +79,10 @@ namespace LibrarySelfCheckOut
                             this.btDone.Text = BT_TXT_RETURN;
                         }
                     }
-                    this.txtBookCode.Text = "";
-                    this.txtBookCode.Focus();
+
                 }
+                this.txtBookCode.Text = "";
+                this.txtBookCode.Focus();
             }
         }
 
@@ -96,7 +97,7 @@ namespace LibrarySelfCheckOut
             this.bookCodeMap.Clear();
             this.btDone.Text = BT_TXT_EXIT;
             this.spiner.Hide();
-            this.lbInstruction.Text = "PLEASE PUT YOUR BOOKS ON THE SCANNER";
+            this.lbInstruction.Text = "Place book(s) on the scanner to return";
         }
 
         private void btDone_Click(object sender, EventArgs e)
@@ -132,11 +133,10 @@ namespace LibrarySelfCheckOut
                 foreach (BookReturnModel b in rs.books)
                 {
                     count++;
-                    BookReturnItem item = new BookReturnItem(count, b.username, b.title, b.status);
+                    BookReturnItem item = new BookReturnItem(count, b.title, b.status);
                     item.Width = this.pnBooksReturned.Width - 10;
                     this.pnBooksReturned.Controls.Add(item);
                 }
-
                 this.btDone.Text = BT_TXT_DONE;
             }
             else

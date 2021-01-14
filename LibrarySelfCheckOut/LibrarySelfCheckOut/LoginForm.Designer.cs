@@ -32,11 +32,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtStudentRFID = new System.Windows.Forms.TextBox();
             this.lbMessage = new System.Windows.Forms.Label();
-            this.txtPass = new System.Windows.Forms.TextBox();
             this.lbsession = new System.Windows.Forms.Label();
             this.sessionTimer = new System.Windows.Forms.Timer(this.components);
             this.btBack = new System.Windows.Forms.Button();
-            this.lbPin = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbIncorrectPin = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -77,18 +75,6 @@
             this.lbMessage.TabIndex = 7;
             this.lbMessage.Text = "INVALID USER PLEASE TRY AGAIN";
             // 
-            // txtPass
-            // 
-            this.txtPass.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtPass.Location = new System.Drawing.Point(514, 342);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.PasswordChar = '*';
-            this.txtPass.ShortcutsEnabled = false;
-            this.txtPass.Size = new System.Drawing.Size(168, 30);
-            this.txtPass.TabIndex = 8;
-            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
-            // 
             // lbsession
             // 
             this.lbsession.AutoSize = true;
@@ -123,17 +109,6 @@
             this.btBack.UseMnemonic = false;
             this.btBack.UseVisualStyleBackColor = false;
             this.btBack.Click += new System.EventHandler(this.btBack_Click);
-            // 
-            // lbPin
-            // 
-            this.lbPin.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbPin.AutoSize = true;
-            this.lbPin.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbPin.Location = new System.Drawing.Point(452, 346);
-            this.lbPin.Name = "lbPin";
-            this.lbPin.Size = new System.Drawing.Size(56, 24);
-            this.lbPin.TabIndex = 9;
-            this.lbPin.Text = "PIN:";
             // 
             // panel1
             // 
@@ -176,8 +151,6 @@
             this.ClientSize = new System.Drawing.Size(1193, 929);
             this.Controls.Add(this.lbIncorrectPin);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lbPin);
-            this.Controls.Add(this.txtPass);
             this.Controls.Add(this.lbMessage);
             this.Controls.Add(this.txtStudentRFID);
             this.Controls.Add(this.label3);
@@ -196,11 +169,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStudentRFID;
         private System.Windows.Forms.Label lbMessage;
-        private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Label lbsession;
         private System.Windows.Forms.Timer sessionTimer;
         private System.Windows.Forms.Button btBack;
-        private System.Windows.Forms.Label lbPin;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbIncorrectPin;
         private System.Windows.Forms.Label label2;
