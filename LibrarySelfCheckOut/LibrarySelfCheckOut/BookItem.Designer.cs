@@ -30,13 +30,13 @@
         {
             this.panelNo = new System.Windows.Forms.Panel();
             this.lbIndex = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.spliter1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.lbBook = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lbStatus = new System.Windows.Forms.Label();
-            this.lbDueDate = new System.Windows.Forms.Label();
+            this.lbBook = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lbDueDate = new System.Windows.Forms.Label();
             this.panelNo.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -62,6 +62,14 @@
             this.lbIndex.TabIndex = 0;
             this.lbIndex.Text = "1.";
             // 
+            // spliter1
+            // 
+            this.spliter1.BackColor = System.Drawing.SystemColors.Control;
+            this.spliter1.Location = new System.Drawing.Point(103, 0);
+            this.spliter1.Name = "spliter1";
+            this.spliter1.Size = new System.Drawing.Size(2, 77);
+            this.spliter1.TabIndex = 3;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.lbStatus);
@@ -73,23 +81,15 @@
             this.panel1.Size = new System.Drawing.Size(822, 75);
             this.panel1.TabIndex = 1;
             // 
-            // spliter1
+            // lbStatus
             // 
-            this.spliter1.BackColor = System.Drawing.SystemColors.Control;
-            this.spliter1.Location = new System.Drawing.Point(103, 0);
-            this.spliter1.Name = "spliter1";
-            this.spliter1.Size = new System.Drawing.Size(2, 77);
-            this.spliter1.TabIndex = 3;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.panel3);
-            this.panel2.Controls.Add(this.lbDueDate);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(622, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 75);
-            this.panel2.TabIndex = 4;
+            this.lbStatus.AutoSize = true;
+            this.lbStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbStatus.Location = new System.Drawing.Point(22, 38);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(189, 24);
+            this.lbStatus.TabIndex = 6;
+            this.lbStatus.Text = "Status: CHECKED OUT";
             // 
             // lbBook
             // 
@@ -101,15 +101,23 @@
             this.lbBook.TabIndex = 5;
             this.lbBook.Text = "Book: The hobbit";
             // 
-            // lbStatus
+            // panel2
             // 
-            this.lbStatus.AutoSize = true;
-            this.lbStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbStatus.Location = new System.Drawing.Point(22, 38);
-            this.lbStatus.Name = "lbStatus";
-            this.lbStatus.Size = new System.Drawing.Size(189, 24);
-            this.lbStatus.TabIndex = 6;
-            this.lbStatus.Text = "Status: CHECKED OUT";
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.lbDueDate);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(622, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(200, 75);
+            this.panel2.TabIndex = 4;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.Control;
+            this.panel3.Location = new System.Drawing.Point(3, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(2, 77);
+            this.panel3.TabIndex = 4;
             // 
             // lbDueDate
             // 
@@ -121,14 +129,6 @@
             this.lbDueDate.Size = new System.Drawing.Size(168, 21);
             this.lbDueDate.TabIndex = 0;
             this.lbDueDate.Text = "Due date: 2021/01/14";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.SystemColors.Control;
-            this.panel3.Location = new System.Drawing.Point(3, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(2, 77);
-            this.panel3.TabIndex = 4;
             // 
             // BookItem
             // 

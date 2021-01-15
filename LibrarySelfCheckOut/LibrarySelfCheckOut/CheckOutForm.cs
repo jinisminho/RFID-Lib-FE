@@ -18,7 +18,6 @@ namespace LibrarySelfCheckOut
 
         private const String BT_TXT_DONE = "DONE";
         private const String BT_TXT_CHECKOUT = "CHECK OUT";
-        private const String BT_TXT_EXIT = "EXIT";
 
         private string username;
 
@@ -58,6 +57,9 @@ namespace LibrarySelfCheckOut
             this.lbUsername.Text = $"Welcome, " + username;
             this.lbNoticeMaxBookBorrowAllowed.Text = $"NOTICE: Each student is allowed to borrow maximum " + maxNumberBorrowAllowed + " books each time.";
             this.lbDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+
+            this.btDone.Enabled = false;
+            this.btDone.Text = BT_TXT_CHECKOUT;
         }
 
 
@@ -73,22 +75,32 @@ namespace LibrarySelfCheckOut
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
                         this.numberOfBookScanned++;
-                        this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
-                        //neu bat dau scan thi doi btn
-                        if (this.numberOfBookScanned == 1)
+                        this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();                   
+                        if ( numberOfBookScanned > maxNumberBorrowAllowed)
                         {
-                            this.btDone.Text = BT_TXT_CHECKOUT;
-                        }
-                        if (bookCodeList.Count >= maxNumberBorrowAllowed)
-                        {
-                            //show message box ok
                             resetState();
                             MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!", "Maximum Book Borrow Allowed");
                         }
                         else
                         {
-                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
-                            bookCodeList.Add(this.bookRFID);
+                            BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
+                            if (rs.isSuccess)
+                            {
+                                BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
+                                item.Width = this.flowLayoutPanelBookList.Width - 10;
+                                flowLayoutPanelBookList.Controls.Add(item);
+                                bookCodeList.Add(this.bookRFID);
+                                bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            }
+                            else
+                            {
+                                MessageBox.Show(rs.errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                resetState();
+                            }
+                        }
+                        if (this.numberOfBookScanned == 1)
+                        {
+                            this.btDone.Enabled = true;
                         }
                     }
                 }
@@ -103,14 +115,6 @@ namespace LibrarySelfCheckOut
             if (this.btDone.Text == BT_TXT_DONE)
             {
                 this.Close();
-            }
-            else if (this.btDone.Text == BT_TXT_EXIT)
-            {
-                DialogResult rs = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo);
-                if (rs == DialogResult.Yes)
-                {
-                    this.Close();
-                }
             }
             else if (this.btDone.Text == BT_TXT_CHECKOUT)
             {
@@ -133,18 +137,23 @@ namespace LibrarySelfCheckOut
 
         private void resetState()
         {
+            this.flowLayoutPanelBookList.Controls.Clear();
+            this.btCancel.Enabled = true;
+            this.btDone.Enabled = false;
             this.bookCodeList.Clear();
             this.bookCodeMap.Clear();
             this.numberOfBookScanned = 0;
             this.txtBookRFID.Enabled = true;
             this.txtBookRFID.Focus();
             this.spiner.Hide();
-            this.btDone.Text = BT_TXT_EXIT;
+            this.btDone.Text = BT_TXT_CHECKOUT;
             this.lbIntruction.Text = "Place book(s) on the scanner to check out";
         }
 
         private void callCheckOutAPI()
         {
+            this.btCancel.Enabled = false;
+            this.flowLayoutPanelBookList.Controls.Clear();
             this.txtBookRFID.Enabled = false;
             this.timerSession.Enabled = false;
             this.btDone.Enabled = false;
@@ -155,7 +164,7 @@ namespace LibrarySelfCheckOut
                 this.spiner.Hide();
                 int count = 0;
                 //show return at
-                foreach (BookModel b in rs.books)
+                foreach (BookCheckOutModel b in rs.books)
                 {
                     count++;
                     BookItem item = new BookItem(count, b);
@@ -178,5 +187,13 @@ namespace LibrarySelfCheckOut
             this.spiner.Hide();
         }
 
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult rs = MessageBox.Show("Are you sure you want to cancel?", "Cancel Check Out", MessageBoxButtons.YesNo);
+            if (rs == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
     }
 }

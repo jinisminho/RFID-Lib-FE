@@ -59,6 +59,12 @@
     <Compile Include="BookReturnItem.Designer.cs">
       <DependentUpon>BookReturnItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="BookScannedItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BookScannedItem.Designer.cs">
+      <DependentUpon>BookScannedItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Button_WOC.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,8 +87,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthStudentModel.cs" />
-    <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookCheckOutModel.cs" />
     <Compile Include="Models\BookReturnModel.cs" />
+    <Compile Include="Models\BookScannedModel.cs" />
+    <Compile Include="Models\BookScannedResponseModel.cs" />
     <Compile Include="Models\CheckOutResponseModel.cs" />
     <Compile Include="Models\ReturnResponseModel.cs" />
     <Compile Include="Processors\AuthProcessor.cs" />
@@ -96,8 +104,9 @@
       <DependentUpon>BookItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Prototype\AuthData.cs" />
-    <Compile Include="Prototype\BookData.cs" />
+    <Compile Include="Prototype\BookCheckOutData.cs" />
     <Compile Include="Prototype\BookReturnData.cs" />
+    <Compile Include="Prototype\BookScannedData.cs" />
     <Compile Include="ReturnForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BookReturnItem.resx">
       <DependentUpon>BookReturnItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookScannedItem.resx">
+      <DependentUpon>BookScannedItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckOutForm.resx">
       <DependentUpon>CheckOutForm.cs</DependentUpon>

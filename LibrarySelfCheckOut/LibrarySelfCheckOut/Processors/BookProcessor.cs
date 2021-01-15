@@ -13,7 +13,7 @@ namespace LibrarySelfCheckOut.Processors
     {
         public static CheckOutResponseModel checkout(List<String> bookCodeList, long studentID)
         {
-            BookData data = new BookData();
+            BookCheckOutData data = new BookCheckOutData();
             return data.checkout(bookCodeList);
         }
 
@@ -23,6 +23,12 @@ namespace LibrarySelfCheckOut.Processors
 
             BookReturnData data = new BookReturnData();
             return data.returnBook(bookCodeList);
+        }
+
+        public static BookScannedResponseModel getBookByRfid (String rfid)
+        {
+            BookScannedData data = new BookScannedData();
+            return data.getBookByRfid(rfid);
         }
     }
 }

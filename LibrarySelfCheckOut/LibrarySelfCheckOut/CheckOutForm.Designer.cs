@@ -37,6 +37,7 @@
             this.spiner = new System.Windows.Forms.PictureBox();
             this.lbDate = new System.Windows.Forms.Label();
             this.panelCenter = new System.Windows.Forms.Panel();
+            this.btCancel = new System.Windows.Forms.Button();
             this.pnReturnSt = new System.Windows.Forms.Panel();
             this.lbReturnNotice = new System.Windows.Forms.Label();
             this.lbSession = new System.Windows.Forms.Label();
@@ -125,6 +126,7 @@
             // 
             // panelCenter
             // 
+            this.panelCenter.Controls.Add(this.btCancel);
             this.panelCenter.Controls.Add(this.pnReturnSt);
             this.panelCenter.Controls.Add(this.lbSession);
             this.panelCenter.Controls.Add(this.btDone);
@@ -134,6 +136,23 @@
             this.panelCenter.Name = "panelCenter";
             this.panelCenter.Size = new System.Drawing.Size(1778, 661);
             this.panelCenter.TabIndex = 6;
+            // 
+            // btCancel
+            // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btCancel.FlatAppearance.BorderSize = 0;
+            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btCancel.ForeColor = System.Drawing.Color.White;
+            this.btCancel.Location = new System.Drawing.Point(1297, 589);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(199, 47);
+            this.btCancel.TabIndex = 7;
+            this.btCancel.Text = "CANCEL";
+            this.btCancel.UseMnemonic = false;
+            this.btCancel.UseVisualStyleBackColor = false;
+            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
             // pnReturnSt
             // 
@@ -181,7 +200,7 @@
             this.btDone.Name = "btDone";
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 2;
-            this.btDone.Text = "EXIT";
+            this.btDone.Text = "CHECK OUT";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
             this.btDone.Click += new System.EventHandler(this.btLogout_Click);
@@ -237,5 +256,6 @@
         private System.Windows.Forms.Label lbReturnNotice;
         private System.Windows.Forms.PictureBox spiner;
         private System.Windows.Forms.Label lbDate;
+        private System.Windows.Forms.Button btCancel;
     }
 }

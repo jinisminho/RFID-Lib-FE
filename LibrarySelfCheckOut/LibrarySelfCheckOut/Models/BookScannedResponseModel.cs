@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace LibrarySelfCheckOut.Models
 {
-    public class CheckOutResponseModel
+    public class BookScannedResponseModel
     {
         public bool isSuccess { get; set; }
         public string errorMessage { get; set; }
-        public List<BookCheckOutModel> books { get; set; }
+        public BookScannedModel book { get; set; }
 
-        public CheckOutResponseModel(bool isSuccess, string errorMessage, List<BookCheckOutModel> books)
+        public BookScannedResponseModel(bool isSuccess, string errorMessage, BookScannedModel book)
         {
             this.isSuccess = isSuccess;
             this.errorMessage = errorMessage;
-            this.books = books;
+            this.book = book;
         }
-
     }
 }
