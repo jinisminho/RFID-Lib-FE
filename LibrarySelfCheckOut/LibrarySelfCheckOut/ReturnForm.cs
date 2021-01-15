@@ -66,7 +66,8 @@ namespace LibrarySelfCheckOut
             if (e.KeyCode == Keys.Enter)
             {
                 this.bookRFID = this.txtBookCode.Text.Trim();
-                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) && this.bookRFID.Length == Constant.TID_LENGTH)
+                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) 
+                    && this.bookRFID.Length == Constant.TID_LENGTH)
                 {
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {

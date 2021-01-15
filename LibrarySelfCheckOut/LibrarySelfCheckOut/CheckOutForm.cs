@@ -69,7 +69,8 @@ namespace LibrarySelfCheckOut
             {
                 this.bookRFID = this.txtBookRFID.Text.Trim();
 
-                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX))
+                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) 
+                    && this.bookRFID.Length == Constant.TID_LENGTH) 
                 {
                     //tranh scan lap lai cung 1 cuon sach
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
