@@ -15,7 +15,7 @@ namespace LibrarySelfCheckOut
     {
 
 
-        public BookItem(int index, BookModel book)
+        public BookItem(int index, BookCheckOutModel book)
         {
             InitializeComponent();
             this.lbIndex.Text = index + ".";

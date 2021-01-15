@@ -40,6 +40,7 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
+            this.btCancel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -117,6 +118,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btCancel);
             this.panel3.Controls.Add(this.btDone);
             this.panel3.Controls.Add(this.lbSessionTimeOut);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -137,7 +139,7 @@
             this.btDone.Name = "btDone";
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 7;
-            this.btDone.Text = "EXIT";
+            this.btDone.Text = "RETURN";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
             this.btDone.Click += new System.EventHandler(this.btDone_Click);
@@ -159,6 +161,23 @@
             this.timerSessionTimeOut.Enabled = true;
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
+            // 
+            // btCancel
+            // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btCancel.FlatAppearance.BorderSize = 0;
+            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btCancel.ForeColor = System.Drawing.Color.White;
+            this.btCancel.Location = new System.Drawing.Point(1315, 22);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(199, 47);
+            this.btCancel.TabIndex = 8;
+            this.btCancel.Text = "CANCEL";
+            this.btCancel.UseMnemonic = false;
+            this.btCancel.UseVisualStyleBackColor = false;
+            this.btCancel.Click += new System.EventHandler(this.lbCancel_Click);
             // 
             // ReturnForm
             // 
@@ -194,5 +213,6 @@
         private System.Windows.Forms.TextBox txtBookCode;
         private System.Windows.Forms.Label lbCurrentDate;
         private System.Windows.Forms.Timer timerSessionTimeOut;
+        private System.Windows.Forms.Button btCancel;
     }
 }

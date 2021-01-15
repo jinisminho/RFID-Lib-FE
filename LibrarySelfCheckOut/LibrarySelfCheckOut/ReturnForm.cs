@@ -18,7 +18,6 @@ namespace LibrarySelfCheckOut
 
         private const String BT_TXT_DONE = "DONE";
         private const String BT_TXT_RETURN = "RETURN";
-        private const String BT_TXT_EXIT = "EXIT";
 
 
         private int sesionTime = 90;
@@ -44,7 +43,8 @@ namespace LibrarySelfCheckOut
             this.lbSessionTimeOut.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.bookCodeList = new List<String>();
             this.bookCodeMap = new Dictionary<String, String>();
-
+            this.btDone.Enabled = false;
+            this.btDone.Text = BT_TXT_RETURN;
         }
 
      
@@ -72,11 +72,23 @@ namespace LibrarySelfCheckOut
                     {
                         numberOfBookScanned++;
                         this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
-                        bookCodeList.Add(this.bookRFID);
-                        bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                        BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
+                        if (rs.isSuccess)
+                        {
+                            BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
+                            item.Width = this.pnBooksReturned.Width - 10;
+                            pnBooksReturned.Controls.Add(item);
+                            bookCodeList.Add(this.bookRFID);
+                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                        }
+                        else
+                        {
+                            MessageBox.Show(rs.errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            resetReturn();
+                        }
                         if(numberOfBookScanned == 1)
                         {
-                            this.btDone.Text = BT_TXT_RETURN;
+                            this.btDone.Enabled = true;
                         }
                     }
 
@@ -89,13 +101,16 @@ namespace LibrarySelfCheckOut
 
         private void resetReturn()
         {
+            this.pnBooksReturned.Controls.Clear();
+            this.btCancel.Enabled = true;
+            this.btDone.Enabled = false;
             this.txtBookCode.Enabled = true;
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
             this.bookCodeList.Clear();
             this.numberOfBookScanned = 0;
             this.bookCodeMap.Clear();
-            this.btDone.Text = BT_TXT_EXIT;
+            this.btDone.Text = BT_TXT_RETURN;
             this.spiner.Hide();
             this.lbInstruction.Text = "Place book(s) on the scanner to return";
         }
@@ -106,21 +121,17 @@ namespace LibrarySelfCheckOut
             {
                 this.Close();
             }
-            else if (this.btDone.Text == BT_TXT_EXIT)
+            else if(this.btDone.Text == BT_TXT_RETURN)
             {
-                DialogResult rs = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo);
-                if(rs == DialogResult.Yes)
-                {
-                    this.Close();
-                }
-            }else if(this.btDone.Text == BT_TXT_RETURN)
-            {
+              
                 callReturnAPI();
             }
         }
 
         private void callReturnAPI()
         {
+            this.btCancel.Enabled = false;
+            this.pnBooksReturned.Controls.Clear();
             this.timerSessionTimeOut.Enabled = false;
             this.btDone.Enabled = false;
             this.spiner.Show();
@@ -147,6 +158,15 @@ namespace LibrarySelfCheckOut
             this.timerSessionTimeOut.Enabled = true;
             this.btDone.Enabled = true;
             this.spiner.Hide();
+        }
+
+        private void lbCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult rs = MessageBox.Show("Are you sure you want to cancel?", "Cancel Return", MessageBoxButtons.YesNo);
+            if (rs == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

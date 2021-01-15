@@ -2,9 +2,9 @@
 
 namespace LibrarySelfCheckOut.Models
 {
-    public class BookModel
+    public class BookCheckOutModel
     {
-        public BookModel(string rfid, long id, string title, bool ableToBorrow, string dueDate)
+        public BookCheckOutModel(string rfid, long id, string title, bool ableToBorrow, string dueDate)
         {
             this.rfid = rfid;
             this.id = id;

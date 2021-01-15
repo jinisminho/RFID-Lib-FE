@@ -11,7 +11,7 @@ namespace LibrarySelfCheckOut.APIs
 {
     public class BookAPI
     {
-        public static async Task<BookModel> findBookByBookRFID(long bookRFID)
+        public static async Task<BookCheckOutModel> findBookByBookRFID(long bookRFID)
         {
             string url = $"win/book?bookRFID=" + bookRFID;
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
@@ -19,7 +19,7 @@ namespace LibrarySelfCheckOut.APIs
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
 
-                    BookModel book = await response.Content.ReadAsAsync<BookModel>();
+                    BookCheckOutModel book = await response.Content.ReadAsAsync<BookCheckOutModel>();
                    
                     return book;
                 }
