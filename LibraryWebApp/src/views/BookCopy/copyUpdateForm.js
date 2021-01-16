@@ -75,9 +75,9 @@ const CopyForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="book"
+                            name="isbn"
                             type="text"
-                            placeholder="book"
+                            placeholder="ISBN"
                             disabled
                             component={renderField} />
                     </InputGroup>
@@ -86,13 +86,44 @@ const CopyForm = ({
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
+                                <i className="ni ni-book-bookmark" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="title"
+                            type="text"
+                            placeholder="Title"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="ni ni-book-bookmark" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="edition"
+                            type="text"
+                            placeholder="Edition"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+               
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
                                 <i className="fas fa-barcode" />
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="code"
+                            name="rfidcode"
                             type="text"
-                            placeholder="Code"
+                            placeholder="RFID Code"
                             component={renderField} />
                     </InputGroup>
                 </FormGroup>

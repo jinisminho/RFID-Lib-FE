@@ -49,33 +49,28 @@ const renderField = ({ input,disabled, placeholder, type, meta: { touched, error
         </OverlayTrigger>))}
     </>
 )
+const renderCode = ({ fields, meta: { error, submitFailed } }) => (
+    <>
+        {fields.map((member, index) =>
+            <InputGroup className="mb-3" key={index}>
+                <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                            {index+1}
+                            </InputGroupText>
+                        </InputGroupAddon>
+                <Field
+                    name={`${member}.barcode`}
+                    type="text"
+                    placeholder="Book's barcode"
+                    component={renderField}
+                    disabled
+                    label="Book's barcode" />
+            </InputGroup>
+        )}
+    </>
+)
 
-const validateNumber = value => {
-    if(value < 1) {
-      return 1
-    } else {
-      return value
-    }
-  }
-const validate = values => {
-    const errors = {}
-    if (!values.isbn) {
-        errors.isbn = 'ISBN is required'
-    }
-    if (!values.price) {
-        errors.price = 'Price is required'
-    } else if (!/^[0-9]+$/i.test(values.price)) {
-        errors.price = 'Price is not valid'
-    }
-
-    if (!values.noc) {
-        errors.noc = 'Number of copy is required'
-    } else if (!/^[0-9]+$/i.test(values.noc)) {
-        errors.noc = 'Number of copy is not valid'
-    }
-    return errors
-}
-const CopyForm = ({
+const ConfirmCopyForm = ({
     handleSubmit,
     handleCancel
 }) => (
@@ -107,7 +102,7 @@ const CopyForm = ({
                         <Field
                             name="title"
                             type="text"
-                            placeholder="title"
+                            placeholder="Title"
                             disabled
                             component={renderField} />
                     </InputGroup>
@@ -116,14 +111,14 @@ const CopyForm = ({
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                                <i className="fas fa-barcode" />
+                                <i className="ni ni-book-bookmark" />
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="price"
-                            type="number"
-                            placeholder="Price"
-                            normalize={validateNumber}
+                            name="author"
+                            type="text"
+                            placeholder="Author"
+                            disabled
                             component={renderField} />
                     </InputGroup>
                 </FormGroup>
@@ -131,25 +126,39 @@ const CopyForm = ({
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                                <i className="fas fa-barcode" />
+                                <i className="ni ni-book-bookmark" />
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="noc"
-                            type="number"
-                            normalize={validateNumber}
-                            placeholder="Number of copy"
+                            name="edition"
+                            type="text"
+                            placeholder="Edition"
+                            disabled
                             component={renderField} />
                     </InputGroup>
                 </FormGroup>
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="ni ni-book-bookmark" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="price"
+                            type="text"
+                            placeholder="Price"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+                <div style={{maxHeight: "400px", overflowY:"scroll"}}>
+                <FieldArray name="members" component={renderCode} />
+                </div>
                 <div className="text-right">
-                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                    <span className="btn-label">
-                    </span> Cancel
-                </button>
                 <button type="submit" className="btn btn-wd btn-success ">
                     <span className="btn-label">
-                    </span> Save
+                    </span> OK
                 </button>
             </div>
             </Form>
@@ -158,6 +167,5 @@ const CopyForm = ({
 );
 
 export default reduxForm({
-    form: 'bookMakeCopyForm',
-    validate
-})(CopyForm)
+    form: 'ConfirmCopyForm'
+})(ConfirmCopyForm)

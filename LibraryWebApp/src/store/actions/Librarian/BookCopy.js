@@ -1,6 +1,5 @@
 import * as actionTypes from '../actionTypes'
 import * as copyPrototype from '../../prototype/bookCopyMng'
-import { getBookSuccess } from './Book'
 
 export const getCopySuccess = (data, total, page, sizePerPage) => {
     return {
@@ -25,10 +24,10 @@ export const getCopyStart = () => {
     }
 }
 
-export const getCopy = (page,size,search) => {
+export const getCopy = (page,size,search,select) => {
     return dispatch => {
         dispatch(getCopyStart())
-        let response=copyPrototype.getCopy(search,page,size)
+        let response=copyPrototype.getCopy(search,page,size,select)
         if(response.status){
             dispatch(getCopySuccess(response.data,response.total,page,size))
         }else{
@@ -51,6 +50,51 @@ export const getCopy = (page,size,search) => {
 
 }
 
+export const getBookCopyStatusSuccess = (data) => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_STATUS_SUCCESS,
+        data: data,
+    }
+}
+
+export const getBookCopyStatusFailed = (error) => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_STATUS_FAILED,
+        error: error
+    }
+}
+
+export const getBookCopyStatusStart = () => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_STATUS_START
+    }
+}
+
+export const getBookCopyStatus = () => {
+    return dispatch => {
+        dispatch(getBookCopyStatusStart())
+        let response=copyPrototype.getBookCopyStatus()
+        if(response.status){
+            dispatch(getBookCopyStatusSuccess(response.data))
+        }else{
+            dispatch(getBookCopyStatusFailed(response.err))
+        }
+        // let url='/books'
+        // if(search){
+        //     url+='?page='+page+'&size='+size+"&name="+search
+        // }else {
+        //     url+='?page='+page+'&size='+size
+        // }
+        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
+        //     .then(response => {
+        //         dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
+        //     })
+        //     .catch(error => {
+        //         dispatch(getCopyFail(error))
+        //     });
+    }
+
+}
 
 export const addCopyStart =()=>{
     return({
@@ -63,9 +107,10 @@ export const addCopyFail =(error)=>{
         error:error
     })
 } 
-export const addCopySuccess =()=>{
+export const addCopySuccess =(data)=>{
     return({
         type: actionTypes.ADD_COPY_BOOK_SUCCESS,
+        data:data
     })
 } 
 export const addCopy = (data) => {
@@ -73,7 +118,7 @@ export const addCopy = (data) => {
         dispatch(addCopyStart())    
         let response=copyPrototype.addCopy(data)
         if(response.status==true){
-            dispatch(addCopySuccess())
+            dispatch(addCopySuccess(response.data))
         }else{
             dispatch(addCopyFail(response.error))
         }

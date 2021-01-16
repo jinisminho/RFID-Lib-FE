@@ -29,12 +29,17 @@ export {
     addCopy,
     updateCopy,
     deleteCopy,
-    getAllBook
+    getAllBook,
+    getBookCopyStatus
 } from './Librarian/BookCopy'
 
 export {
     getStudent,
-    getStudentBook
+    getStudentBook,
+    checkout,
+    clearData,
+    deleteCheckoutBook,
+    getOverdue
 } from './Librarian/Checkout'
 
 export {
@@ -47,7 +52,7 @@ export {
 } from './Student/info'
 
 export {
-    getReturningStudent,
+    clearBook,
     getReturningBook
 } from './Librarian/ReturnBook'
 
@@ -57,6 +62,13 @@ export {
     updateStaff,
     changeStatusStaff
 } from './Admin/Staff'
+
+export {
+    getAdminStudent,
+    addStudent,
+    updateStudent,
+    changeStatusStudent
+} from './Admin/Student'
 
 export{
     requestNewBook,

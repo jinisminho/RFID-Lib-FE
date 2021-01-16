@@ -27,6 +27,9 @@ import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
 import CopyAddForm from './copyAddForm'
 import CopyUpdateForm from './copyUpdateForm'
+import ConfirmCopyForm from './copyComfirmForm'
+import Select from 'react-select';
+import chroma from 'chroma-js';
 
 import {
     Card,
@@ -46,14 +49,18 @@ class BookCopy extends React.Component {
             confirmDelete: false,
             deleteId: null,
             updateFormShow: false,
-            updateData: null
+            updateData: null,
+            confirmFormShow:false,
+            selectValue:[]
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this)
+        
     }
     componentDidMount() {
-        this.fetchData();
+        this.getAllBookStatus()
+        this.fetchData()
     }
     componentDidUpdate() {
         let msg = null
@@ -78,6 +85,9 @@ class BookCopy extends React.Component {
             }
             this.setState({ errorShow: true,errMsg:errMsg,searchValue:'' })
         }
+        if(this.props.bookCopyData!=null && !this.state.confirmFormShow){
+            this.setState({confirmFormShow:true})
+        }
     }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
@@ -87,15 +97,15 @@ class BookCopy extends React.Component {
             successShow: false,
             errorShow: false
         })
-        this.fetchData(1, 10, this.state.searchValue)
+        this.fetchData(1, 10, this.state.searchValue,this.state.selectValue)
     }
     handlePageChange(page, sizePerPage) {
-        this.fetchData(page, sizePerPage, this.state.searchValue);
+        this.fetchData(page, sizePerPage, this.state.searchValue,this.state.selectValue);
     }
 
     handleSizePerPageChange(sizePerPage) {
         // When changing the size per page always navigating to the first page
-        this.fetchData(1, sizePerPage, this.state.searchValue);
+        this.fetchData(1, sizePerPage, this.state.searchValue,this.state.selectValue);
 
     }
     handleAddCancel = () => {
@@ -104,9 +114,11 @@ class BookCopy extends React.Component {
             cancelAdd: true,
         })
     }
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        this.props.onFetchData(page - 1, sizePerPage, searchValue)
-        this.props.onGetBook()
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue,selectValue=this.state.selectValue) {
+        this.props.onFetchData(page - 1, sizePerPage, searchValue,selectValue)
+    }
+    getAllBookStatus(){
+        this.props.onGetBookStatus()
     }
     handleAddSubmit(values) {
         this.setState({ addFormShow: false })
@@ -114,7 +126,7 @@ class BookCopy extends React.Component {
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
-        this.fetchData(1, 10, this.state.searchValue);
+        this.fetchData(1, 10, this.state.searchValue,this.state.selectValue);
     }
     handleUpdateCancel = () => {
         this.setState({
@@ -136,13 +148,31 @@ class BookCopy extends React.Component {
             deleteId: null,
         })
     }
+    handleConfirm = () => {
+        this.setState({
+            confirmFormShow: false,
+        })
+        this.fetchData()
+    }
+    handleSelectChange(values){
+        let tmp=[]
+        console.log(values)
+        if(values !=null){
+            values.forEach(el => {
+                tmp.push(el["value"])
+            });
+        }
+        this.setState({selectValue:tmp},()=>{
+        this.fetchData()
+        })
+    }
     activeFormatter(cell, row) {
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({
-                    updateFormShow: true,
-                    updateData: row
-                })} />
+                <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
+                     updateFormShow: true,
+                     updateData: row
+                })}>Tag RFID</Button>        
                 <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
@@ -167,9 +197,28 @@ class BookCopy extends React.Component {
     }
     getInitialValues = () => {
         return {
-            code: this.state.updateData ? this.state.updateData.code : '',
-            book: this.state.updateData ? this.state.updateData.book : '',
+            rfidcode: this.state.updateData ? this.state.updateData.rfidcode : '',
+            isbn: this.state.updateData ? this.state.updateData.isbn : '',
+            title: this.state.updateData ? this.state.updateData.title : '',
+            edition: this.state.updateData ? this.state.updateData.edition : '',
             id:this.state.updateData ? this.state.updateData.id : ''
+        };
+    }
+    getConfirmInitialValues = () => {
+        let barcode=[]
+        if(this.props.bookCopyData && this.props.bookCopyData.barcode.length>0){
+            this.props.bookCopyData.barcode.forEach(el => {
+                barcode.push({"barcode":el})
+            });
+        }
+        return {
+            isbn: this.props.bookCopyData ? this.props.bookCopyData.isbn : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.author : '',
+            price: this.props.bookCopyData ? this.props.bookCopyData.price : '',
+            title: this.props.bookCopyData ? this.props.bookCopyData.title : '',
+            edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
+            noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
+            members:barcode
         };
     }
     render() {
@@ -195,7 +244,15 @@ class BookCopy extends React.Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>
-                    <Col className="col-8 pr-4 pull-right">
+                    <Col className="col-4">
+                    <Select
+                        closeMenuOnSelect={false}
+                        isMulti
+                        options={this.props.bookCopyStatus}
+                        onChange={(e)=>this.handleSelectChange(e)}
+                        />
+                    </Col>
+                    <Col className="col-4 pr-4 pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
@@ -216,11 +273,13 @@ class BookCopy extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                 >
-                    <TableHeaderColumn dataField="code" width="12%" isKey dataAlign="center">Code</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="12%" dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="barcode" width="12%" isKey dataAlign="center">Bar Code</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="isbn" width="12%" dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="description" width="47%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="price" dataAlign="center" width="10%">Price</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField="status" dataAlign="center" width="10%">Status</TableHeaderColumn>
+                    <TableHeaderColumn thStyle={{ whiteSpace: 'normal' }} tdStyle={{ whiteSpace: 'normal' }} dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
@@ -228,7 +287,15 @@ class BookCopy extends React.Component {
                         <Modal.Title>Add Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyAddForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}  dataList={this.props.bookData}/>
+                        <CopyAddForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}/>
+                    </Modal.Body>
+                </Modal>
+                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirm()}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm Book Copy</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirm()} onSubmit={() => this.handleConfirm()}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
@@ -318,17 +385,20 @@ const mapStateToProps = state => {
         sizePerPage: state.copy.sizePerPage,
         deleteSuccess: state.copy.deleteSuccess,
         updateSuccess: state.copy.updateSuccess,
-        addSuccess: state.copy.addSuccess
+        addSuccess: state.copy.addSuccess,
+        bookCopyData:state.copy.bookCopyData,
+        bookCopyStatus:state.copy.bookCopyStatus
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search) => dispatch(actions.getCopy(page, size, search)),
+        onFetchData: (page, size, search,select) => dispatch(actions.getCopy(page, size, search,select)),
         onDeleteCopy: (id) => dispatch(actions.deleteCopy(id)),
         onUpdateCopy: (data) => dispatch(actions.updateCopy(data)),
         onAddCopy: (data) => dispatch(actions.addCopy(data)),
-        onGetBook: () => dispatch(actions.getAllBook())
+        onGetBook: () => dispatch(actions.getAllBook()),
+        onGetBookStatus:()=>dispatch(actions.getBookCopyStatus())
     }
 }
 

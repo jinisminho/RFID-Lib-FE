@@ -24,6 +24,7 @@ import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import StudentHeader from '../../components/Headers/StudentHeader.js';
+import DeleteButton from '../../components/Button/DeleteButton'
 import {
     Card,
     CardHeader,
@@ -45,10 +46,13 @@ class Checkout extends React.Component {
        
         }
         this.fetchData = this.fetchData.bind(this);
+        this.activeFormatter = this.activeFormatter.bind(this)
     }
     componentDidUpdate() {
         let msg=null
-        
+        if (this.props.checkoutSuccess) {
+            msg = "Checkout successfully"
+        }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
         }
@@ -61,7 +65,7 @@ class Checkout extends React.Component {
             }
             this.setState({ errorShow: true,errMsg:errMsg })
         }
-        if(this.props.studentData != null && !this.state.bookShow){
+        if(this.props.studentData != null && this.props.overdueData != null && !this.state.bookShow){
             this.setState({ bookShow:true})
         }
     }
@@ -90,12 +94,22 @@ class Checkout extends React.Component {
     }
     fetchData(){
         this.props.onFetchData(this.state.searchValue)
+        this.props.onGetOverdue(this.state.searchValue)
     }
 
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false })
+        this.setState({ searchValue: '',
+        bookSearchValue: '',
+        successNotice: '',
+        successShow: false,
+        errorShow: false,
+        bookShow:false,
+        errMsg:""})
+        this.props.onClearData()
     }
-    
+    clearData(){
+        this.props.onClearData()
+    }
     getInitialValues = () => {
         return {
             name: this.props.studentData ? this.props.studentData.name : '',
@@ -105,16 +119,22 @@ class Checkout extends React.Component {
             username:  this.props.studentData ? this.props.studentData.username : '',
         };
     }
+    checkout(){
+        let studentid=this.props.studentData.id
+        let booklist= []
+        this.props.bookData.forEach(book => {
+            booklist.push(book.id)
+        });
+        this.props.oncCheckout(studentid,booklist)
+    }
+    activeFormatter(cell, row) {
+        return (
+            <div>
+                <DeleteButton clicked={() => this.props.onDeleteBook(row.id)}/>   
+            </div>
+        )
+    }
     render() {
-        let studentDisplay = null
-
-        if (this.props.studentLoading) {
-            studentDisplay = <Spinner />
-        }
-        if(this.props.studentData != null){
-            studentDisplay= <StudentInfoCard  student={this.getInitialValues()}/>
-        }
-        let bookDisplay=null
         const options = {
             sizePerPage: 5,
             prePage: '<',
@@ -123,20 +143,66 @@ class Checkout extends React.Component {
             lastPage: '>>',
             hideSizePerPage: false,
         };
+        let studentDisplay = null
+        let overdueDisplay = null
+        if (this.props.studentLoading) {
+            studentDisplay = <Spinner />
+        }
+        if(this.props.studentData != null && this.props.overdueData !=null){
+                        
+            studentDisplay= <StudentInfoCard  student={this.getInitialValues()}/>
+                
+                
+            overdueDisplay=
+            <Container className="mt-4" fluid>
+            <Card className="shadow w-100">
+                    <CardHeader className="border-0">
+                        <h3 className="mb-0">Overdue Book</h3>
+                    </CardHeader>
+                    <BootstrapTable
+                    data={this.props.overdueData}
+                    options={options}
+                    striped
+                    hover
+                    condensed
+                    className="mt-3"
+                >
+                    <TableHeaderColumn dataField="barcode" width="15%" isKey dataAlign="center">Bar Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="15%"  dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" width="30%" dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateLent" width="20%" dataAlign="center">Lent Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dateDue" dataAlign="center" width="20%">Overdue Date</TableHeaderColumn>
+                </BootstrapTable>
+            </Card>
+            
+            </Container>
+        }
+        let bookDisplay=null
+        
         if(this.state.bookShow==true){
             bookDisplay= 
         <Container className="mt-4" fluid>
-            <Row>
                 <Card className="shadow w-100">
                      <CardHeader className="border-0">
                         <h3 className="mb-0">Checking out books</h3>
                     </CardHeader>
-                    <InputGroup className="mb-3 col-5">
+                    <Row>
+                    <Col className="col-4 pl-4">
+                    <InputGroup className="mb-3">
                         <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Scanning book to get book's code" />
                         <InputGroup.Append>
                             <button onClick={() => this.handleBookSearch()} className="btn btn-simple">Search</button>
                         </InputGroup.Append>
                     </InputGroup>
+                    </Col>
+                    <Col className="col-8 pr-4 pull-right">
+                        <button onClick={() => this.checkout()}
+                            type="button" className="btn btn-info btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> Check out
+                        </button>
+                    </Col>
+                    </Row>
                 </Card>
             <BootstrapTable
                     data={this.props.bookData}
@@ -147,18 +213,13 @@ class Checkout extends React.Component {
                     condensed
                     className="mt-3"
                 >
-                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
+                    <TableHeaderColumn dataField="barcode" width="10%" isKey dataAlign="center">Bar Code</TableHeaderColumn>
                     <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
                     <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
                     <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
-                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
-                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
-                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
                     <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
-            </Row>
             
         </Container>
         }
@@ -166,7 +227,6 @@ class Checkout extends React.Component {
             <>
             <StudentHeader/>
                 <Container className="mt--7" fluid>
-                <Row>
                     <Card className="shadow w-100">
                         <Row>
                         <Col className="col-4">
@@ -180,13 +240,13 @@ class Checkout extends React.Component {
                                 </InputGroup.Append>
                             </InputGroup>
                         </Col>
-                       <Col className="col-6">
+                        <Col className="col-8">
                            {studentDisplay}
-                       </Col>
+                        </Col>
                         </Row>
                     </Card>
-                </Row>
             </Container>
+            {overdueDisplay}
             {bookDisplay}
                 <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
@@ -224,17 +284,23 @@ const mapStateToProps = state => {
     return {
         studentLoading: state.checkout.studentLoading,
         studentData: state.checkout.studentData,
+        overdueData: state.checkout.overdueData,
         bookData: state.checkout.bookData,
         bookLoading: state.checkout.bookLoading,
         error: state.checkout.error,
-        bookError: state.copy.bookError,
+        bookError: state.checkout.bookError,
+        checkoutSuccess:state.checkout.checkoutSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (search) => dispatch(actions.getStudent(search)),
-        onGetBook: (search) => dispatch(actions.getStudentBook(search))
+        onGetBook: (search) => dispatch(actions.getStudentBook(search)),
+        oncCheckout:(studentid,booklist) => dispatch(actions.checkout(studentid,booklist)),
+        onClearData:()=>dispatch(actions.clearData()),
+        onDeleteBook:(id)=>dispatch(actions.deleteCheckoutBook(id)),
+        onGetOverdue:(search)=>dispatch(actions.getOverdue(search))    
     }
 }
 

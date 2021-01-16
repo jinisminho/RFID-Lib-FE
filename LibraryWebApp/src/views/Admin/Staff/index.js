@@ -44,8 +44,6 @@ class Staff extends React.Component {
             confirmActiveStatus: false,
             confirmDisableStatus:false,
             statusId: null,
-            copyShow: false,
-            copyData: null,
             updateFormShow: false,
             updateData: null
         }

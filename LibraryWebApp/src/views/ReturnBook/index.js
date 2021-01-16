@@ -21,18 +21,17 @@ class ReturnBook extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchValue: '',
             bookSearchValue: '',
             successNotice: '',
             successShow: false,
             errorShow: false,
-            bookShow:false,
             errMsg:'',
             bookList: [],
         }
-        this.fetchData = this.fetchData.bind(this);
     }
-
+    componentDidMount(){
+        this.clearBookData()
+    }
     componentDidUpdate() {
         let msg=null
         if (msg != null && !this.state.successShow) {
@@ -46,9 +45,6 @@ class ReturnBook extends React.Component {
                 errMsg=this.props.bookError
             }
             this.setState({ errorShow: true,errMsg:errMsg })
-        }
-        if(this.props.studentData != null && !this.state.bookShow){
-            this.setState({ bookShow:true})
         }
     }
 
@@ -65,7 +61,6 @@ class ReturnBook extends React.Component {
             successShow: false,
             errorShow: false
         })
-        this.fetchData()
     }
 
     handleBookSearch() {
@@ -79,11 +74,12 @@ class ReturnBook extends React.Component {
     fetchBookData(){
         this.props.onGetBook(this.state.bookSearchValue)
     }
-
-    fetchData(){
-        this.props.onFetchData(this.state.searchValue)
+    clearBookData(){
+        this.props.onClearBook()
+        this.setState({
+            bookSearchValue:""
+        })
     }
-
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
     }
@@ -101,16 +97,6 @@ class ReturnBook extends React.Component {
 
     render(){
 
-        let studentDisplay = null
-
-        if (this.props.studentLoading) {
-            studentDisplay = <Spinner />
-        }
-        if(this.props.studentData != null){
-            studentDisplay= <StudentInfoCard  student={this.getInitialValues()}/>
-        }
-
-        let bookDisplay=null
         const options = {
             sizePerPage: 5,
             prePage: '<',
@@ -119,20 +105,33 @@ class ReturnBook extends React.Component {
             lastPage: '>>',
             hideSizePerPage: false,
         };
-        if(this.state.bookShow==true){
-            bookDisplay= 
-        <Container className="mt-4" fluid>
-            <Row>
+        
+    
+        return(
+        <>
+            <StudentHeader />
+            <Container className="mt--7" fluid>
                 <Card className="shadow w-100">
                      <CardHeader className="border-0">
                         <h3 className="mb-0">Returning books</h3>
                     </CardHeader>
-                    <InputGroup className="mb-3 col-5">
+                    <Row className="w-100 m-0 p-0">
+                    <Col className="col-4 pl-4"> 
+                    <InputGroup className="mb-3">
                         <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Scanning book to get book's code" />
                         <InputGroup.Append>
                             <button onClick={() => this.handleBookSearch()} className="btn btn-simple">RETURN</button>
                         </InputGroup.Append>
                     </InputGroup>
+                    </Col>
+                    <Col className="col-8 pr-4 pull-right">
+                        <button onClick={() => this.clearBookData()}
+                            type="button" className="btn btn-info btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> Clear
+                        </button>
+                    </Col>
+                    </Row>
                 </Card>
             <BootstrapTable
                     data={this.props.bookData}
@@ -143,48 +142,15 @@ class ReturnBook extends React.Component {
                     condensed
                     className="mt-3"
                 >
-                    <TableHeaderColumn dataField="code" width="10%" isKey dataAlign="center">Code</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="10%"  dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="title" width="10%" dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="author" width="10%" dataAlign="center">Author</TableHeaderColumn>
-                    <TableHeaderColumn dataField="publisher" width="10%" dataAlign="center">Publisher</TableHeaderColumn>
-                    <TableHeaderColumn dataField="language" width="10%" dataAlign="center" >Language</TableHeaderColumn>
-                    <TableHeaderColumn dataField="nop" dataAlign="center" width="10%" >Number of page</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="10%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="edition" dataAlign="center" width="10%">Edition</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="15%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="barcode" width="15%" isKey dataAlign="center">Barcode</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="15%"  dataAlign="center">ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" width="15%" dataAlign="center">Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="category" dataAlign="center" width="15%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="studentid" dataAlign="center" width="15%">Student ID</TableHeaderColumn>
+                    <TableHeaderColumn dataField="studentname" dataAlign="center" width="15%">Student Name</TableHeaderColumn>
                 </BootstrapTable>
-            </Row>
             
         </Container>
-        }
-    
-        return(
-        <>
-            <StudentHeader />
-            <Container className="mt--7" fluid>
-                <Row>
-                    <Card className="shadow w-100">
-                        <Row>
-                        <Col className="col-4">
-                            <CardHeader className="border-0">
-                                <h3 className="mb-0">Student information</h3>
-                            </CardHeader>
-                            <InputGroup className="mb-3 col-12">
-                                <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Student number" />
-                                <InputGroup.Append>
-                                    <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
-                                </InputGroup.Append>
-                            </InputGroup>
-                        </Col>
-                       <Col className="col-6">
-                           {studentDisplay}
-                       </Col>
-                        </Row>
-                    </Card>
-                </Row>
-            </Container>
-            {bookDisplay}
         </>
         )
     }
@@ -192,8 +158,6 @@ class ReturnBook extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        studentLoading: state.returnBook.studentLoading,
-        studentData: state.returnBook.studentData,
         bookData: state.returnBook.bookData,
         bookLoading: state.returnBook.bookLoading,
         error: state.returnBook.error,
@@ -203,8 +167,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (search) => dispatch(actions.getReturningStudent(search)),
-        onGetBook: (search) => dispatch(actions.getReturningBook(search))
+        onGetBook: (search) => dispatch(actions.getReturningBook(search)),
+        onClearBook: () => dispatch(actions.clearBook())
     }
 }
 

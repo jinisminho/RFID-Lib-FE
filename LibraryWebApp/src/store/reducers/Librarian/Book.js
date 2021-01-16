@@ -9,7 +9,8 @@ const getBookStart = (state, action) =>{
     deleteSuccess:false,
     updateSuccess:false,
     addSuccess:false,
-    copySuccess:false
+    copySuccess:false,
+    bookCopyData:null
   })
 }
 const getBookSuccess = (state, action)=>{
@@ -114,7 +115,7 @@ const addCopySuccess = (state, action)=>{
   return updateObject(state,{
       error:null,
       loading:false,
-      copySuccess:true
+      bookCopyData:action.data
   })
 }
 const addCopyFail = (state, action) =>{
@@ -135,7 +136,8 @@ export default function reducer(state = {
     deleteSuccess: false,
     updateSuccess:false,
     addSuccess:false,
-    copySuccess:false
+    copySuccess:false,
+    bookCopyData:null
 }, action) {
   switch(action.type){
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)

@@ -27,11 +27,10 @@ import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
 import BookForm from './bookForm'
 import CopyForm from './copyForm'
-import NotiModal from '../../components/Modals/NotiModal'
+import ConfirmCopyForm from './copyComfirmForm'
 import {
     Card,
     CardHeader,
-    CardFooter,
     Container
 } from "reactstrap";
 class Book extends React.Component {
@@ -47,7 +46,8 @@ class Book extends React.Component {
             copyShow: false,
             copyData: null,
             updateFormShow: false,
-            updateData: null
+            updateData: null,
+            confirmFormShow:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -75,6 +75,9 @@ class Book extends React.Component {
         }
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue:'' })
+        }
+        if(this.props.bookCopyData!=null && !this.state.confirmFormShow){
+            this.setState({confirmFormShow:true})
         }
     }
     inputChangedHandler = (event) => {
@@ -142,6 +145,29 @@ class Book extends React.Component {
             confirmDelete: false,
             deleteId: null,
         })
+    }
+    getConfirmInitialValues = () => {
+        let barcode=[]
+        if(this.props.bookCopyData && this.props.bookCopyData.barcode.length>0){
+            this.props.bookCopyData.barcode.forEach(el => {
+                barcode.push({"barcode":el})
+            });
+        }
+        return {
+            isbn: this.props.bookCopyData ? this.props.bookCopyData.isbn : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.author : '',
+            price: this.props.bookCopyData ? this.props.bookCopyData.price : '',
+            title: this.props.bookCopyData ? this.props.bookCopyData.title : '',
+            edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
+            noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
+            members:barcode
+        };
+    }
+    handleConfirm = () => {
+        this.setState({
+            confirmFormShow: false,
+        })
+        this.fetchData()
     }
     activeFormatter(cell, row) {
         return (
@@ -279,6 +305,14 @@ class Book extends React.Component {
                         <CopyForm initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
                     </Modal.Body>
                 </Modal>
+                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirm()}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm Book Copy</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirm()} onSubmit={() => this.handleConfirm()}/>
+                    </Modal.Body>
+                </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
                         <Modal.Title>Delete Book</Modal.Title>
@@ -357,7 +391,8 @@ const mapStateToProps = state => {
         deleteSuccess: state.book.deleteSuccess,
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
-        addSuccess: state.book.addSuccess
+        addSuccess: state.book.addSuccess,
+        bookCopyData: state.book.bookCopyData
     }
 }
 

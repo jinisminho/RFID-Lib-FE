@@ -24,9 +24,7 @@ import * as actions from '../../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../../components/Spinner/Spinner'
 import UpdateButton from '../../../components/Button/UpdateButton'
-import DeleteButton from '../../../components/Button/DeleteButton'
-import StaffForm from './staffForm'
-import SwitchControl from "../../../components/Switch/Switch";
+import StudentForm from './studentForm'
 import moment from 'moment'
 import {
     Card,
@@ -44,8 +42,6 @@ class Student extends React.Component {
             confirmActiveStatus: false,
             confirmDisableStatus:false,
             statusId: null,
-            copyShow: false,
-            copyData: null,
             updateFormShow: false,
             updateData: null
         }
@@ -59,13 +55,13 @@ class Student extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add staff successfully"
+            msg = "Add student successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update staff successfully"
+            msg = "Update student successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Change staff status successfully"
+            msg = "Change student status successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -103,7 +99,7 @@ class Student extends React.Component {
     }
     handleAddSubmit(values) {
         this.setState({ addFormShow: false })
-        this.props.onAddStaff(values)
+        this.props.onAddStudent(values)
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -117,11 +113,11 @@ class Student extends React.Component {
     }
     handleUpdateSubmit(values) {
         this.setState({ updateFormShow: false })
-        this.props.onUpdateStaff(values)
+        this.props.onUpdateStudent(values)
     }
     handleChangeStatusSubmit(status) {
         this.setState({ confirmActiveStatus: false,confirmDisableStatus:false })
-        this.props.onChangeStatusStaff(this.state.statusId,status)
+        this.props.onChangeStatusStudent(this.state.statusId,status)
     }
     handleChangeStatusCancel = () => {
         this.setState({
@@ -206,7 +202,7 @@ class Student extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Staff
+                            </span> <i className="fa fa-plus"></i> Add Student
                         </button>
                     </Col>
                 </Row>
@@ -266,10 +262,10 @@ class Student extends React.Component {
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Staff</Modal.Title>
+                        <Modal.Title>Add Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <StaffForm initialValues={{
+                        <StudentForm initialValues={{
                                     gender:'M',
                                     dob:moment().subtract(18,'years').startOf("year").format('YYYY-MM-DD')
                                 }} 
@@ -279,15 +275,15 @@ class Student extends React.Component {
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Staff</Modal.Title>
+                        <Modal.Title>Update Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <StaffForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <StudentForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Disable Staff</Modal.Title>
+                        <Modal.Title>Disable Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
@@ -304,7 +300,7 @@ class Student extends React.Component {
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmActiveStatus} onHide={() => this.handleChangeStatusCancel()}>
                     <Modal.Header className="bg-primary" closeButton>
-                        <Modal.Title>Activate Staff</Modal.Title>
+                        <Modal.Title>Activate Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
@@ -330,7 +326,7 @@ class Student extends React.Component {
                 <Container className="mt--7" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Staff tables</h3>
+                            <h3 className="mb-0">Student tables</h3>
                         </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
@@ -370,24 +366,24 @@ class Student extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.staff.loading,
-        data: state.staff.data,
-        error: state.staff.error,
-        totalSize: state.staff.total,
-        page: state.staff.page,
-        sizePerPage: state.staff.sizePerPage,
-        deleteSuccess: state.staff.deleteSuccess,
-        updateSuccess: state.staff.updateSuccess,
-        addSuccess: state.staff.addSuccess
+        loading: state.student.loading,
+        data: state.student.data,
+        error: state.student.error,
+        totalSize: state.student.total,
+        page: state.student.page,
+        sizePerPage: state.student.sizePerPage,
+        deleteSuccess: state.student.deleteSuccess,
+        updateSuccess: state.student.updateSuccess,
+        addSuccess: state.student.addSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search) => dispatch(actions.getStaff(page, size, search)),
-        onChangeStatusStaff: (id,status) => dispatch(actions.changeStatusStaff(id,status)),
-        onUpdateStaff: (data) => dispatch(actions.updateStaff(data)),
-        onAddStaff: (data) => dispatch(actions.addStaff(data))
+        onFetchData: (page, size, search) => dispatch(actions.getAdminStudent(page, size, search)),
+        onChangeStatusStudent: (id,status) => dispatch(actions.changeStatusStudent(id,status)),
+        onUpdateStudent: (data) => dispatch(actions.updateStudent(data)),
+        onAddStudent: (data) => dispatch(actions.addStudent(data))
     }
 }
 

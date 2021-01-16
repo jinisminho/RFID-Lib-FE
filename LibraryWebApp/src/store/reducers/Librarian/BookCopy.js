@@ -8,7 +8,8 @@ const getCopyStart = (state, action) =>{
     loading:true,
     deleteSuccess:false,
     updateSuccess:false,
-    addSuccess:false
+    addSuccess:false,
+    bookCopyData:null
   })
 }
 const getCopySuccess = (state, action)=>{
@@ -52,6 +53,25 @@ const getBookStart = (state, action) =>{
     })
   }
 
+  const getBookStatusStart = (state, action) =>{
+    return updateObject(state,{
+      error:null, 
+      loading:true,
+    })
+  }
+  const getBookStatusSuccess = (state, action)=>{
+    return updateObject(state,{
+        bookCopyStatus: action.data,
+        error:null,
+        loading:false,
+    })
+  }
+  const getBookStatusFail = (state, action) =>{
+    return updateObject(state,{
+        error:action.error,
+        loading:false,
+    })
+  }
 const deleteCopyStart = (state, action) =>{
   return updateObject(state,{
     error:null,
@@ -111,7 +131,7 @@ const addCopySuccess = (state, action)=>{
   return updateObject(state,{
       error:null,
       loading:false,
-      addSuccess:true
+      bookCopyData:action.data
   })
 }
 const addCopyFail = (state, action) =>{
@@ -133,7 +153,9 @@ export default function reducer(state = {
     sizePerPage:10,
     deleteSuccess: false,
     updateSuccess:false,
-    addSuccess:false
+    addSuccess:false,
+    bookCopyData:null,
+    bookCopyStatus:null
     
 }, action) {
   switch(action.type){
@@ -144,6 +166,10 @@ export default function reducer(state = {
     case actionTypes.GET_BOOKS_START: return getBookStart(state, action)
     case actionTypes.GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
     case actionTypes.GET_BOOKS_FAILED: return getBookFail(state, action)
+
+    case actionTypes.GET_BOOK_COPY_STATUS_START: return getBookStatusStart(state, action)
+    case actionTypes.GET_BOOK_COPY_STATUS_SUCCESS: return getBookStatusSuccess(state, action)
+    case actionTypes.GET_BOOK_COPY_STATUS_FAILED: return getBookStatusFail(state, action)
 
     case actionTypes.ADD_COPY_BOOK_START: return addCopyStart(state, action)
     case actionTypes.ADD_COPY_BOOK_SUCCESS: return addCopySuccess(state, action)
