@@ -13,12 +13,18 @@ namespace LibrarySelfCheckOut.Prototype
 
         public BookReturnData()
         {
-            //1st param is rfid
-            BookReturnModel b1 = new BookReturnModel("1", 1, "The Hobbit","RETURNED");
+            //BookReturnModel b1 = new BookReturnModel("E28068940000500BB95750AE", 1, "The Hobbit","RETURNED");
+            //BookReturnModel b2 = new BookReturnModel("E28068940000400BB9574CAE", 2, "Belonging", "RETURNED");
+            //BookReturnModel b3 = new BookReturnModel("E28068940000400BB95754AE", 3, "SUQAR","RETURNED");
+            //BookReturnModel b4 = new BookReturnModel("E28068940000500BB95748AE", 4, "Hamilton","CANNOT RETURN");
+            //BookReturnModel b5 = new BookReturnModel("E28068940000400BB95758AE", 5, "The Outsider","CANNOT RETURN");
+
+
+            BookReturnModel b1 = new BookReturnModel("1", 1, "The Hobbit", "RETURNED");
             BookReturnModel b2 = new BookReturnModel("2", 2, "Belonging", "RETURNED");
-            BookReturnModel b3 = new BookReturnModel("3", 3, "SUQAR","RETURNED");
-            BookReturnModel b4 = new BookReturnModel("4", 4, "Hamilton","CANNOT RETURN");
-            BookReturnModel b5 = new BookReturnModel("5", 5, "The Outsider","CANNOT RETURN");
+            BookReturnModel b3 = new BookReturnModel("3", 3, "SUQAR", "RETURNED");
+            BookReturnModel b4 = new BookReturnModel("4", 4, "Hamilton", "CANNOT RETURN");
+            BookReturnModel b5 = new BookReturnModel("5", 5, "The Outsider", "CANNOT RETURN");
             BookReturnModel b6 = new BookReturnModel("6", 6, "Candy Is Magic","CANNOT RETURN");
 
             books.Add(b1);
@@ -38,7 +44,7 @@ namespace LibrarySelfCheckOut.Prototype
                 BookReturnModel tmp = books.Where(b => b.rfid == code).Select(b => b).FirstOrDefault();
                 if(tmp == null)
                 {
-                    return new ReturnResponseModel(false, "Wrong Book Code", null);
+                    return new ReturnResponseModel(false, "Wrong Book Code. Please contact Librarian.", null);
                 }
                 rs.Add(tmp);
             }

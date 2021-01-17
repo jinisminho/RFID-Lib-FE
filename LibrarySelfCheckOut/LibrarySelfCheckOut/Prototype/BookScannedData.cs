@@ -13,6 +13,13 @@ namespace LibrarySelfCheckOut.Prototype
 
         public BookScannedData()
         {
+            //BookScannedModel b1 = new BookScannedModel("E28068940000500BB95750AE", "The Hobbit");
+            //BookScannedModel b2 = new BookScannedModel("E28068940000400BB9574CAE", "Belonging");
+            //BookScannedModel b3 = new BookScannedModel("E28068940000400BB95754AE", "SUQAR");
+            //BookScannedModel b4 = new BookScannedModel("E28068940000500BB95748AE", "Hamilton");
+            //BookScannedModel b5 = new BookScannedModel("E28068940000400BB95758AE", "The Outsider");
+
+
             BookScannedModel b1 = new BookScannedModel("1", "The Hobbit");
             BookScannedModel b2 = new BookScannedModel("2", "Belonging");
             BookScannedModel b3 = new BookScannedModel("3", "SUQAR");

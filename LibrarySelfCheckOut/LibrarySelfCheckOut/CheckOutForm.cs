@@ -48,7 +48,6 @@ namespace LibrarySelfCheckOut
             //this.FormBorderStyle = FormBorderStyle.None;
             //this.WindowState = FormWindowState.Maximized;
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
-            this.pnReturnSt.Hide();
             this.txtBookRFID.Focus();
 
             //assign value
@@ -79,11 +78,16 @@ namespace LibrarySelfCheckOut
                         this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();                   
                         if ( numberOfBookScanned > maxNumberBorrowAllowed)
                         {
+                            this.txtBookRFID.Enabled = false;
+                            using (ModalOK model = new ModalOK($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!"))
+                            {
+                                model.ShowDialog();
+                            }
                             resetState();
-                            MessageBox.Show($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!", "Maximum Book Borrow Allowed");
                         }
                         else
                         {
+                            this.timerSession.Enabled = false;
                             BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
                             if (rs.isSuccess)
                             {
@@ -95,9 +99,14 @@ namespace LibrarySelfCheckOut
                             }
                             else
                             {
-                                MessageBox.Show(rs.errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.txtBookRFID.Enabled = false;
+                                using (ModalOK model = new ModalOK(rs.errorMessage))
+                                {
+                                    model.ShowDialog();
+                                }
                                 resetState();
                             }
+                            this.timerSession.Enabled = false;
                         }
                         if (this.numberOfBookScanned == 1)
                         {
@@ -172,16 +181,17 @@ namespace LibrarySelfCheckOut
                     item.Width = flowLayoutPanelBookList.Width - 10;
                     this.flowLayoutPanelBookList.Controls.Add(item);
                 }
-                //this.lbReturnNotice.Text = "Check out successfully. Please return before: " + rs.dueDate;
-                //this.pnReturnSt.Show();
                 this.lbNoticeMaxBookBorrowAllowed.Hide();
                 this.btDone.Text = BT_TXT_DONE;
             }
             else
             {
+                this.txtBookRFID.Enabled = false;
+                using (ModalOK model = new ModalOK(rs.errorMessage))
+                {
+                    model.ShowDialog();
+                }
                 resetState();
-                MessageBox.Show(rs.errorMessage, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             this.timerSession.Enabled = true;
             this.btDone.Enabled = true;
@@ -190,10 +200,13 @@ namespace LibrarySelfCheckOut
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            DialogResult rs = MessageBox.Show("Are you sure you want to cancel?", "Cancel Check Out", MessageBoxButtons.YesNo);
-            if (rs == DialogResult.Yes)
+            using (ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
             {
-                this.Close();
+                modal.ShowDialog();
+                if (modal.result == DialogResult.Yes)
+                {
+                    this.Close();
+                }
             }
         }
     }
