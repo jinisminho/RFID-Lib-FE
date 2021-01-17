@@ -73,6 +73,7 @@ namespace LibrarySelfCheckOut
                     {
                         numberOfBookScanned++;
                         this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
+                        this.timerSessionTimeOut.Enabled = false;
                         BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
                         if (rs.isSuccess)
                         {
@@ -84,13 +85,18 @@ namespace LibrarySelfCheckOut
                         }
                         else
                         {
-                            MessageBox.Show(rs.errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            this.txtBookCode.Enabled = false;
+                            using (ModalOK model = new ModalOK(rs.errorMessage))
+                            {
+                                model.ShowDialog();
+                            }
                             resetReturn();
                         }
                         if(numberOfBookScanned == 1)
                         {
                             this.btDone.Enabled = true;
                         }
+                        this.timerSessionTimeOut.Enabled = true;
                     }
 
                 }
@@ -124,7 +130,6 @@ namespace LibrarySelfCheckOut
             }
             else if(this.btDone.Text == BT_TXT_RETURN)
             {
-              
                 callReturnAPI();
             }
         }
@@ -153,8 +158,12 @@ namespace LibrarySelfCheckOut
             }
             else
             {
+                this.txtBookCode.Enabled = false;
+                using (ModalOK model = new ModalOK(rs.errorMessage))
+                {
+                    model.ShowDialog();
+                }
                 resetReturn();
-                MessageBox.Show(rs.errorMessage, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             this.timerSessionTimeOut.Enabled = true;
             this.btDone.Enabled = true;
@@ -163,10 +172,13 @@ namespace LibrarySelfCheckOut
 
         private void lbCancel_Click(object sender, EventArgs e)
         {
-            DialogResult rs = MessageBox.Show("Are you sure you want to cancel?", "Cancel Return", MessageBoxButtons.YesNo);
-            if (rs == DialogResult.Yes)
+            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
             {
-                this.Close();
+                modal.ShowDialog();
+                if(modal.result == DialogResult.Yes)
+                {
+                    this.Close();
+                }
             }
         }
     }

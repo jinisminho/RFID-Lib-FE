@@ -17,7 +17,6 @@ namespace LibrarySelfCheckOut
     {
 
         private String studentFRID;
-        private long pin;
         private int sesionTime;
         private int incorrectCount = 0;
 
@@ -63,17 +62,15 @@ namespace LibrarySelfCheckOut
                     {
                         if (student.status == "NOT_RETURN")
                         {
-                            DialogResult dialog = MessageBox.Show("Please return over dued book(s) at the librarian counter to continue borrowing book", "Account Blocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            using (ModalOK model = new ModalOK("Please return over dued book(s) at the librarian counter to continue borrowing book"))
+                            {
+                                model.ShowDialog();
+                            }
                             this.Close();
                         }
                         else
                         {
-                            /*
-                            this.txtPass.Enabled = true;
-                            this.txtPass.Focus();
-                            this.txtPass.Show();
-                            this.lbPin.Show();
-                            */
+                            
                             long studentId = student.id;
                             string studentUsername = student.username;
                             int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
@@ -124,24 +121,6 @@ namespace LibrarySelfCheckOut
             this.txtStudentRFID.Focus();
         }
 
-        private void showInvalidPINMsg()
-        {
-            this.incorrectCount++;
-            this.lbIncorrectPin.Text = "INCORRECT PIN PLEASE TRY AGAIN";
-            this.lbIncorrectPin.Show();
-            var t = new Timer();
-            t.Interval = 2000;
-            t.Tick += (s, d) =>
-            {
-                this.lbIncorrectPin.Hide();
-                if (this.incorrectCount == 3)
-                {
-                    this.Close();
-                }
-                t.Stop();
-            };
-            t.Start();
-                   }
 
         private void showIvalidStudentCard()
         {

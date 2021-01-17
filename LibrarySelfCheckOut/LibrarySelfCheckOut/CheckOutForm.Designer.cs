@@ -38,8 +38,6 @@
             this.lbDate = new System.Windows.Forms.Label();
             this.panelCenter = new System.Windows.Forms.Panel();
             this.btCancel = new System.Windows.Forms.Button();
-            this.pnReturnSt = new System.Windows.Forms.Panel();
-            this.lbReturnNotice = new System.Windows.Forms.Label();
             this.lbSession = new System.Windows.Forms.Label();
             this.btDone = new System.Windows.Forms.Button();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
@@ -47,7 +45,6 @@
             this.panelHead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.panelCenter.SuspendLayout();
-            this.pnReturnSt.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbUsername
@@ -127,7 +124,6 @@
             // panelCenter
             // 
             this.panelCenter.Controls.Add(this.btCancel);
-            this.panelCenter.Controls.Add(this.pnReturnSt);
             this.panelCenter.Controls.Add(this.lbSession);
             this.panelCenter.Controls.Add(this.btDone);
             this.panelCenter.Controls.Add(this.flowLayoutPanelBookList);
@@ -153,28 +149,6 @@
             this.btCancel.UseMnemonic = false;
             this.btCancel.UseVisualStyleBackColor = false;
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
-            // 
-            // pnReturnSt
-            // 
-            this.pnReturnSt.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pnReturnSt.BackColor = System.Drawing.Color.White;
-            this.pnReturnSt.Controls.Add(this.lbReturnNotice);
-            this.pnReturnSt.Location = new System.Drawing.Point(39, 501);
-            this.pnReturnSt.Name = "pnReturnSt";
-            this.pnReturnSt.Size = new System.Drawing.Size(1687, 69);
-            this.pnReturnSt.TabIndex = 6;
-            // 
-            // lbReturnNotice
-            // 
-            this.lbReturnNotice.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbReturnNotice.AutoSize = true;
-            this.lbReturnNotice.Font = new System.Drawing.Font("UD Digi Kyokasho NP-R", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbReturnNotice.ForeColor = System.Drawing.Color.SeaGreen;
-            this.lbReturnNotice.Location = new System.Drawing.Point(460, 27);
-            this.lbReturnNotice.Name = "lbReturnNotice";
-            this.lbReturnNotice.Size = new System.Drawing.Size(644, 24);
-            this.lbReturnNotice.TabIndex = 0;
-            this.lbReturnNotice.Text = "Check out successfully. Please return before: 2021/01/02";
             // 
             // lbSession
             // 
@@ -234,8 +208,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.panelCenter.ResumeLayout(false);
             this.panelCenter.PerformLayout();
-            this.pnReturnSt.ResumeLayout(false);
-            this.pnReturnSt.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -252,8 +224,6 @@
         private System.Windows.Forms.Button btDone;
         private System.Windows.Forms.Timer timerSession;
         private System.Windows.Forms.Label lbSession;
-        private System.Windows.Forms.Panel pnReturnSt;
-        private System.Windows.Forms.Label lbReturnNotice;
         private System.Windows.Forms.PictureBox spiner;
         private System.Windows.Forms.Label lbDate;
         private System.Windows.Forms.Button btCancel;
