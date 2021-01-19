@@ -10,6 +10,6 @@ namespace LibrarySelfCheckOut.Utils
     {
         public static string PATRON_CARD_PREFIX = "PAT#";
 
-        public static int TID_LENGTH = 1;
+        public static int TID_LENGTH = 2;
     }
 }

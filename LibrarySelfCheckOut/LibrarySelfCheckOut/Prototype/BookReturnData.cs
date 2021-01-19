@@ -20,19 +20,6 @@ namespace LibrarySelfCheckOut.Prototype
             //BookReturnModel b5 = new BookReturnModel("E28068940000400BB95758AE", 5, "The Outsider","CANNOT RETURN");
 
 
-            BookReturnModel b1 = new BookReturnModel("1", 1, "The Hobbit", "RETURNED");
-            BookReturnModel b2 = new BookReturnModel("2", 2, "Belonging", "RETURNED");
-            BookReturnModel b3 = new BookReturnModel("3", 3, "SUQAR", "RETURNED");
-            BookReturnModel b4 = new BookReturnModel("4", 4, "Hamilton", "CANNOT RETURN");
-            BookReturnModel b5 = new BookReturnModel("5", 5, "The Outsider", "CANNOT RETURN");
-            BookReturnModel b6 = new BookReturnModel("6", 6, "Candy Is Magic","CANNOT RETURN");
-
-            books.Add(b1);
-            books.Add(b2);
-            books.Add(b3);
-            books.Add(b4);
-            books.Add(b5);
-            books.Add(b6);
         }
 
 

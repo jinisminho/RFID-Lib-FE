@@ -38,7 +38,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbIncorrectPin = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.spinner = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinner)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -144,11 +146,23 @@
             this.label2.Text = "PLEASE SCAN YOUR ID CARD\r\n";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // spinner
+            // 
+            this.spinner.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.spinner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
+            this.spinner.Location = new System.Drawing.Point(527, 339);
+            this.spinner.Name = "spinner";
+            this.spinner.Size = new System.Drawing.Size(81, 69);
+            this.spinner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.spinner.TabIndex = 14;
+            this.spinner.TabStop = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1193, 929);
+            this.Controls.Add(this.spinner);
             this.Controls.Add(this.lbIncorrectPin);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbMessage);
@@ -160,6 +174,7 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +190,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbIncorrectPin;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox spinner;
     }
 }
 

@@ -61,7 +61,7 @@ namespace LibrarySelfCheckOut
             }
         }
 
-        private void txtBookCode_KeyDown(object sender, KeyEventArgs e)
+        private async void txtBookCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -74,7 +74,9 @@ namespace LibrarySelfCheckOut
                         numberOfBookScanned++;
                         this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
                         this.timerSessionTimeOut.Enabled = false;
-                        BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
+                        this.spiner.Show();
+                        BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
+                        this.spiner.Hide();
                         if (rs.isSuccess)
                         {
                             BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
@@ -134,7 +136,7 @@ namespace LibrarySelfCheckOut
             }
         }
 
-        private void callReturnAPI()
+        private async void callReturnAPI()
         {
             this.btCancel.Enabled = false;
             this.pnBooksReturned.Controls.Clear();
@@ -142,8 +144,9 @@ namespace LibrarySelfCheckOut
             this.btDone.Enabled = false;
             this.spiner.Show();
             this.txtBookCode.Enabled = false;
-            //call api
-            ReturnResponseModel rs = BookProcessor.returnBooks(bookCodeList);
+            this.spiner.Show();
+            ReturnResponseModel rs = await BookProcessor.returnBooks(bookCodeList);
+            this.spiner.Hide();
             if (rs.isSuccess)
             {
                 int count = 0;

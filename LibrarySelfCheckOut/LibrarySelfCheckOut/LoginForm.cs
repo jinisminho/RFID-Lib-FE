@@ -37,10 +37,11 @@ namespace LibrarySelfCheckOut
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
             this.lbIncorrectPin.Hide();
+            this.spinner.Hide();
         }
 
      
-        private void txtStudentRFID_KeyDown(object sender, KeyEventArgs e)
+        private async void txtStudentRFID_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
@@ -49,38 +50,53 @@ namespace LibrarySelfCheckOut
                 if (studentFRID.StartsWith(Constant.PATRON_CARD_PREFIX))
                 {
                     this.sessionTimer.Enabled = false;
-                    AuthStudentModel student = AuthProcessor.checkLogin(studentFRID.Replace(Constant.PATRON_CARD_PREFIX, ""));
-                    if (student == null || (student != null && student.role != "ROLE_PATRON") || (student != null && student.status == "DEACTIVE"))
+                    this.spinner.Show();
+                    AuthResponse rs = await AuthProcessor.checkLogin(studentFRID.Replace(Constant.PATRON_CARD_PREFIX, ""));
+                    this.spinner.Hide();
+                    if (rs.isSuccess)
                     {
-                        incorrectCount++;
-                        showIvalidStudentCard();
-                        this.txtStudentRFID.Enabled = true;
-                        this.txtStudentRFID.Text = "";
-                        this.txtStudentRFID.Focus();
-                    }
-                    else
-                    {
-                        if (student.status == "NOT_RETURN")
+                        if (rs.student == null || (rs.student != null && rs.student.role != "ROLE_PATRON"))
                         {
-                            using (ModalOK model = new ModalOK("Please return over dued book(s) at the librarian counter to continue borrowing book"))
-                            {
-                                model.ShowDialog();
-                            }
-                            this.Close();
+                            incorrectCount++;
+                            showIvalidStudentCard();
+                            this.txtStudentRFID.Enabled = true;
+                            this.txtStudentRFID.Text = "";
+                            this.txtStudentRFID.Focus();
                         }
                         else
                         {
-                            
-                            long studentId = student.id;
-                            string studentUsername = student.username;
-                            int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
-                            CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
-                            checkOutForm.ShowDialog();
-                            this.sessionTimer.Enabled = false;
-                            resetLogin();
-                            this.Close();
+                            if (rs.student.overDue == true)
+                            {
+                                using (ModalOK model = new ModalOK("Please return over dued book(s) at the librarian counter to continue borrowing book"))
+                                {
+                                    model.ShowDialog();
+                                }
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                int studentId = rs.student.id;
+                                string studentUsername = rs.student.username;
+                                int maxNumberBorrowAllowed = rs.student.maxNumberBorrowAllowed;
+                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                                checkOutForm.ShowDialog();
+                                this.sessionTimer.Enabled = false;
+                                resetLogin();
+                                this.Close();
+                            }
                         }
                     }
+                    else
+                    {
+                        //http khac ok
+                        using (ModalOK model = new ModalOK(rs.msg))
+                        {
+                            model.ShowDialog();
+                        }
+                        resetLogin();
+                    }
+                    
                     this.sessionTimer.Enabled = true;
                 }
                 else
@@ -119,6 +135,7 @@ namespace LibrarySelfCheckOut
             this.sessionTimer.Enabled = true;
             this.txtStudentRFID.Text = "";
             this.txtStudentRFID.Focus();
+            this.spinner.Hide();
         }
 
 

@@ -23,7 +23,7 @@ namespace LibrarySelfCheckOut
 
         private int maxNumberBorrowAllowed;
 
-        private long studentId;
+        private int studentId;
 
         private List<String> bookCodeList;
 
@@ -36,7 +36,7 @@ namespace LibrarySelfCheckOut
         private IDictionary<String, String> bookCodeMap;
 
 
-        public CheckOutForm(string username, int maxNumberBorrowAllowed, long studentId)
+        public CheckOutForm(string username, int maxNumberBorrowAllowed, int studentId)
         {
             InitializeComponent();
             this.username = username;
@@ -62,7 +62,7 @@ namespace LibrarySelfCheckOut
         }
 
 
-        private void txtBookRFID_KeyDown(object sender, KeyEventArgs e)
+        private async void txtBookRFID_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -88,7 +88,9 @@ namespace LibrarySelfCheckOut
                         else
                         {
                             this.timerSession.Enabled = false;
-                            BookScannedResponseModel rs = BookProcessor.getBookByRfid(this.bookRFID);
+                            this.spiner.Show();
+                            BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
+                            this.spiner.Hide();
                             if (rs.isSuccess)
                             {
                                 BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
@@ -160,7 +162,7 @@ namespace LibrarySelfCheckOut
             this.lbIntruction.Text = "Place book(s) on the scanner to check out";
         }
 
-        private void callCheckOutAPI()
+        private async void callCheckOutAPI()
         {
             this.btCancel.Enabled = false;
             this.flowLayoutPanelBookList.Controls.Clear();
@@ -168,7 +170,8 @@ namespace LibrarySelfCheckOut
             this.timerSession.Enabled = false;
             this.btDone.Enabled = false;
             this.spiner.Show();
-            CheckOutResponseModel rs = BookProcessor.checkout(bookCodeList, studentId);
+            CheckOutResponseModel rs =  await BookProcessor.checkout(bookCodeList, studentId);
+            this.spiner.Hide();
             if (rs.isSuccess)
             {
                 this.spiner.Hide();
@@ -195,7 +198,6 @@ namespace LibrarySelfCheckOut
             }
             this.timerSession.Enabled = true;
             this.btDone.Enabled = true;
-            this.spiner.Hide();
         }
 
         private void btCancel_Click(object sender, EventArgs e)

@@ -21,20 +21,6 @@ namespace LibrarySelfCheckOut.Prototype
             //BookCheckOutModel book5 = new BookCheckOutModel("E28068940000400BB95758AE", 5, "The Outsider",false, "01/14/2021");
 
 
-
-            BookCheckOutModel book1 = new BookCheckOutModel("1", 1, "The Hobbit", true, "01/14/2021");
-            BookCheckOutModel book2 = new BookCheckOutModel("2", 2, "Belonging", true, "01/14/2021");
-            BookCheckOutModel book3 = new BookCheckOutModel("3", 3, "SUQAR", true, "01/14/2021");
-            BookCheckOutModel book4 = new BookCheckOutModel("4", 4, "Hamilton", true, "01/14/2021");
-            BookCheckOutModel book5 = new BookCheckOutModel("5", 5, "The Outsider", false, "01/14/2021");
-            BookCheckOutModel book6 = new BookCheckOutModel("6",6, "Candy Is Magic", false, "01/14/2021");
-
-            books.Add(book1);
-            books.Add(book2);
-            books.Add(book3);
-            books.Add(book4);
-            books.Add(book5);
-            books.Add(book6);
         }
 
         public CheckOutResponseModel checkout (List<String> bookCodeList)

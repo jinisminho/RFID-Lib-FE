@@ -16,12 +16,12 @@ namespace LibrarySelfCheckOut.Processors
     {
 
 
-        public static AuthStudentModel checkLogin(String rfid)
+        public static async Task<AuthResponse> checkLogin(String rfid)
         {
-            AuthData data = new AuthData();
-            AuthStudentModel student = data.findStudentById(rfid);
-            return student;
+            return await AuthAPI.findStudentByRFID(rfid);
         }
+
+      
 
 
 

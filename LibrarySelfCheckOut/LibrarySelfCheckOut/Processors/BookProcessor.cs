@@ -11,24 +11,24 @@ namespace LibrarySelfCheckOut.Processors
 {
     public class BookProcessor
     {
-        public static CheckOutResponseModel checkout(List<String> bookCodeList, long studentID)
+        public async static Task<CheckOutResponseModel> checkout(List<String> bookCodeList, int patronId)
         {
-            BookCheckOutData data = new BookCheckOutData();
-            return data.checkout(bookCodeList);
+            CheckOutRequestModel requestBody = new CheckOutRequestModel();
+            requestBody.patronId = patronId;
+            requestBody.bookCodeList = bookCodeList;
+            return await BookAPI.addBookBorrow(requestBody);
         }
 
 
-        public static ReturnResponseModel returnBooks(List<String> bookCodeList)
+        public async static Task<ReturnResponseModel> returnBooks(List<String> bookCodeList)
         {
-
-            BookReturnData data = new BookReturnData();
-            return data.returnBook(bookCodeList);
+            return  await BookAPI.returnBook(bookCodeList);
+           
         }
 
-        public static BookScannedResponseModel getBookByRfid (String rfid)
+        public async static Task<BookScannedResponseModel> getBookByRfid (String rfid)
         {
-            BookScannedData data = new BookScannedData();
-            return data.getBookByRfid(rfid);
+            return await BookAPI.findBookByBookRFID(rfid);
         }
     }
 }
