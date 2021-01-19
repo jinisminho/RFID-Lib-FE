@@ -29,6 +29,7 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Label,
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 import  Select  from 'react-select'

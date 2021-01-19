@@ -21,7 +21,7 @@ import MyUltil from "store/ultility"
 function thisDueDate(dueDate, numOfDateToAdd) {
     let date = MyUltil.convertToDate(dueDate)
     date.setDate(date.getDate() + numOfDateToAdd)
-    return date
+    return date.toDateString()
 };
 
 const ExtendDueForm = ({
@@ -36,7 +36,7 @@ const ExtendDueForm = ({
             <div className="content">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="control-label">{"New Due Date:  "} <p className="font-weight-bold">{"" + thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}</p></label>
+                        <label className="control-label"> {"New Due Date:  "} <p className="font-weight-bold">{"" + thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}</p></label>
                         {/* <Field name={"datePicker"} component={FieldDatePicker} placeholder="YYYY/MM/DD" minDate={minDate} maxDate={maxDate}/>                            */}
                         <input type="hidden" id="newDueDate" name="newDueDate" value={thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}></input>
                     </div>

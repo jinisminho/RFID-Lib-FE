@@ -3,9 +3,18 @@ import { Modal, Button } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './myModal.css';
+import MyUltil from "store/ultility"
 
 
 const extendedDueModal = (props) => {
+
+  function indexFormatter(cell, row, enumObject, index) {
+    return index+1
+  }
+
+  function dateFormatter(cell, row) {
+    return cell ? MyUltil.convertToDate(cell).toDateString() : ''
+}
 
   return (
     
@@ -23,10 +32,11 @@ const extendedDueModal = (props) => {
           hover
           scrollTop={ 'Top' }
           height="400px"
+          keyField="id"
         >
-          <TableHeaderColumn dataField="id" isKey dataAlign="center">ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="dateDue" dataAlign="center">Due</TableHeaderColumn>
-          <TableHeaderColumn dataField="dateExtended" dataAlign="center">Extended On</TableHeaderColumn>
+          <TableHeaderColumn dataField="#" dataFormat={indexFormatter} dataAlign="center">#</TableHeaderColumn>
+          <TableHeaderColumn dataField="dateDue" dataFormat={dateFormatter} dataAlign="center">Due</TableHeaderColumn>
+          <TableHeaderColumn dataField="dateExtended" dataFormat={dateFormatter} dataAlign="center">Extended On</TableHeaderColumn>
         </BootstrapTable>
       </Modal.Body>
       <Modal.Footer>

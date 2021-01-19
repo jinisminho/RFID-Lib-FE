@@ -13,7 +13,8 @@ export {
 export {
     getRentingInfo as getRentingInfoLibrarianSide,
     getExtendedHistory as getExtendedHistoryLibrarianSide,
-    extendDue as extendDueLibrarianSide
+    extendDue as extendDueLibrarianSide,
+    getStudent as getStudentLibInfo
 } from './Librarian/info'
 
 export {
@@ -49,9 +50,10 @@ export {
     getRentingInfo,
     getExtendedHistory,
     extendDue,
-    addReminder,
     getStudentProfile,
-    updateStudentProfile
+    updateStudentProfile,
+    addReminder,
+    getWishlist,
 } from './Student/info'
 
 export {
@@ -81,5 +83,5 @@ export{
 
 export {
     getBook as getBookStudentSide,
-    getWhislist
+    
 } from './Student/Book'

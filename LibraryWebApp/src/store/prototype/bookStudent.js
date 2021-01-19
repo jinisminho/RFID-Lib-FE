@@ -1,4 +1,4 @@
-import {arrayOfBooks} from "./mock_data"
+import {arrayOfBooks, wishList} from "./mock_data"
 
 
 
@@ -26,18 +26,6 @@ function getBooks(keywords,page,sizePerPage){
     return {"data": rs, "total":arr.length,"status":true};
 }
 
-function getWhislist(page,sizePerPage){   
-    let rs=[]
-    let arr = arrayOfBooks
-    if((sizePerPage)*(page)>arr.length){
-        rs=arr
-    }else{
-        for(var i=(sizePerPage)*(page);i<sizePerPage*(page+1);i++){
-            if(i<arr.length)
-                rs.push(arr[i])
-        }
-    }
-    return {"data": rs, "total":arr.length,"status":true};
-}
 
-export {getBooks, getWhislist}
+
+export {getBooks}
