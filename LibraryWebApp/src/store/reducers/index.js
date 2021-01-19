@@ -8,6 +8,7 @@ import info from './Student/info';
 import infoLside from './Librarian/info'; 
 import returnBook from './Librarian/ReturnBook';
 import staff from './Admin/Staff';
+import student from './Admin/Student';
 import requestNewBook from './Student/requestNewBook';
 import bookStu from './Student/book'
 export default {
@@ -22,5 +23,6 @@ export default {
   staff,
   requestNewBook,
   bookStu,
+  student,
   form: formReducer,
 };

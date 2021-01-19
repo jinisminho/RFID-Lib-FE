@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import * as booksPrototype from '../../prototype/bookMng'
+import * as copyBooksPrototype from '../../prototype/bookCopyMng'
 import { $CombinedState } from 'redux'
 
 export const getBookSuccess = (data, total, page, sizePerPage) => {
@@ -108,7 +109,7 @@ export const addCopySuccess =()=>{
 export const addBookCopy = (data) => {
     return dispatch => {
         dispatch(addCopyStart())    
-        let response=booksPrototype.copyBook(data)
+        let response=copyBooksPrototype.addCopy(data)
         if(response.status==true){
             dispatch(addCopySuccess())
         }else{
@@ -178,6 +179,35 @@ export const deleteBook = (id) => {
             dispatch(deleteBookSuccess())
         }else{
             dispatch(deleteBookFail(response.error))
+        }
+    }
+}
+
+export const generateCopyBarcodeStart =()=>{
+    return({
+        type: actionTypes.GENERATE_COPY_BARCODE_START
+    })
+} 
+export const generateCopyBarcodeFailed =(error)=>{
+    return({
+        type: actionTypes.GENERATE_COPY_BARCODE_FAILED,
+        error:error
+    })
+} 
+export const generateCopyBarcodeSuccess =(data)=>{
+    return({
+        type: actionTypes.GENERATE_COPY_BARCODE_SUCCESS,
+        data:data
+    })
+} 
+export const generateCopyBarcode = (data) => {
+    return dispatch => {
+        dispatch(generateCopyBarcodeStart())    
+        let response=copyBooksPrototype.generateBarcode(data)
+        if(response.status==true){
+            dispatch(generateCopyBarcodeSuccess(response.data))
+        }else{
+            dispatch(generateCopyBarcodeFailed(response.error))
         }
     }
 }

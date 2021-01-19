@@ -50,98 +50,83 @@ const renderField = ({ input, placeholder, type, meta: { touched, error } }) => 
         </OverlayTrigger>))}
     </>
 )
-const renderCode = ({ fields, meta: { error, submitFailed } }) => (
-    <>
-        {fields.map((member, index) =>
-            <InputGroup className="mb-3" key={index}>
-                <Field
-                    name={`${member}.code`}
-                    type="text"
-                    placeholder="Book's code"
-                    component={renderField}
-                    label="Book's Code" />
-                <InputGroupAddon addonType="append">
-                    <button
-                        className="btn btn-wd btn-danger "
-                        type="button"
-                        onClick={() => fields.remove(index)}>x</button>
-                </InputGroupAddon>
-            </InputGroup>
-        )}
-        <button className="btn btn-wd btn-primary " type="button" onClick={() => fields.push({})}>Add Copy</button>
-        {submitFailed && error && <span className="text-danger">{error}</span>}
-    </>
-)
-    const renderDropdown = ({ input,data, onBlur, id, meta: { touched, error }, ...props }) => {
 
-    const handleBlur = e => e.preventDefault();
-        let  options=[]
-        data.forEach(element => {
-            options.push({ value: element.id, label:element.title })
-        });
-       return (
-        <>
-               <Select {...input}
-                   id="object__dropdown--width"
-                   options={options}
-                   onChange={input.onChange}
-                   onBlur={handleBlur} 
-               />
-               {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-                <Popover>
-                    <Popover.Content>
-                        <span className="text-danger">{error}</span>
-                    </Popover.Content>
-                </Popover>
-            }
-        >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
-        </>
-       )
-   }
-   
+const validateNumber = value => {
+    if(value < 1) {
+      return 1
+    } else {
+      return value
+    }
+  }
 const validate = values => {
     const errors = {}
-    if (!values.book) {
-        errors.book = 'Book must be selected'
+    if (!values.isbn) {
+        errors.isbn = 'ISBN is required'
     }
-    if (!values.members || !values.members.length) {
-        errors.members = { _error: 'At least one code must be entered' }
-    } else {
-        const membersArrayErrors = []
-        values.members.forEach((member, memberIndex) => {
-            const memberErrors = {}
-            if (!member || !member.code) {
-                memberErrors.code = "Book's code is required"
-                membersArrayErrors[memberIndex] = memberErrors
-            }
-            return memberErrors
-        })
-        if (membersArrayErrors.length) {
-            errors.members = membersArrayErrors
-        }
+    if (!values.price) {
+        errors.price = 'Price is required'
+    } else if (!/^[0-9]+$/i.test(values.price)) {
+        errors.price = 'Price is not valid'
+    }
+
+    if (!values.noc) {
+        errors.noc = 'Number of copy is required'
+    } else if (!/^[0-9]+$/i.test(values.noc)) {
+        errors.noc = 'Number of copy is not valid'
     }
     return errors
 }
 const CopyAddForm = ({
     handleSubmit,
-    handleCancel,
-    dataList
+    handleCancel
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
-                        <Field name="book" 
-                            data={dataList}
-                            component={renderDropdown} 
-                        />
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="fas fa-barcode" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="isbn"
+                            type="text"
+                            placeholder="ISBN"
+                            component={renderField} />
+                    </InputGroup>
                 </FormGroup>
-                <FieldArray name="members" component={renderCode} />
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="fas fa-barcode" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="price"
+                            type="number"
+                            placeholder="Price"
+                            normalize={validateNumber}
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="fas fa-barcode" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="noc"
+                            type="number"
+                            normalize={validateNumber}
+                            placeholder="Number of copy"
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
                 <div className="text-right">
                 <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                     <span className="btn-label">
@@ -158,6 +143,6 @@ const CopyAddForm = ({
 );
 
 export default reduxForm({
-    form: 'fieldArrays',
+    form: 'CopyAddForm',
     validate
 })(CopyAddForm)

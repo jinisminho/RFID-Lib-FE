@@ -61,9 +61,9 @@ const validate = values => {
         errors.address = 'Must be 3 characters or more';
     }
     if (!values.name) {
-        errors.name = 'Staff name is required';
+        errors.name = 'Student name is required';
     } else if (values.name.length > 100) {
-        errors.name = 'Staff name length is less than 100';
+        errors.name = 'Student name length is less than 100';
     }
     if (!values.username) {
         errors.username = 'Username is required';
@@ -91,7 +91,7 @@ const validate = values => {
     return errors;
 };
 
-const StaffForm = ({
+const StudentForm = ({
     handleSubmit,
     handleCancel
 }) => (
@@ -109,7 +109,7 @@ const StaffForm = ({
                             name="name"
                             component={renderField}
                             type="text"
-                            placeholder="Enter Staff Name"
+                            placeholder="Enter Student Name"
                         />
                     </InputGroup>
                 </FormGroup>
@@ -226,4 +226,4 @@ const StaffForm = ({
 export default reduxForm({
     form: 'fieldArrays',
     validate
-})(StaffForm)
+})(StudentForm)

@@ -27,11 +27,10 @@ import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
 import BookForm from './bookForm'
 import CopyForm from './copyForm'
-import NotiModal from '../../components/Modals/NotiModal'
+import ConfirmCopyForm from './copyComfirmForm'
 import {
     Card,
     CardHeader,
-    CardFooter,
     Container
 } from "reactstrap";
 class Book extends React.Component {
@@ -47,7 +46,8 @@ class Book extends React.Component {
             copyShow: false,
             copyData: null,
             updateFormShow: false,
-            updateData: null
+            updateData: null,
+            confirmFormShow:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -75,6 +75,9 @@ class Book extends React.Component {
         }
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue:'' })
+        }
+        if(this.props.bookCopyData!=null && !this.state.confirmFormShow){
+            this.setState({confirmFormShow:true})
         }
     }
     inputChangedHandler = (event) => {
@@ -131,7 +134,7 @@ class Book extends React.Component {
     }
     handleCopySubmit(values) {
         this.setState({ copyShow: false })
-        this.props.onAddCopy(values)
+        this.props.onGenerateBarcode(values)
     }
     handleDeleteSubmit() {
         this.setState({ confirmDelete: false})
@@ -142,6 +145,33 @@ class Book extends React.Component {
             confirmDelete: false,
             deleteId: null,
         })
+    }
+    getConfirmInitialValues = () => {
+        let barcode=[]
+        if(this.props.bookCopyData && this.props.bookCopyData.barcode.length>0){
+            this.props.bookCopyData.barcode.forEach(el => {
+                barcode.push({"barcode":el})
+            });
+        }
+        return {
+            isbn: this.props.bookCopyData ? this.props.bookCopyData.isbn : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.author : '',
+            price: this.props.bookCopyData ? this.props.bookCopyData.price : '',
+            title: this.props.bookCopyData ? this.props.bookCopyData.title : '',
+            edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
+            noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
+            members:barcode
+        };
+    }
+    handleConfirmCancel = () => {
+        this.setState({
+            confirmFormShow: false,
+        })
+        this.fetchData()
+    }
+    handleConfirmSubmit=(values)=>{
+        this.setState({ confirmFormShow: false })
+        this.props.onAddCopy(values)
     }
     activeFormatter(cell, row) {
         return (
@@ -159,6 +189,23 @@ class Book extends React.Component {
                     copyData: row
                 })}>Make Copy</Button>        
             </div>
+        )
+    }
+    statusFormatter(cell, row) {
+        let status=""
+        switch (row.status) {
+            case "OUT_OF_CIRCULATION":
+                status="Out of circulation"
+                break;
+            case "NOT_ALLOWED_TO_BORROW":
+                status="Not allowed to borrow"
+                break;
+            case "ALLOWED_TO_BORROW":
+                status="Allowed to borrow"
+                break;
+        }
+        return (
+            status
         )
     }
     bookDescriptionFormat(cell, row) {
@@ -194,6 +241,7 @@ class Book extends React.Component {
             nop: this.state.updateData ? this.state.updateData.nop : '',
             category: this.state.updateData ? this.state.updateData.category : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
+            status: this.state.updateData ? this.state.updateData.status : '',
             members: author,
             id:this.state.updateData ? this.state.updateData.id : ''
         };
@@ -250,8 +298,9 @@ class Book extends React.Component {
                     className="ml-4 mr-4"
                 >
                     <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="55%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="40%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="status" dataAlign="center" dataFormat={this.statusFormatter} width="15%">Status</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
@@ -277,6 +326,14 @@ class Book extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <CopyForm initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
+                    </Modal.Body>
+                </Modal>
+                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirmCancel()}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm Book Copy</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirmCancel()} onSubmit={(value) => this.handleConfirmSubmit(value)}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
@@ -357,7 +414,8 @@ const mapStateToProps = state => {
         deleteSuccess: state.book.deleteSuccess,
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
-        addSuccess: state.book.addSuccess
+        addSuccess: state.book.addSuccess,
+        bookCopyData: state.book.bookCopyData
     }
 }
 
@@ -367,7 +425,8 @@ const mapDispatchToProps = dispatch => {
         onDeleteBook: (id) => dispatch(actions.deleteBook(id)),
         onUpdateBook: (data) => dispatch(actions.updateBook(data)),
         onAddBook: (data) => dispatch(actions.addBook(data)),
-        onAddCopy: (data) => dispatch(actions.addBookCopy(data))
+        onAddCopy: (data) => dispatch(actions.addBookCopy(data)),
+        onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data))
     }
 }
 
