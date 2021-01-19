@@ -11,39 +11,60 @@ namespace LibrarySelfCheckOut.APIs
 {
     public class BookAPI
     {
-        public static async Task<BookCheckOutModel> findBookByBookRFID(long bookRFID)
+        public static async Task<BookScannedResponseModel> findBookByBookRFID(String rfid)
         {
-            string url = $"win/book?bookRFID=" + bookRFID;
+            string url = $"/BookCopy/" + rfid;
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
 
-                    BookCheckOutModel book = await response.Content.ReadAsAsync<BookCheckOutModel>();
+                    BookScannedModel book = await response.Content.ReadAsAsync<BookScannedModel>();
                    
-                    return book;
+                    return new BookScannedResponseModel(true, "", book);
                 }
                 else
                 {
-                    throw null;
+                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+
+                    return new BookScannedResponseModel(false, error.message, null);
                 }
             }
         }
 
-        public static async Task<String> addBookBorrow(long studentId, List<long> bookIdList)
+        public static async Task<CheckOutResponseModel> addBookBorrow(CheckOutRequestModel requestBody)
         {
-            string url = $"win/bookBorrow?studentId=" + studentId;
-            using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, bookIdList))
+            string url = $"/BookBorrowing/checkout";
+            using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, requestBody))
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
-
-                    string message = await response.Content.ReadAsStringAsync();
-                    return message;
+                    List<BookCheckOutModel> books = await response.Content.ReadAsAsync<List<BookCheckOutModel>>();
+                    return new CheckOutResponseModel(true, "", books);
                 }
                 else
                 {
-                    return "failed";
+                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                    return new CheckOutResponseModel(false, error.message, null);
+                }
+            }
+        }
+
+        public static async Task<ReturnResponseModel> returnBook(List<String> bookCodeList)
+        {
+            string url = $"/BookBorrowing/return";
+            using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, bookCodeList))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    List<BookReturnModel> books = await response.Content.ReadAsAsync<List<BookReturnModel>>();
+
+                    return new ReturnResponseModel(true, "", books);
+                }
+                else
+                {
+                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                    return new ReturnResponseModel(false, error.message, null);
                 }
             }
         }

@@ -18,10 +18,15 @@ namespace LibrarySelfCheckOut
             InitializeComponent();
             this.lbBook.Text = "Book: " + bookTitle;
             this.lbIndex.Text = index + ".";
-            if (status.Contains("CANNOT"))
+            if (status.Contains("OVERDUE"))
             {
                 this.lbStatus.ForeColor = Color.Red;
                 this.lbStatus.Text = "Status: CANNOT RETURN - contact librarian for overdue return";
+            }
+            else if (status.Contains("INVALID"))
+            {
+                this.lbStatus.ForeColor = Color.Red;
+                this.lbStatus.Text = "Status: CANNOT RETURN - invalid book";
             }
             else
             {

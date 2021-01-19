@@ -98,12 +98,15 @@
     <Compile Include="ModalYESNO.Designer.cs">
       <DependentUpon>ModalYESNO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthResponse.cs" />
     <Compile Include="Models\AuthStudentModel.cs" />
     <Compile Include="Models\BookCheckOutModel.cs" />
     <Compile Include="Models\BookReturnModel.cs" />
     <Compile Include="Models\BookScannedModel.cs" />
     <Compile Include="Models\BookScannedResponseModel.cs" />
+    <Compile Include="Models\CheckOutRequestModel.cs" />
     <Compile Include="Models\CheckOutResponseModel.cs" />
+    <Compile Include="Models\ErrorDto.cs" />
     <Compile Include="Models\ReturnResponseModel.cs" />
     <Compile Include="Processors\AuthProcessor.cs" />
     <Compile Include="Processors\BookProcessor.cs" />

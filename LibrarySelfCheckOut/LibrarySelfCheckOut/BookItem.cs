@@ -20,7 +20,7 @@ namespace LibrarySelfCheckOut
             InitializeComponent();
             this.lbIndex.Text = index + ".";
             this.lbBook.Text = book.title;
-            if (book.isBorrowed)
+            if (book.ableToBorrow)
             {
                 this.lbStatus.ForeColor = Color.Green;
                 this.lbStatus.Text = "Status: CHECKED OUT";
