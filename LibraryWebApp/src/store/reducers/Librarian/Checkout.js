@@ -100,6 +100,11 @@ const getBookStart = (state, action) =>{
       checkoutSuccess:false
     })
   }
+  const clearBookError = (state, action) =>{
+    return updateObject(state,{
+      bookError:null,
+    })
+  }
   const deleteCheckoutBook=(state, action) =>{
     let tmp_books=[...state.bookData]
     tmp_books.forEach((book,idx)=> {
@@ -139,6 +144,8 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_OVERDUE_FAILED: return getOverdueFailed(state, action)
 
     case actionTypes.CLEAR_CHECKOUT_DATA: return clearData(state, action)
+
+    case actionTypes.CLEAR_BOOK_ERROR: return clearBookError(state, action)
 
     case actionTypes.DELETE_CHECKOUT_BOOK: return deleteCheckoutBook(state, action)
 }

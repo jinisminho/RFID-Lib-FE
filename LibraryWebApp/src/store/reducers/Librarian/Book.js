@@ -115,10 +115,33 @@ const addCopySuccess = (state, action)=>{
   return updateObject(state,{
       error:null,
       loading:false,
+      copySuccess:true,
+      bookCopyData:null
+    })
+}
+const addCopyFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+      page:1,
+      sizePerPage:10,
+  })
+}
+const generateBarcodeStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    addSuccess:false,
+  })
+}
+const generateBarcodeSuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
       bookCopyData:action.data
   })
 }
-const addCopyFail = (state, action) =>{
+const generateBarcodeFailed = (state, action) =>{
   return updateObject(state,{
       error:action.error,
       loading:false,
@@ -159,6 +182,10 @@ export default function reducer(state = {
     case actionTypes.ADD_COPY_BOOK_START: return addCopyStart(state, action)
     case actionTypes.ADD_COPY_BOOK_FAILED: return addCopyFail(state, action)
     case actionTypes.ADD_COPY_BOOK_SUCCESS: return addCopySuccess(state, action)
+
+    case actionTypes.GENERATE_COPY_BARCODE_START: return generateBarcodeStart(state, action)
+    case actionTypes.GENERATE_COPY_BARCODE_FAILED: return generateBarcodeFailed(state, action)
+    case actionTypes.GENERATE_COPY_BARCODE_SUCCESS: return generateBarcodeSuccess(state, action)
    
 }
 return state

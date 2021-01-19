@@ -28,7 +28,7 @@ export const getStudent = (search) => {
         if(response.status){
             dispatch(getStudentSuccess(response.data))
         }else{
-            dispatch(getStudentFailed(response.err))
+            dispatch(getStudentFailed(response.error))
         }
     }
 
@@ -62,7 +62,7 @@ export const getStudentBook = (code) => {
         if(response.status){
             dispatch(getStudentBookSuccess(response.data))
         }else{
-            dispatch(getStudentBookFail(response.err))
+            dispatch(getStudentBookFail(response.error))
         }
         // let url='/books'
         // if(search){
@@ -118,6 +118,13 @@ export const checkout = (studentid,booklist) => {
 export const clearData = () => {
     return {
         type: actionTypes.CLEAR_CHECKOUT_DATA
+    }
+
+}
+
+export const clearBookError = () => {
+    return {
+        type: actionTypes.CLEAR_BOOK_ERROR
     }
 
 }

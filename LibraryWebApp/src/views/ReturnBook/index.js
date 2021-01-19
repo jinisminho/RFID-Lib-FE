@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import StudentInfoCard from './studentInfoCard'
 import Books from './returningBooks'
+import BarcodeReader from 'react-barcode-reader'
 
 
 class ReturnBook extends React.Component {
@@ -27,57 +28,25 @@ class ReturnBook extends React.Component {
             errorShow: false,
             errMsg:'',
             bookList: [],
+            bookCodeList:[]
         }
+        this.handleScan = this.handleScan.bind(this)
     }
     componentDidMount(){
         this.clearBookData()
     }
     componentDidUpdate() {
-        let msg=null
-        if (msg != null && !this.state.successShow) {
-            this.setState({ successShow: true, successNotice: msg })
-        }
-        if ((this.props.error != null || this.props.bookError != null) && !this.state.errorShow) {
-            let errMsg=null
-            if(this.props.error != null){
-                errMsg=this.props.error
-            }else if(this.props.bookError){
-                errMsg=this.props.bookError
-            }
-            this.setState({ errorShow: true,errMsg:errMsg })
+        if (this.props.bookError != null && !this.state.errorShow) {
+            this.setState({ errorShow: true,errMsg:this.props.bookError })
         }
     }
 
-    inputChangedHandler = (event) => {
-        this.setState({ searchValue: event.target.value })
-    }
-
-    inputBookChangedHandler = (event) => {
-        this.setState({ bookSearchValue: event.target.value })
-    }
-
-    handleSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
-    }
-
-    handleBookSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
-        this.fetchBookData()
-    }
-
-    fetchBookData(){
-        this.props.onGetBook(this.state.bookSearchValue)
-    }
+  
     clearBookData(){
         this.props.onClearBook()
         this.setState({
-            bookSearchValue:""
+            bookSearchValue:"",
+            bookCodeList:[]
         })
     }
     handleModalClose() {
@@ -93,8 +62,20 @@ class ReturnBook extends React.Component {
             username:  this.props.studentData ? this.props.studentData.username : '',
         };
     }
-
-
+    handleScan(data){
+        if(!this.state.bookCodeList.includes(data.trim())){
+            this.setState({
+                successShow: false,
+                errorShow: false,
+                bookCodeList:[...this.state.bookCodeList,data.trim()]
+            })
+            this.props.onGetBook(data.trim())
+        }
+      }
+      clearReturnBookError() {
+        this.props.onClearReturnBookError()
+        this.setState({ errorShow: false, errMsg: "" })
+    }
     render(){
 
         const options = {
@@ -109,22 +90,18 @@ class ReturnBook extends React.Component {
     
         return(
         <>
-            <StudentHeader />
+            <StudentHeader title="SCAN BOOK TO RETURN"/>
+            <BarcodeReader
+                    onScan={this.handleScan}
+                    onError={(e) => console.log(e)}
+                />
             <Container className="mt--7" fluid>
                 <Card className="shadow w-100">
                      <CardHeader className="border-0">
                         <h3 className="mb-0">Returning books</h3>
                     </CardHeader>
                     <Row className="w-100 m-0 p-0">
-                    <Col className="col-4 pl-4"> 
-                    <InputGroup className="mb-3">
-                        <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Scanning book to get book's code" />
-                        <InputGroup.Append>
-                            <button onClick={() => this.handleBookSearch()} className="btn btn-simple">RETURN</button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                    </Col>
-                    <Col className="col-8 pr-4 pull-right">
+                    <Col className="col-12 mb-3 pr-4 pull-right">
                         <button onClick={() => this.clearBookData()}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
@@ -151,6 +128,20 @@ class ReturnBook extends React.Component {
                 </BootstrapTable>
             
         </Container>
+        <Modal show={this.state.errorShow} onHide={() => this.clearReturnBookError()} backdrop="static" keyboard={false}>
+                    <Modal.Header closeButton className="bg-danger">
+                        <Modal.Title>Book Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="text-center">
+                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
+                        <h2>{this.state.errMsg}</h2>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => this.clearReturnBookError()}>
+                            Close
+                                </Button>
+                    </Modal.Footer>
+                </Modal>
         </>
         )
     }
@@ -160,7 +151,6 @@ const mapStateToProps = state => {
     return {
         bookData: state.returnBook.bookData,
         bookLoading: state.returnBook.bookLoading,
-        error: state.returnBook.error,
         bookError: state.returnBook.bookError,
     }
 }
@@ -168,7 +158,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetBook: (search) => dispatch(actions.getReturningBook(search)),
-        onClearBook: () => dispatch(actions.clearBook())
+        onClearBook: () => dispatch(actions.clearBook()),
+        onClearReturnBookError: () => dispatch(actions.clearReturnBookError())
     }
 }
 

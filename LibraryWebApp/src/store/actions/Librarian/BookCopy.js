@@ -107,10 +107,9 @@ export const addCopyFail =(error)=>{
         error:error
     })
 } 
-export const addCopySuccess =(data)=>{
+export const addCopySuccess =()=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_SUCCESS,
-        data:data
+        type: actionTypes.ADD_COPY_BOOK_SUCCESS
     })
 } 
 export const addCopy = (data) => {
@@ -118,7 +117,7 @@ export const addCopy = (data) => {
         dispatch(addCopyStart())    
         let response=copyPrototype.addCopy(data)
         if(response.status==true){
-            dispatch(addCopySuccess(response.data))
+            dispatch(addCopySuccess())
         }else{
             dispatch(addCopyFail(response.error))
         }
@@ -239,5 +238,33 @@ export const getAllBook = () => {
         //         dispatch(getCopyFail(error))
         //     });
     }
+}
 
+export const generateBarcodeStart =()=>{
+    return({
+        type: actionTypes.GENERATE_BARCODE_START
+    })
+} 
+export const generateBarcodeFailed =(error)=>{
+    return({
+        type: actionTypes.GENERATE_BARCODE_FAILED,
+        error:error
+    })
+} 
+export const generateBarcodeSuccess =(data)=>{
+    return({
+        type: actionTypes.GENERATE_BARCODE_SUCCESS,
+        data:data
+    })
+} 
+export const generateBarcode = (data) => {
+    return dispatch => {
+        dispatch(generateBarcodeStart())    
+        let response=copyPrototype.generateBarcode(data)
+        if(response.status==true){
+            dispatch(generateBarcodeSuccess(response.data))
+        }else{
+            dispatch(generateBarcodeFailed(response.error))
+        }
+    }
 }

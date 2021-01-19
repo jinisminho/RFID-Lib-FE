@@ -29,10 +29,13 @@ const clearReturnBook=(state, action) =>{
     bookData:[]
 })
 }
-
+const clearReturnBookError=(state, action) =>{
+  return updateObject(state,{
+    bookError:null
+})
+}
 
 export default function reducer(state = {
-    error:null,
     bookData:[],
     bookError:null,
     bookLoading:false,
@@ -40,6 +43,7 @@ export default function reducer(state = {
 }, action) {
   switch(action.type){
     case actionTypes.CLEAR_RETURN_BOOK: return clearReturnBook(state, action)
+    case actionTypes.CLEAR_RETURN_BOOK_ERROR: return clearReturnBookError(state, action)
 
     case actionTypes.LIB_RETURN_GET_BOOK_START: return getReturningBookStart(state, action)
     case actionTypes.LIB_RETURN_GET_BOOK_SUCCESS: return getReturningBookSuccess(state, action)

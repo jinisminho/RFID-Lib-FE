@@ -134,7 +134,7 @@ class Book extends React.Component {
     }
     handleCopySubmit(values) {
         this.setState({ copyShow: false })
-        this.props.onAddCopy(values)
+        this.props.onGenerateBarcode(values)
     }
     handleDeleteSubmit() {
         this.setState({ confirmDelete: false})
@@ -163,11 +163,15 @@ class Book extends React.Component {
             members:barcode
         };
     }
-    handleConfirm = () => {
+    handleConfirmCancel = () => {
         this.setState({
             confirmFormShow: false,
         })
         this.fetchData()
+    }
+    handleConfirmSubmit=(values)=>{
+        this.setState({ confirmFormShow: false })
+        this.props.onAddCopy(values)
     }
     activeFormatter(cell, row) {
         return (
@@ -185,6 +189,23 @@ class Book extends React.Component {
                     copyData: row
                 })}>Make Copy</Button>        
             </div>
+        )
+    }
+    statusFormatter(cell, row) {
+        let status=""
+        switch (row.status) {
+            case "OUT_OF_CIRCULATION":
+                status="Out of circulation"
+                break;
+            case "NOT_ALLOWED_TO_BORROW":
+                status="Not allowed to borrow"
+                break;
+            case "ALLOWED_TO_BORROW":
+                status="Allowed to borrow"
+                break;
+        }
+        return (
+            status
         )
     }
     bookDescriptionFormat(cell, row) {
@@ -220,6 +241,7 @@ class Book extends React.Component {
             nop: this.state.updateData ? this.state.updateData.nop : '',
             category: this.state.updateData ? this.state.updateData.category : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
+            status: this.state.updateData ? this.state.updateData.status : '',
             members: author,
             id:this.state.updateData ? this.state.updateData.id : ''
         };
@@ -276,8 +298,9 @@ class Book extends React.Component {
                     className="ml-4 mr-4"
                 >
                     <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="55%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="40%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="status" dataAlign="center" dataFormat={this.statusFormatter} width="15%">Status</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
@@ -305,12 +328,12 @@ class Book extends React.Component {
                         <CopyForm initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirm()}}>
+                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirmCancel()}}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirm()} onSubmit={() => this.handleConfirm()}/>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirmCancel()} onSubmit={(value) => this.handleConfirmSubmit(value)}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
@@ -402,7 +425,8 @@ const mapDispatchToProps = dispatch => {
         onDeleteBook: (id) => dispatch(actions.deleteBook(id)),
         onUpdateBook: (data) => dispatch(actions.updateBook(data)),
         onAddBook: (data) => dispatch(actions.addBook(data)),
-        onAddCopy: (data) => dispatch(actions.addBookCopy(data))
+        onAddCopy: (data) => dispatch(actions.addBookCopy(data)),
+        onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data))
     }
 }
 

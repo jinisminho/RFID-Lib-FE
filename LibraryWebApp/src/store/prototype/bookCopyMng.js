@@ -70,18 +70,39 @@ function addCopy(data){
     if(!isFind){
         return {"status":false,"error":"Book not found"}
     }
-    let tmp_rs=JSON.parse(JSON.stringify(rs))
-    tmp_rs["price"]=data["price"]
-    tmp_rs["barcode"]=[]
     for(var i=0;i<data['noc'];i++){
         let tmp=JSON.parse(JSON.stringify(rs))
         tmp["id"]=arrayOfCopy[arrayOfCopy.length-1]["id"]+1
         tmp["barcode"]="ABC123"+i
         tmp["status"]="PREPARING"
         arr_rs.push(tmp)
-        tmp_rs["barcode"].push(tmp["barcode"])
     }
     arrayOfCopy.push(...arr_rs)
+    return {"status":true};
+}
+function generateBarcode(data){
+    let arr_rs=[]
+    let rs={}
+    let isFind=false
+    for(var i = 0 ; i< arrayOfBooks.length; i++){
+        if(data["isbn"]==arrayOfBooks[i]["isbn"]){
+            isFind=true
+            let tmp = arrayOfBooks[i]
+            delete tmp["id"]
+            rs=tmp
+        }
+    }
+    if(!isFind){
+        return {"status":false,"error":"Book not found"}
+    }
+    let tmp_rs=JSON.parse(JSON.stringify(rs))
+    tmp_rs["price"]=data["price"]
+    tmp_rs["barcode"]=[]
+    for(var i=0;i<data['noc'];i++){
+        let tmp=JSON.parse(JSON.stringify(rs))
+        tmp["barcode"]="ABC123"+i
+        tmp_rs["barcode"].push(tmp["barcode"])
+    }
     return {"data":tmp_rs,"status":true};
 }
 function updateCopy(data){
@@ -106,4 +127,4 @@ function getBookCopyStatus(){
     return {"data":[{ value: 'READY', label: 'READY' },
     { value: 'PREPARING', label: 'PREPARING' }],"status":true};
 }
-export {getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus}
+export {getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus,generateBarcode}

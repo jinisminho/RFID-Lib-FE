@@ -30,7 +30,7 @@ export const getReturningBook = (search) => {
         if(response.status){
             dispatch(getReturningBookSuccess(response.data))
         }else{
-            dispatch(getReturningBookFail(response.err))
+            dispatch(getReturningBookFail(response.error))
         }
     }
 
@@ -40,6 +40,13 @@ export const getReturningBook = (search) => {
 export const clearBook = () => {
     return {
         type: actionTypes.CLEAR_RETURN_BOOK
+    }
+
+}
+
+export const clearReturnBookError = () => {
+    return {
+        type: actionTypes.CLEAR_RETURN_BOOK_ERROR
     }
 
 }

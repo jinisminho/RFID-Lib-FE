@@ -26,7 +26,8 @@ class StudentHeader extends React.Component {
       <>
         <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
           <Container fluid>
-            <div className="header-body">
+            <div className="header-body text-center">
+              <h1 className="text-danger">{this.props.title}</h1>
             </div>
           </Container>
         </div>

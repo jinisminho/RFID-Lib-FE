@@ -29,7 +29,6 @@ import CopyAddForm from './copyAddForm'
 import CopyUpdateForm from './copyUpdateForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import Select from 'react-select';
-import chroma from 'chroma-js';
 
 import {
     Card,
@@ -120,9 +119,9 @@ class BookCopy extends React.Component {
     getAllBookStatus(){
         this.props.onGetBookStatus()
     }
-    handleAddSubmit(values) {
+    handleGenerateSubmit(values) {
         this.setState({ addFormShow: false })
-        this.props.onAddCopy(values)
+        this.props.onGenerateBarcode(values)
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -148,15 +147,18 @@ class BookCopy extends React.Component {
             deleteId: null,
         })
     }
-    handleConfirm = () => {
+    handleConfirmCancel = () => {
         this.setState({
             confirmFormShow: false,
         })
         this.fetchData()
     }
+    handleConfirmSubmit=(values)=>{
+        this.setState({ confirmFormShow: false })
+        this.props.onAddCopy(values)
+    }
     handleSelectChange(values){
         let tmp=[]
-        console.log(values)
         if(values !=null){
             values.forEach(el => {
                 tmp.push(el["value"])
@@ -287,15 +289,15 @@ class BookCopy extends React.Component {
                         <Modal.Title>Add Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyAddForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)}/>
+                        <CopyAddForm  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleGenerateSubmit(values)}/>
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirm()}}>
+                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirmCancel()}}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirm()} onSubmit={() => this.handleConfirm()}/>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirmCancel()} onSubmit={(values) => this.handleConfirmSubmit(values)}/>
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
@@ -398,7 +400,8 @@ const mapDispatchToProps = dispatch => {
         onUpdateCopy: (data) => dispatch(actions.updateCopy(data)),
         onAddCopy: (data) => dispatch(actions.addCopy(data)),
         onGetBook: () => dispatch(actions.getAllBook()),
-        onGetBookStatus:()=>dispatch(actions.getBookCopyStatus())
+        onGetBookStatus:()=>dispatch(actions.getBookCopyStatus()),
+        onGenerateBarcode:(data)=>dispatch(actions.generateBarcode(data))
     }
 }
 

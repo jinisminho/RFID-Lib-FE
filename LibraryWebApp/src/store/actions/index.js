@@ -21,7 +21,8 @@ export {
     addBook,
     updateBook,
     deleteBook,
-    addBookCopy
+    addBookCopy,
+    generateCopyBarcode
 } from './Librarian/Book'
 
 export {
@@ -30,7 +31,8 @@ export {
     updateCopy,
     deleteCopy,
     getAllBook,
-    getBookCopyStatus
+    getBookCopyStatus,
+    generateBarcode
 } from './Librarian/BookCopy'
 
 export {
@@ -39,7 +41,8 @@ export {
     checkout,
     clearData,
     deleteCheckoutBook,
-    getOverdue
+    getOverdue,
+    clearBookError
 } from './Librarian/Checkout'
 
 export {
@@ -53,7 +56,8 @@ export {
 
 export {
     clearBook,
-    getReturningBook
+    getReturningBook,
+    clearReturnBookError
 } from './Librarian/ReturnBook'
 
 export {

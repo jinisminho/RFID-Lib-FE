@@ -1,6 +1,6 @@
-var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"1","barcode":"1231","studentid":1,"studentname":"Khang Nguyen"},
-{"id":2,"book":1,"title":"Harry2","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"2","barcode":"1232","studentid":1,"studentname":"Khang Nguyen"},
-{"id":3,"book":2,"title":"Harry3","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"3","barcode":"1233","studentid":1,"studentname":"Khang Nguyen"},
+var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95748AE","barcode":"1231","studentid":1,"studentname":"Khang Nguyen"},
+{"id":2,"book":1,"title":"Harry2","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95750AE","barcode":"1232","studentid":1,"studentname":"Khang Nguyen"},
+{"id":3,"book":2,"title":"Harry3","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000400BB9574CAE","barcode":"1233","studentid":1,"studentname":"Khang Nguyen"},
 {"id":4,"book":3,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"4","barcode":"1234","studentid":1,"studentname":"Khang Nguyen"},
 {"id":5,"book":4,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"5","barcode":"1235","studentid":1,"studentname":"Khang Nguyen"},
 {"id":6,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"6","barcode":"1236","studentid":1,"studentname":"Khang Nguyen"},
@@ -32,12 +32,18 @@ function getStudent(rfidcode){
 
 function getBook(rfidcode){
     let rs = null
+    let isFind=false
     arrayOfCopy.forEach(el=>{
         if(el["rfidcode"]==rfidcode){
             rs = el
+            isFind=true
         }
     })
-    return {"data":rs,"status":true}
+    if(isFind){
+        return {"data":rs,"status":true}
+    }else{
+        return {"error":"Book not found","status":false}
+    }
 }
 
 export {getStudent,getBook}

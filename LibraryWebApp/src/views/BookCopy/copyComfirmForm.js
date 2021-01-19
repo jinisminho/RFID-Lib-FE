@@ -156,6 +156,10 @@ const ConfirmCopyForm = ({
                 <FieldArray name="members" component={renderCode} />
                 </div>
                 <div className="text-right">
+                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                    <span className="btn-label">
+                    </span> Cancel
+                </button>
                 <button type="submit" className="btn btn-wd btn-success ">
                     <span className="btn-label">
                     </span> OK
