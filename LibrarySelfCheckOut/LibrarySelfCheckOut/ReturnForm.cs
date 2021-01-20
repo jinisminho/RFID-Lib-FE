@@ -182,6 +182,10 @@ namespace LibrarySelfCheckOut
                 {
                     this.Close();
                 }
+                else
+                {
+                    this.txtBookCode.Focus();
+                }
             }
         }
     }
