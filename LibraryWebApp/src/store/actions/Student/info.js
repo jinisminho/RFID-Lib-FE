@@ -28,7 +28,7 @@ export const getRentingInfoStart = () => {
 export const getRentingInfo = (page, size, search) => {
     return dispatch => {
         dispatch(getRentingInfoStart())
-        let response = prototype.getRentingInfos()
+        let response = prototype.getRentingInfos(search)
         if (response.status) {
             dispatch(getRentingInfoSuccess(response.data, response.total, page, size))
         } else {
@@ -124,17 +124,17 @@ export const extendDueStart = () => {
     }
 }
 
-export const extendDue = (libraryCardId) => {
+export const extendDue = (studentId, bookId) => {
     return dispatch => {
 
         dispatch(extendDueStart())
 
         let response
 
-        if (!libraryCardId) {
+        if (!studentId && !bookId) {
             response = { "err": "Error at extendDue", "status": false }
         } else {
-            response = { "status": true };
+            prototype.addDueDate(studentId, bookId).status ? response = { "status": true } :  response = { "err": "Error at extendDue", "status": false };
         }
 
         if (response.status) {
@@ -160,47 +160,7 @@ export const extendDue = (libraryCardId) => {
     }
 }
 
-//add reminder
-export const addReminderSuccess = (status, msg) => {
-    return {
-        type: actionTypes.STUDENT_ADD_REMINDER_SUCCESS,
-        status: status,
-        msg: msg
-    }
-}
 
-export const addReminderFailed = (error) => {
-    return {
-        type: actionTypes.STUDENT_ADD_REMINDER_FAILED,
-        error: error
-    }
-}
-
-export const addReminderStart = () => {
-    return {
-        type: actionTypes.STUDENT_ADD_REMINDER_START
-    }
-}
-
-export const addReminder = (bookId, studentId) => {
-    return dispatch => {
-        dispatch(addReminderStart())
-        let response
-
-        if (!bookId || !studentId) {
-            response = { "err": "Error at addReminder", "status": false }
-        } else {
-            response = { "msg": "Added reminder successfully", "status": true };
-        }
-
-        if (response.status) {
-            dispatch(addReminderSuccess(response.status, response.msg))
-        } else {
-            dispatch(addReminderFailed(response.err))
-        }
-    }
-
-}
 
 //get profile
 export const getStudentProfileSuccess = (data) => {
@@ -261,19 +221,13 @@ export const updateStudentProfileStart = () => {
     }
 }
 
-export const updateStudentProfile = (studentId, image, form) => {
+export const updateStudentProfile = (studentId, form) => {
     return dispatch => {
         dispatch(updateStudentProfileStart())
-        var data = {
-            "id": studentId,
-            "imgSrc": image,
-            "username": form.username,
-            "email": form.email,
-            "fstName": form.fstName,
-            "lstName": form.lstName,
-        };
+        
+        form.id = studentId
 
-        let response = prototype.updateStudentProfile(data);
+        let response = prototype.updateStudentProfile(form);
 
         if (!studentId) {
             response = { "err": "Error at updateStudentProfile", "status": false }
@@ -283,6 +237,85 @@ export const updateStudentProfile = (studentId, image, form) => {
             dispatch(updateStudentProfileSuccess(response.status))
         } else {
             dispatch(updateStudentProfileFailed(response.err))
+        }
+    }
+
+}
+
+//get Wishlist
+export const getWishlistSuccess = (data, total, page, sizePerPage) => {
+    return {
+        type: actionTypes.STUDENT_GET_WISHLIST_SUCCESS,
+        total:total,
+        data: data,
+        page:page,
+        sizePerPage:sizePerPage
+    }
+}
+
+export const getWishlistFailed = (error) => {
+    return {
+        type: actionTypes.STUDENT_GET_WISHLIST_FAILED,
+        error: error
+    }
+}
+
+export const getWishlistStart = () => {
+    return {
+        type: actionTypes.STUDENT_GET_WISHLIST_START
+    }
+}
+
+export const getWishlist = (search,page,size) => {
+    return dispatch => {
+        dispatch(getWishlistStart())
+        let response=prototype.getWishlist(page,size)
+        if(response.status){
+            dispatch(getWishlistSuccess(response.data,response.total,page,size))
+        }else{
+            dispatch(getWishlistFailed(response.err))
+        }
+    }
+
+}
+
+//add reminder
+export const addReminderSuccess = (status, msg) => {
+    return {
+        type: actionTypes.STUDENT_ADD_REMINDER_SUCCESS,
+        status: status,
+        msg: msg
+    }
+}
+
+export const addReminderFailed = (error) => {
+    return {
+        type: actionTypes.STUDENT_ADD_REMINDER_FAILED,
+        error: error
+    }
+}
+
+export const addReminderStart = () => {
+    return {
+        type: actionTypes.STUDENT_ADD_REMINDER_START
+    }
+}
+
+export const addReminder = (bookId, studentId) => {
+    return dispatch => {
+        dispatch(addReminderStart())
+        let response
+
+        if (!bookId || !studentId) {
+            response = { "err": "Error at addReminder", "status": false }
+        } else {
+            prototype.addWishlist(bookId).status ? response = { "msg": "Added reminder successfully", "status": true } : response = { "err": "Added reminder successfully", "status": false }
+        }
+
+        if (response.status) {
+            dispatch(addReminderSuccess(response.status, response.msg))
+        } else {
+            dispatch(addReminderFailed(response.err))
         }
     }
 

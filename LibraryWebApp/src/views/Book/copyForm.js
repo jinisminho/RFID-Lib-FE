@@ -29,9 +29,38 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Label,
+    Row
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-const renderField = ({ input,disabled, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+    <>
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+
+    </>
+)
+
+const renderFieldAlter = ({ input, disabled, placeholder, type, meta: { touched, error } }) => (
     <>
         <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
         {touched && ((error && <OverlayTrigger
@@ -45,18 +74,18 @@ const renderField = ({ input,disabled, placeholder, type, meta: { touched, error
                 </Popover>
             }
         >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
         </OverlayTrigger>))}
     </>
 )
 
 const validateNumber = value => {
-    if(value < 1) {
-      return 1
+    if (value < 1) {
+        return 1
     } else {
-      return value
+        return value
     }
-  }
+}
 const validate = values => {
     const errors = {}
     if (!values.isbn) {
@@ -82,76 +111,52 @@ const CopyForm = ({
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
-            <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="isbn"
-                            type="text"
-                            placeholder="isbn"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
+                <FormGroup className="mb-3">
+                    <Field
+                        name="isbn"
+                        type="text"
+                        placeholder="isbn"
+                        title="ISBN"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="title"
-                            type="text"
-                            placeholder="title"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="title"
+                        type="text"
+                        placeholder="title"
+                        title="Title"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="price"
-                            type="number"
-                            placeholder="Price"
-                            normalize={validateNumber}
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="price"
+                        type="number"
+                        placeholder="Price"
+                        title="Price"
+                        normalize={validateNumber}
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="noc"
-                            type="number"
-                            normalize={validateNumber}
-                            placeholder="Number of copy"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="noc"
+                        type="number"
+                        title="Number of copy"
+                        normalize={validateNumber}
+                        placeholder="Number of copy"
+                        component={renderField} />
                 </FormGroup>
                 <div className="text-right">
-                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                    <span className="btn-label">
-                    </span> Cancel
+                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
                 </button>
-                <button type="submit" className="btn btn-wd btn-success ">
-                    <span className="btn-label">
-                    </span> Save
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
                 </button>
-            </div>
+                </div>
             </Form>
         </CardBody>
     </Card>

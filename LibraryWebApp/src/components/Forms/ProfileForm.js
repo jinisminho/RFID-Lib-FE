@@ -29,15 +29,19 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Label
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
     <>
-        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+        <div className="input-group-prepend">
+            <span className="input-group-text">{title}</span>
+        </div>
+        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} className="pl-2" />
         {touched && ((error && <OverlayTrigger
             trigger={['hover', 'focus']}
-            placement="right"
+            placement="left"
             overlay={
                 <Popover>
                     <Popover.Content>
@@ -55,6 +59,15 @@ const validate = values => {
     if (!values.email) {
         errors.email = 'Email is required'
     }
+    var regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    if (values.phone) {
+        if (!values.phone.match(regex)) {
+            errors.phone = 'Invalid Format'
+        }
+    } else {
+        errors.phone = 'Phone is required'
+    }
+
     return errors
 }
 
@@ -68,15 +81,11 @@ let ProfileForm = ({
                     <Col lg="6">
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-circle-08" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
                                 <Field
-                                    name="username"
+                                    name="fullname"
                                     type="text"
-                                    placeholder="username"
+                                    title="Fullname"
+                                    placeholder="Fullname"
                                     disabled
                                     component={renderField} />
                             </InputGroup>
@@ -86,15 +95,12 @@ let ProfileForm = ({
                     <Col lg="6">
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-email-83" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
                                 <Field
-                                    name="email"
+                                    name="department"
                                     type="text"
-                                    placeholder="email"
+                                    title="Department"
+                                    placeholder="Department"
+                                    disabled
                                     component={renderField} />
                             </InputGroup>
                         </FormGroup></Col>
@@ -102,15 +108,12 @@ let ProfileForm = ({
                     <Col lg="6">
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-caps-small" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
                                 <Field
-                                    name="fstName"
+                                    name="email"
                                     type="text"
-                                    placeholder="First Name"
+                                    title="Email"
+                                    placeholder="Email"
+                                    disabled
                                     component={renderField} />
                             </InputGroup>
                         </FormGroup>
@@ -118,15 +121,11 @@ let ProfileForm = ({
                     <Col lg="6">
                         <FormGroup className="mb-3">
                             <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-caps-small" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
                                 <Field
-                                    name="lstName"
+                                    name="phone"
                                     type="text"
-                                    placeholder="Last Name"
+                                    title="Phone"
+                                    placeholder="Phone Number"
                                     component={renderField} />
                             </InputGroup>
                         </FormGroup>
