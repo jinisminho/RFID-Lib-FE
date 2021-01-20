@@ -80,12 +80,12 @@ const renderFieldAlter = ({ input, disabled, placeholder, type, meta: { touched,
 )
 
 const validateNumber = value => {
-    if(value < 1) {
-      return 1
+    if (value < 1) {
+        return 1
     } else {
-      return value
+        return value
     }
-  }
+}
 const validate = values => {
     const errors = {}
     if (!values.isbn) {
@@ -112,52 +112,40 @@ const CopyForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
-                <Field
-                            name="isbn"
-                            type="text"
-                            placeholder="isbn"
-                            title="ISBN"
-                            disabled
-                            component={renderField} />
+                    <Field
+                        name="isbn"
+                        type="text"
+                        placeholder="isbn"
+                        title="ISBN"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                <Field
-                            name="title"
-                            type="text"
-                            placeholder="title"
-                            title="Title"
-                            disabled
-                            component={renderField} />
+                    <Field
+                        name="title"
+                        type="text"
+                        placeholder="title"
+                        title="Title"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="price"
-                            type="number"
-                            placeholder="Price"
-                            normalize={validateNumber}
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="price"
+                        type="number"
+                        placeholder="Price"
+                        title="Price"
+                        normalize={validateNumber}
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="noc"
-                            type="number"
-                            normalize={validateNumber}
-                            placeholder="Number of copy"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="noc"
+                        type="number"
+                        title="Number of copy"
+                        normalize={validateNumber}
+                        placeholder="Number of copy"
+                        component={renderField} />
                 </FormGroup>
                 <div className="text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >

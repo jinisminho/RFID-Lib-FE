@@ -77,64 +77,40 @@ const CopyForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="isbn"
-                            type="text"
-                            placeholder="ISBN"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="isbn"
+                        type="text"
+                        placeholder="ISBN"
+                        title="ISBN"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="title"
-                            type="text"
-                            placeholder="Title"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="title"
+                        type="text"
+                        placeholder="Title"
+                        title="Title"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="edition"
-                            type="text"
-                            placeholder="Edition"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="edition"
+                        type="text"
+                        placeholder="Edition"
+                        title="Edition"
+                        disabled
+                        component={renderField} />
                 </FormGroup>
-               
+
                 <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="rfidcode"
-                            type="text"
-                            placeholder="RFID Code"
-                            component={renderField} />
-                    </InputGroup>
+                    <Field
+                        name="rfidcode"
+                        type="text"
+                        placeholder="RFID Code"
+                        title="RFID Code"
+                        component={renderField} />
                 </FormGroup>
                 <div className="text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
