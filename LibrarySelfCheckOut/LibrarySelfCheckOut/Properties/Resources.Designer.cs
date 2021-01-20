@@ -103,6 +103,16 @@ namespace LibrarySelfCheckOut.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap insert_card {
+            get {
+                object obj = ResourceManager.GetObject("insert-card", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap remove_icon_21 {
             get {
                 object obj = ResourceManager.GetObject("remove-icon-21", resourceCulture);
@@ -116,6 +126,16 @@ namespace LibrarySelfCheckOut.Properties {
         internal static System.Drawing.Bitmap return_book {
             get {
                 object obj = ResourceManager.GetObject("return-book", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scan_pay_payment_15_512 {
+            get {
+                object obj = ResourceManager.GetObject("scan-pay-payment-15-512", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

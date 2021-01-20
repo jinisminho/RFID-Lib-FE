@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibrarySelfCheckOut.Models
 {
-    public class BookReturnModel
+    public class CheckOutRequestModel
     {
-        public String rfid { get; set; }
-        public string title { get; set; }
-        public string status { get; set; }
+        public int patronId { get; set; }
+        public List<String> bookCodeList { get; set; }
     }
 }

@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtBookCode = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbInstruction = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbCurrentDate = new System.Windows.Forms.Label();
             this.pnBooksReturned = new System.Windows.Forms.FlowLayoutPanel();
@@ -40,7 +40,7 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.timerCallReturnAPI = new System.Windows.Forms.Timer(this.components);
+            this.btCancel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -50,7 +50,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.txtBookCode);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.lbInstruction);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -65,15 +65,15 @@
             this.txtBookCode.TabIndex = 3;
             this.txtBookCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookCode_KeyDown);
             // 
-            // label1
+            // lbInstruction
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(39, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(799, 38);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "PLEASE PUT YOUR BOOKS ON THE SCANNER";
+            this.lbInstruction.AutoSize = true;
+            this.lbInstruction.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lbInstruction.Location = new System.Drawing.Point(39, 25);
+            this.lbInstruction.Name = "lbInstruction";
+            this.lbInstruction.Size = new System.Drawing.Size(670, 38);
+            this.lbInstruction.TabIndex = 2;
+            this.lbInstruction.Text = "Place book(s) on the scanner to return";
             // 
             // panel2
             // 
@@ -118,6 +118,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btCancel);
             this.panel3.Controls.Add(this.btDone);
             this.panel3.Controls.Add(this.lbSessionTimeOut);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -138,7 +139,7 @@
             this.btDone.Name = "btDone";
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 7;
-            this.btDone.Text = "DONE";
+            this.btDone.Text = "RETURN";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
             this.btDone.Click += new System.EventHandler(this.btDone_Click);
@@ -161,10 +162,22 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
-            // timerCallReturnAPI
+            // btCancel
             // 
-            this.timerCallReturnAPI.Interval = 10000;
-            this.timerCallReturnAPI.Tick += new System.EventHandler(this.timerCallReturnAPI_Tick);
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btCancel.FlatAppearance.BorderSize = 0;
+            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btCancel.ForeColor = System.Drawing.Color.White;
+            this.btCancel.Location = new System.Drawing.Point(1315, 22);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(199, 47);
+            this.btCancel.TabIndex = 8;
+            this.btCancel.Text = "CANCEL";
+            this.btCancel.UseMnemonic = false;
+            this.btCancel.UseVisualStyleBackColor = false;
+            this.btCancel.Click += new System.EventHandler(this.lbCancel_Click);
             // 
             // ReturnForm
             // 
@@ -195,11 +208,11 @@
         private System.Windows.Forms.PictureBox spiner;
         private System.Windows.Forms.FlowLayoutPanel pnBooksReturned;
         private System.Windows.Forms.Label lbSessionTimeOut;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbInstruction;
         private System.Windows.Forms.Button btDone;
         private System.Windows.Forms.TextBox txtBookCode;
         private System.Windows.Forms.Label lbCurrentDate;
         private System.Windows.Forms.Timer timerSessionTimeOut;
-        private System.Windows.Forms.Timer timerCallReturnAPI;
+        private System.Windows.Forms.Button btCancel;
     }
 }

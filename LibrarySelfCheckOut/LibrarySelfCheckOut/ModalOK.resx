@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="timerSessionTimeOut.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="lbMsg.Text" xml:space="preserve">
+    <value>A message box or dialog box is used to interact with the users of your application. The purpose of using a message box may include notifying about a particular action e.g. success message after entering a record.</value>
+  </data>
 </root>

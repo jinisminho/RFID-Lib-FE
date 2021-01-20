@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibrarySelfCheckOut.Models;
 using LibrarySelfCheckOut.Processors;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
     public partial class LoginForm : Form
     {
 
-        private long studentFRID;
-        private long pin;
+        private String studentFRID;
         private int sesionTime;
-        private int incorrectPinCount = 0;
+        private int incorrectCount = 0;
 
         public LoginForm()
         {
@@ -34,99 +34,82 @@ namespace LibrarySelfCheckOut
         {
             this.txtStudentRFID.Focus();
             this.lbMessage.Hide();
-            this.txtPass.Hide();
-            this.lbPin.Hide();
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
             this.lbIncorrectPin.Hide();
+            this.spinner.Hide();
         }
 
      
-        private void txtStudentRFID_KeyDown(object sender, KeyEventArgs e)
+        private async void txtStudentRFID_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
-                try
+                this.txtStudentRFID.Enabled = false;
+                studentFRID = this.txtStudentRFID.Text.Trim();
+                if (studentFRID.StartsWith(Constant.PATRON_CARD_PREFIX))
                 {
-                    studentFRID = long.Parse(this.txtStudentRFID.Text);
-                    AuthStudentModel student = AuthProcessor.checkLogin(studentFRID);
-                    if (student == null || (student != null && student.role != "ROLE_STUDENT") || (student != null && student.status == "DEACTIVE"))
+                    this.sessionTimer.Enabled = false;
+                    this.spinner.Show();
+                    AuthResponse rs = await AuthProcessor.checkLogin(studentFRID.Replace(Constant.PATRON_CARD_PREFIX, ""));
+                    this.spinner.Hide();
+                    if (rs.isSuccess)
                     {
-                        showIvalidStudentCard();
-                        this.txtStudentRFID.Text = "";
-                        this.txtStudentRFID.Focus();
-                    }
-                    else
-                    {
-                        if (student.status == "NOT_RETURN")
+                        if (rs.student == null || (rs.student != null && rs.student.role != "ROLE_PATRON"))
                         {
-                            DialogResult dialog =  MessageBox.Show("Please return over dued book(s) at the librarian counter to continue borrowing book", "Account Blocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if(dialog == DialogResult.OK)
+                            incorrectCount++;
+                            showIvalidStudentCard();
+                            this.txtStudentRFID.Enabled = true;
+                            this.txtStudentRFID.Text = "";
+                            this.txtStudentRFID.Focus();
+                        }
+                        else
+                        {
+                            if (rs.student.overDue == true)
                             {
+                                using (ModalOK model = new ModalOK("Please return over dued book(s) at the librarian counter to continue borrowing book"))
+                                {
+                                    model.ShowDialog();
+                                }
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                int studentId = rs.student.id;
+                                string studentUsername = rs.student.username;
+                                int maxNumberBorrowAllowed = rs.student.maxNumberBorrowAllowed;
+                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                                checkOutForm.ShowDialog();
+                                this.sessionTimer.Enabled = false;
+                                resetLogin();
                                 this.Close();
                             }
                         }
-                        else
-                        {
-                            this.txtPass.Focus();
-                            this.txtPass.Show();
-                            this.lbPin.Show();
-                            this.txtStudentRFID.Enabled = false;
-
-                        }
                     }
-                }
-                catch (FormatException)
-                {
-                    this.txtStudentRFID.Text = "";
-                    this.txtStudentRFID.Focus();
-                }
-               
-            }
-        }
-
-
-        private void txtPass_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if(this.txtPass.Text.Length > 0)
-                {
-                    try
+                    else
                     {
-                        pin = long.Parse(this.txtPass.Text);
-                        AuthStudentModel student = AuthProcessor.checkLogin(studentFRID, pin);
-                        if (student == null)
+                        //http khac ok
+                        using (ModalOK model = new ModalOK(rs.msg))
                         {
-                            showInvalidPINMsg();
+                            model.ShowDialog();
                         }
-                        else
-                        {
-                            long studentId = student.id;
-                            string studentUsername = student.username;
-                            int maxNumberBorrowAllowed = student.maxNumberBorrowAllowed;
-                            CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
-                            checkOutForm.ShowDialog();
-                            resetLogin();
-                            this.Close();
-                        }
-
+                        resetLogin();
                     }
-                    catch (FormatException)
-                    {
-                        showInvalidPINMsg();
-                    }
+                    
+                    this.sessionTimer.Enabled = true;
                 }
                 else
                 {
-                    showInvalidPINMsg();
+                    showIvalidStudentCard();
+                    resetLogin();
                 }
 
-                
-                
             }
         }
 
+
+      
        
 
         private void sessionTimer_Tick(object sender, EventArgs e)
@@ -148,45 +131,27 @@ namespace LibrarySelfCheckOut
 
         private void resetLogin()
         {
-            this.txtStudentRFID.Text = "";
-            this.txtPass.Text = "";
-            this.txtStudentRFID.Focus();
-            this.txtPass.Hide();
-            this.lbPin.Hide();
             this.txtStudentRFID.Enabled = true;
+            this.sessionTimer.Enabled = true;
+            this.txtStudentRFID.Text = "";
+            this.txtStudentRFID.Focus();
+            this.spinner.Hide();
         }
 
-        private void showInvalidPINMsg()
-        {
-            this.incorrectPinCount++;
-            this.lbIncorrectPin.Text = "INCORRECT PIN PLEASE TRY AGAIN";
-            this.lbIncorrectPin.Show();
-            var t = new Timer();
-            t.Interval = 2500;
-            t.Tick += (s, d) =>
-            {
-                this.lbIncorrectPin.Hide();
-                if (this.incorrectPinCount == 3)
-                {
-                    this.Close();
-                }
-                t.Stop();
-            };
-            t.Start();
-           
-            this.txtPass.Text = "";
-            this.txtPass.Focus();
-        }
 
         private void showIvalidStudentCard()
         {
-            this.lbMessage.Text = "INVALID STUDENT CARD PLEASE SCAN AGAIN";
+            this.lbMessage.Text = "INVALID USER PLEASE SCAN AGAIN";
             this.lbMessage.Show();
             var t = new Timer();
-            t.Interval = 2500;
+            t.Interval = 2000;
             t.Tick += (s, d) =>
             {
                 this.lbMessage.Hide();
+                if (this.incorrectCount == 3)
+                {
+                    this.Close();
+                }
                 t.Stop();
             };
             t.Start();

@@ -59,6 +59,12 @@
     <Compile Include="BookReturnItem.Designer.cs">
       <DependentUpon>BookReturnItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="BookScannedItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BookScannedItem.Designer.cs">
+      <DependentUpon>BookScannedItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Button_WOC.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -80,10 +86,27 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModalOK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModalOK.Designer.cs">
+      <DependentUpon>ModalOK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModalYESNO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModalYESNO.Designer.cs">
+      <DependentUpon>ModalYESNO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AuthResponse.cs" />
     <Compile Include="Models\AuthStudentModel.cs" />
-    <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BookCheckOutModel.cs" />
     <Compile Include="Models\BookReturnModel.cs" />
+    <Compile Include="Models\BookScannedModel.cs" />
+    <Compile Include="Models\BookScannedResponseModel.cs" />
+    <Compile Include="Models\CheckOutRequestModel.cs" />
     <Compile Include="Models\CheckOutResponseModel.cs" />
+    <Compile Include="Models\ErrorDto.cs" />
     <Compile Include="Models\ReturnResponseModel.cs" />
     <Compile Include="Processors\AuthProcessor.cs" />
     <Compile Include="Processors\BookProcessor.cs" />
@@ -96,8 +119,9 @@
       <DependentUpon>BookItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Prototype\AuthData.cs" />
-    <Compile Include="Prototype\BookData.cs" />
+    <Compile Include="Prototype\BookCheckOutData.cs" />
     <Compile Include="Prototype\BookReturnData.cs" />
+    <Compile Include="Prototype\BookScannedData.cs" />
     <Compile Include="ReturnForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,11 +129,15 @@
       <DependentUpon>ReturnForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
+    <Compile Include="Utils\Constant.cs" />
     <EmbeddedResource Include="BookItem.resx">
       <DependentUpon>BookItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BookReturnItem.resx">
       <DependentUpon>BookReturnItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookScannedItem.resx">
+      <DependentUpon>BookScannedItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckOutForm.resx">
       <DependentUpon>CheckOutForm.cs</DependentUpon>
@@ -119,6 +147,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModalOK.resx">
+      <DependentUpon>ModalOK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModalYESNO.resx">
+      <DependentUpon>ModalYESNO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,6 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\return-book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\scan-pay-payment-15-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert-card.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

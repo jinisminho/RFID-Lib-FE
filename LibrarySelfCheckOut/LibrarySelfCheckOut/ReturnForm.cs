@@ -9,22 +9,27 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibrarySelfCheckOut.Models;
 using LibrarySelfCheckOut.Processors;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
     public partial class ReturnForm : Form
     {
+
+        private const String BT_TXT_DONE = "DONE";
+        private const String BT_TXT_RETURN = "RETURN";
+
+
         private int sesionTime = 90;
 
-        private List<long> bookCodeList;
+        private List<String> bookCodeList;
 
-        private long bookRFID;
+        private String bookRFID;
 
         private int numberOfBookScanned = 0;
 
-        private bool wasCallAPI = false;
+        private IDictionary<String, String> bookCodeMap;
 
-        private IDictionary<long, long> bookCodeMap;
 
         public ReturnForm()
         {
@@ -36,40 +41,13 @@ namespace LibrarySelfCheckOut
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
             this.lbSessionTimeOut.Text = "SESSION TIMEOUT: " + this.sesionTime;
-            this.bookCodeList = new List<long>();
-            this.bookCodeMap = new Dictionary<long, long>();
-
+            this.bookCodeList = new List<String>();
+            this.bookCodeMap = new Dictionary<String, String>();
+            this.btDone.Enabled = false;
+            this.btDone.Text = BT_TXT_RETURN;
         }
 
-        private void timerCallReturnAPI_Tick(object sender, EventArgs e)
-        {
-            if (wasCallAPI == false)
-            {
-                Console.WriteLine("call api");
-                this.spiner.Hide();
-                this.txtBookCode.Enabled = false;
-                this.wasCallAPI = true;
-                //call api
-                ReturnResponseModel rs = BookProcessor.returnBooks(bookCodeList);
-                if (rs.isSuccess)
-                {
-                    int count = 0;
-                    foreach (BookReturnModel b in rs.books)
-                    {
-                        count++;
-                        BookReturnItem item = new BookReturnItem(count, b.username, b.title);
-                        item.Width = this.pnBooksReturned.Width - 10;
-                        this.pnBooksReturned.Controls.Add(item);
-                    }
-                }
-                else
-                {
-                    resetReturn();
-                    MessageBox.Show(rs.errorMessage, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                this.timerCallReturnAPI.Enabled = false;
-            }
-        }
+     
 
         private void timerSessionTimeOut_Tick(object sender, EventArgs e)
         {
@@ -83,54 +61,128 @@ namespace LibrarySelfCheckOut
             }
         }
 
-        private void txtBookCode_KeyDown(object sender, KeyEventArgs e)
+        private async void txtBookCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-
-                try
+                this.bookRFID = this.txtBookCode.Text.Trim();
+                if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) 
+                    && this.bookRFID.Length == Constant.TID_LENGTH)
                 {
-                    this.bookRFID = long.Parse(this.txtBookCode.Text);
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
                         numberOfBookScanned++;
-                        if (this.numberOfBookScanned == 1)
+                        this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
+                        this.timerSessionTimeOut.Enabled = false;
+                        this.spiner.Show();
+                        BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
+                        this.spiner.Hide();
+                        if (rs.isSuccess)
                         {
-                            Console.WriteLine("tang");
-                            this.timerCallReturnAPI.Enabled = true;
-                            this.timerCallReturnAPI.Start();
-                            this.spiner.Show();
+                            BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
+                            item.Width = this.pnBooksReturned.Width - 10;
+                            pnBooksReturned.Controls.Add(item);
+                            bookCodeList.Add(this.bookRFID);
+                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
                         }
-                        bookCodeList.Add(this.bookRFID);
-                        bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                        else
+                        {
+                            this.txtBookCode.Enabled = false;
+                            using (ModalOK model = new ModalOK(rs.errorMessage))
+                            {
+                                model.ShowDialog();
+                            }
+                            resetReturn();
+                        }
+                        if(numberOfBookScanned == 1)
+                        {
+                            this.btDone.Enabled = true;
+                        }
+                        this.timerSessionTimeOut.Enabled = true;
                     }
-                }
-                catch (FormatException)
-                {
+
                 }
                 this.txtBookCode.Text = "";
                 this.txtBookCode.Focus();
-
             }
         }
 
 
         private void resetReturn()
         {
+            this.pnBooksReturned.Controls.Clear();
+            this.btCancel.Enabled = true;
+            this.btDone.Enabled = false;
             this.txtBookCode.Enabled = true;
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
-            this.timerCallReturnAPI.Enabled = false;
             this.bookCodeList.Clear();
             this.numberOfBookScanned = 0;
-            this.spiner.Hide();
-            this.wasCallAPI = false;
             this.bookCodeMap.Clear();
+            this.btDone.Text = BT_TXT_RETURN;
+            this.spiner.Hide();
+            this.lbInstruction.Text = "Place book(s) on the scanner to return";
         }
 
         private void btDone_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if(this.btDone.Text == BT_TXT_DONE)
+            {
+                this.Close();
+            }
+            else if(this.btDone.Text == BT_TXT_RETURN)
+            {
+                callReturnAPI();
+            }
+        }
+
+        private async void callReturnAPI()
+        {
+            this.btCancel.Enabled = false;
+            this.pnBooksReturned.Controls.Clear();
+            this.timerSessionTimeOut.Enabled = false;
+            this.btDone.Enabled = false;
+            this.spiner.Show();
+            this.txtBookCode.Enabled = false;
+            this.spiner.Show();
+            ReturnResponseModel rs = await BookProcessor.returnBooks(bookCodeList);
+            this.spiner.Hide();
+            if (rs.isSuccess)
+            {
+                int count = 0;
+                foreach (BookReturnModel b in rs.books)
+                {
+                    count++;
+                    BookReturnItem item = new BookReturnItem(count, b.title, b.status);
+                    item.Width = this.pnBooksReturned.Width - 10;
+                    this.pnBooksReturned.Controls.Add(item);
+                }
+                this.btDone.Text = BT_TXT_DONE;
+            }
+            else
+            {
+                this.txtBookCode.Enabled = false;
+                using (ModalOK model = new ModalOK(rs.errorMessage))
+                {
+                    model.ShowDialog();
+                }
+                resetReturn();
+            }
+            this.timerSessionTimeOut.Enabled = true;
+            this.btDone.Enabled = true;
+            this.spiner.Hide();
+        }
+
+        private void lbCancel_Click(object sender, EventArgs e)
+        {
+            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
+            {
+                modal.ShowDialog();
+                if(modal.result == DialogResult.Yes)
+                {
+                    this.Close();
+                }
+            }
         }
     }
 }

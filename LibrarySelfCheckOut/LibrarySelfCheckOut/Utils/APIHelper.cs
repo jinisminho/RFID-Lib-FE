@@ -11,7 +11,7 @@ namespace LibrarySelfCheckOut.Utils
     public class APIHelper
     {
 
-        private static readonly string BASE_URL = "";
+        private static readonly string BASE_URL = "http://localhost:8099";
         public static HttpClient ApiClient { get; set; }
 
         public static void initializeClient()

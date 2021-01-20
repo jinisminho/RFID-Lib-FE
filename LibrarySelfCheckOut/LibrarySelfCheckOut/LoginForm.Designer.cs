@@ -29,31 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtStudentRFID = new System.Windows.Forms.TextBox();
             this.lbMessage = new System.Windows.Forms.Label();
-            this.txtPass = new System.Windows.Forms.TextBox();
             this.lbsession = new System.Windows.Forms.Label();
             this.sessionTimer = new System.Windows.Forms.Timer(this.components);
             this.btBack = new System.Windows.Forms.Button();
-            this.lbPin = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbIncorrectPin = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.spinner = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinner)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(292, 227);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(571, 44);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "PLEASE SCAN YOUR STUDENT CARD\r\n";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -83,23 +71,11 @@
             this.lbMessage.AutoSize = true;
             this.lbMessage.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbMessage.Location = new System.Drawing.Point(282, 453);
+            this.lbMessage.Location = new System.Drawing.Point(338, 444);
             this.lbMessage.Name = "lbMessage";
-            this.lbMessage.Size = new System.Drawing.Size(570, 33);
+            this.lbMessage.Size = new System.Drawing.Size(450, 33);
             this.lbMessage.TabIndex = 7;
-            this.lbMessage.Text = "INVALID STUDENT CARD PLEASE TRY AGAIN";
-            // 
-            // txtPass
-            // 
-            this.txtPass.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtPass.Location = new System.Drawing.Point(514, 342);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.PasswordChar = '*';
-            this.txtPass.ShortcutsEnabled = false;
-            this.txtPass.Size = new System.Drawing.Size(168, 30);
-            this.txtPass.TabIndex = 8;
-            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
+            this.lbMessage.Text = "INVALID USER PLEASE TRY AGAIN";
             // 
             // lbsession
             // 
@@ -136,17 +112,6 @@
             this.btBack.UseVisualStyleBackColor = false;
             this.btBack.Click += new System.EventHandler(this.btBack_Click);
             // 
-            // lbPin
-            // 
-            this.lbPin.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbPin.AutoSize = true;
-            this.lbPin.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbPin.Location = new System.Drawing.Point(452, 346);
-            this.lbPin.Name = "lbPin";
-            this.lbPin.Size = new System.Drawing.Size(56, 24);
-            this.lbPin.TabIndex = 9;
-            this.lbPin.Text = "PIN:";
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btBack);
@@ -169,15 +134,37 @@
             this.lbIncorrectPin.TabIndex = 13;
             this.lbIncorrectPin.Text = "INCORRECT PIN PLEASE TRY AGAIN";
             // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(353, 223);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(476, 44);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "PLEASE SCAN YOUR ID CARD\r\n";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // spinner
+            // 
+            this.spinner.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.spinner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
+            this.spinner.Location = new System.Drawing.Point(527, 339);
+            this.spinner.Name = "spinner";
+            this.spinner.Size = new System.Drawing.Size(81, 69);
+            this.spinner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.spinner.TabIndex = 14;
+            this.spinner.TabStop = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1193, 929);
+            this.Controls.Add(this.spinner);
             this.Controls.Add(this.lbIncorrectPin);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lbPin);
-            this.Controls.Add(this.txtPass);
             this.Controls.Add(this.lbMessage);
             this.Controls.Add(this.txtStudentRFID);
             this.Controls.Add(this.label3);
@@ -187,23 +174,23 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStudentRFID;
         private System.Windows.Forms.Label lbMessage;
-        private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Label lbsession;
         private System.Windows.Forms.Timer sessionTimer;
         private System.Windows.Forms.Button btBack;
-        private System.Windows.Forms.Label lbPin;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbIncorrectPin;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox spinner;
     }
 }
 
