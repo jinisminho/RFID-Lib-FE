@@ -209,6 +209,10 @@ namespace LibrarySelfCheckOut
                 {
                     this.Close();
                 }
+                else
+                {
+                    this.txtBookRFID.Focus();
+                }
             }
         }
     }
