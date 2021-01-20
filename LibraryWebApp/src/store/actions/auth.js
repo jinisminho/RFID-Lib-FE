@@ -38,7 +38,6 @@ export const logout =()=>{
 }
 
 export const checkAuthTimeOut = (expirationTime) =>{
-    console.log(expirationTime)
     return dispatch =>{
         setTimeout(()=>{
             dispatch(logout())
@@ -77,7 +76,7 @@ export const auth = (username, password) =>{
             localStorage.setItem('role', response.data.role)
             localStorage.setItem('username', response.data.username)
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-            dispatch(checkAuthTimeOut(new Date(response.data.expiryDate).getTime()- (new Date().getTime())))
+            dispatch(checkAuthTimeOut(1000000000))
         }else{
             dispatch(authFail(response.err))
         }

@@ -13,7 +13,8 @@ export {
 export {
     getRentingInfo as getRentingInfoLibrarianSide,
     getExtendedHistory as getExtendedHistoryLibrarianSide,
-    extendDue as extendDueLibrarianSide
+    extendDue as extendDueLibrarianSide,
+    getStudent as getStudentLibInfo
 } from './Librarian/info'
 
 export {
@@ -21,7 +22,8 @@ export {
     addBook,
     updateBook,
     deleteBook,
-    addBookCopy
+    addBookCopy,
+    generateCopyBarcode
 } from './Librarian/Book'
 
 export {
@@ -29,26 +31,35 @@ export {
     addCopy,
     updateCopy,
     deleteCopy,
-    getAllBook
+    getAllBook,
+    getBookCopyStatus,
+    generateBarcode
 } from './Librarian/BookCopy'
 
 export {
     getStudent,
-    getStudentBook
+    getStudentBook,
+    checkout,
+    clearData,
+    deleteCheckoutBook,
+    getOverdue,
+    clearBookError
 } from './Librarian/Checkout'
 
 export {
     getRentingInfo,
     getExtendedHistory,
     extendDue,
-    addReminder,
     getStudentProfile,
-    updateStudentProfile
+    updateStudentProfile,
+    addReminder,
+    getWishlist,
 } from './Student/info'
 
 export {
-    getReturningStudent,
-    getReturningBook
+    clearBook,
+    getReturningBook,
+    clearReturnBookError
 } from './Librarian/ReturnBook'
 
 export {
@@ -58,6 +69,13 @@ export {
     changeStatusStaff
 } from './Admin/Staff'
 
+export {
+    getAdminStudent,
+    addStudent,
+    updateStudent,
+    changeStatusStudent
+} from './Admin/Student'
+
 export{
     requestNewBook,
     refreshRequestNewBook
@@ -65,5 +83,5 @@ export{
 
 export {
     getBook as getBookStudentSide,
-    getWhislist
+    
 } from './Student/Book'

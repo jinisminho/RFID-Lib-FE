@@ -28,7 +28,7 @@ export const getStudent = (search) => {
         if(response.status){
             dispatch(getStudentSuccess(response.data))
         }else{
-            dispatch(getStudentFailed(response.err))
+            dispatch(getStudentFailed(response.error))
         }
     }
 
@@ -62,7 +62,7 @@ export const getStudentBook = (code) => {
         if(response.status){
             dispatch(getStudentBookSuccess(response.data))
         }else{
-            dispatch(getStudentBookFail(response.err))
+            dispatch(getStudentBookFail(response.error))
         }
         // let url='/books'
         // if(search){
@@ -77,6 +77,94 @@ export const getStudentBook = (code) => {
         //     .catch(error => {
         //         dispatch(getStudentFail(error))
         //     });
+    }
+
+}
+
+
+export const checkoutSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_CHECKOUT_SUCCESS,
+        data: data
+    }
+}
+
+export const checkoutFailed = (error) => {
+    return {
+        type: actionTypes.LIB_CHECKOUT_FAILED,
+        error: error
+    }
+}
+
+export const checkoutStart = () => {
+    return {
+        type: actionTypes.LIB_CHECKOUT_START
+    }
+}
+
+export const checkout = (studentid,booklist) => {
+    return dispatch => {
+        dispatch(checkoutStart())
+        let response=checkoutPrototype.checkout(studentid,booklist)
+        if(response.status){
+            dispatch(checkoutSuccess())
+        }else{
+            dispatch(checkoutFailed(response.err))
+        }
+    }
+
+}
+
+export const clearData = () => {
+    return {
+        type: actionTypes.CLEAR_CHECKOUT_DATA
+    }
+
+}
+
+export const clearBookError = () => {
+    return {
+        type: actionTypes.CLEAR_BOOK_ERROR
+    }
+
+}
+
+export const deleteCheckoutBook = (id) => {
+    return {
+        type: actionTypes.DELETE_CHECKOUT_BOOK,
+        id:id
+    }
+}
+
+export const getOverdueSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_GET_OVERDUE_SUCCESS,
+        data: data
+    }
+}
+
+export const getOverdueFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_OVERDUE_FAILED,
+        error: error
+    }
+}
+
+export const getOverdueStart = () => {
+    return {
+        type: actionTypes.LIB_GET_OVERDUE_START
+    }
+}
+
+export const getOverdue = (search) => {
+    return dispatch => {
+        dispatch(getOverdueStart())
+        let response=checkoutPrototype.getOverdue(search)
+        if(response.status){
+            dispatch(getOverdueSuccess(response.data))
+        }else{
+            dispatch(getOverdueFailed(response.err))
+        }
     }
 
 }

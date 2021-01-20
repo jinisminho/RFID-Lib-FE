@@ -48,7 +48,7 @@ export function bookDescriptionFormat(cell, row) {
     
     let i = 0;
     authors.forEach(element => {
-        i < authors.length - 1 ? authorStr += " " + element + " , " : authorStr += " " + element + " ";
+        i < authors.length - 1 ? authorStr += " " + element["name"] + " , " : authorStr += " " + element["name"] + " ";
         i++;
     });
 

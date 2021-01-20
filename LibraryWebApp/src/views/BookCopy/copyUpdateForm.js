@@ -29,25 +29,34 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Label
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
+import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
-const renderField = ({ input, disabled,placeholder, type, meta: { touched, error } }) => (
+const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
     <>
-        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
-        {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-                <Popover>
-                    <Popover.Content>
-                        <span className="text-danger">{error}</span>
-                    </Popover.Content>
-                </Popover>
-            }
-        >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+
     </>
 )
 const validate = values => {
@@ -75,9 +84,9 @@ const CopyForm = ({
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="book"
+                            name="isbn"
                             type="text"
-                            placeholder="book"
+                            placeholder="ISBN"
                             disabled
                             component={renderField} />
                     </InputGroup>
@@ -86,26 +95,57 @@ const CopyForm = ({
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
+                                <i className="ni ni-book-bookmark" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="title"
+                            type="text"
+                            placeholder="Title"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                                <i className="ni ni-book-bookmark" />
+                            </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                            name="edition"
+                            type="text"
+                            placeholder="Edition"
+                            disabled
+                            component={renderField} />
+                    </InputGroup>
+                </FormGroup>
+               
+                <FormGroup className="mb-3">
+                    <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
                                 <i className="fas fa-barcode" />
                             </InputGroupText>
                         </InputGroupAddon>
                         <Field
-                            name="code"
+                            name="rfidcode"
                             type="text"
-                            placeholder="Code"
+                            placeholder="RFID Code"
                             component={renderField} />
                     </InputGroup>
                 </FormGroup>
                 <div className="text-right">
-                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                    <span className="btn-label">
-                    </span> Cancel
+                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
                 </button>
-                <button type="submit" className="btn btn-wd btn-success ">
-                    <span className="btn-label">
-                    </span> Save
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
                 </button>
-            </div>
+                </div>
             </Form>
         </CardBody>
     </Card>

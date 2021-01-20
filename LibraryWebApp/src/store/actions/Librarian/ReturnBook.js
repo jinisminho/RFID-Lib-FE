@@ -1,39 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import * as returnPrototype from '../../prototype/return'
 
-export const getReturningStudentSuccess = (data) => {
-    return {
-        type: actionTypes.LIB_RETURN_GET_STUDENT_SUCCESS,
-        data: data
-    }
-}
-
-export const getReturningStudentFailed = (error) => {
-    return {
-        type: actionTypes.LIB_RETURN_GET_STUDENT_FAILED,
-        error: error
-    }
-}
-
-export const getReturningStudentStart = () => {
-    return {
-        type: actionTypes.LIB_RETURN_GET_STUDENT_START
-    }
-}
-
-export const getReturningStudent = (search) => {
-    return dispatch => {
-        dispatch(getReturningStudentStart())
-        let response= returnPrototype.getStudent(search)
-        if(response.status){
-            dispatch(getReturningStudentSuccess(response.data))
-        }else{
-            dispatch(getReturningStudentFailed(response.err))
-        }
-    }
-
-}
-
 
 
 export const getReturningBookSuccess = (data) => {
@@ -63,9 +30,23 @@ export const getReturningBook = (search) => {
         if(response.status){
             dispatch(getReturningBookSuccess(response.data))
         }else{
-            dispatch(getReturningBookFail(response.err))
+            dispatch(getReturningBookFail(response.error))
         }
     }
 
 }
 
+
+export const clearBook = () => {
+    return {
+        type: actionTypes.CLEAR_RETURN_BOOK
+    }
+
+}
+
+export const clearReturnBookError = () => {
+    return {
+        type: actionTypes.CLEAR_RETURN_BOOK_ERROR
+    }
+
+}

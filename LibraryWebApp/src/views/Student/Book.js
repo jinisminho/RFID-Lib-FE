@@ -31,7 +31,7 @@ import {
     CardFooter,
     Container
 } from "reactstrap";
-import WhislistModal from "components/Modals/WhislistModal"
+import WishlistModal from "components/Modals/WishlistModal"
 import MyUltil from 'store/ultility'
 class BookStu extends React.Component {
     constructor(props) {
@@ -41,13 +41,14 @@ class BookStu extends React.Component {
             successNotice: '',
             successShow: false,
             errorShow: false,
-            whislistShow: false,
+            wishlistShow: false,
             studentId: null,
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this);
-        this.fetchWhislist = this.fetchWhislist.bind(this);
+        this.actionFormatter = this.actionFormatter.bind(this);
+        this.fetchWishlist = this.fetchWishlist.bind(this);
     }
     componentDidMount() {
         this.fetchData();
@@ -93,25 +94,35 @@ class BookStu extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
 
-    fetchWhislist(page = this.props.whislistPage, sizePerPage = this.props.whislistSizePerPage, searchValue = this.state.whislistSearchValue) {
-        this.props.onGetWhislist(page - 1, sizePerPage, searchValue)
+    fetchWishlist(page = this.props.wishlistPage, sizePerPage = this.props.wishlistSizePerPage, searchValue = this.state.wishlistSearchValue) {
+        this.props.onGetWishlist(page - 1, sizePerPage, searchValue)
     }
 
     activeFormatter(cell, row) {
-        if(row.stock <= 0)
-        return (
-            <div>
-                <Button className="btn btn-sm btn-primary" onClick={() => this.handleAddReminder(row.id, this.state.studentId)}>Remind me later</Button>
-            </div>
-        )
+        return row.stock > 0 ? <span className="text-success">AVAILABLE</span> : <span className="text-danger">NOT AVAILABLE</span>
     }
 
-    handleAddReminder(bookId,studentId) {
+    actionFormatter(cell, row) {
+        if (row.stock <= 0)
+            return (
+                <div>
+                    <Row className="align-items-center">
+                        <Col></Col>
+                        <Col>
+                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.studentId)}>Add to Wishlist</Button>
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                </div>
+            )
+    }
+
+    handleAddReminder(bookId, studentId) {
         this.setState({
             errorShow: true,
             successShow: true
         })
-        this.props.onAddReminder(bookId,studentId);
+        this.props.onAddReminder(bookId, studentId);
     }
 
     render() {
@@ -138,11 +149,11 @@ class BookStu extends React.Component {
                         </InputGroup>
                     </Col>
                     <Col className="col-8 pr-4 pull-right">
-                        <button onClick={() => this.setState({ whislistShow: true })}
+                        <button onClick={() => this.setState({ wishlistShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            <i className="ni ni-notification-70"></i> Whislist
-                            </span> 
+                                <i className="ni ni-notification-70"></i> Wishlist
+                            </span>
                         </button>
                     </Col>
                 </Row>
@@ -160,10 +171,11 @@ class BookStu extends React.Component {
                     className="ml-4 mr-4"
                     keyField="id"
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%"dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="12%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" width="55%" headerAlign="center" dataFormat={MyUltil.bookDescriptionFormat} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="category" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" dataFormat={this.activeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Status</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action' dataAlign="center" width="15%" dataFormat={this.actionFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
 
@@ -177,13 +189,14 @@ class BookStu extends React.Component {
 
         let errorMsg = null
         let msg = null
-        if (this.props.error && this.state.errorShow) {
-            errorMsg = <Alert bsStyle="danger" onDismiss={() => this.setState({ errorShow: false })}>{this.props.error.message}</Alert>
+        if (this.props.errOnFetch && this.state.errorShow) {
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })}>{this.props.errOnFetch}</Alert>
+        }
+        if (this.props.errorInfo && this.state.errorShow) {
+            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.errorInfo}</Alert>
         }
         if (this.props.successMsg && this.state.successShow) {
-            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false })} dismissible>{this.props.successMsg}</Alert>
-        } else {
-
+            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
         }
 
         return (
@@ -192,7 +205,7 @@ class BookStu extends React.Component {
                 <Container className="mt--7" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Book</h3>
+                            <h3 className="mb-0">Books</h3>
                         </CardHeader>
                         {errorMsg}
                         {msg}
@@ -200,16 +213,16 @@ class BookStu extends React.Component {
 
                     </Card>
 
-                    <WhislistModal
-                            show={this.state.whislistShow}
-                            hide={() => this.setState({ whislistShow: false })}
-                            title="Whisist"
-                            data={this.props.whislistData}
-                            totalSize={this.props.whislistTotalSize}
-                            page={this.props.whislistPage}
-                            studentId={this.state.studentId}
-                            fetchData={this.fetchWhislist}
-                        />
+                    <WishlistModal
+                        show={this.state.wishlistShow}
+                        hide={() => this.setState({ wishlistShow: false })}
+                        title="Wishist"
+                        data={this.props.wishlistData}
+                        totalSize={this.props.wishlistTotalSize}
+                        page={this.props.wishlistPage}
+                        studentId={this.state.studentId}
+                        fetchData={this.fetchWishlist}
+                    />
 
                 </Container>
             </>
@@ -220,15 +233,21 @@ class BookStu extends React.Component {
 const mapStateToProps = state => {
     return {
         loading: state.bookStu.loading,
+        errorBook: state.bookStu.error,
+        errOnFetchBook: state.bookStu.error,
+        
         data: state.bookStu.data,
-        error: state.bookStu.error,
         totalSize: state.bookStu.total,
         page: state.bookStu.page,
         sizePerPage: state.bookStu.sizePerPage,
-        successMsg : state.info.successMsg,
-        whislistData: state.bookStu.whislistData,
-        whislistTotalSize: state.bookStu.whislistTotalSize,
-        whislistPage: state.bookStu.whislistPage
+        
+        wishlistData: state.info.wishlistData,
+        wishlistTotalSize: state.info.wishlistTotalSize,
+        wishlistPage: state.info.wishlistPage,
+        
+        successMsg: state.info.successMsg,
+        errorInfo: state.info.error,
+        errOnFetchInfo: state.info.errOnFetch
     }
 }
 
@@ -236,7 +255,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getBookStudentSide(search, page, size)),
         onAddReminder: (bookId, studentId) => dispatch(actions.addReminder(bookId, studentId)),
-        onGetWhislist: (page, size, search) => dispatch(actions.getWhislist(search, page, size))
+        onGetWishlist: (page, size, search) => dispatch(actions.getWishlist(search, page, size))
     }
 }
 

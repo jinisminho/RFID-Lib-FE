@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes'
 import axios from '../../axios'
-import * as booksPrototype from '../prototype/search'
+import * as booksPrototype from '../prototype/bookStudent'
 
 export const getBooksStart = (data, total, page, sizePerPage) => {
     return {
