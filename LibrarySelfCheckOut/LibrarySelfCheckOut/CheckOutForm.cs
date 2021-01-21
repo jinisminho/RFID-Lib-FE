@@ -44,9 +44,9 @@ namespace LibrarySelfCheckOut
             this.studentId = studentId;
             this.spiner.Hide();
 
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.txtBookRFID.Focus();
 
@@ -208,6 +208,10 @@ namespace LibrarySelfCheckOut
                 if (modal.result == DialogResult.Yes)
                 {
                     this.Close();
+                }
+                else
+                {
+                    this.txtBookRFID.Focus();
                 }
             }
         }

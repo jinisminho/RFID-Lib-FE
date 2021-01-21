@@ -34,9 +34,9 @@ namespace LibrarySelfCheckOut
         public ReturnForm()
         {
             InitializeComponent();
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
@@ -181,6 +181,10 @@ namespace LibrarySelfCheckOut
                 if(modal.result == DialogResult.Yes)
                 {
                     this.Close();
+                }
+                else
+                {
+                    this.txtBookCode.Focus();
                 }
             }
         }

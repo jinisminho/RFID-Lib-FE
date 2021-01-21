@@ -23,9 +23,9 @@ namespace LibrarySelfCheckOut
         public LoginForm()
         {
             InitializeComponent();
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             this.sesionTime = 60;
       
         }
@@ -36,8 +36,11 @@ namespace LibrarySelfCheckOut
             this.lbMessage.Hide();
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
-            this.lbIncorrectPin.Hide();
             this.spinner.Hide();
+            int x = (panel1.Width - lbWelcome.Width) / 2;
+            lbWelcome.Location = new Point(x, lbWelcome.Location.Y);
+            lbScan.Location = new Point(x, lbScan.Location.Y);
+            lbMessage.Location = new Point(x, lbMessage.Location.Y);
         }
 
      
