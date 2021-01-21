@@ -1,0 +1,13 @@
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\Debug\UHFReader86Demo.exe
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\Debug\UHFReader86Demo.pdb
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\Debug\CustomControl.dll
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.csprojAssemblyReference.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.ConfigForm.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.Form1.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.LoginForm.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.Properties.Resources.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.csproj.GenerateResource.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.csproj.CoreCompileInputs.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.csproj.CopyComplete
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.exe
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\Debug\UHFReader86Demo.pdb
