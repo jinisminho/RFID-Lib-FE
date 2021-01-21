@@ -18,6 +18,8 @@ namespace LibrarySelfCheckOut
         {
             InitializeComponent();
             this.lbMsg.Text = msg;
+            this.TopMost = true;
+
         }
 
         private void ntYes_Click(object sender, EventArgs e)

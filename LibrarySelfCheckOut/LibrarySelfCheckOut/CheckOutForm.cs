@@ -29,7 +29,7 @@ namespace LibrarySelfCheckOut
 
         private String bookRFID;
 
-        private int sesionTime = 90;
+        private int sesionTime = Constant.PROCESS_SESSION_TIME_OUT;
 
         private int numberOfBookScanned = 0;
 
@@ -44,9 +44,9 @@ namespace LibrarySelfCheckOut
             this.studentId = studentId;
             this.spiner.Hide();
 
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.txtBookRFID.Focus();
 

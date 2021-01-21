@@ -15,14 +15,15 @@ namespace LibrarySelfCheckOut
         public MainForm()
         {
             InitializeComponent();
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-           
+            int x = (panel1.Width - lbWelcome.Width) / 2;
+            lbWelcome.Location = new Point(x, lbWelcome.Location.Y);
         }
 
         private void lbBorrow_Click(object sender, EventArgs e)

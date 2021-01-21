@@ -20,7 +20,7 @@ namespace LibrarySelfCheckOut
         private const String BT_TXT_RETURN = "RETURN";
 
 
-        private int sesionTime = 90;
+        private int sesionTime = Constant.PROCESS_SESSION_TIME_OUT;
 
         private List<String> bookCodeList;
 
@@ -34,9 +34,9 @@ namespace LibrarySelfCheckOut
         public ReturnForm()
         {
             InitializeComponent();
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
