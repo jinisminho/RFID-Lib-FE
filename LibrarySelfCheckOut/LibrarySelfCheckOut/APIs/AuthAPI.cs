@@ -14,22 +14,30 @@ namespace LibrarySelfCheckOut.APIs
         public static async Task<AuthResponse> findStudentByRFID(String rfid)
         {
             string url = $"/Account/login/" + rfid;
-            using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
+            try
             {
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
                 {
+                    if (response.IsSuccessStatusCode)
+                    {
 
-                    AuthStudentModel student = await response.Content.ReadAsAsync<AuthStudentModel>();
-                   
-                    return new AuthResponse(true, "", student);
-                }
-                else
-                {
-                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                        AuthStudentModel student = await response.Content.ReadAsAsync<AuthStudentModel>();
 
-                    return new AuthResponse(false, error.message, null);
+                        return new AuthResponse(true, "", student);
+                    }
+                    else
+                    {
+                        ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+
+                        return new AuthResponse(false, error.message, null);
+                    }
                 }
             }
+            catch (Exception e )
+            {
+                return new AuthResponse(false, e.Message, null);
+            }
+            
         }
     }
 }
