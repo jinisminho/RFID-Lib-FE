@@ -1,0 +1,35 @@
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\bin\x86\Release\UHFReader86Demo.exe
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\bin\x86\Release\UHFReader86Demo.pdb
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\bin\x86\Release\CustomControl.dll
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\ResolveAssemblyReference.cache
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.ConfigForm.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.Form1.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.LoginForm.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.Properties.Resources.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.csproj.GenerateResource.Cache
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.exe
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo\obj\x86\Release\UHFReader86Demo.pdb
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.exe
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.pdb
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.exe
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.pdb
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\CustomControl.dll
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\ResolveAssemblyReference.cache
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.ConfigForm.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Form1.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.LoginForm.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Properties.Resources.resources
+D:\演示软件\最终版本\UHF资料\UHF\RRU9816发卡器\RRU9816中性资料\english-WG V1.1\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.GenerateResource.Cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.exe
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.pdb
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\bin\x86\Release\CustomControl.dll
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csprojAssemblyReference.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.ConfigForm.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Form1.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.LoginForm.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Properties.Resources.resources
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.GenerateResource.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.CoreCompileInputs.cache
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.CopyComplete
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.exe
+F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.pdb
