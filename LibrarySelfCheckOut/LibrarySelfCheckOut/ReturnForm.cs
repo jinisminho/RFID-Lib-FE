@@ -20,7 +20,7 @@ namespace LibrarySelfCheckOut
         private const String BT_TXT_RETURN = "RETURN";
 
 
-        private int sesionTime = 90;
+        private int sesionTime = Constant.PROCESS_SESSION_TIME_OUT;
 
         private List<String> bookCodeList;
 

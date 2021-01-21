@@ -26,7 +26,7 @@ namespace LibrarySelfCheckOut
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            this.sesionTime = 60;
+            this.sesionTime = Constant.LOGIN_SESSION_TIME_OUT;
       
         }
 

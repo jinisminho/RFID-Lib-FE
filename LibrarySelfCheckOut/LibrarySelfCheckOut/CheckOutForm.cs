@@ -29,7 +29,7 @@ namespace LibrarySelfCheckOut
 
         private String bookRFID;
 
-        private int sesionTime = 90;
+        private int sesionTime = Constant.PROCESS_SESSION_TIME_OUT;
 
         private int numberOfBookScanned = 0;
 
