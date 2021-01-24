@@ -212,6 +212,7 @@ namespace LibrarySelfCheckOut
                 else
                 {
                     this.txtBookRFID.Focus();
+                    this.timerSession.Enabled = true;
                 }
             }
         }
