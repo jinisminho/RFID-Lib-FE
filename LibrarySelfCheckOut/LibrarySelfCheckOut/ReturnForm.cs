@@ -45,9 +45,10 @@ namespace LibrarySelfCheckOut
             this.bookCodeMap = new Dictionary<String, String>();
             this.btDone.Enabled = false;
             this.btDone.Text = BT_TXT_RETURN;
+            this.lbCurrentDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
         }
 
-     
+
 
         private void timerSessionTimeOut_Tick(object sender, EventArgs e)
         {
@@ -185,6 +186,7 @@ namespace LibrarySelfCheckOut
                 else
                 {
                     this.txtBookCode.Focus();
+                    this.timerSessionTimeOut.Enabled = true;
                 }
             }
         }
