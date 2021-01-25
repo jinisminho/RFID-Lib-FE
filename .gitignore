@@ -1,5 +1,6 @@
 /LibraryWebApp/build
 /LibraryWebApp/node_modules
 /LibraryWebApp/package-lock.json
+/LibraryWebApp/.idea
 
 LibraryWebApp/debug.log

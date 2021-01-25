@@ -16,6 +16,8 @@ namespace LibrarySelfCheckOut
         {
             InitializeComponent();
             this.lbMsg.Text = msg;
+            this.TopMost = true;
+
         }
 
         private void BtOK_Click(object sender, EventArgs e)
