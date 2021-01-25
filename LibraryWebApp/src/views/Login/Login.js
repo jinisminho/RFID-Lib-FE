@@ -33,10 +33,24 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { Popover, OverlayTrigger } from 'react-bootstrap'
+
 const renderField = ({ input, placeholder, type, meta: { touched, error} }) => (
     <>
-      <Input {...input} placeholder={placeholder} type={type}/>
-      {touched && ((error && <span className="text-danger">{error}</span>))}
+                <Input className="pl-3" {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
       </>
 )
 const required = value => value ? undefined : 'Required'

@@ -361,7 +361,7 @@ class RentingInfo extends Component {
         return (
             <>
                 <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-3" fluid>
                     <Row className="justify-content-center">
                         {form}
                     </Row>
