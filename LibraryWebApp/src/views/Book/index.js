@@ -208,20 +208,24 @@ class Book extends React.Component {
             status
         )
     }
+    imageFormatter(cell, row){
+        return (<img className="img-thumbnail" src={cell}/>)
+    }
     bookDescriptionFormat(cell, row) {
         let author=row.author.join()
+        let position="Available at "+row.ddc
+        let position_class= "text-success"
+        if(row.status=="NOT_AVAILABLE"){
+            position="Not available"
+            position_class="text-danger"
+        }
         return (
-            <Row>
-               
-                <Col className="col-6">Title: {row.title}</Col>
-                <Col className="col-6">Subtitle: {row.sub}</Col>
-                <Col className="col-4">DDC: {row.ddc}</Col>
-                <Col className="col-4">Author: {author}</Col>
-                <Col className="col-4">Publisher:{row.publisher}</Col>
-                <Col className="col-4">Language: {row.language}</Col>
-                <Col className="col-4">Number of page: {row.nop}</Col>
-                <Col className="col-4">Edition: {row.edition}</Col>
-            </Row>
+            <>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder text-info">{row.title}: {row.sub}</h2></a>
+                <p>{author}</p>
+                <p>Edition: {row.edition}</p>
+                <p className={position_class}>{position}</p>
+            </>
             )
     }
     getInitialValues = () => {
@@ -296,12 +300,12 @@ class Book extends React.Component {
                     hover
                     condensed
                     className="ml-4 mr-4"
+                    bordered={false}
+                    tableHeaderClass={"col-hidden"}
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="40%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="status" dataAlign="center" dataFormat={this.statusFormatter} width="15%">Status</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
@@ -362,7 +366,7 @@ class Book extends React.Component {
         return (
             <>
                 <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
                             <h3 className="mb-0">Book tables</h3>
