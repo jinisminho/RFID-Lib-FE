@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckOutForm));
             this.lbUsername = new System.Windows.Forms.Label();
             this.lbIntruction = new System.Windows.Forms.Label();
             this.lbNoticeMaxBookBorrowAllowed = new System.Windows.Forms.Label();
@@ -201,8 +202,9 @@
             this.ClientSize = new System.Drawing.Size(1778, 929);
             this.Controls.Add(this.panelCenter);
             this.Controls.Add(this.panelHead);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CheckOutForm";
-            this.Text = "Self Check Out Book Application";
+            this.Text = "SMART LIBRARY";
             this.panelHead.ResumeLayout(false);
             this.panelHead.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();

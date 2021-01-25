@@ -207,5 +207,26 @@
   <ItemGroup>
     <None Include="Resources\insert-card.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logi.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selfcheckoutservice.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCS.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome3.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome4.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCS2.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

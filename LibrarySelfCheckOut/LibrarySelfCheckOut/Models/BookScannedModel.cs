@@ -10,11 +10,11 @@ namespace LibrarySelfCheckOut.Models
     {
         public String rfid { get; set; }
         public String title { get; set; }
+        public int edition { get; set; }
+        public String authors { get; set; }
+        public String img { get; set; }
+        public String subtitle { get; set; }
+        public String  group { get; set; }
 
-        public BookScannedModel(string rfid, string title)
-        {
-            this.rfid = rfid;
-            this.title = title;
-        }
     }
 }

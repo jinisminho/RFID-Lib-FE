@@ -113,6 +113,16 @@ namespace LibrarySelfCheckOut.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logi {
+            get {
+                object obj = ResourceManager.GetObject("logi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap remove_icon_21 {
             get {
                 object obj = ResourceManager.GetObject("remove-icon-21", resourceCulture);
@@ -143,6 +153,36 @@ namespace LibrarySelfCheckOut.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SCS {
+            get {
+                object obj = ResourceManager.GetObject("SCS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SCS2 {
+            get {
+                object obj = ResourceManager.GetObject("SCS2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap selfcheckoutservice {
+            get {
+                object obj = ResourceManager.GetObject("selfcheckoutservice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Spinner_1s_200px {
             get {
                 object obj = ResourceManager.GetObject("Spinner-1s-200px", resourceCulture);
@@ -156,6 +196,36 @@ namespace LibrarySelfCheckOut.Properties {
         internal static System.Drawing.Bitmap success_icon_10 {
             get {
                 object obj = ResourceManager.GetObject("success-icon-10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap welcome2 {
+            get {
+                object obj = ResourceManager.GetObject("welcome2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap welcome3 {
+            get {
+                object obj = ResourceManager.GetObject("welcome3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap welcome4 {
+            get {
+                object obj = ResourceManager.GetObject("welcome4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

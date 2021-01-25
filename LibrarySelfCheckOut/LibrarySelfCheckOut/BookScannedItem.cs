@@ -7,16 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibrarySelfCheckOut.Models;
 
 namespace LibrarySelfCheckOut
 {
     public partial class BookScannedItem : UserControl
     {
-        public BookScannedItem(int index, String title)
+        private const int drop_shadow = 0x00020000;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= drop_shadow;
+                return cp;
+            }
+        }
+        public BookScannedItem(BookScannedModel book)
         {
             InitializeComponent();
-            this.lbIndex.Text = index.ToString();
-            this.lbTitle.Text = "Book: " + title;
+            lbTitle.Text = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
+            lbEdition.Text = "Edition: " + book.edition;
+            lbAuthors.Text = "Author(s): " + book.authors;
+            picBook.Load(book.img);
+            lbGroup.Text = "Group: " + book.group;
         }
     }
 }

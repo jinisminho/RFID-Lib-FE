@@ -93,7 +93,7 @@ namespace LibrarySelfCheckOut
                             this.spiner.Hide();
                             if (rs.isSuccess)
                             {
-                                BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
+                                BookScannedItem item = new BookScannedItem(rs.book);
                                 item.Width = this.flowLayoutPanelBookList.Width - 10;
                                 flowLayoutPanelBookList.Controls.Add(item);
                                 bookCodeList.Add(this.bookRFID);

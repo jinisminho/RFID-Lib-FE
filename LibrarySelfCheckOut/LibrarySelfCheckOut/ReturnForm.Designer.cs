@@ -29,22 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtBookCode = new System.Windows.Forms.TextBox();
             this.lbInstruction = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbCurrentDate = new System.Windows.Forms.Label();
             this.pnBooksReturned = new System.Windows.Forms.FlowLayoutPanel();
-            this.spiner = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btCancel = new System.Windows.Forms.Button();
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.btCancel = new System.Windows.Forms.Button();
+            this.spiner = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -102,19 +103,8 @@
             this.pnBooksReturned.AutoScroll = true;
             this.pnBooksReturned.Location = new System.Drawing.Point(46, 71);
             this.pnBooksReturned.Name = "pnBooksReturned";
-            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 561);
+            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 639);
             this.pnBooksReturned.TabIndex = 1;
-            // 
-            // spiner
-            // 
-            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.spiner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
-            this.spiner.Location = new System.Drawing.Point(838, 0);
-            this.spiner.Name = "spiner";
-            this.spiner.Size = new System.Drawing.Size(100, 78);
-            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.spiner.TabIndex = 0;
-            this.spiner.TabStop = false;
             // 
             // panel3
             // 
@@ -126,6 +116,23 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1778, 100);
             this.panel3.TabIndex = 2;
+            // 
+            // btCancel
+            // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.BackColor = System.Drawing.Color.Silver;
+            this.btCancel.FlatAppearance.BorderSize = 0;
+            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btCancel.ForeColor = System.Drawing.Color.Black;
+            this.btCancel.Location = new System.Drawing.Point(1315, 22);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(199, 47);
+            this.btCancel.TabIndex = 8;
+            this.btCancel.Text = "CANCEL";
+            this.btCancel.UseMnemonic = false;
+            this.btCancel.UseVisualStyleBackColor = false;
+            this.btCancel.Click += new System.EventHandler(this.lbCancel_Click);
             // 
             // btDone
             // 
@@ -162,40 +169,36 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
-            // btCancel
+            // spiner
             // 
-            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCancel.BackColor = System.Drawing.Color.PaleVioletRed;
-            this.btCancel.FlatAppearance.BorderSize = 0;
-            this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btCancel.ForeColor = System.Drawing.Color.White;
-            this.btCancel.Location = new System.Drawing.Point(1315, 22);
-            this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(199, 47);
-            this.btCancel.TabIndex = 8;
-            this.btCancel.Text = "CANCEL";
-            this.btCancel.UseMnemonic = false;
-            this.btCancel.UseVisualStyleBackColor = false;
-            this.btCancel.Click += new System.EventHandler(this.lbCancel_Click);
+            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.spiner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
+            this.spiner.Location = new System.Drawing.Point(838, 0);
+            this.spiner.Name = "spiner";
+            this.spiner.Size = new System.Drawing.Size(100, 78);
+            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.spiner.TabIndex = 0;
+            this.spiner.TabStop = false;
             // 
             // ReturnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1778, 929);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReturnForm";
-            this.Text = "ReturnForm";
+            this.Text = "SMART LIBRARY";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.ResumeLayout(false);
 
         }
