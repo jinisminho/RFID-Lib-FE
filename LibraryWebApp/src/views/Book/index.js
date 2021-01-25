@@ -212,7 +212,7 @@ class Book extends React.Component {
         return (<img className="img-thumbnail" src={cell}/>)
     }
     bookDescriptionFormat(cell, row) {
-        let author=row.author.join()
+        let author=row.author.join(", ")
         let position="Available at "+row.ddc
         let position_class= "text-success"
         if(row.status=="NOT_AVAILABLE"){
@@ -222,7 +222,7 @@ class Book extends React.Component {
         return (
             <>
                 <a href="https://www.google.com"><h2 className="font-weight-bolder text-info">{row.title}: {row.sub}</h2></a>
-                <p>{author}</p>
+                <p>by {author}</p>
                 <p>Edition: {row.edition}</p>
                 <p className={position_class}>{position}</p>
             </>

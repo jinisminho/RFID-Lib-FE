@@ -186,7 +186,7 @@ class BookCopy extends React.Component {
         return (<img className="img-thumbnail" src={cell}/>)
     }
     bookDescriptionFormat(cell, row) {
-        let author=row.author.join()
+        let author=row.author.join(", ")
         let position="Available at "+row.ddc
         let position_class= "text-success"
         if(row.status=="NOT_AVAILABLE"){
@@ -195,9 +195,10 @@ class BookCopy extends React.Component {
         }
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder text-info">{row.title}: {row.sub}</h2></a>
-                <p>{author}</p>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
+                <p>by {author}</p>
                 <p>Edition: {row.edition}</p>
+                <p>Price: {row.price}$</p>
                 <p className={position_class}>{position}</p>
             </>
             )
