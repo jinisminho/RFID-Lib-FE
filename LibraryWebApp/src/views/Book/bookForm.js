@@ -251,15 +251,25 @@ const BookForm = ({
                         title="Edition"
                         component={renderField} />
                 </FormGroup>
-                <div className="form-group">
-                <label className="font-weight-bold mr-4">Status:</label>
-                <Field name="status" component="select" className="form-control">
-                    <option value="ALLOWED_TO_BORROW">Allowed to borrow</option>
-                    <option value="NOT_ALLOWED_TO_BORROW">Not allowed to borrow</option>
-                    <option value="OUT_OF_CIRCULATION">Out of circulation</option>
-                </Field>
-                </div>
+
+
+                <FormGroup className="mb-3">
+                    <Row>
+                        <Label>Status</Label>
+                    </Row>
+                    <Row>
+                        <InputGroup className="mb-3 input-group-alternative">
+                            <Field name="status" component="select" className="form-control">
+                                <option value="ALLOWED_TO_BORROW">Allowed to borrow</option>
+                                <option value="NOT_ALLOWED_TO_BORROW">Not allowed to borrow</option>
+                                <option value="OUT_OF_CIRCULATION">Out of circulation</option>
+                            </Field>
+                        </InputGroup>
+                    </Row>
+                </FormGroup>
+
                 <FieldArray name="members" component={renderAuthors} />
+                
                 <div className="text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                         <span className="btn-label">

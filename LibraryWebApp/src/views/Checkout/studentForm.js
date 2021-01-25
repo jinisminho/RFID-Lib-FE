@@ -32,22 +32,50 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
-const renderField = ({ input, disabled,placeholder, type, meta: { touched, error } }) => (
+// const renderField = ({ input, disabled,placeholder, type, meta: { touched, error } }) => (
+//     <>
+//         <Input {...input}  disabled={disabled} placeholder={placeholder} type={type} />
+//         {touched && ((error && <OverlayTrigger
+//             trigger={['hover', 'focus']}
+//             placement="right"
+//             overlay={
+//                 <Popover>
+//                     <Popover.Content>
+//                         <span className="text-danger">{error}</span>
+//                     </Popover.Content>
+//                 </Popover>
+//             }
+//         >
+//             <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+//         </OverlayTrigger>))}
+//     </>
+// )
+
+const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
     <>
-        <Input {...input}  disabled={disabled} placeholder={placeholder} type={type} />
-        {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-                <Popover>
-                    <Popover.Content>
-                        <span className="text-danger">{error}</span>
-                    </Popover.Content>
-                </Popover>
-            }
-        >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} disabled={disabled} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+
+
     </>
 )
 
@@ -55,7 +83,7 @@ const StudentForm = () => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form>
-                <FormGroup className="mb-3">
+                {/* <FormGroup className="mb-3">
                     <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>
@@ -71,6 +99,18 @@ const StudentForm = () => (
                             placeholder="Name"
                             component={renderField} />
                     </InputGroup>
+                </FormGroup> */}
+                <FormGroup className="mb-3">
+                    <Field
+                        name="name"
+                        // props={{
+                        //     disabled: true,
+                        // }}
+                        disabled
+                        type="text"
+                        title="Name"
+                        placeholder="Name"
+                        component={renderField} />
                 </FormGroup>
             </Form>
         </CardBody>
