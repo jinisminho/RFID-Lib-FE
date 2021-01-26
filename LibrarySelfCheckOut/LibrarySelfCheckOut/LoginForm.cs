@@ -23,9 +23,9 @@ namespace LibrarySelfCheckOut
         public LoginForm()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
             this.sesionTime = Constant.LOGIN_SESSION_TIME_OUT;
       
         }
@@ -37,10 +37,13 @@ namespace LibrarySelfCheckOut
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
             this.spinner.Hide();
-            int x = (panel1.Width - lbWelcome.Width) / 2;
-            lbWelcome.Location = new Point(x, lbWelcome.Location.Y);
+            int x = (pnCenter.Width + pnLeft.Width - lbScan.Width) / 2;
             lbScan.Location = new Point(x, lbScan.Location.Y);
             lbMessage.Location = new Point(x, lbMessage.Location.Y);
+            int yLogo = (pnLeft.Height - pcLogo.Height) / 2;
+            int yTitle = (pnLeft.Height - picTitle.Height) / 2;
+            pcLogo.Location = new Point(pcLogo.Location.X, yLogo - 50);
+            picTitle.Location = new Point(picTitle.Location.X, yTitle + 25);
         }
 
      
@@ -81,8 +84,7 @@ namespace LibrarySelfCheckOut
 
                                 int studentId = rs.student.id;
                                 string studentUsername = rs.student.username;
-                                int maxNumberBorrowAllowed = rs.student.maxNumberBorrowAllowed;
-                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername,studentId);
                                 checkOutForm.ShowDialog();
                                 this.sessionTimer.Enabled = false;
                                 resetLogin();
@@ -127,10 +129,7 @@ namespace LibrarySelfCheckOut
             }
         }
 
-        private void btBack_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+   
 
         private void resetLogin()
         {
@@ -158,6 +157,16 @@ namespace LibrarySelfCheckOut
                 t.Stop();
             };
             t.Start();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     } 
 }

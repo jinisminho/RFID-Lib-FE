@@ -34,9 +34,9 @@ namespace LibrarySelfCheckOut
         public ReturnForm()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
@@ -150,11 +150,9 @@ namespace LibrarySelfCheckOut
             this.spiner.Hide();
             if (rs.isSuccess)
             {
-                int count = 0;
                 foreach (BookReturnModel b in rs.books)
                 {
-                    count++;
-                    BookReturnItem item = new BookReturnItem(count, b.title, b.status);
+                    BookReturnItem item = new BookReturnItem(b);
                     item.Width = this.pnBooksReturned.Width - 10;
                     this.pnBooksReturned.Controls.Add(item);
                 }

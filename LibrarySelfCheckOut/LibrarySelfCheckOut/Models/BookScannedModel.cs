@@ -14,7 +14,9 @@ namespace LibrarySelfCheckOut.Models
         public String authors { get; set; }
         public String img { get; set; }
         public String subtitle { get; set; }
+        public int groupId { get; set; }
         public String  group { get; set; }
+
 
     }
 }

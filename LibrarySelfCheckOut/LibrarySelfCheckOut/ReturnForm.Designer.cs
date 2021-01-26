@@ -31,50 +31,49 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnForm));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.txtBookCode = new System.Windows.Forms.TextBox();
             this.lbInstruction = new System.Windows.Forms.Label();
+            this.txtBookCode = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbCurrentDate = new System.Windows.Forms.Label();
             this.pnBooksReturned = new System.Windows.Forms.FlowLayoutPanel();
+            this.spiner = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btCancel = new System.Windows.Forms.Button();
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.spiner = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.txtBookCode);
             this.panel1.Controls.Add(this.lbInstruction);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1778, 100);
+            this.panel1.Size = new System.Drawing.Size(1778, 135);
             this.panel1.TabIndex = 0;
-            // 
-            // txtBookCode
-            // 
-            this.txtBookCode.Location = new System.Drawing.Point(938, 41);
-            this.txtBookCode.Name = "txtBookCode";
-            this.txtBookCode.Size = new System.Drawing.Size(223, 22);
-            this.txtBookCode.TabIndex = 3;
-            this.txtBookCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookCode_KeyDown);
             // 
             // lbInstruction
             // 
             this.lbInstruction.AutoSize = true;
             this.lbInstruction.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbInstruction.Location = new System.Drawing.Point(39, 25);
+            this.lbInstruction.Location = new System.Drawing.Point(39, 66);
             this.lbInstruction.Name = "lbInstruction";
             this.lbInstruction.Size = new System.Drawing.Size(670, 38);
             this.lbInstruction.TabIndex = 2;
             this.lbInstruction.Text = "Place book(s) on the scanner to return";
+            // 
+            // txtBookCode
+            // 
+            this.txtBookCode.Location = new System.Drawing.Point(749, 47);
+            this.txtBookCode.Name = "txtBookCode";
+            this.txtBookCode.Size = new System.Drawing.Size(223, 22);
+            this.txtBookCode.TabIndex = 3;
+            this.txtBookCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookCode_KeyDown);
             // 
             // panel2
             // 
@@ -82,9 +81,9 @@
             this.panel2.Controls.Add(this.pnBooksReturned);
             this.panel2.Controls.Add(this.spiner);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 100);
+            this.panel2.Location = new System.Drawing.Point(0, 135);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1778, 829);
+            this.panel2.Size = new System.Drawing.Size(1778, 794);
             this.panel2.TabIndex = 1;
             // 
             // lbCurrentDate
@@ -99,15 +98,27 @@
             // 
             // pnBooksReturned
             // 
-            this.pnBooksReturned.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pnBooksReturned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.pnBooksReturned.AutoScroll = true;
             this.pnBooksReturned.Location = new System.Drawing.Point(46, 71);
             this.pnBooksReturned.Name = "pnBooksReturned";
-            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 639);
+            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 617);
             this.pnBooksReturned.TabIndex = 1;
+            // 
+            // spiner
+            // 
+            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.spiner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_trans__1_;
+            this.spiner.Location = new System.Drawing.Point(838, 0);
+            this.spiner.Name = "spiner";
+            this.spiner.Size = new System.Drawing.Size(100, 78);
+            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.spiner.TabIndex = 0;
+            this.spiner.TabStop = false;
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.txtBookCode);
             this.panel3.Controls.Add(this.btCancel);
             this.panel3.Controls.Add(this.btDone);
             this.panel3.Controls.Add(this.lbSessionTimeOut);
@@ -120,11 +131,11 @@
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCancel.BackColor = System.Drawing.Color.Silver;
+            this.btCancel.BackColor = System.Drawing.Color.DarkGray;
             this.btCancel.FlatAppearance.BorderSize = 0;
             this.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btCancel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btCancel.ForeColor = System.Drawing.Color.Black;
+            this.btCancel.ForeColor = System.Drawing.Color.White;
             this.btCancel.Location = new System.Drawing.Point(1315, 22);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(199, 47);
@@ -169,17 +180,6 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
-            // spiner
-            // 
-            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.spiner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
-            this.spiner.Location = new System.Drawing.Point(838, 0);
-            this.spiner.Name = "spiner";
-            this.spiner.Size = new System.Drawing.Size(100, 78);
-            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.spiner.TabIndex = 0;
-            this.spiner.TabStop = false;
-            // 
             // ReturnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -196,9 +196,9 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.ResumeLayout(false);
 
         }

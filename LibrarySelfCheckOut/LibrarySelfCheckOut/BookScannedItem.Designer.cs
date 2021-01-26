@@ -90,7 +90,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Controls.Add(this.lbGroup);
             this.Controls.Add(this.lbAuthors);
             this.Controls.Add(this.lbEdition);

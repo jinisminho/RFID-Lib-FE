@@ -15,9 +15,9 @@ namespace LibrarySelfCheckOut
         public MainForm()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
         }
 
         private void MainForm_Load(object sender, EventArgs e)

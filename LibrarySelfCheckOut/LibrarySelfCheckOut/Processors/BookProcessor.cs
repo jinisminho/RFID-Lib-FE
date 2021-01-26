@@ -11,7 +11,7 @@ namespace LibrarySelfCheckOut.Processors
 {
     public class BookProcessor
     {
-        public async static Task<CheckOutResponseModel> checkout(List<String> bookCodeList, int patronId)
+        public async static Task<CheckOutResponseModel> checkout(List<BookCheckOutRequestModel> bookCodeList, int patronId)
         {
             CheckOutRequestModel requestBody = new CheckOutRequestModel();
             requestBody.patronId = patronId;

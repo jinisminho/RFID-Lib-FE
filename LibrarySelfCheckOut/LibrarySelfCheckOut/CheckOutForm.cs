@@ -21,11 +21,9 @@ namespace LibrarySelfCheckOut
 
         private string username;
 
-        private int maxNumberBorrowAllowed;
-
         private int studentId;
 
-        private List<String> bookCodeList;
+        private List<BookCheckOutRequestModel> bookCodeList;
 
         private String bookRFID;
 
@@ -36,25 +34,24 @@ namespace LibrarySelfCheckOut
         private IDictionary<String, String> bookCodeMap;
 
 
-        public CheckOutForm(string username, int maxNumberBorrowAllowed, int studentId)
+
+        public CheckOutForm(string username, int studentId)
         {
             InitializeComponent();
             this.username = username;
-            this.maxNumberBorrowAllowed = maxNumberBorrowAllowed;
             this.studentId = studentId;
             this.spiner.Hide();
 
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.txtBookRFID.Focus();
 
             //assign value
-            this.bookCodeList = new List<String>();
+            this.bookCodeList = new List<BookCheckOutRequestModel>();
             this.bookCodeMap = new Dictionary<String, String>();
-            this.lbUsername.Text = $"Welcome, " + username;
-            this.lbNoticeMaxBookBorrowAllowed.Text = $"NOTICE: Each student is allowed to borrow maximum " + maxNumberBorrowAllowed + " books each time.";
+            this.lbUsername.Text = username;
             this.lbDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
 
             this.btDone.Enabled = false;
@@ -76,40 +73,28 @@ namespace LibrarySelfCheckOut
                     {
                         this.numberOfBookScanned++;
                         this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();                   
-                        if ( numberOfBookScanned > maxNumberBorrowAllowed)
+                        this.timerSession.Enabled = false;
+                        this.spiner.Show();
+                        BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
+                        this.spiner.Hide();
+                        if (rs.isSuccess)
+                        {
+                            BookScannedItem item = new BookScannedItem(rs.book);
+                            item.Width = this.flowLayoutPanelBookList.Width - 10;
+                            flowLayoutPanelBookList.Controls.Add(item);
+                            bookCodeList.Add(new BookCheckOutRequestModel(rs.book.rfid, rs.book.group, rs.book.groupId));
+                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                        }
+                        else
                         {
                             this.txtBookRFID.Enabled = false;
-                            using (ModalOK model = new ModalOK($"You can't borrow more than " + maxNumberBorrowAllowed + " books. Please scan again!"))
+                            using (ModalOK model = new ModalOK(rs.errorMessage))
                             {
                                 model.ShowDialog();
                             }
                             resetState();
                         }
-                        else
-                        {
-                            this.timerSession.Enabled = false;
-                            this.spiner.Show();
-                            BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
-                            this.spiner.Hide();
-                            if (rs.isSuccess)
-                            {
-                                BookScannedItem item = new BookScannedItem(rs.book);
-                                item.Width = this.flowLayoutPanelBookList.Width - 10;
-                                flowLayoutPanelBookList.Controls.Add(item);
-                                bookCodeList.Add(this.bookRFID);
-                                bookCodeMap.Add(this.bookRFID, this.bookRFID);
-                            }
-                            else
-                            {
-                                this.txtBookRFID.Enabled = false;
-                                using (ModalOK model = new ModalOK(rs.errorMessage))
-                                {
-                                    model.ShowDialog();
-                                }
-                                resetState();
-                            }
-                            this.timerSession.Enabled = false;
-                        }
+                        this.timerSession.Enabled = false;
                         if (this.numberOfBookScanned == 1)
                         {
                             this.btDone.Enabled = true;
@@ -175,16 +160,13 @@ namespace LibrarySelfCheckOut
             if (rs.isSuccess)
             {
                 this.spiner.Hide();
-                int count = 0;
                 //show return at
                 foreach (BookCheckOutModel b in rs.books)
                 {
-                    count++;
-                    BookItem item = new BookItem(count, b);
+                    BookItem item = new BookItem( b);
                     item.Width = flowLayoutPanelBookList.Width - 10;
                     this.flowLayoutPanelBookList.Controls.Add(item);
                 }
-                this.lbNoticeMaxBookBorrowAllowed.Hide();
                 this.btDone.Text = BT_TXT_DONE;
             }
             else

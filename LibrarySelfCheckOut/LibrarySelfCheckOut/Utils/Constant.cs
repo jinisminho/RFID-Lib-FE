@@ -15,5 +15,7 @@ namespace LibrarySelfCheckOut.Utils
         public static int LOGIN_SESSION_TIME_OUT = 90;
 
         public static int PROCESS_SESSION_TIME_OUT = 120;
+
+        public static string CURRENCY = "VND";
     }
 }
