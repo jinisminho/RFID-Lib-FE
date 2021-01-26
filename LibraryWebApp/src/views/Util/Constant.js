@@ -1,0 +1,9 @@
+export const BOOK= "Book tables"
+
+
+//Status
+export const BOOK_COPY_AVAILABLE = "AVAILABLE"
+
+export const BOOK_OUT_OF_CIRCULATION = "OUT_OF_CIRCULATION"
+export const BOOK_IN_CIRCULATION = "IN_CIRCULATION"
+export const BOOK_NOT_ALLOWED_TO_BORROWED = "NOT_ALLOWED_TO_BORROWED"

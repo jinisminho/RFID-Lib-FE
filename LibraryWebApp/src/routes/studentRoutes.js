@@ -24,8 +24,10 @@ import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import RentingInf from "views/Student/RentingInfo.js";
 import RequestNewBook from 'views/RequestNewBook/index.js'
-import Book from "views/Student/Book.js"
+import Book from "views/Student/Book/index"
+import OldBook from "views/Student/Book"
 import Profile from "views/Student/Profile.js"
+import BookDetail from "views/Student/Book/BookDetail";
 
 var routes = [
   {
@@ -34,6 +36,14 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: Index,
     layout: "/student"
+  },
+  {
+    path: "/book/detail",
+    name: "Book Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: BookDetail,
+    layout: "/student",
+    invisible: true
   },
   {
     path: "/book",
