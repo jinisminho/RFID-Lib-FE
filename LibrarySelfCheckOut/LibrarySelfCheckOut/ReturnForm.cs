@@ -73,6 +73,10 @@ namespace LibrarySelfCheckOut
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
                         numberOfBookScanned++;
+                        if (numberOfBookScanned == 1)
+                        {
+                            this.btDone.Enabled = true;
+                        }
                         this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
                         this.timerSessionTimeOut.Enabled = false;
                         this.spiner.Show();
@@ -95,10 +99,7 @@ namespace LibrarySelfCheckOut
                             }
                             resetReturn();
                         }
-                        if(numberOfBookScanned == 1)
-                        {
-                            this.btDone.Enabled = true;
-                        }
+                    
                         this.timerSessionTimeOut.Enabled = true;
                     }
 
@@ -111,6 +112,7 @@ namespace LibrarySelfCheckOut
 
         private void resetReturn()
         {
+            this.timerSessionTimeOut.Enabled = true;
             this.pnBooksReturned.Controls.Clear();
             this.btCancel.Enabled = true;
             this.btDone.Enabled = false;
@@ -166,6 +168,7 @@ namespace LibrarySelfCheckOut
                     model.ShowDialog();
                 }
                 resetReturn();
+                return;
             }
             this.timerSessionTimeOut.Enabled = true;
             this.btDone.Enabled = true;

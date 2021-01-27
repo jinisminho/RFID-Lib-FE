@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibrarySelfCheckOut.Models;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
@@ -19,9 +20,11 @@ namespace LibrarySelfCheckOut
         {
             InitializeComponent();
             String fullTitle = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
-            lbTitle.Text = fullTitle.Length <= 50 ? fullTitle : fullTitle.Substring(0, 47) + "...";
+            lbTitle.Text = fullTitle.Length <= UIMessage.MAX_STRING_LENGTH ? 
+                fullTitle : fullTitle.Substring(0, UIMessage.MAX_STRING_LENGTH - 3) + "...";
             lbEdition.Text = "Edition: " + book.edition;
-            lbAuthors.Text = "Author(s): " + (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "...");
+            lbAuthors.Text = "Author(s): " + 
+                (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "...");
             picBook.Load(book.img);
             lbGroup.Text = "Group: " + book.group;
             if (book.ableToBorrow)

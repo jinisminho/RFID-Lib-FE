@@ -42,6 +42,7 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -50,6 +51,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.lbInstruction);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -61,7 +63,7 @@
             // 
             this.lbInstruction.AutoSize = true;
             this.lbInstruction.Font = new System.Drawing.Font("UD Digi Kyokasho NP-B", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbInstruction.Location = new System.Drawing.Point(39, 66);
+            this.lbInstruction.Location = new System.Drawing.Point(39, 78);
             this.lbInstruction.Name = "lbInstruction";
             this.lbInstruction.Size = new System.Drawing.Size(670, 38);
             this.lbInstruction.TabIndex = 2;
@@ -180,6 +182,15 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1775, 49);
+            this.panel4.TabIndex = 7;
+            // 
             // ReturnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -217,5 +228,6 @@
         private System.Windows.Forms.Label lbCurrentDate;
         private System.Windows.Forms.Timer timerSessionTimeOut;
         private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.Panel panel4;
     }
 }

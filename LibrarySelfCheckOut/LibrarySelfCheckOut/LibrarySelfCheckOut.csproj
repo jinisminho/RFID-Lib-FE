@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
     <Compile Include="Utils\Constant.cs" />
+    <Compile Include="Utils\UIMessage.cs" />
     <EmbeddedResource Include="BookItem.resx">
       <DependentUpon>BookItem.cs</DependentUpon>
     </EmbeddedResource>
