@@ -13,16 +13,6 @@ namespace LibrarySelfCheckOut
 {
     public partial class BookScannedItem : UserControl
     {
-        private const int drop_shadow = 0x00020000;
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ClassStyle |= drop_shadow;
-                return cp;
-            }
-        }
         public BookScannedItem(BookScannedModel book)
         {
             InitializeComponent();

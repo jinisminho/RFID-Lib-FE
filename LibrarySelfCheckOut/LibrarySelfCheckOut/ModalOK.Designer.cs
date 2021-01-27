@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalOK));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BtOK = new System.Windows.Forms.Button();
-            this.lbMsg = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.BtOK = new System.Windows.Forms.Button();
+            this.lbMsg = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -51,6 +51,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(592, 217);
             this.panel1.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(592, 41);
+            this.panel2.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(13, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 24);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Message";
             // 
             // BtOK
             // 
@@ -82,26 +102,6 @@
             this.lbMsg.TabIndex = 0;
             this.lbMsg.Text = resources.GetString("lbMsg.Text");
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(0, 1);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(592, 41);
-            this.panel2.TabIndex = 9;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(13, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Message";
-            // 
             // ModalOK
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -110,6 +110,7 @@
             this.ClientSize = new System.Drawing.Size(600, 223);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ModalOK";

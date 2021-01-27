@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.lbInstruction = new System.Windows.Forms.Label();
             this.txtBookCode = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -42,8 +43,9 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.panel3.SuspendLayout();
@@ -58,6 +60,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1778, 135);
             this.panel1.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1775, 49);
+            this.panel4.TabIndex = 7;
             // 
             // lbInstruction
             // 
@@ -182,14 +194,16 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
-            // panel4
+            // label1
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1775, 49);
-            this.panel4.TabIndex = 7;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(40, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(213, 35);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "RETURN SERVICE";
             // 
             // ReturnForm
             // 
@@ -205,6 +219,8 @@
             this.Text = "SMART LIBRARY";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
@@ -229,5 +245,6 @@
         private System.Windows.Forms.Timer timerSessionTimeOut;
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label1;
     }
 }

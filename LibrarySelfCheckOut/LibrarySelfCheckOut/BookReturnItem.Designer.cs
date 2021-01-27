@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbBorrower = new System.Windows.Forms.Label();
             this.lbGroup = new System.Windows.Forms.Label();
             this.lbAuthors = new System.Windows.Forms.Label();
             this.lbEdition = new System.Windows.Forms.Label();
@@ -56,11 +57,21 @@
             this.panel1.Size = new System.Drawing.Size(1590, 170);
             this.panel1.TabIndex = 0;
             // 
+            // lbBorrower
+            // 
+            this.lbBorrower.AutoSize = true;
+            this.lbBorrower.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbBorrower.Location = new System.Drawing.Point(12, 13);
+            this.lbBorrower.Name = "lbBorrower";
+            this.lbBorrower.Size = new System.Drawing.Size(138, 24);
+            this.lbBorrower.TabIndex = 9;
+            this.lbBorrower.Text = "Borrower: tram";
+            // 
             // lbGroup
             // 
             this.lbGroup.AutoSize = true;
             this.lbGroup.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbGroup.Location = new System.Drawing.Point(154, 111);
+            this.lbGroup.Location = new System.Drawing.Point(154, 109);
             this.lbGroup.Name = "lbGroup";
             this.lbGroup.Size = new System.Drawing.Size(68, 24);
             this.lbGroup.TabIndex = 8;
@@ -70,7 +81,7 @@
             // 
             this.lbAuthors.AutoSize = true;
             this.lbAuthors.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbAuthors.Location = new System.Drawing.Point(154, 78);
+            this.lbAuthors.Location = new System.Drawing.Point(154, 77);
             this.lbAuthors.Name = "lbAuthors";
             this.lbAuthors.Size = new System.Drawing.Size(94, 24);
             this.lbAuthors.TabIndex = 7;
@@ -80,7 +91,7 @@
             // 
             this.lbEdition.AutoSize = true;
             this.lbEdition.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbEdition.Location = new System.Drawing.Point(154, 45);
+            this.lbEdition.Location = new System.Drawing.Point(154, 44);
             this.lbEdition.Name = "lbEdition";
             this.lbEdition.Size = new System.Drawing.Size(89, 24);
             this.lbEdition.TabIndex = 6;
@@ -107,6 +118,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.lbBorrower);
             this.panel2.Controls.Add(this.lbFine);
             this.panel2.Controls.Add(this.lbOverdueDay);
             this.panel2.Controls.Add(this.lbMessage);
@@ -120,7 +132,7 @@
             // 
             this.lbFine.AutoSize = true;
             this.lbFine.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbFine.Location = new System.Drawing.Point(12, 45);
+            this.lbFine.Location = new System.Drawing.Point(12, 77);
             this.lbFine.Name = "lbFine";
             this.lbFine.Size = new System.Drawing.Size(136, 24);
             this.lbFine.TabIndex = 2;
@@ -130,7 +142,7 @@
             // 
             this.lbOverdueDay.AutoSize = true;
             this.lbOverdueDay.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbOverdueDay.Location = new System.Drawing.Point(12, 13);
+            this.lbOverdueDay.Location = new System.Drawing.Point(12, 44);
             this.lbOverdueDay.Name = "lbOverdueDay";
             this.lbOverdueDay.Size = new System.Drawing.Size(157, 24);
             this.lbOverdueDay.TabIndex = 1;
@@ -140,7 +152,7 @@
             // 
             this.lbMessage.AutoSize = true;
             this.lbMessage.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbMessage.Location = new System.Drawing.Point(12, 78);
+            this.lbMessage.Location = new System.Drawing.Point(12, 109);
             this.lbMessage.Name = "lbMessage";
             this.lbMessage.Size = new System.Drawing.Size(295, 24);
             this.lbMessage.TabIndex = 0;
@@ -176,5 +188,6 @@
         private System.Windows.Forms.Label lbFine;
         private System.Windows.Forms.Label lbOverdueDay;
         private System.Windows.Forms.Label lbMessage;
+        private System.Windows.Forms.Label lbBorrower;
     }
 }

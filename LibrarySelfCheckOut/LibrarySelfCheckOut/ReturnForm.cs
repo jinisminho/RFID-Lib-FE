@@ -173,7 +173,7 @@ namespace LibrarySelfCheckOut
 
         private void lbCancel_Click(object sender, EventArgs e)
         {
-            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
+            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?", "Cancel"))
             {
                 modal.ShowDialog();
                 if(modal.result == DialogResult.Yes)

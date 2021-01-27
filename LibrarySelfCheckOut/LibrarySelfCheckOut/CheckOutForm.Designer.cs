@@ -34,29 +34,31 @@
             this.lbIntruction = new System.Windows.Forms.Label();
             this.txtBookRFID = new System.Windows.Forms.TextBox();
             this.panelHead = new System.Windows.Forms.Panel();
+            this.pnNav = new System.Windows.Forms.Panel();
             this.spiner = new System.Windows.Forms.PictureBox();
             this.lbDate = new System.Windows.Forms.Label();
             this.panelCenter = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btDone = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.lbSession = new System.Windows.Forms.Label();
-            this.btDone = new System.Windows.Forms.Button();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panelHead.SuspendLayout();
+            this.pnNav.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
             this.panelCenter.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbUsername
             // 
+            this.lbUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbUsername.AutoSize = true;
             this.lbUsername.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lbUsername.ForeColor = System.Drawing.Color.White;
-            this.lbUsername.Location = new System.Drawing.Point(31, 9);
+            this.lbUsername.Location = new System.Drawing.Point(1493, 8);
             this.lbUsername.Name = "lbUsername";
             this.lbUsername.Size = new System.Drawing.Size(272, 35);
             this.lbUsername.TabIndex = 0;
@@ -82,7 +84,7 @@
             // 
             // panelHead
             // 
-            this.panelHead.Controls.Add(this.panel2);
+            this.panelHead.Controls.Add(this.pnNav);
             this.panelHead.Controls.Add(this.spiner);
             this.panelHead.Controls.Add(this.lbIntruction);
             this.panelHead.Controls.Add(this.lbDate);
@@ -91,6 +93,17 @@
             this.panelHead.Name = "panelHead";
             this.panelHead.Size = new System.Drawing.Size(1778, 236);
             this.panelHead.TabIndex = 5;
+            // 
+            // pnNav
+            // 
+            this.pnNav.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnNav.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnNav.Controls.Add(this.label1);
+            this.pnNav.Controls.Add(this.lbUsername);
+            this.pnNav.Location = new System.Drawing.Point(1, 1);
+            this.pnNav.Name = "pnNav";
+            this.pnNav.Size = new System.Drawing.Size(1775, 49);
+            this.pnNav.TabIndex = 6;
             // 
             // spiner
             // 
@@ -123,6 +136,35 @@
             this.panelCenter.Size = new System.Drawing.Size(1778, 693);
             this.panelCenter.TabIndex = 6;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.txtBookRFID);
+            this.panel1.Controls.Add(this.btDone);
+            this.panel1.Controls.Add(this.btCancel);
+            this.panel1.Controls.Add(this.lbSession);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 593);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1778, 100);
+            this.panel1.TabIndex = 8;
+            // 
+            // btDone
+            // 
+            this.btDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDone.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btDone.FlatAppearance.BorderSize = 0;
+            this.btDone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btDone.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btDone.ForeColor = System.Drawing.Color.White;
+            this.btDone.Location = new System.Drawing.Point(1527, 29);
+            this.btDone.Name = "btDone";
+            this.btDone.Size = new System.Drawing.Size(199, 47);
+            this.btDone.TabIndex = 2;
+            this.btDone.Text = "CHECK OUT";
+            this.btDone.UseMnemonic = false;
+            this.btDone.UseVisualStyleBackColor = false;
+            this.btDone.Click += new System.EventHandler(this.btLogout_Click);
+            // 
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -152,23 +194,6 @@
             this.lbSession.TabIndex = 5;
             this.lbSession.Text = "SESSION TIMEOUT: 30";
             // 
-            // btDone
-            // 
-            this.btDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDone.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btDone.FlatAppearance.BorderSize = 0;
-            this.btDone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btDone.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btDone.ForeColor = System.Drawing.Color.White;
-            this.btDone.Location = new System.Drawing.Point(1527, 29);
-            this.btDone.Name = "btDone";
-            this.btDone.Size = new System.Drawing.Size(199, 47);
-            this.btDone.TabIndex = 2;
-            this.btDone.Text = "CHECK OUT";
-            this.btDone.UseMnemonic = false;
-            this.btDone.UseVisualStyleBackColor = false;
-            this.btDone.Click += new System.EventHandler(this.btLogout_Click);
-            // 
             // flowLayoutPanelBookList
             // 
             this.flowLayoutPanelBookList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -184,27 +209,16 @@
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
             // 
-            // panel1
+            // label1
             // 
-            this.panel1.Controls.Add(this.txtBookRFID);
-            this.panel1.Controls.Add(this.btDone);
-            this.panel1.Controls.Add(this.btCancel);
-            this.panel1.Controls.Add(this.lbSession);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 593);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1778, 100);
-            this.panel1.TabIndex = 8;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel2.Controls.Add(this.lbUsername);
-            this.panel2.Location = new System.Drawing.Point(1, 1);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1775, 49);
-            this.panel2.TabIndex = 6;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(32, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(253, 35);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "CHECK-OUT SERVICE";
             // 
             // CheckOutForm
             // 
@@ -217,14 +231,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CheckOutForm";
             this.Text = "SMART LIBRARY";
+            this.Load += new System.EventHandler(this.CheckOutForm_Load);
             this.panelHead.ResumeLayout(false);
             this.panelHead.PerformLayout();
+            this.pnNav.ResumeLayout(false);
+            this.pnNav.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.panelCenter.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -244,6 +259,7 @@
         private System.Windows.Forms.Label lbDate;
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnNav;
+        private System.Windows.Forms.Label label1;
     }
 }

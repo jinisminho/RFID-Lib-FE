@@ -56,6 +56,15 @@ namespace LibrarySelfCheckOut
 
             this.btDone.Enabled = false;
             this.btDone.Text = BT_TXT_CHECKOUT;
+
+
+        }
+
+
+        private void CheckOutForm_Load(object sender, EventArgs e)
+        {
+            int x_label = (pnNav.Width - lbUsername.Width - 10);
+            lbUsername.Location = new Point(x_label, lbUsername.Location.Y);
         }
 
 
@@ -183,7 +192,7 @@ namespace LibrarySelfCheckOut
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            using (ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
+            using (ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?", "Cancel"))
             {
                 modal.ShowDialog();
                 if (modal.result == DialogResult.Yes)
@@ -197,5 +206,6 @@ namespace LibrarySelfCheckOut
                 }
             }
         }
+
     }
 }
