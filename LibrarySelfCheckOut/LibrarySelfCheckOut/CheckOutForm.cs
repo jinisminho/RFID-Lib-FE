@@ -81,6 +81,7 @@ namespace LibrarySelfCheckOut
                         this.spiner.Show();
                         BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
                         this.spiner.Hide();
+                        this.timerSession.Enabled = true;
                         if (rs.isSuccess)
                         {
                             BookScannedItem item = new BookScannedItem(rs.book);
@@ -98,8 +99,6 @@ namespace LibrarySelfCheckOut
                             }
                             resetState();
                         }
-                        this.timerSession.Enabled = true;
-                     
                     }
                 }
                 this.txtBookRFID.Text = "";
@@ -159,10 +158,9 @@ namespace LibrarySelfCheckOut
             this.spiner.Show();
             CheckOutResponseModel rs =  await BookProcessor.checkout(bookCodeList, studentId);
             this.spiner.Hide();
+            this.timerSession.Enabled = true;
             if (rs.isSuccess)
             {
-                this.spiner.Hide();
-                //show return at
                 foreach (BookCheckOutModel b in rs.books)
                 {
                     BookItem item = new BookItem( b);
@@ -170,6 +168,7 @@ namespace LibrarySelfCheckOut
                     this.flowLayoutPanelBookList.Controls.Add(item);
                 }
                 this.btDone.Text = BT_TXT_DONE;
+                this.btDone.Enabled = true;
             }
             else
             {
@@ -179,10 +178,7 @@ namespace LibrarySelfCheckOut
                     model.ShowDialog();
                 }
                 resetState();
-                return;
             }
-            this.timerSession.Enabled = true;
-            this.btDone.Enabled = true;
         }
 
         private void btCancel_Click(object sender, EventArgs e)
