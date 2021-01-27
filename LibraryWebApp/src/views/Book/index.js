@@ -26,6 +26,7 @@ import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
 import BookForm from './bookForm'
+import BookFormImg from './bookFormImg'
 import CopyForm from './copyForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import {
@@ -221,7 +222,7 @@ class Book extends React.Component {
         }
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder text-info">{row.title}: {row.sub}</h2></a>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
                 <p>by {author}</p>
                 <p>Edition: {row.edition}</p>
                 <p className={position_class}>{position}</p>
@@ -308,12 +309,12 @@ class Book extends React.Component {
                     <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
-                <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
