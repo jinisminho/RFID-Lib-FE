@@ -56,6 +56,9 @@ namespace LibrarySelfCheckOut
 
             this.btDone.Enabled = false;
             this.btDone.Text = BT_TXT_CHECKOUT;
+
+            int x_user = (this.pnNav.Width - this.lbUsername.Width - 10);
+            this.lbUsername.Location = new Point(x_user, this.lbUsername.Location.Y);
         }
 
 
@@ -183,7 +186,7 @@ namespace LibrarySelfCheckOut
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            using (ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
+            using (ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?", "Cancel"))
             {
                 modal.ShowDialog();
                 if (modal.result == DialogResult.Yes)

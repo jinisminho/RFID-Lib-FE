@@ -14,12 +14,12 @@ namespace LibrarySelfCheckOut
     {
 
         public DialogResult result { get; set; }
-        public ModalYESNO(String msg)
+        public ModalYESNO(string msg, string header)
         {
             InitializeComponent();
             this.lbMsg.Text = msg;
             this.TopMost = true;
-
+            this.lbHeader.Text = header;
         }
 
         private void ntYes_Click(object sender, EventArgs e)

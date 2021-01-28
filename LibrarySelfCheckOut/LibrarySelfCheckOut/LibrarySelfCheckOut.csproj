@@ -245,5 +245,17 @@
   <ItemGroup>
     <None Include="Resources\Spinner-trans %281%29.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_dark_bcg.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back-arrow_white.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CSV-dark.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome-dark.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
