@@ -19,5 +19,7 @@ namespace LibrarySelfCheckOut.Models
         public int overdueDay { get; set; }
         public double fine { get; set; }
         public String returnedAt { get; set; }
+        public String genres { get; set; }
+        public String patron { get; set; }
     }
 }

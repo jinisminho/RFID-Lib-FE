@@ -29,15 +29,18 @@ namespace LibrarySelfCheckOut
             if (book.status.Contains("OVERDUE"))
             {
                 this.lbMessage.ForeColor = Color.Red;
+                this.lbBorrower.Text = "Borrower: " + book.patron;
                 this.lbMessage.Text = "Message: CANNOT RETURN - contact librarian for overdue return.";
             }
             else if (book.status.Contains("INVALID"))
             {
                 this.lbMessage.ForeColor = Color.Red;
+                this.lbBorrower.Text = "Borrower:";
                 this.lbMessage.Text = "Message: CANNOT RETURN - this book haven't borrowed yet.";
             }
             else
             {
+                this.lbBorrower.Text = "Borrower: " + book.patron;
                 this.lbMessage.Text = "Returned at: " + book.returnedAt;
             }
         }

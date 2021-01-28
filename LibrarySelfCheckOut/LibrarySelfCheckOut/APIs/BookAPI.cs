@@ -68,7 +68,7 @@ namespace LibrarySelfCheckOut.APIs
 
         public static async Task<ReturnResponseModel> returnBook(List<String> bookCodeList)
         {
-            string url = $"/BookBorrowing/return";
+            string url = $"/BookBorrowing/returnBatch";
             try
             {
                 using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, bookCodeList))
