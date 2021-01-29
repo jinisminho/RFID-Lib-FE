@@ -53,7 +53,7 @@ class BookStu extends React.Component {
             newLstName: null,
         }
         this.fetchData = this.fetchData.bind(this);
-        
+
     }
 
     componentDidMount() {
@@ -78,8 +78,8 @@ class BookStu extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.state.submited) {
-            this.setState({ submited: false, edited: false})
+        if (this.state.submited) {
+            this.setState({ submited: false, edited: false })
         }
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue: '' })
@@ -102,69 +102,61 @@ class BookStu extends React.Component {
     onSubmit = (form) => {
         // console.log(JSON.stringify(form, null, 2));
         this.props.onSubmitUpdate(this.state.studentId, form)
-        this.setState({successShow: true, submited: true})
+        this.setState({ successShow: true, submited: true })
         this.fetchData()
     }
 
     render() {
         let display = (
-            <div className="content">
-                <Row>
-                    <Col>
-                        <Card className="bg-secondary shadow">
-                            <CardHeader className="bg-white border-0">
-                                <Row className="align-items-center">
-                                    <Col xs="11">
+            <>
+                <Row className="w-100 m-0 p-0">
+                    <Card className="bg-secondary w-100 border-0">
+                        <CardHeader className="bg-white border-0">
+                            <Row className="align-items-center mx-1 mx-sm-0">
+                                <Col xs="9" xl="11">
 
-                                    </Col>
-                                    <Col xs="1">
-                                        <Button
-                                            color="primary"
-                                            href="#pablo"
-                                            onClick={this.props.submitForm}
-                                            size="lg"
-                                            disabled={!(this.props.formEnabled || (this.state.edited && this.props.formIsValid))}
-                                            label="Submit"
-                                            block
-                                            text-truncate
-                                        >
-                                            Save
+                                </Col>
+                                <Col xs="3" xl="1">
+                                    <Button
+                                        color="primary"
+                                        href="#pablo"
+                                        onClick={this.props.submitForm}
+                                        size="lg"
+                                        disabled={!(this.props.formEnabled || (this.state.edited && this.props.formIsValid))}
+                                        label="Submit"
+                                        block
+                                        text-truncate="true"
+                                    >
+                                        Save
                                         </Button>
-                                    </Col>
-                                </Row>
-                            </CardHeader>
-                            <CardBody style={{ height: '168px' }}>
-                                <Row className="justify-content-center">
-                                    <Col className="order-lg-2" lg="3">
-
-                                        
-                                            <div className="card-profile-image">
-                                                <a href="#pablo">
-                                                    <img
-                                                        alt="..."
-                                                        id="profileImg"
-                                                        className="rounded-circle"
-                                                        src='#'
-                                                    />
-                                                </a>
-                                            </div>
-                                        
-
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                            <ProfileForm enableReinitialize initialValues={this.getInitialValues()} onSubmit={this.onSubmit}/>
-                            <CardBody>
+                                </Col>
+                            </Row>
+                        </CardHeader>
+                        <CardBody style={{ height: '168px' }}>
+                            <Row className="justify-content-center">
+                                <Col className="order-lg-2" lg="3">
 
 
-                            </CardBody>
-                        </Card>
-                    </Col>
+                                    <div className="card-profile-image">
+                                        <a href="#pablo">
+                                            <img
+                                                alt="..."
+                                                id="profileImg"
+                                                className="rounded-circle"
+                                                src='#'
+                                            />
+                                        </a>
+                                    </div>
+
+
+                                </Col>
+                            </Row>
+                        </CardBody>
+                        <ProfileForm enableReinitialize initialValues={this.getInitialValues()} onSubmit={this.onSubmit} />
+                    </Card>
                 </Row>
-                {/* delete popup */}
 
-
-            </div>
+            </>
         )
 
         if (this.props.loading) {
@@ -183,10 +175,10 @@ class BookStu extends React.Component {
         return (
             <>
                 <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Profile</h3>
+                            {/* <h3 className="mb-0">Profile</h3> */}
                         </CardHeader>
                         {errorMsg}
                         {msg}
@@ -217,7 +209,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (studentId) => dispatch(actions.getStudentProfile(studentId)),
         submitForm: () => dispatch(submit('ProfileForm')),
-        onSubmitUpdate: (studentId,form) => dispatch(actions.updateStudentProfile(studentId,form))
+        onSubmitUpdate: (studentId, form) => dispatch(actions.updateStudentProfile(studentId, form))
     }
 }
 

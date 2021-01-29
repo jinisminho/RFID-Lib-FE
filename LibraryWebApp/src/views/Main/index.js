@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import AdminLayout from "../../layouts/Admin.js";
 import AuthLayout from '../../layouts/Auth';
 import GuestLayout from '../../layouts/Guest';
-import StudentLayout from '../../layouts/Student';
+import PatronLayout from '../../layouts/Patron';
 import LibrarianLayout from '../../layouts/Librarian';
 import * as actions from '../../store/actions/index'
 
@@ -49,8 +49,8 @@ class Main extends Component {
       else if (localStorage.getItem("role") == "STUDENT") {
         display = (
             <Switch>
-            <Route path="/student" render={props => <StudentLayout {...props} />} />
-            <Redirect to="/student" />
+            <Route path="/patron" render={props => <PatronLayout {...props} />} />
+            <Redirect to="/patron" />
           </Switch>
         )
       }

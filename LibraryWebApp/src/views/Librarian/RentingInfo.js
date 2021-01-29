@@ -29,7 +29,7 @@ import {
     Row,
     Col
 } from "reactstrap";
-import MyUltil from "store/ultility"
+import MyUtil from "store/utility"
 import 'views/Librarian/librarian.css'
 import SearchForm from '../../components/Forms/SearchForm'
 import DueHistoryModal from '../../components/Modals/DueHistoryModal';
@@ -92,8 +92,8 @@ class RentingInfo extends Component {
                 var dta = this.props.data
                 var retrnedDta = dta.filter(element => element.dateReturned)
                 var ovrDta = dta.filter(element => !element.dateReturned)
-                var rentingDta = ovrDta.filter(element => MyUltil.compareDate(element.dateDue, Date.now()) >= 0);
-                ovrDta = ovrDta.filter(element => MyUltil.compareDate(element.dateDue, Date.now()) < 0);
+                var rentingDta = ovrDta.filter(element => MyUtil.compareDate(element.dateDue, Date.now()) >= 0);
+                ovrDta = ovrDta.filter(element => MyUtil.compareDate(element.dateDue, Date.now()) < 0);
 
                 this.setState({
                     overDueData: Object.keys(ovrDta).length > 0 ? ovrDta : null,
@@ -120,7 +120,7 @@ class RentingInfo extends Component {
     otherFormatter(cell, row) {
         var stdId = row.borrower.id
         var bok = row.book
-        let date = MyUltil.convertToDate(row.dateDue)
+        let date = MyUtil.convertToDate(row.dateDue)
 
         return (
             <div>
@@ -136,7 +136,7 @@ class RentingInfo extends Component {
     otherFormatter2(cell, row) {
         var stdId = row.borrower.id
         var bok = row.book
-        let date = MyUltil.convertToDate(row.dateDue)
+        let date = MyUtil.convertToDate(row.dateDue)
 
         return (
             <div>
@@ -160,7 +160,7 @@ class RentingInfo extends Component {
     }
 
     dateFormatter(cell, row) {
-        return MyUltil.convertToDate(cell).toDateString()
+        return MyUtil.convertToDate(cell).toDateString()
     }
 
     handleHistoryClose = () => {
