@@ -27,7 +27,7 @@ import {
     CardHeader,
     Container
 } from "reactstrap";
-import MyUltil from 'store/ultility'
+import MyUtil from 'store/utility'
 class BookDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -141,9 +141,9 @@ class BookDetail extends React.Component {
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" dataFormat={MyUltil.bookDescriptionFormat}  formatExtraData={hide}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="20%" dataFormat={MyUltil.bookDescriptionFormat}  formatExtraData={hide2}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="30%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" dataFormat={MyUtil.bookDescriptionFormat}  formatExtraData={hide}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="20%" dataFormat={MyUtil.bookDescriptionFormat}  formatExtraData={hide2}>Description</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
             </div>
@@ -154,8 +154,8 @@ class BookDetail extends React.Component {
         return (
             <>
                 <Header />
-                {/* <Container className="mt-3" style={verticalCenter} fluid> */}
-                <Container style={verticalCenter} fluid>
+                {/* <Container style={verticalCenter} fluid> */}
+                <Container className="mt-3" fluid>
                     <Card className="shadow">
                         {display}
                     </Card>

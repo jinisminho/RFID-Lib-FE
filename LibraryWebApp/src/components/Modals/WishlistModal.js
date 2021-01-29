@@ -3,14 +3,14 @@ import { Modal, Button } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './myModal.css';
-import MyUltil from 'store/ultility'
+import MyUtil from 'store/utility'
 
 
 const wishlistModal = (props) => {
     const options = {
         onPageChange: handlePageChange,
         page: props.page,
-        sizePerPage: 5,
+        sizePerPage: props.sizePerPage,
         prePage: '<',
         nextPage: '>',
         firstPage: '<<',
@@ -23,7 +23,15 @@ const wishlistModal = (props) => {
     }
 
     function thisOnShow() {
-        props.fetchData(1, 5, props.studentId);
+        props.fetchData(1, props.sizePerPage, props.studentId);
+    }
+
+    const hide = {
+        publisher: true,
+        publishYear: true,
+        language: true,
+        totalCopies: true,
+        nop: true
     }
 
     return (
@@ -46,11 +54,11 @@ const wishlistModal = (props) => {
                     hover
                     condensed
                     className="ml-4 mr-4"
-                    keyField="id"
+                    bordered={false}
+                    tableHeaderClass={"col-hidden"}
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="55%" headerAlign="center" dataFormat={MyUltil.bookDescriptionFormat} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Category</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={MyUtil.imageFormatter} width="10%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="90%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
                 </BootstrapTable>
             </Modal.Body>
             <Modal.Footer>

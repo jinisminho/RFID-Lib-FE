@@ -110,7 +110,7 @@ export function bookDescriptionFormat(cell, row, hideFields) {
 
     let title = row.title && !hide.title ? (
         <Link to={{
-            pathname: '/student/book/detail',
+            pathname: '/patron/book/detail',
             state: {
                 book: thisBook
             }
@@ -185,9 +185,14 @@ export function bookDescriptionFormat(cell, row, hideFields) {
     )
 }
 
+export function imageFormatter(cell, row){
+    return (<img className="img-thumbnail" src={cell}/>)
+}
+
 export default {
     updateObject,
     convertToDate,
     compareDate,
-    bookDescriptionFormat
+    bookDescriptionFormat,
+    imageFormatter
 };

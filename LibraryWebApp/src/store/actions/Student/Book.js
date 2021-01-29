@@ -4,7 +4,7 @@ import { $CombinedState } from 'redux'
 
 export const getBookSuccess = (data, total, page, sizePerPage) => {
     return {
-        type: actionTypes.STUDENT_GET_BOOKS_SUCCESS,
+        type: actionTypes.PATRON_GET_BOOKS_SUCCESS,
         total:total,
         data: data,
         page:page,
@@ -14,14 +14,14 @@ export const getBookSuccess = (data, total, page, sizePerPage) => {
 
 export const getBookFailed = (error) => {
     return {
-        type: actionTypes.STUDENT_GET_BOOKS_FAILED,
+        type: actionTypes.PATRON_GET_BOOKS_FAILED,
         error: error
     }
 }
 
 export const getBookStart = () => {
     return {
-        type: actionTypes.STUDENT_GET_BOOKS_START
+        type: actionTypes.PATRON_GET_BOOKS_START
     }
 }
 

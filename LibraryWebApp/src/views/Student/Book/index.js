@@ -24,7 +24,7 @@ import * as actions from '../../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../../components/Spinner/Spinner'
 import * as MyConstant from '../../Util/Constant'
-import MyUltil from 'store/ultility'
+import MyUtil from 'store/utility'
 import {
     Card,
     CardHeader,
@@ -219,7 +219,7 @@ class Book extends React.Component {
                     tableHeaderClass={"col-hidden"}
                 >
                     <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={MyUltil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="15%" dataFormat={this.actionFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
@@ -235,7 +235,7 @@ class Book extends React.Component {
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.BOOK}</h3>
+                            {/* <h3 className="mb-0">{MyConstant.BOOKS}</h3> */}
                         </CardHeader>
                         <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
@@ -270,10 +270,11 @@ class Book extends React.Component {
                         <WishlistModal
                             show={this.state.wishlistShow}
                             hide={() => this.setState({ wishlistShow: false })}
-                            title="Wishist"
+                            title="Wishlist"
                             data={this.props.wishlistData}
                             totalSize={this.props.wishlistTotalSize}
                             page={this.props.wishlistPage}
+                            sizePerPage={this.props.wishlistSizePerPage}
                             studentId={this.state.studentId}
                             fetchData={this.fetchWishlist}
                         />
@@ -305,6 +306,7 @@ const mapStateToProps = state => {
         wishlistData: state.info.wishlistData,
         wishlistTotalSize: state.info.wishlistTotalSize,
         wishlistPage: state.info.wishlistPage,
+        wishlistSizePerPage: state.info.wishlistSizePerPage,
         
         successMsg: state.info.successMsg,
         errorInfo: state.info.error,

@@ -47,7 +47,10 @@ export {
 } from './Librarian/Checkout'
 
 export {
-    getRentingInfo,
+    getBorrowingInfo,
+    getBorrowingInfo_Overdue,
+    getBorrowingInfo_Borrowing,
+    getBorrowingInfo_Returned,
     getExtendedHistory,
     extendDue,
     getStudentProfile,
