@@ -7,31 +7,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibrarySelfCheckOut.Models;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
     public partial class BookReturnItem : UserControl
     {
 
-        public BookReturnItem(int index, string bookTitle, string status)
+        public BookReturnItem(BookReturnModel book )
         {
             InitializeComponent();
-            this.lbBook.Text = "Book: " + bookTitle;
-            this.lbIndex.Text = index + ".";
-            if (status.Contains("OVERDUE"))
+            String fullTitle = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
+            lbTitle.Text = fullTitle.Length <= 50 ? fullTitle : fullTitle.Substring(0, 47) + "...";
+            lbEdition.Text = "Edition: " + book.edition;
+            lbAuthors.Text = "Author(s): " + (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "...");
+            picBook.Load(book.img);
+            lbGroup.Text = "Group: " + book.group;
+            lbOverdueDay.Text = "Overdue day(s): " + book.overdueDay;
+            lbFine.Text = "Fine: " + book.fine + " " + Constant.CURRENCY;
+            if (book.status.Contains("OVERDUE"))
             {
-                this.lbStatus.ForeColor = Color.Red;
-                this.lbStatus.Text = "Status: CANNOT RETURN - contact librarian for overdue return";
+                this.lbMessage.ForeColor = Color.Red;
+                this.lbMessage.Text = "Message: CANNOT RETURN - contact librarian for the overdue return.";
+                this.lbBorrower.Text = "Borrower: " + book.patron;
             }
-            else if (status.Contains("INVALID"))
+            else if (book.status.Contains("INVALID"))
             {
-                this.lbStatus.ForeColor = Color.Red;
-                this.lbStatus.Text = "Status: CANNOT RETURN - invalid book";
+                this.lbMessage.ForeColor = Color.Red;
+                this.lbMessage.Text = "Message: CANNOT RETURN - this book haven't borrowed yet.";
+                this.lbBorrower.Text = "Borrower:";
             }
             else
             {
-                this.lbStatus.ForeColor = Color.Green;
-                this.lbStatus.Text = "Status: RETURNED";
+                this.lbMessage.Text = "Returned At: " + book.returnedAt;
+                this.lbBorrower.Text = "Borrower: " + book.patron;
             }
         }
     }

@@ -28,85 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lbIndex = new System.Windows.Forms.Label();
-            this.spliter1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.picBook = new System.Windows.Forms.PictureBox();
             this.lbTitle = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.lbEdition = new System.Windows.Forms.Label();
+            this.lbAuthors = new System.Windows.Forms.Label();
+            this.lbGroup = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.picBook)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // picBook
             // 
-            this.panel1.Controls.Add(this.lbIndex);
-            this.panel1.Controls.Add(this.spliter1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(111, 75);
-            this.panel1.TabIndex = 0;
-            // 
-            // lbIndex
-            // 
-            this.lbIndex.AutoSize = true;
-            this.lbIndex.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbIndex.Location = new System.Drawing.Point(43, 25);
-            this.lbIndex.Name = "lbIndex";
-            this.lbIndex.Size = new System.Drawing.Size(25, 24);
-            this.lbIndex.TabIndex = 5;
-            this.lbIndex.Text = "1.";
-            // 
-            // spliter1
-            // 
-            this.spliter1.BackColor = System.Drawing.SystemColors.Control;
-            this.spliter1.Location = new System.Drawing.Point(103, 0);
-            this.spliter1.Name = "spliter1";
-            this.spliter1.Size = new System.Drawing.Size(2, 77);
-            this.spliter1.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.lbTitle);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(111, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(822, 75);
-            this.panel2.TabIndex = 1;
+            this.picBook.Location = new System.Drawing.Point(15, 5);
+            this.picBook.Name = "picBook";
+            this.picBook.Size = new System.Drawing.Size(120, 160);
+            this.picBook.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBook.TabIndex = 0;
+            this.picBook.TabStop = false;
             // 
             // lbTitle
             // 
             this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbTitle.Location = new System.Drawing.Point(17, 25);
+            this.lbTitle.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbTitle.Location = new System.Drawing.Point(151, 7);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(154, 24);
-            this.lbTitle.TabIndex = 6;
-            this.lbTitle.Text = "Book: The hobbit";
+            this.lbTitle.Size = new System.Drawing.Size(190, 29);
+            this.lbTitle.TabIndex = 1;
+            this.lbTitle.Text = "The Hobbit - 2 edt";
+            // 
+            // lbEdition
+            // 
+            this.lbEdition.AutoSize = true;
+            this.lbEdition.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbEdition.Location = new System.Drawing.Point(152, 44);
+            this.lbEdition.Name = "lbEdition";
+            this.lbEdition.Size = new System.Drawing.Size(89, 24);
+            this.lbEdition.TabIndex = 2;
+            this.lbEdition.Text = "Edition: 2";
+            // 
+            // lbAuthors
+            // 
+            this.lbAuthors.AutoSize = true;
+            this.lbAuthors.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbAuthors.Location = new System.Drawing.Point(152, 77);
+            this.lbAuthors.Name = "lbAuthors";
+            this.lbAuthors.Size = new System.Drawing.Size(94, 24);
+            this.lbAuthors.TabIndex = 3;
+            this.lbAuthors.Text = "Author(s):";
+            // 
+            // lbGroup
+            // 
+            this.lbGroup.AutoSize = true;
+            this.lbGroup.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbGroup.Location = new System.Drawing.Point(152, 110);
+            this.lbGroup.Name = "lbGroup";
+            this.lbGroup.Size = new System.Drawing.Size(68, 24);
+            this.lbGroup.TabIndex = 4;
+            this.lbGroup.Text = "Group:";
             // 
             // BookScannedItem
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Controls.Add(this.lbGroup);
+            this.Controls.Add(this.lbAuthors);
+            this.Controls.Add(this.lbEdition);
+            this.Controls.Add(this.lbTitle);
+            this.Controls.Add(this.picBook);
             this.Name = "BookScannedItem";
-            this.Size = new System.Drawing.Size(933, 75);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.Size = new System.Drawing.Size(1590, 170);
+            ((System.ComponentModel.ISupportInitialize)(this.picBook)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel spliter1;
-        private System.Windows.Forms.Label lbIndex;
+        private System.Windows.Forms.PictureBox picBook;
         private System.Windows.Forms.Label lbTitle;
+        private System.Windows.Forms.Label lbEdition;
+        private System.Windows.Forms.Label lbAuthors;
+        private System.Windows.Forms.Label lbGroup;
     }
 }

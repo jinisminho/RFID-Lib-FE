@@ -19,7 +19,7 @@ namespace LibrarySelfCheckOut.Prototype
             //BookScannedModel b4 = new BookScannedModel("E28068940000500BB95748AE", "Hamilton");
             //BookScannedModel b5 = new BookScannedModel("E28068940000400BB95758AE", "The Outsider");
 
-
+            /*
             BookScannedModel b1 = new BookScannedModel("1", "The Hobbit");
             BookScannedModel b2 = new BookScannedModel("2", "Belonging");
             BookScannedModel b3 = new BookScannedModel("3", "SUQAR");
@@ -33,6 +33,7 @@ namespace LibrarySelfCheckOut.Prototype
             books.Add(b4);
             books.Add(b5);
             books.Add(b6);
+            */
         }
 
 

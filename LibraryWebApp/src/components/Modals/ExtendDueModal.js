@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import ExtendDueForm from "../Forms/ExtendDueForm";
 
 const extendDueModal = props => {
+  
   return (
     <Modal backdrop="static" show={props.show} onHide={props.hide} centered>
       <Modal.Header closeButton>

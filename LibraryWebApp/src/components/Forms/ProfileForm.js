@@ -35,7 +35,7 @@ import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
 const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
     <>
-        <div className="input-group-prepend">
+        {/* <div className="input-group-prepend">
             <span className="input-group-text">{title}</span>
         </div>
         <Input {...input} disabled={disabled} placeholder={placeholder} type={type} className="pl-2" />
@@ -51,7 +51,32 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
             }
         >
             <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
+        </OverlayTrigger>))} */}
+
+
+        <Row>
+            <Col lg="3">
+                <Label>{title}:</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
+        </Row>
     </>
 )
 const validate = values => {
@@ -74,13 +99,14 @@ const validate = values => {
 let ProfileForm = ({
     handleSubmit
 }) => (
-    <Card className="bg-secondary shadow border-0">
+    <Card className="bg-secondary border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <Row>
+                    <Col lg="3"/>
                     <Col lg="6">
-                        <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
+                        <Row>
+                            <FormGroup className="mb-3 ml-3 w-100">
                                 <Field
                                     name="fullname"
                                     type="text"
@@ -88,26 +114,10 @@ let ProfileForm = ({
                                     placeholder="Fullname"
                                     disabled
                                     component={renderField} />
-                            </InputGroup>
-                        </FormGroup>
-
-                    </Col>
-                    <Col lg="6">
-                        <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
-                                <Field
-                                    name="department"
-                                    type="text"
-                                    title="Department"
-                                    placeholder="Department"
-                                    disabled
-                                    component={renderField} />
-                            </InputGroup>
-                        </FormGroup></Col>
-                </Row><Row>
-                    <Col lg="6">
-                        <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
+                            </FormGroup>
+                        </Row>
+                        <Row>
+                            <FormGroup className="mb-3 ml-3 w-100">
                                 <Field
                                     name="email"
                                     type="text"
@@ -115,23 +125,21 @@ let ProfileForm = ({
                                     placeholder="Email"
                                     disabled
                                     component={renderField} />
-                            </InputGroup>
-                        </FormGroup>
-                    </Col>
-                    <Col lg="6">
-                        <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
+                            </FormGroup>
+                        </Row>
+                        <Row>
+                            <FormGroup className="mb-3 ml-3 w-100">
                                 <Field
                                     name="phone"
                                     type="text"
                                     title="Phone"
                                     placeholder="Phone Number"
                                     component={renderField} />
-                            </InputGroup>
-                        </FormGroup>
+                            </FormGroup>
+                        </Row>
                     </Col>
+                    <Col lg="3"/>
                 </Row>
-
             </Form>
         </CardBody>
     </Card>

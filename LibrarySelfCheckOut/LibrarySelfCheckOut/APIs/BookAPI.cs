@@ -14,59 +14,84 @@ namespace LibrarySelfCheckOut.APIs
         public static async Task<BookScannedResponseModel> findBookByBookRFID(String rfid)
         {
             string url = $"/BookCopy/" + rfid;
-            using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
+            try
             {
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
                 {
+                    if (response.IsSuccessStatusCode)
+                    {
 
-                    BookScannedModel book = await response.Content.ReadAsAsync<BookScannedModel>();
-                   
-                    return new BookScannedResponseModel(true, "", book);
-                }
-                else
-                {
-                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                        BookScannedModel book = await response.Content.ReadAsAsync<BookScannedModel>();
 
-                    return new BookScannedResponseModel(false, error.message, null);
+                        return new BookScannedResponseModel(true, "", book);
+                    }
+                    else
+                    {
+                        ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+
+                        return new BookScannedResponseModel(false, error.message, null);
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                return new BookScannedResponseModel(false, e.Message, null);
+            }
+           
         }
 
         public static async Task<CheckOutResponseModel> addBookBorrow(CheckOutRequestModel requestBody)
         {
             string url = $"/BookBorrowing/checkout";
-            using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, requestBody))
-            {
-                if (response.IsSuccessStatusCode)
+            try {
+                using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, requestBody))
                 {
-                    List<BookCheckOutModel> books = await response.Content.ReadAsAsync<List<BookCheckOutModel>>();
-                    return new CheckOutResponseModel(true, "", books);
-                }
-                else
-                {
-                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
-                    return new CheckOutResponseModel(false, error.message, null);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        List<BookCheckOutModel> books = await response.Content.ReadAsAsync<List<BookCheckOutModel>>();
+                        return new CheckOutResponseModel(true, "", books);
+                    }
+                    else
+                    {
+                        ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                        return new CheckOutResponseModel(false, error.message, null);
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                return new CheckOutResponseModel(false, e.Message, null);
+
+            }
+            
         }
 
         public static async Task<ReturnResponseModel> returnBook(List<String> bookCodeList)
         {
-            string url = $"/BookBorrowing/return";
-            using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, bookCodeList))
+            string url = $"/BookBorrowing/returnBatch";
+            try
             {
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await APIHelper.ApiClient.PostAsJsonAsync(url, bookCodeList))
                 {
-                    List<BookReturnModel> books = await response.Content.ReadAsAsync<List<BookReturnModel>>();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        List<BookReturnModel> books = await response.Content.ReadAsAsync<List<BookReturnModel>>();
 
-                    return new ReturnResponseModel(true, "", books);
-                }
-                else
-                {
-                    ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
-                    return new ReturnResponseModel(false, error.message, null);
+                        return new ReturnResponseModel(true, "", books);
+                    }
+                    else
+                    {
+                        ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+                        return new ReturnResponseModel(false, error.message, null);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                return new ReturnResponseModel(false, e.Message, null);
+
+            }
+            
         }
     }
 }

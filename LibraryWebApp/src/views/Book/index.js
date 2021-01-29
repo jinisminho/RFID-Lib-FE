@@ -26,6 +26,7 @@ import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
 import DeleteButton from '../../components/Button/DeleteButton'
 import BookForm from './bookForm'
+import BookFormImg from './bookFormImg'
 import CopyForm from './copyForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import {
@@ -33,6 +34,8 @@ import {
     CardHeader,
     Container
 } from "reactstrap";
+import {storage} from '../../firebase'
+
 class Book extends React.Component {
     constructor(props) {
         super(props);
@@ -51,10 +54,14 @@ class Book extends React.Component {
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
-        this.activeFormatter = this.activeFormatter.bind(this)
+        this.activeFormatter = this.activeFormatter.bind(this);
+        this.getAuthorData = this.getAuthorData.bind(this);
+        this.getGenreData = this.getGenreData.bind(this);
     }
     componentDidMount() {
         this.fetchData();
+        this.getAuthorData();
+        this.getGenreData()
     }
     componentDidUpdate() {
         let msg = null
@@ -79,6 +86,12 @@ class Book extends React.Component {
         if(this.props.bookCopyData!=null && !this.state.confirmFormShow){
             this.setState({confirmFormShow:true})
         }
+    }
+    getAuthorData(){
+        this.props.onGetAuthor()
+    }
+    getGenreData(){
+        this.props.onGetGenre()
     }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
@@ -109,8 +122,24 @@ class Book extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
     handleAddSubmit(values) {
-        this.setState({ addFormShow: false })
-        this.props.onAddBook(values)
+        const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
+        uploadTask.on('state_changed',
+        (snapshot)=>{
+            this.setState({imageLoading:true})
+        },
+        (error)=>{
+            console.log(error)
+            this.setState({imageLoading:false})
+        },
+        ()=>{
+            storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
+                this.setState({ addFormShow: false })
+                values["img"]=url
+                this.props.onAddBook(values)
+            })
+        }
+        )
+        
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -129,8 +158,29 @@ class Book extends React.Component {
         })
     }
     handleUpdateSubmit(values) {
-        this.setState({ updateFormShow: false })
-        this.props.onUpdateBook(values)
+        if(Array.isArray(values.img)){
+            const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
+            uploadTask.on('state_changed',
+            (snapshot)=>{
+                this.setState({imageLoading:true})
+            },
+            (error)=>{
+                console.log(error)
+                this.setState({imageLoading:false})
+            },
+            ()=>{
+                storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
+                    this.setState({ updateFormShow: false })
+                    values["img"]=url
+                    this.props.onUpdateBook(values)
+                })
+            }
+            )
+        }else{
+            this.setState({ updateFormShow: false })
+            this.props.onUpdateBook(values)
+        }
+        
     }
     handleCopySubmit(values) {
         this.setState({ copyShow: false })
@@ -208,41 +258,41 @@ class Book extends React.Component {
             status
         )
     }
+    imageFormatter(cell, row){
+        return (<img className="img-thumbnail" src={cell}/>)
+    }
     bookDescriptionFormat(cell, row) {
-        let author=row.author.join()
+        let author=row.author.join(", ")
+        let position="Available at "+row.ddc
+        let position_class= "text-success"
+        if(row.status=="NOT_AVAILABLE"){
+            position="Not available"
+            position_class="text-danger"
+        }
         return (
-            <Row>
-               
-                <Col className="col-6">Title: {row.title}</Col>
-                <Col className="col-6">Subtitle: {row.sub}</Col>
-                <Col className="col-4">DDC: {row.ddc}</Col>
-                <Col className="col-4">Author: {author}</Col>
-                <Col className="col-4">Publisher:{row.publisher}</Col>
-                <Col className="col-4">Language: {row.language}</Col>
-                <Col className="col-4">Number of page: {row.nop}</Col>
-                <Col className="col-4">Edition: {row.edition}</Col>
-            </Row>
+            <>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
+                <p>by {author}</p>
+                <p>Edition: {row.edition}</p>
+                <p className={position_class}>{position}</p>
+            </>
             )
     }
     getInitialValues = () => {
-        let author=[]
-        if(this.state.updateData && this.state.updateData.author.length>0){
-            this.state.updateData.author.forEach(el => {
-            author.push({"author":el})
-            });
-        }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
             sub: this.state.updateData ? this.state.updateData.sub : '',
             ddc: this.state.updateData ? this.state.updateData.ddc : '',
             publisher: this.state.updateData ? this.state.updateData.publisher : '',
+            publishyear: this.state.updateData ? this.state.updateData.publishyear : '',
             language: this.state.updateData ? this.state.updateData.language : '',
             nop: this.state.updateData ? this.state.updateData.nop : '',
-            category: this.state.updateData ? this.state.updateData.category : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
             status: this.state.updateData ? this.state.updateData.status : '',
-            members: author,
+            author: this.state.updateData ? this.state.updateData.author : '',
+            genres: this.state.updateData ? this.state.updateData.genres : '',
+            img: this.state.updateData ? this.state.updateData.img : '',
             id:this.state.updateData ? this.state.updateData.id : ''
         };
     }
@@ -296,28 +346,29 @@ class Book extends React.Component {
                     hover
                     condensed
                     className="ml-4 mr-4"
+                    bordered={false}
+                    tableHeaderClass={"col-hidden"}
+                    keyField="id"
                 >
-                    <TableHeaderColumn dataField="isbn" width="12%" isKey dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="40%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="12%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="status" dataAlign="center" dataFormat={this.statusFormatter} width="15%">Status</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
-                <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Update Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.copyShow} onHide={() => this.handleCopyCancel()}>
@@ -362,7 +413,7 @@ class Book extends React.Component {
         return (
             <>
                 <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
                             <h3 className="mb-0">Book tables</h3>
@@ -415,7 +466,9 @@ const mapStateToProps = state => {
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
         addSuccess: state.book.addSuccess,
-        bookCopyData: state.book.bookCopyData
+        bookCopyData: state.book.bookCopyData,
+        authorData: state.book.authorData,
+        genreData: state.book.genreData
     }
 }
 
@@ -426,7 +479,9 @@ const mapDispatchToProps = dispatch => {
         onUpdateBook: (data) => dispatch(actions.updateBook(data)),
         onAddBook: (data) => dispatch(actions.addBook(data)),
         onAddCopy: (data) => dispatch(actions.addBookCopy(data)),
-        onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data))
+        onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data)),
+        onGetAuthor: () => dispatch(actions.getAuthor()),
+        onGetGenre: () => dispatch(actions.getGenre())
     }
 }
 

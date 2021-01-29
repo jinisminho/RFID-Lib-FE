@@ -29,37 +29,30 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label3 = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.txtStudentRFID = new System.Windows.Forms.TextBox();
             this.lbMessage = new System.Windows.Forms.Label();
             this.lbsession = new System.Windows.Forms.Label();
             this.sessionTimer = new System.Windows.Forms.Timer(this.components);
-            this.btBack = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lbIncorrectPin = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.pnCenter = new System.Windows.Forms.Panel();
+            this.lbScan = new System.Windows.Forms.Label();
+            this.pnLeft = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.picTitle = new System.Windows.Forms.PictureBox();
+            this.pcLogo = new System.Windows.Forms.PictureBox();
             this.spinner = new System.Windows.Forms.PictureBox();
-            this.panel1.SuspendLayout();
+            this.pnCenter.SuspendLayout();
+            this.pnLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinner)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("UD Digi Kyokasho N-B", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label3.Location = new System.Drawing.Point(132, 97);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(919, 92);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "SELF CHECK OUT SERVICE";
             // 
             // txtStudentRFID
             // 
             this.txtStudentRFID.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtStudentRFID.Location = new System.Drawing.Point(456, 292);
+            this.txtStudentRFID.Location = new System.Drawing.Point(726, 871);
             this.txtStudentRFID.Name = "txtStudentRFID";
             this.txtStudentRFID.Size = new System.Drawing.Size(226, 22);
             this.txtStudentRFID.TabIndex = 5;
@@ -67,22 +60,23 @@
             // 
             // lbMessage
             // 
-            this.lbMessage.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbMessage.AutoSize = true;
+            this.lbMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMessage.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lbMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbMessage.Location = new System.Drawing.Point(338, 444);
+            this.lbMessage.Location = new System.Drawing.Point(459, 578);
             this.lbMessage.Name = "lbMessage";
-            this.lbMessage.Size = new System.Drawing.Size(450, 33);
+            this.lbMessage.Size = new System.Drawing.Size(744, 33);
             this.lbMessage.TabIndex = 7;
             this.lbMessage.Text = "INVALID USER PLEASE TRY AGAIN";
+            this.lbMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbsession
             // 
+            this.lbsession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbsession.AutoSize = true;
             this.lbsession.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lbsession.ForeColor = System.Drawing.Color.Firebrick;
-            this.lbsession.Location = new System.Drawing.Point(24, 29);
+            this.lbsession.Location = new System.Drawing.Point(29, 871);
             this.lbsession.Name = "lbsession";
             this.lbsession.Size = new System.Drawing.Size(397, 49);
             this.lbsession.TabIndex = 10;
@@ -94,63 +88,83 @@
             this.sessionTimer.Interval = 1000;
             this.sessionTimer.Tick += new System.EventHandler(this.sessionTimer_Tick);
             // 
-            // btBack
+            // pnCenter
             // 
-            this.btBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btBack.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btBack.FlatAppearance.BorderSize = 0;
-            this.btBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btBack.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btBack.ForeColor = System.Drawing.Color.White;
-            this.btBack.Location = new System.Drawing.Point(963, 30);
-            this.btBack.Name = "btBack";
-            this.btBack.Size = new System.Drawing.Size(199, 47);
-            this.btBack.TabIndex = 11;
-            this.btBack.TabStop = false;
-            this.btBack.Text = "BACK";
-            this.btBack.UseMnemonic = false;
-            this.btBack.UseVisualStyleBackColor = false;
-            this.btBack.Click += new System.EventHandler(this.btBack_Click);
+            this.pnCenter.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnCenter.Controls.Add(this.pnLeft);
+            this.pnCenter.Controls.Add(this.txtStudentRFID);
+            this.pnCenter.Controls.Add(this.spinner);
+            this.pnCenter.Controls.Add(this.lbScan);
+            this.pnCenter.Controls.Add(this.lbMessage);
+            this.pnCenter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnCenter.Location = new System.Drawing.Point(0, 0);
+            this.pnCenter.Name = "pnCenter";
+            this.pnCenter.Size = new System.Drawing.Size(1206, 929);
+            this.pnCenter.TabIndex = 15;
+            this.pnCenter.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
-            // panel1
+            // lbScan
             // 
-            this.panel1.Controls.Add(this.btBack);
-            this.panel1.Controls.Add(this.lbsession);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 829);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1193, 100);
-            this.panel1.TabIndex = 12;
+            this.lbScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbScan.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lbScan.Location = new System.Drawing.Point(464, 344);
+            this.lbScan.Name = "lbScan";
+            this.lbScan.Size = new System.Drawing.Size(739, 44);
+            this.lbScan.TabIndex = 1;
+            this.lbScan.Text = "PLEASE SCAN YOUR ID CARD\r\n";
+            this.lbScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbIncorrectPin
+            // pnLeft
             // 
-            this.lbIncorrectPin.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbIncorrectPin.AutoSize = true;
-            this.lbIncorrectPin.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbIncorrectPin.ForeColor = System.Drawing.Color.Red;
-            this.lbIncorrectPin.Location = new System.Drawing.Point(330, 486);
-            this.lbIncorrectPin.Name = "lbIncorrectPin";
-            this.lbIncorrectPin.Size = new System.Drawing.Size(465, 33);
-            this.lbIncorrectPin.TabIndex = 13;
-            this.lbIncorrectPin.Text = "INCORRECT PIN PLEASE TRY AGAIN";
+            this.pnLeft.BackColor = System.Drawing.Color.White;
+            this.pnLeft.Controls.Add(this.pictureBox1);
+            this.pnLeft.Controls.Add(this.picTitle);
+            this.pnLeft.Controls.Add(this.lbsession);
+            this.pnLeft.Controls.Add(this.pcLogo);
+            this.pnLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnLeft.Location = new System.Drawing.Point(0, 0);
+            this.pnLeft.Name = "pnLeft";
+            this.pnLeft.Size = new System.Drawing.Size(458, 929);
+            this.pnLeft.TabIndex = 15;
             // 
-            // label2
+            // pictureBox1
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(353, 223);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(476, 44);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "PLEASE SCAN YOUR ID CARD\r\n";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pictureBox1.Image = global::LibrarySelfCheckOut.Properties.Resources.backicon;
+            this.pictureBox1.Location = new System.Drawing.Point(27, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(63, 59);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // picTitle
+            // 
+            this.picTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.picTitle.Image = global::LibrarySelfCheckOut.Properties.Resources.checkout_bck;
+            this.picTitle.Location = new System.Drawing.Point(49, 440);
+            this.picTitle.Name = "picTitle";
+            this.picTitle.Size = new System.Drawing.Size(362, 50);
+            this.picTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picTitle.TabIndex = 1;
+            this.picTitle.TabStop = false;
+            // 
+            // pcLogo
+            // 
+            this.pcLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pcLogo.Image = global::LibrarySelfCheckOut.Properties.Resources.logi_rescaled_trans;
+            this.pcLogo.Location = new System.Drawing.Point(27, 232);
+            this.pcLogo.Name = "pcLogo";
+            this.pcLogo.Size = new System.Drawing.Size(385, 183);
+            this.pcLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pcLogo.TabIndex = 0;
+            this.pcLogo.TabStop = false;
             // 
             // spinner
             // 
             this.spinner.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.spinner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_1s_200px;
-            this.spinner.Location = new System.Drawing.Point(527, 339);
+            this.spinner.Image = global::LibrarySelfCheckOut.Properties.Resources.Spinner_trans__1_;
+            this.spinner.Location = new System.Drawing.Point(792, 473);
             this.spinner.Name = "spinner";
             this.spinner.Size = new System.Drawing.Size(81, 69);
             this.spinner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -161,36 +175,37 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1193, 929);
-            this.Controls.Add(this.spinner);
-            this.Controls.Add(this.lbIncorrectPin);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lbMessage);
-            this.Controls.Add(this.txtStudentRFID);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1206, 929);
+            this.Controls.Add(this.pnCenter);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
-            this.Text = "LIBRARY SELF CHECK-OUT";
+            this.Text = "SMART LIBRARY";
             this.Load += new System.EventHandler(this.LoginForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnCenter.ResumeLayout(false);
+            this.pnCenter.PerformLayout();
+            this.pnLeft.ResumeLayout(false);
+            this.pnLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinner)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStudentRFID;
         private System.Windows.Forms.Label lbMessage;
         private System.Windows.Forms.Label lbsession;
         private System.Windows.Forms.Timer sessionTimer;
-        private System.Windows.Forms.Button btBack;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lbIncorrectPin;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox spinner;
+        private System.Windows.Forms.Panel pnCenter;
+        private System.Windows.Forms.Label lbScan;
+        private System.Windows.Forms.Panel pnLeft;
+        private System.Windows.Forms.PictureBox picTitle;
+        private System.Windows.Forms.PictureBox pcLogo;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

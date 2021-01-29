@@ -23,7 +23,9 @@ export {
     updateBook,
     deleteBook,
     addBookCopy,
-    generateCopyBarcode
+    generateCopyBarcode,
+    getAuthor,
+    getGenre
 } from './Librarian/Book'
 
 export {
@@ -47,7 +49,10 @@ export {
 } from './Librarian/Checkout'
 
 export {
-    getRentingInfo,
+    getBorrowingInfo,
+    getBorrowingInfo_Overdue,
+    getBorrowingInfo_Borrowing,
+    getBorrowingInfo_Returned,
     getExtendedHistory,
     extendDue,
     getStudentProfile,

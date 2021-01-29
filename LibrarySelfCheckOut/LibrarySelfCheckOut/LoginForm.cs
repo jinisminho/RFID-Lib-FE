@@ -26,7 +26,7 @@ namespace LibrarySelfCheckOut
             //this.TopMost = true;
             //this.FormBorderStyle = FormBorderStyle.None;
             //this.WindowState = FormWindowState.Maximized;
-            this.sesionTime = 60;
+            this.sesionTime = Constant.LOGIN_SESSION_TIME_OUT;
       
         }
 
@@ -36,8 +36,14 @@ namespace LibrarySelfCheckOut
             this.lbMessage.Hide();
             this.lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.sessionTimer.Start();
-            this.lbIncorrectPin.Hide();
             this.spinner.Hide();
+            int x = (pnCenter.Width + pnLeft.Width - lbScan.Width) / 2;
+            lbScan.Location = new Point(x, lbScan.Location.Y);
+            lbMessage.Location = new Point(x, lbMessage.Location.Y);
+            int yLogo = (pnLeft.Height - pcLogo.Height) / 2;
+            int yTitle = (pnLeft.Height - picTitle.Height) / 2;
+            pcLogo.Location = new Point(pcLogo.Location.X, yLogo - 50);
+            picTitle.Location = new Point(picTitle.Location.X, yTitle + 25);
         }
 
      
@@ -46,7 +52,7 @@ namespace LibrarySelfCheckOut
             if(e.KeyCode == Keys.Enter)
             {
                 this.txtStudentRFID.Enabled = false;
-                studentFRID = this.txtStudentRFID.Text.Trim();
+                studentFRID = this.txtStudentRFID.Text.Trim().ToUpper();
                 if (studentFRID.StartsWith(Constant.PATRON_CARD_PREFIX))
                 {
                     this.sessionTimer.Enabled = false;
@@ -78,8 +84,7 @@ namespace LibrarySelfCheckOut
 
                                 int studentId = rs.student.id;
                                 string studentUsername = rs.student.username;
-                                int maxNumberBorrowAllowed = rs.student.maxNumberBorrowAllowed;
-                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername, maxNumberBorrowAllowed, studentId);
+                                CheckOutForm checkOutForm = new CheckOutForm(studentUsername,studentId);
                                 checkOutForm.ShowDialog();
                                 this.sessionTimer.Enabled = false;
                                 resetLogin();
@@ -124,10 +129,7 @@ namespace LibrarySelfCheckOut
             }
         }
 
-        private void btBack_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+   
 
         private void resetLogin()
         {
@@ -155,6 +157,16 @@ namespace LibrarySelfCheckOut
                 t.Stop();
             };
             t.Start();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     } 
 }
