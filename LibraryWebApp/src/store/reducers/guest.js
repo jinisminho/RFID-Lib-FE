@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes'
-import { updateObject } from '../ultility'
+import { updateObject } from '../utility'
 
 const getBooksStart = (state, action) => {
   return updateObject(state, { error: null, loading: true })

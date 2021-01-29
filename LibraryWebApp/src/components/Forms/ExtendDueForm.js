@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Field, reduxForm} from 'redux-form';
 import DatePicker from "react-datepicker";
-import moment from "moment";
 import 'react-datepicker/dist/react-datepicker.css';
-import MyUltil from "store/ultility"
+import MyUtil from "store/utility"
+import * as MyConstant from '../../views/Util/Constant'
+import moment from 'moment';
 
 // const FieldDatePicker = ({ input, placeholder, minDate, maxDate }) => (
 //     <DatePicker
@@ -19,10 +20,14 @@ import MyUltil from "store/ultility"
 // );
 
 function thisDueDate(dueDate, numOfDateToAdd) {
-    let date = MyUltil.convertToDate(dueDate)
+    let date = MyUtil.convertToDate(dueDate)
     date.setDate(date.getDate() + numOfDateToAdd)
-    return date.toDateString()
+    return toDateTime(date)
 };
+
+function toDateTime(date) {
+    return moment(MyUtil.convertToDate(date)).format(MyConstant.DATE)
+  }
 
 const ExtendDueForm = ({
     handleSubmit,
@@ -32,11 +37,11 @@ const ExtendDueForm = ({
     dueDate,
     numOfDateToAdd
 }) => (
-        <div className="card">
+        <div className="card border-0">
             <div className="content">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="control-label"> {"New Due Date:  "} <p className="font-weight-bold">{"" + thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}</p></label>
+                        <p className="font-weight-bold">{"Please return before: " + thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : MyConstant.DEFAULT_DATE_TO_ADD)}</p>
                         {/* <Field name={"datePicker"} component={FieldDatePicker} placeholder="YYYY/MM/DD" minDate={minDate} maxDate={maxDate}/>                            */}
                         <input type="hidden" id="newDueDate" name="newDueDate" value={thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}></input>
                     </div>

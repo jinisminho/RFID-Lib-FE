@@ -192,7 +192,7 @@ class Checkout extends React.Component {
         }
         if (this.props.studentData != null && this.props.overdueData != null) {
 
-            studentDisplay = <Container className="mt--7" fluid>
+            studentDisplay = <Container className="mt-3" fluid>
                 <Card className="shadow w-100">
                     <Row>
                         <Col className="col-4">
