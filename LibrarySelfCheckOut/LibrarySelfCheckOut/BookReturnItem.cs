@@ -36,7 +36,7 @@ namespace LibrarySelfCheckOut
             {
                 this.lbMessage.ForeColor = Color.Red;
                 this.lbBorrower.Text = "Borrower:";
-                this.lbMessage.Text = "Message: CANNOT RETURN - this book haven't borrowed yet.";
+                this.lbMessage.Text = "Message: CANNOT RETURN - this book hasn't borrowed yet.";
             }
             else
             {
