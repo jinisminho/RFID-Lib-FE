@@ -279,6 +279,16 @@ class Book extends React.Component {
             )
     }
     getInitialValues = () => {
+        let author = []
+        let genre=[]
+        if(this.state.updateData){
+            this.state.updateData.author.forEach(el=>{
+                author.push({"value":el,"label":el})
+            })
+            this.state.updateData.genres.forEach(el=>{
+                genre.push({"value":el,"label":el})
+            })
+        }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
@@ -290,8 +300,8 @@ class Book extends React.Component {
             nop: this.state.updateData ? this.state.updateData.nop : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
             status: this.state.updateData ? this.state.updateData.status : '',
-            author: this.state.updateData ? this.state.updateData.author : '',
-            genres: this.state.updateData ? this.state.updateData.genres : '',
+            author: author,
+            genres: genre,
             img: this.state.updateData ? this.state.updateData.img : '',
             id:this.state.updateData ? this.state.updateData.id : ''
         };
