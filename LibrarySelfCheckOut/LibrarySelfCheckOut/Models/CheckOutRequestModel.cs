@@ -9,6 +9,6 @@ namespace LibrarySelfCheckOut.Models
     public class CheckOutRequestModel
     {
         public int patronId { get; set; }
-        public List<String> bookCodeList { get; set; }
+        public List<BookCheckOutRequestModel> bookCodeList { get; set; }
     }
 }

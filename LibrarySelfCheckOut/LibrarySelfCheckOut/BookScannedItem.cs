@@ -7,16 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibrarySelfCheckOut.Models;
 
 namespace LibrarySelfCheckOut
 {
     public partial class BookScannedItem : UserControl
     {
-        public BookScannedItem(int index, String title)
+        public BookScannedItem(BookScannedModel book)
         {
             InitializeComponent();
-            this.lbIndex.Text = index.ToString();
-            this.lbTitle.Text = "Book: " + title;
+            String fullTitle = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
+            lbTitle.Text = fullTitle.Length <= 50 ? fullTitle : fullTitle.Substring(0, 47) + "...";
+            lbEdition.Text = "Edition: " + book.edition;
+            lbAuthors.Text = "Author(s): " + (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "..." );
+            picBook.Load(book.img);
+            lbGroup.Text = "Group: " + book.group;
         }
     }
 }

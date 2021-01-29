@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibrarySelfCheckOut.Models;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
@@ -15,21 +16,26 @@ namespace LibrarySelfCheckOut
     {
 
 
-        public BookItem(int index, BookCheckOutModel book)
+        public BookItem(BookCheckOutModel book)
         {
             InitializeComponent();
-            this.lbIndex.Text = index + ".";
-            this.lbBook.Text = book.title;
+            String fullTitle = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
+            lbTitle.Text = fullTitle.Length <= UIMessage.MAX_STRING_LENGTH ? 
+                fullTitle : fullTitle.Substring(0, UIMessage.MAX_STRING_LENGTH - 3) + "...";
+            lbEdition.Text = "Edition: " + book.edition;
+            lbAuthors.Text = "Author(s): " + 
+                (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "...");
+            picBook.Load(book.img);
+            lbGroup.Text = "Group: " + book.group;
             if (book.ableToBorrow)
             {
-                this.lbStatus.ForeColor = Color.Green;
-                this.lbStatus.Text = "Status: CHECKED OUT";
+                this.lbMessage.Text = "Borrowed at: " + book.borrowedAt;
                 this.lbDueDate.Text = "Due date: " + book.dueDate;
             }
             else
             {
-                this.lbStatus.ForeColor = Color.Red;
-                this.lbStatus.Text = "Status: NOT ALLOWED TO CHECK OUT";
+                this.lbMessage.ForeColor = Color.Red;
+                this.lbMessage.Text = "Message: NOT ALLOWED TO BORROW";
                 this.lbDueDate.Text = "";
             }
         }

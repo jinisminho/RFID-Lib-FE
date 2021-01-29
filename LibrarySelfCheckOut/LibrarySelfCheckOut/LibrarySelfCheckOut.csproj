@@ -65,9 +65,6 @@
     <Compile Include="BookScannedItem.Designer.cs">
       <DependentUpon>BookScannedItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Button_WOC.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CheckOutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +98,7 @@
     <Compile Include="Models\AuthResponse.cs" />
     <Compile Include="Models\AuthStudentModel.cs" />
     <Compile Include="Models\BookCheckOutModel.cs" />
+    <Compile Include="Models\BookCheckOutRequestModel.cs" />
     <Compile Include="Models\BookReturnModel.cs" />
     <Compile Include="Models\BookScannedModel.cs" />
     <Compile Include="Models\BookScannedResponseModel.cs" />
@@ -130,6 +128,7 @@
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
     <Compile Include="Utils\Constant.cs" />
+    <Compile Include="Utils\UIMessage.cs" />
     <EmbeddedResource Include="BookItem.resx">
       <DependentUpon>BookItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,14 +181,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8_ok_16px.png" />
-    <None Include="Resources\check-circle.gif" />
-    <None Include="Resources\remove-icon-21.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\success-icon-10.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\giphy.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -202,10 +193,28 @@
     <None Include="Resources\return-book.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\scan-pay-payment-15-512.png" />
+    <None Include="Resources\welcome2.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\insert-card.png" />
+    <None Include="Resources\logi.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome3.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\welcome4.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logi_rescaled_trans.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checkout-bck.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backicon.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Spinner-trans %281%29.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,12 +8,14 @@ namespace LibrarySelfCheckOut.Utils
 {
     public class Constant
     {
-        public static string PATRON_CARD_PREFIX = "PAT#";
+        public static readonly string PATRON_CARD_PREFIX = "PAT#";
 
-        public static int TID_LENGTH = 24;
+        public static readonly int TID_LENGTH = 24;
 
-        public static int LOGIN_SESSION_TIME_OUT = 60;
+        public static readonly int LOGIN_SESSION_TIME_OUT = 90;
 
-        public static int PROCESS_SESSION_TIME_OUT = 120;
+        public static readonly int PROCESS_SESSION_TIME_OUT = 120;
+
+        public static readonly string CURRENCY = "VND";
     }
 }

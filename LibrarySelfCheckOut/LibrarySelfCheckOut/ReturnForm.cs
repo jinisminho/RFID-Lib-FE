@@ -34,9 +34,9 @@ namespace LibrarySelfCheckOut
         public ReturnForm()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
@@ -73,14 +73,19 @@ namespace LibrarySelfCheckOut
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
                         numberOfBookScanned++;
+                        if (numberOfBookScanned == 1)
+                        {
+                            this.btDone.Enabled = true;
+                        }
                         this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
                         this.timerSessionTimeOut.Enabled = false;
                         this.spiner.Show();
                         BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
                         this.spiner.Hide();
+                        this.timerSessionTimeOut.Enabled = true;
                         if (rs.isSuccess)
                         {
-                            BookScannedItem item = new BookScannedItem(numberOfBookScanned, rs.book.title);
+                            BookScannedItem item = new BookScannedItem(rs.book);
                             item.Width = this.pnBooksReturned.Width - 10;
                             pnBooksReturned.Controls.Add(item);
                             bookCodeList.Add(this.bookRFID);
@@ -95,11 +100,6 @@ namespace LibrarySelfCheckOut
                             }
                             resetReturn();
                         }
-                        if(numberOfBookScanned == 1)
-                        {
-                            this.btDone.Enabled = true;
-                        }
-                        this.timerSessionTimeOut.Enabled = true;
                     }
 
                 }
@@ -111,17 +111,18 @@ namespace LibrarySelfCheckOut
 
         private void resetReturn()
         {
-            this.pnBooksReturned.Controls.Clear();
+            this.timerSessionTimeOut.Enabled = true;
             this.btCancel.Enabled = true;
             this.btDone.Enabled = false;
             this.txtBookCode.Enabled = true;
+            this.numberOfBookScanned = 0;
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
             this.bookCodeList.Clear();
-            this.numberOfBookScanned = 0;
+            this.pnBooksReturned.Controls.Clear();
             this.bookCodeMap.Clear();
-            this.btDone.Text = BT_TXT_RETURN;
             this.spiner.Hide();
+            this.btDone.Text = BT_TXT_RETURN;
             this.lbInstruction.Text = "Place book(s) on the scanner to return";
         }
 
@@ -140,25 +141,24 @@ namespace LibrarySelfCheckOut
         private async void callReturnAPI()
         {
             this.btCancel.Enabled = false;
+            this.btDone.Enabled = false;
             this.pnBooksReturned.Controls.Clear();
             this.timerSessionTimeOut.Enabled = false;
-            this.btDone.Enabled = false;
-            this.spiner.Show();
             this.txtBookCode.Enabled = false;
             this.spiner.Show();
             ReturnResponseModel rs = await BookProcessor.returnBooks(bookCodeList);
             this.spiner.Hide();
+            this.timerSessionTimeOut.Enabled = true;
             if (rs.isSuccess)
             {
-                int count = 0;
                 foreach (BookReturnModel b in rs.books)
                 {
-                    count++;
-                    BookReturnItem item = new BookReturnItem(count, b.title, b.status);
+                    BookReturnItem item = new BookReturnItem(b);
                     item.Width = this.pnBooksReturned.Width - 10;
                     this.pnBooksReturned.Controls.Add(item);
                 }
                 this.btDone.Text = BT_TXT_DONE;
+                this.btDone.Enabled = true;
             }
             else
             {
@@ -169,14 +169,11 @@ namespace LibrarySelfCheckOut
                 }
                 resetReturn();
             }
-            this.timerSessionTimeOut.Enabled = true;
-            this.btDone.Enabled = true;
-            this.spiner.Hide();
         }
 
         private void lbCancel_Click(object sender, EventArgs e)
         {
-            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?"))
+            using(ModalYESNO modal = new ModalYESNO("Are you sure you want to cancel?", "Cancel"))
             {
                 modal.ShowDialog();
                 if(modal.result == DialogResult.Yes)
