@@ -6,9 +6,10 @@ const PlaceHolder = ({ getInputProps, getRootProps, error, touched }) => (
   <div
     {...getRootProps()}
     className={`placeholder-preview ${error && touched ? "has-error" : ""}`}
+    
   >
     <input {...getInputProps()} />
-    <MdCloudUpload style={{ fontSize: 100, paddingTop: 85 }} />
+    <MdCloudUpload style={{ fontSize: 100, paddingTop: 50 }} />
     <p>Click or drag image file to this area to upload.</p>
   </div>
 );

@@ -37,7 +37,7 @@ img {
   }
   
   .preview-container {
-    height: 335px;
+    height: 35vh;
     width: 100%;
     margin-bottom: 10px;
   }
@@ -56,3 +56,9 @@ img {
     height: 300px;
   }
   
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    display: block;
+    width: 100%;
+}

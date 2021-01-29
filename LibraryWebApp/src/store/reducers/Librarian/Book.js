@@ -34,6 +34,56 @@ const getBookFail = (state, action) =>{
   })
 }
 
+const getAuthorStart = (state, action) =>{
+  return updateObject(state,{
+    error:null, 
+    loading:true,
+    deleteSuccess:false,
+    updateSuccess:false,
+    addSuccess:false,
+    copySuccess:false,
+    authorData:[]
+  })
+}
+const getAuthorSuccess = (state, action)=>{
+  return updateObject(state,{
+      authorData: action.data,
+      error:null,
+      loading:false
+  })
+}
+const getAuthorFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+  })
+}
+
+const getGenreStart = (state, action) =>{
+  return updateObject(state,{
+    error:null, 
+    loading:true,
+    deleteSuccess:false,
+    updateSuccess:false,
+    addSuccess:false,
+    copySuccess:false,
+    genreData:[]
+  })
+}
+const getGenreSuccess = (state, action)=>{
+  return updateObject(state,{
+      genreData: action.data,
+      error:null,
+      loading:false,
+  })
+}
+const getGenreFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+  })
+}
+
 const deleteBookStart = (state, action) =>{
   return updateObject(state,{
     error:null,
@@ -160,16 +210,22 @@ export default function reducer(state = {
     updateSuccess:false,
     addSuccess:false,
     copySuccess:false,
-    bookCopyData:null
+    bookCopyData:null,
+    authorData:[],
+    genreData:[]
 }, action) {
   switch(action.type){
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
     case actionTypes.ADMIN_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
     case actionTypes.ADMIN_GET_BOOKS_FAILED: return getBookFail(state, action)
 
-    case actionTypes.ADD_BOOK_START: return addBookStart(state, action)
-    case actionTypes.ADD_BOOK_SUCCESS: return addBookSuccess(state, action)
-    case actionTypes.ADD_BOOK_FAILED: return addBookFail(state, action)
+    case actionTypes.GET_AUTHOR_START: return getAuthorStart(state, action)
+    case actionTypes.GET_AUTHOR_SUCCESS: return getAuthorSuccess(state, action)
+    case actionTypes.GET_AUTHOR_FAILED: return getAuthorFail(state, action)
+
+    case actionTypes.GET_GENRE_START: return getGenreStart(state, action)
+    case actionTypes.GET_GENRE_SUCCESS: return getGenreSuccess(state, action)
+    case actionTypes.GET_GENRE_FAILED: return getGenreFail(state, action)
     
     case actionTypes.DELETE_BOOK_START: return deleteBookStart(state, action)
     case actionTypes.DELETE_BOOK_FAILED: return deleteBookFail(state, action)

@@ -15,12 +15,15 @@ const DropZoneField = ({
     <DropZone
       accept="image/jpeg, image/png, image/gif, image/bmp"
       className="upload-container"
-      onDrop={file => handleOnDrop(file, onChange)}
+      onDrop={file => {handleOnDrop(file); onChange(file)}}
       multiple={false}
     >
       {({getRootProps, getInputProps}) =>
         imagefile && imagefile.length > 0 ? (
+          <div {...getRootProps()} className="render-preview">
+          <input {...getInputProps()} />
           <ImagePreview imagefile={imagefile} />
+          </div>
         ) : (
           <PlaceHolder getInputProps={getInputProps} getRootProps={getRootProps} error={error} touched={touched} />
         )
@@ -33,14 +36,6 @@ const DropZoneField = ({
 DropZoneField.propTypes = {
   error: PropTypes.string,
   handleOnDrop: PropTypes.func.isRequired,
-  imagefile: PropTypes.arrayOf(
-    PropTypes.shape({
-      file: PropTypes.file,
-      name: PropTypes.string,
-      preview: PropTypes.string,
-      size: PropTypes.number
-    })
-  ),
   onChange: PropTypes.func,
   touched: PropTypes.bool
 };

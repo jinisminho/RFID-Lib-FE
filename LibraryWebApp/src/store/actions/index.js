@@ -23,7 +23,9 @@ export {
     updateBook,
     deleteBook,
     addBookCopy,
-    generateCopyBarcode
+    generateCopyBarcode,
+    getAuthor,
+    getGenre
 } from './Librarian/Book'
 
 export {

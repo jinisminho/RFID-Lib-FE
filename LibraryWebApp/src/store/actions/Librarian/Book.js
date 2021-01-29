@@ -52,6 +52,84 @@ export const getBook = (page,size,search) => {
 
 }
 
+export const getAuthorSuccess = (data) => {
+    return {
+        type: actionTypes.GET_AUTHOR_SUCCESS,
+        data: data,
+    }
+}
+
+export const getAuthorFailed = (error) => {
+    return {
+        type: actionTypes.GET_AUTHOR_FAILED,
+        error: error
+    }
+}
+
+export const getAuthorStart = () => {
+    return {
+        type: actionTypes.GET_AUTHOR_START
+    }
+}
+
+export const getAuthor = () => {
+    return dispatch => {
+        dispatch(getAuthorStart())
+        let response=booksPrototype.getAuthor()
+        if(response.status){
+            dispatch(getAuthorSuccess(response.data))
+        }else{
+            dispatch(getBookFailed(response.err))
+        }
+    }
+
+}
+export const getGenrekSuccess = (data) => {
+    return {
+        type: actionTypes.GET_GENRE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getGenreFailed = (error) => {
+    return {
+        type: actionTypes.GET_GENRE_FAILED,
+        error: error
+    }
+}
+
+export const getGenreStart = () => {
+    return {
+        type: actionTypes.GET_GENRE_START
+    }
+}
+
+export const getGenre = () => {
+    return dispatch => {
+        dispatch(getGenreStart())
+        let response=booksPrototype.getGenre()
+        if(response.status){
+            dispatch(getGenrekSuccess(response.data))
+        }else{
+            dispatch(getGenreFailed(response.err))
+        }
+        // let url='/books'
+        // if(search){
+        //     url+='?page='+page+'&size='+size+"&name="+search
+        // }else {
+        //     url+='?page='+page+'&size='+size
+        // }
+        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
+        //     .then(response => {
+        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
+        //     })
+        //     .catch(error => {
+        //         dispatch(getBookFail(error))
+        //     });
+    }
+
+}
+
 
 export const addBookStart =()=>{
     return({
