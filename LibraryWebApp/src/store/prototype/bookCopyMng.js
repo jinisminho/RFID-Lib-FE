@@ -15,7 +15,7 @@ var arrayOfBooks = [{"id":1,"title":"Harry","sub":"test","ddc":"1231231111","aut
 {"id":15,"title":"Harry15","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708115", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
 {"id":16,"title":"Harry16","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708116", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4}];
 
-var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"1","barcode":"1231","price":123,"status":"PREPARING","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"1","barcode":"1231","price":123,"status":"PREPARING","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg", "copyType" : "1"},
 {"id":2,"book":1,"title":"Harry2","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"2","barcode":"1232","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
 {"id":3,"book":2,"title":"Harry3","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"3","barcode":"1233","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
 {"id":4,"book":3,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"4","barcode":"1234","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
@@ -28,6 +28,22 @@ var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","sub":"test","ddc":"1231231111
 {"id":11,"book":6,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"11","barcode":"12311","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
 {"id":12,"book":7,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"12","barcode":"12312","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"}
 ]
+
+const copyTypes = [
+    {
+        label: 'Test - Super Rare',
+        value: 1,
+    },
+    {
+        label: 'Test - Unique',
+        value: 2,
+    },
+    {
+        label: 'Test - Common',
+        value: 3,
+    },
+]
+
 function getBooks(){
     return {"data": arrayOfBooks, "status":true};
 }
@@ -97,6 +113,8 @@ function generateBarcode(data){
     }
     let tmp_rs=JSON.parse(JSON.stringify(rs))
     tmp_rs["price"]=data["price"]
+    let tmp_cpy_type = getCopyTypeByValue(data["copyType"])
+    tmp_rs["copyType"]=tmp_cpy_type["label"]
     tmp_rs["barcode"]=[]
     for(var i=0;i<data['noc'];i++){
         let tmp=JSON.parse(JSON.stringify(rs))
@@ -127,4 +145,20 @@ function getBookCopyStatus(){
     return {"data":[{ value: 'READY', label: 'READY' },
     { value: 'PREPARING', label: 'PREPARING' }],"status":true};
 }
-export {getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus,generateBarcode}
+
+function getCopyTypes(){
+    return {"data": copyTypes,"status":true};
+}
+
+function getCopyTypeByValue(value){
+    let res
+    copyTypes.forEach((el) => {
+        
+        if(el["value"] == value){
+            res = el
+        }
+    })
+    return res;
+}
+
+export {getCopyTypes, getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus,generateBarcode}
