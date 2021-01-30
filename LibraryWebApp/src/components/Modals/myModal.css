@@ -1,4 +1,11 @@
 .book-detail-modal {
     width: 90vw;    /* Occupy the 90% of the screen width */
     max-width: 90vw;
+    min-width: 500px;
 } 
+
+.two-col-modal {
+    width: 60vw;    /* Occupy the 60% of the screen width */
+    max-width: 60vw;
+    min-width: 500px;
+}

@@ -30,36 +30,77 @@ import {
     InputGroupText,
     InputGroup,
     Label,
-    Row
+    Row,
+    Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-import Select from 'react-select'
 
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
-            <Label>{title}</Label>
-        </Row>
-        <Row>
-            <InputGroup className="input-group-alternative">
-                <Input {...input} placeholder={placeholder} type={type} />
-                {touched && ((error && <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement="right"
-                    overlay={
-                        <Popover>
-                            <Popover.Content>
-                                <span className="text-danger">{error}</span>
-                            </Popover.Content>
-                        </Popover>
-                    }
-                >
-                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                </OverlayTrigger>))}
-            </InputGroup>
+            <Col lg="3">
+                <Label>{title}</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <Input {...input} placeholder={placeholder} type={type} />
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
         </Row>
     </>
 )
+
+
+
+const renderSelectOptions = (option) => (
+    <option key={option.label} value={option.value}>{option.label}</option>
+)
+
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+    <>
+        <Row>
+            <Col lg="3">
+                <Label>{title}</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        <option value="">Select</option>
+                        {options ? options.map(renderSelectOptions) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
+        </Row>
+    </>
+)
+
+
 
 const validateNumber = value => {
     if (value < 1) {
@@ -71,6 +112,9 @@ const validateNumber = value => {
 const validate = values => {
     const errors = {}
     if (!values.isbn) {
+        errors.isbn = 'ISBN is required'
+    }
+    if (!values.copyType && values.copyType !=="") {
         errors.isbn = 'ISBN is required'
     }
     if (!values.price) {
@@ -88,7 +132,8 @@ const validate = values => {
 }
 const CopyAddForm = ({
     handleSubmit,
-    handleCancel
+    handleCancel,
+    options
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
@@ -100,6 +145,14 @@ const CopyAddForm = ({
                         placeholder="ISBN"
                         title="ISBN"
                         component={renderField} />
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <Field
+                        name="copyType"
+                        title="Copy Type"
+                        options={options}
+                        component={renderSelectField}>
+                    </Field>
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
@@ -126,7 +179,7 @@ const CopyAddForm = ({
                 </button>
                     <button type="submit" className="btn btn-wd btn-success ">
                         <span className="btn-label">
-                        </span> Save
+                        </span> Next
                 </button>
                 </div>
             </Form>
