@@ -57,7 +57,8 @@ namespace LibrarySelfCheckOut
             this.btDone.Enabled = false;
             this.btDone.Text = BT_TXT_CHECKOUT;
 
-
+            int x_user = (this.pnNav.Width - this.lbUsername.Width - 10);
+            this.lbUsername.Location = new Point(x_user, this.lbUsername.Location.Y);
         }
 
 

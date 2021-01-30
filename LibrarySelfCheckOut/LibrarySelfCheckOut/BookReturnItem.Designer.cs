@@ -39,6 +39,7 @@
             this.lbFine = new System.Windows.Forms.Label();
             this.lbOverdueDay = new System.Windows.Forms.Label();
             this.lbMessage = new System.Windows.Forms.Label();
+            this.lbBorrower = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBook)).BeginInit();
             this.panel2.SuspendLayout();
@@ -132,7 +133,7 @@
             // 
             this.lbFine.AutoSize = true;
             this.lbFine.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbFine.Location = new System.Drawing.Point(12, 77);
+            this.lbFine.Location = new System.Drawing.Point(12, 78);
             this.lbFine.Name = "lbFine";
             this.lbFine.Size = new System.Drawing.Size(136, 24);
             this.lbFine.TabIndex = 2;
@@ -142,7 +143,7 @@
             // 
             this.lbOverdueDay.AutoSize = true;
             this.lbOverdueDay.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbOverdueDay.Location = new System.Drawing.Point(12, 44);
+            this.lbOverdueDay.Location = new System.Drawing.Point(12, 45);
             this.lbOverdueDay.Name = "lbOverdueDay";
             this.lbOverdueDay.Size = new System.Drawing.Size(157, 24);
             this.lbOverdueDay.TabIndex = 1;
@@ -152,11 +153,21 @@
             // 
             this.lbMessage.AutoSize = true;
             this.lbMessage.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbMessage.Location = new System.Drawing.Point(12, 109);
+            this.lbMessage.Location = new System.Drawing.Point(12, 111);
             this.lbMessage.Name = "lbMessage";
             this.lbMessage.Size = new System.Drawing.Size(295, 24);
             this.lbMessage.TabIndex = 0;
             this.lbMessage.Text = "Message: Please return at counter";
+            // 
+            // lbBorrower
+            // 
+            this.lbBorrower.AutoSize = true;
+            this.lbBorrower.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbBorrower.Location = new System.Drawing.Point(12, 11);
+            this.lbBorrower.Name = "lbBorrower";
+            this.lbBorrower.Size = new System.Drawing.Size(138, 24);
+            this.lbBorrower.TabIndex = 3;
+            this.lbBorrower.Text = "Borrower: tram";
             // 
             // BookReturnItem
             // 

@@ -58,7 +58,7 @@
             this.lbUsername.AutoSize = true;
             this.lbUsername.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lbUsername.ForeColor = System.Drawing.Color.White;
-            this.lbUsername.Location = new System.Drawing.Point(1493, 8);
+            this.lbUsername.Location = new System.Drawing.Point(1500, 8);
             this.lbUsername.Name = "lbUsername";
             this.lbUsername.Size = new System.Drawing.Size(272, 35);
             this.lbUsername.TabIndex = 0;
@@ -97,7 +97,7 @@
             // pnNav
             // 
             this.pnNav.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnNav.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnNav.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.pnNav.Controls.Add(this.label1);
             this.pnNav.Controls.Add(this.lbUsername);
             this.pnNav.Location = new System.Drawing.Point(1, 1);
@@ -151,7 +151,7 @@
             // btDone
             // 
             this.btDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDone.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btDone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.btDone.FlatAppearance.BorderSize = 0;
             this.btDone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btDone.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -214,7 +214,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(32, 8);
+            this.label1.Location = new System.Drawing.Point(32, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(253, 35);
             this.label1.TabIndex = 1;
