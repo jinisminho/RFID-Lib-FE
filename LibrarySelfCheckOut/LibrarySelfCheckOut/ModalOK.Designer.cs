@@ -54,9 +54,9 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Location = new System.Drawing.Point(0, 1);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(592, 41);
             this.panel2.TabIndex = 9;
@@ -75,7 +75,7 @@
             // BtOK
             // 
             this.BtOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtOK.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtOK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.BtOK.FlatAppearance.BorderSize = 0;
             this.BtOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtOK.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.ClientSize = new System.Drawing.Size(600, 223);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

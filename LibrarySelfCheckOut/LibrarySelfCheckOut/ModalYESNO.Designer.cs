@@ -56,7 +56,7 @@
             // ntYes
             // 
             this.ntYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ntYes.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ntYes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.ntYes.FlatAppearance.BorderSize = 0;
             this.ntYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ntYes.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -74,7 +74,7 @@
             // btNO
             // 
             this.btNO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNO.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btNO.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.btNO.FlatAppearance.BorderSize = 0;
             this.btNO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btNO.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -94,7 +94,7 @@
             this.lbMsg.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbMsg.AutoSize = true;
             this.lbMsg.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbMsg.Location = new System.Drawing.Point(45, 51);
+            this.lbMsg.Location = new System.Drawing.Point(51, 58);
             this.lbMsg.MaximumSize = new System.Drawing.Size(500, 0);
             this.lbMsg.Name = "lbMsg";
             this.lbMsg.Size = new System.Drawing.Size(500, 92);
@@ -103,7 +103,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.panel2.Controls.Add(this.lbHeader);
             this.panel2.Location = new System.Drawing.Point(4, 3);
             this.panel2.Name = "panel2";
@@ -115,7 +115,7 @@
             this.lbHeader.AutoSize = true;
             this.lbHeader.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lbHeader.ForeColor = System.Drawing.Color.White;
-            this.lbHeader.Location = new System.Drawing.Point(13, 8);
+            this.lbHeader.Location = new System.Drawing.Point(8, 10);
             this.lbHeader.Name = "lbHeader";
             this.lbHeader.Size = new System.Drawing.Size(82, 24);
             this.lbHeader.TabIndex = 0;
@@ -125,7 +125,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
             this.ClientSize = new System.Drawing.Size(600, 223);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

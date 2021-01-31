@@ -96,6 +96,53 @@ export const getBookCopyStatus = () => {
 
 }
 
+export const getCopyTypeSuccess = (data) => {
+    console.log(data);
+    return {
+        type: actionTypes.GET_COPY_TYPE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getCopyTypeFailed = (error) => {
+    return {
+        type: actionTypes.GET_COPY_TYPE_FAILED,
+        error: error
+    }
+}
+
+export const getCopyTypeStart = () => {
+    return {
+        type: actionTypes.GET_COPY_TYPE_START
+    }
+}
+
+export const getCopyType = () => {
+    return dispatch => {
+        dispatch(getCopyTypeStart())
+        let response=copyPrototype.getCopyTypes()
+        if(response.status){
+            dispatch(getCopyTypeSuccess(response.data))
+        }else{
+            dispatch(getCopyTypeFailed(response.err))
+        }
+        // let url='/books'
+        // if(search){
+        //     url+='?page='+page+'&size='+size+"&name="+search
+        // }else {
+        //     url+='?page='+page+'&size='+size
+        // }
+        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
+        //     .then(response => {
+        //         dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
+        //     })
+        //     .catch(error => {
+        //         dispatch(getCopyFail(error))
+        //     });
+    }
+
+}
+
 export const addCopyStart =()=>{
     return({
         type: actionTypes.ADD_COPY_BOOK_START

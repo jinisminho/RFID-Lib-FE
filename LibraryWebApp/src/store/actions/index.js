@@ -35,6 +35,7 @@ export {
     deleteCopy,
     getAllBook,
     getBookCopyStatus,
+    getCopyType,
     generateBarcode
 } from './Librarian/BookCopy'
 

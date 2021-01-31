@@ -255,3 +255,18 @@ export const arrayOfStudents=[
   {"id":4,"code":"4","name":"Nguyen Trung Kien","department":"SE","username":"kien@mail.com","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
   {"id":5,"code":"5","name":"Nguyen Quoc Van","department":"SA","username":"van@mail.com","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
   ]
+
+  export const userOptions = [
+    {
+        label: 'Erika',
+        value: '4e4cf51f-b406-413a-ae46-2cf06c7aabff',
+    },
+    {
+        label: 'Julia',
+        value: 'edad97c7-f2dc-4198-91a9-8f20c7bc67b2',
+    },
+    {
+        label: 'Sarah',
+        value: '57d3578a-3583-4290-8bae-596a4da81a8d',
+    },
+];

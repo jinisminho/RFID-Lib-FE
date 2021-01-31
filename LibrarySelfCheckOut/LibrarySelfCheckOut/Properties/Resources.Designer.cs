@@ -83,6 +83,16 @@ namespace LibrarySelfCheckOut.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap back_arrow_white {
+            get {
+                object obj = ResourceManager.GetObject("back-arrow_white", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap backicon {
             get {
                 object obj = ResourceManager.GetObject("backicon", resourceCulture);
@@ -116,6 +126,16 @@ namespace LibrarySelfCheckOut.Properties {
         internal static System.Drawing.Bitmap checkout_bck {
             get {
                 object obj = ResourceManager.GetObject("checkout-bck", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CSV_dark {
+            get {
+                object obj = ResourceManager.GetObject("CSV-dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -166,6 +186,16 @@ namespace LibrarySelfCheckOut.Properties {
         internal static System.Drawing.Bitmap logi_rescaled_trans {
             get {
                 object obj = ResourceManager.GetObject("logi_rescaled_trans", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_dark_bcg {
+            get {
+                object obj = ResourceManager.GetObject("logo_dark_bcg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -256,6 +286,16 @@ namespace LibrarySelfCheckOut.Properties {
         internal static System.Drawing.Bitmap success_icon_10 {
             get {
                 object obj = ResourceManager.GetObject("success-icon-10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap welcome_dark {
+            get {
+                object obj = ResourceManager.GetObject("welcome-dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

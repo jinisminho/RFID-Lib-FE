@@ -35,8 +35,8 @@
             this.lbsession = new System.Windows.Forms.Label();
             this.sessionTimer = new System.Windows.Forms.Timer(this.components);
             this.pnCenter = new System.Windows.Forms.Panel();
-            this.lbScan = new System.Windows.Forms.Label();
             this.pnLeft = new System.Windows.Forms.Panel();
+            this.lbScan = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picTitle = new System.Windows.Forms.PictureBox();
             this.pcLogo = new System.Windows.Forms.PictureBox();
@@ -75,7 +75,7 @@
             this.lbsession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbsession.AutoSize = true;
             this.lbsession.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbsession.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbsession.ForeColor = System.Drawing.Color.White;
             this.lbsession.Location = new System.Drawing.Point(29, 871);
             this.lbsession.Name = "lbsession";
             this.lbsession.Size = new System.Drawing.Size(397, 49);
@@ -90,7 +90,7 @@
             // 
             // pnCenter
             // 
-            this.pnCenter.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnCenter.BackColor = System.Drawing.Color.White;
             this.pnCenter.Controls.Add(this.pnLeft);
             this.pnCenter.Controls.Add(this.txtStudentRFID);
             this.pnCenter.Controls.Add(this.spinner);
@@ -103,6 +103,19 @@
             this.pnCenter.TabIndex = 15;
             this.pnCenter.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // pnLeft
+            // 
+            this.pnLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
+            this.pnLeft.Controls.Add(this.pictureBox1);
+            this.pnLeft.Controls.Add(this.picTitle);
+            this.pnLeft.Controls.Add(this.lbsession);
+            this.pnLeft.Controls.Add(this.pcLogo);
+            this.pnLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnLeft.Location = new System.Drawing.Point(0, 0);
+            this.pnLeft.Name = "pnLeft";
+            this.pnLeft.Size = new System.Drawing.Size(458, 929);
+            this.pnLeft.TabIndex = 15;
+            // 
             // lbScan
             // 
             this.lbScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -114,22 +127,9 @@
             this.lbScan.Text = "PLEASE SCAN YOUR ID CARD\r\n";
             this.lbScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pnLeft
-            // 
-            this.pnLeft.BackColor = System.Drawing.Color.White;
-            this.pnLeft.Controls.Add(this.pictureBox1);
-            this.pnLeft.Controls.Add(this.picTitle);
-            this.pnLeft.Controls.Add(this.lbsession);
-            this.pnLeft.Controls.Add(this.pcLogo);
-            this.pnLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnLeft.Location = new System.Drawing.Point(0, 0);
-            this.pnLeft.Name = "pnLeft";
-            this.pnLeft.Size = new System.Drawing.Size(458, 929);
-            this.pnLeft.TabIndex = 15;
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::LibrarySelfCheckOut.Properties.Resources.backicon;
+            this.pictureBox1.Image = global::LibrarySelfCheckOut.Properties.Resources.back_arrow_white;
             this.pictureBox1.Location = new System.Drawing.Point(27, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(63, 59);
@@ -141,10 +141,10 @@
             // picTitle
             // 
             this.picTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.picTitle.Image = global::LibrarySelfCheckOut.Properties.Resources.checkout_bck;
-            this.picTitle.Location = new System.Drawing.Point(49, 440);
+            this.picTitle.Image = global::LibrarySelfCheckOut.Properties.Resources.CSV_dark;
+            this.picTitle.Location = new System.Drawing.Point(74, 440);
             this.picTitle.Name = "picTitle";
-            this.picTitle.Size = new System.Drawing.Size(362, 50);
+            this.picTitle.Size = new System.Drawing.Size(318, 42);
             this.picTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picTitle.TabIndex = 1;
             this.picTitle.TabStop = false;
@@ -152,10 +152,10 @@
             // pcLogo
             // 
             this.pcLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pcLogo.Image = global::LibrarySelfCheckOut.Properties.Resources.logi_rescaled_trans;
-            this.pcLogo.Location = new System.Drawing.Point(27, 232);
+            this.pcLogo.Image = global::LibrarySelfCheckOut.Properties.Resources.logo_dark_bcg;
+            this.pcLogo.Location = new System.Drawing.Point(74, 277);
             this.pcLogo.Name = "pcLogo";
-            this.pcLogo.Size = new System.Drawing.Size(385, 183);
+            this.pcLogo.Size = new System.Drawing.Size(318, 142);
             this.pcLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcLogo.TabIndex = 0;
             this.pcLogo.TabStop = false;
