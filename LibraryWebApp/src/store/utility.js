@@ -105,8 +105,8 @@ export function compareDate(date1, date2) {
 
 const detailsTextClassName = "h3"
 
-export function bookDescriptionFormat(cell, row, hideFields) {
-    let hide = hideFields ? hideFields : [];
+export function bookDescriptionFormat(cell, row, extraData) {
+    let hide = extraData.hide ? extraData.hide : [];
     let thisBook = [];
     thisBook.push(row)
 
@@ -114,7 +114,8 @@ export function bookDescriptionFormat(cell, row, hideFields) {
         <Link to={{
             pathname: '/patron/book/detail',
             state: {
-                book: thisBook
+                book: thisBook,
+                studentId: extraData.studentId ? extraData.studentId : null
             }
         }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
     ) : null;

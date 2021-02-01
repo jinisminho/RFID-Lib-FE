@@ -131,7 +131,7 @@ class Book extends React.Component {
     }
 
     actionFormatter(cell, row) {
-        if (row.stock <= 0)
+        if (row.stock <= 0 || row.status !== MyConstant.BOOK_IN_CIRCULATION)
             return (
                 <div>
                     <Row className="align-items-center">
@@ -184,6 +184,9 @@ class Book extends React.Component {
             isbn: true,
             totalAvailableCopies: true,
         }
+        let extraData = [];
+        extraData.hide = hide;
+        extraData.studentId = this.state.studentId
 
         let display = (
             <div className="content">
@@ -221,7 +224,7 @@ class Book extends React.Component {
                     tableHeaderClass={"col-hidden"}
                 >
                     <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="12%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={extraData}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' width="12%" dataFormat={this.actionFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}

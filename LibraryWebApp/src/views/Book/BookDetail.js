@@ -19,7 +19,7 @@ import React from "react";
 import Header from "components/Headers/Header.js";
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { connect } from 'react-redux'
-import Spinner from '../../../components/Spinner/Spinner'
+import Spinner from 'components/Spinner/Spinner'
 import {
     Card,
     Container,
@@ -29,8 +29,8 @@ import {
 } from "reactstrap";
 import { Button, Modal } from 'react-bootstrap'
 import MyUtil from 'store/utility'
-import * as MyConstant from '../../Util/Constant'
-import * as actions from '../../../store/actions/index'
+import * as MyConstant from '../Util/Constant'
+import * as actions from 'store/actions/index'
 
 class BookDetail extends React.Component {
     constructor(props) {
@@ -61,7 +61,7 @@ class BookDetail extends React.Component {
     }
 
     render() {
-        const thisBook = this.state.book[0]
+        const thisBook = this.state.book
 
         let authors = thisBook.authors ? (thisBook.authors.length > 0 ? thisBook.authors : []) : [];
         let formatedAuthor = "";
@@ -74,9 +74,6 @@ class BookDetail extends React.Component {
         let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
 
-
-        let addToWishlistButton = thisBook.stock <= 0 || thisBook.status !== MyConstant.BOOK_IN_CIRCULATION ? (<Button className="btn btn-sm btn-primary btn-block text-truncate my-2" onClick={() => this.handleAddReminder(thisBook.id, this.state.studentId)}>Add to Wishlist</Button>) : null;
-
         let display = (
             <div className="content">
                 <Row className=" align-items-center my-3">
@@ -84,13 +81,6 @@ class BookDetail extends React.Component {
                     <Col lg="3">
                         <Row>
                             <img className="img-thumbnail" src={thisBook.img} />
-                        </Row>
-                        <Row>
-                            <Col lg="3" xs="1"></Col>
-                            <Col>
-                                {addToWishlistButton}
-                            </Col>
-                            <Col lg="3" xs="1"></Col>
                         </Row>
                     </Col>
                     <Col>

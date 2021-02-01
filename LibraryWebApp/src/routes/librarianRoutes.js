@@ -21,14 +21,31 @@ import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
+import BookDetail from "views/Book/BookDetail";
 
 var routes = [
+  // {
+  //   path: "/index",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: Index,
+  //   layout: "/librarian"
+  // },
   {
     path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/librarian"
+    name: "Books",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Book,
+    layout: "/librarian",
+    invisible:true
+  },
+  {
+    path: "/book/detail",
+    name: "Book Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: BookDetail,
+    layout: "/librarian",
+    invisible: true
   },
   {
     path: "/book",
