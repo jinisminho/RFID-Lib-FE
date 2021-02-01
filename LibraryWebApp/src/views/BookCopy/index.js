@@ -177,10 +177,14 @@ class BookCopy extends React.Component {
         console.log(row);
         return (
             <div>
-                <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
+                <UpdateButton clicked={() => this.setState({
+                    updateFormShow: true,
+                    updateData: row
+                })} />
+                {/* <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
                      updateFormShow: true,
                      updateData: row
-                })}>Tag RFID</Button>        
+                })}>Edit</Button>         */}
                 <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
@@ -239,7 +243,8 @@ class BookCopy extends React.Component {
             edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
             noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
             copyType: this.props.bookCopyData ? this.props.bookCopyData.copyType : '',
-            members:barcode
+            members:barcode,
+            img: this.props.bookCopyData ?this.props.bookCopyData.img : '',
         };
     }
     render() {
@@ -354,7 +359,7 @@ class BookCopy extends React.Component {
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Book copy tables</h3>
+                            {/* <h3 className="mb-0">Book copy tables</h3> */}
                         </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>

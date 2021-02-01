@@ -426,7 +426,7 @@ class Book extends React.Component {
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">Book tables</h3>
+                            {/* <h3 className="mb-0">Book tables</h3> */}
                         </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>

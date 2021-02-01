@@ -116,7 +116,7 @@ class BorrowingInfo extends React.Component {
                     showHistory: true,
                     studentId: stdId,
                     book: bok,
-                })} ><i className="ni ni-collection" /> History of Renews </button>
+                })} ><i className="ni ni-collection" /> History </button>
             </div>
         )
     }
@@ -134,7 +134,7 @@ class BorrowingInfo extends React.Component {
                         studentId: stdId,
                         book: bok,
                         dueDate: date,
-                    })} >Renew Due Date</button></Col>
+                    })} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
                         studentId: stdId,
@@ -251,7 +251,7 @@ class BorrowingInfo extends React.Component {
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{whiteSpace:'normal',wordWrap:'break-word'}}>Book</TableHeaderColumn>
                     <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{whiteSpace:'normal',wordWrap:'break-word'}}>Borrowed At</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDate" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{whiteSpace:'normal',wordWrap:'break-word'}}>Due</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueDate" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{whiteSpace:'normal',wordWrap:'break-word'}}>Due Date</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter2} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 

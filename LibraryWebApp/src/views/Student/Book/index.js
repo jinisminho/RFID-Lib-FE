@@ -180,7 +180,9 @@ class Book extends React.Component {
             publishYear: true,
             language: true,
             totalCopies: true,
-            nop: true
+            nop: true,
+            isbn: true,
+            totalAvailableCopies: true,
         }
 
         let display = (
@@ -198,7 +200,7 @@ class Book extends React.Component {
                         <button onClick={() => this.setState({ wishlistShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                                <i className="ni ni-notification-70"></i> Wishlist
+                                My Wishlist
                             </span>
                         </button>
                     </Col>
@@ -218,9 +220,9 @@ class Book extends React.Component {
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField='action' dataAlign="center" width="15%" dataFormat={this.actionFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="12%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action' width="12%" dataFormat={this.actionFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
 
@@ -283,8 +285,6 @@ class Book extends React.Component {
                 </Container>
 
 
-
-                {/* <Route path="/student/book/detail" Component={Detail}/> */}
 
 
             </>
