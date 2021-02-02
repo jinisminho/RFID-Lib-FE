@@ -1,6 +1,6 @@
-var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95748AE","barcode":"1231","studentid":1,"studentname":"Khang Nguyen"},
-{"id":2,"book":1,"title":"Harry2","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95750AE","barcode":"1232","studentid":1,"studentname":"Khang Nguyen"},
-{"id":3,"book":2,"title":"Harry3","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000400BB9574CAE","barcode":"1233","studentid":1,"studentname":"Khang Nguyen"},
+var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95748AE","barcode":"1231","studentid":1,"studentname":"Khang Nguyen","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg","genres":["Novel"],"borrower":"NTK"},
+{"id":2,"book":1,"title":"Harry2","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000500BB95750AE","barcode":"1232","studentid":1,"studentname":"Khang Nguyen","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg","genres":["Novel"],"borrower":"NTK"},
+{"id":3,"book":2,"title":"Harry3","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"E28068940000400BB9574CAE","barcode":"1233","studentid":1,"studentname":"Khang Nguyen","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg","genres":["Novel"],"borrower":"NTK"},
 {"id":4,"book":3,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"4","barcode":"1234","studentid":1,"studentname":"Khang Nguyen"},
 {"id":5,"book":4,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"5","barcode":"1235","studentid":1,"studentname":"Khang Nguyen"},
 {"id":6,"book":1,"title":"Harry","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"6","barcode":"1236","studentid":1,"studentname":"Khang Nguyen"},
@@ -36,6 +36,14 @@ function getBook(rfidcode){
     arrayOfCopy.forEach(el=>{
         if(el["rfidcode"]==rfidcode){
             rs = el
+            let m=new Date()
+            let returnat = m.getUTCFullYear() +"/"+ (m.getUTCMonth()+1) +"/"+ m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes() + ":" + m.getUTCSeconds();
+            let duedate=new Date("2021/01/29")
+            let overdue=2
+            rs["returnat"]= returnat
+            rs["duedate"]= duedate.toDateString()
+            rs["overdue"]= overdue
+            rs["fine"]=20000
             isFind=true
         }
     })

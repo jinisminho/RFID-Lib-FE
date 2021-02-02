@@ -104,7 +104,6 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
   </>
 )
 const renderSelect = ({ input,placeholder, meta: { touched, error }, title,data }) => {
-  console.log()
   return(
   <>
     <Row>

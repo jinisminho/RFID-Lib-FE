@@ -35,6 +35,7 @@ import {
     Container
 } from "reactstrap";
 import {storage} from '../../firebase'
+import { Link } from 'react-router-dom'
 
 class Book extends React.Component {
     constructor(props) {
@@ -50,7 +51,8 @@ class Book extends React.Component {
             copyData: null,
             updateFormShow: false,
             updateData: null,
-            confirmFormShow:false
+            confirmFormShow:false,
+            imageLoading:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -125,15 +127,15 @@ class Book extends React.Component {
         const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
         uploadTask.on('state_changed',
         (snapshot)=>{
-            this.setState({imageLoading:true})
+            this.setState({imageLoading:true, addFormShow: false})
         },
         (error)=>{
-            console.log(error)
+            // console.log(error)
             this.setState({imageLoading:false})
         },
         ()=>{
             storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
-                this.setState({ addFormShow: false })
+                this.setState({imageLoading:false })
                 values["img"]=url
                 this.props.onAddBook(values)
             })
@@ -162,15 +164,15 @@ class Book extends React.Component {
             const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
             uploadTask.on('state_changed',
             (snapshot)=>{
-                this.setState({imageLoading:true})
+                this.setState({imageLoading:true,updateFormShow: false})
             },
             (error)=>{
-                console.log(error)
+                // console.log(error)
                 this.setState({imageLoading:false})
             },
             ()=>{
                 storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
-                    this.setState({ updateFormShow: false })
+                    this.setState({ imageLoading:false })
                     values["img"]=url
                     this.props.onUpdateBook(values)
                 })
@@ -262,6 +264,14 @@ class Book extends React.Component {
         return (<img className="img-thumbnail" src={cell}/>)
     }
     bookDescriptionFormat(cell, row) {
+        let title = row.title ? (
+            <Link to={{
+                pathname: '/librarian/book/detail',
+                state: {
+                    book: row,
+                }
+            }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
+        ) : null;
         let author=row.author.join(", ")
         let position="Available at "+row.ddc
         let position_class= "text-success"
@@ -271,7 +281,8 @@ class Book extends React.Component {
         }
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
+                {/* <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a> */}
+                {title}
                 <p>by {author}</p>
                 <p>Edition: {row.edition}</p>
                 <p className={position_class}>{position}</p>
@@ -326,7 +337,7 @@ class Book extends React.Component {
             hideSizePerPage: true,
         };
         let display = (
-            <div className="content">
+            <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
@@ -417,17 +428,14 @@ class Book extends React.Component {
                 </Modal>
             </div>
         )
-        if (this.props.loading) {
+        if (this.props.loading || this.state.imageLoading) {
             display = <Spinner />
         }
         return (
             <>
-                <Header />
-                <Container className="mt-3" fluid>
+                {/* <Header /> */}
+                <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Book tables</h3>
-                        </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>

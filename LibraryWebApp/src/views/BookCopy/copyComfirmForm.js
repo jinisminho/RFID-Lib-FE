@@ -64,7 +64,7 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
 
 const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched, error } }) => (
     <>
-        <Input {...input} placeholder={placeholder} type={type} disabled={disabled} />
+        <Input className="pl-3" {...input} placeholder={placeholder} type={type} disabled={disabled} />
         {touched && ((error && <OverlayTrigger
             trigger={['hover', 'focus']}
             placement="right"
@@ -104,7 +104,7 @@ const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched,
 
 const renderCode = ({ fields, meta: { error, submitFailed } }) => (
     <>
-        <Row  className="ml-0 ml-sm-2">
+        <Row className="ml-0 ml-sm-2">
             <Label>Generated Barcode(s) - Total: {fields.length}</Label>
         </Row>
         <Row className="ml-0 ml-sm-2">
@@ -143,13 +143,15 @@ const renderFixedField = ({ meta, title }) => (
 
 const ConfirmCopyForm = ({
     handleSubmit,
-    handleCancel
+    handleCancel,
+    initialValues
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
                 <Row>
-                    <Col lg="6">
+                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img} /></Row></Col>
+                    <Col lg={{ size: 3, offset: 1 }}>
                         <FormGroup className="mb-3">
                             <Field
                                 name="isbn"

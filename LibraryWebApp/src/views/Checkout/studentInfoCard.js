@@ -1,23 +1,8 @@
 
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
 
-// reactstrap components
-import {
-    Button,
-    Card,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
-} from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
-import { Height } from "@material-ui/icons";
 
-const StudentInfoCard = ({student})  =>{
+const StudentInfoCard = ({student,overdue,showOverdue})  =>{
   return (
       <div className="container border-left m-3" >
           <div className="row">
@@ -33,6 +18,9 @@ const StudentInfoCard = ({student})  =>{
           </div>
           <div>
             <p><b>Email:</b> {student.username}</p>
+          </div>
+          <div>
+            <p><b>Overdue book(s):</b> <button className="btn btn-info"  onClick={()=>showOverdue()}>{overdue.length}</button></p>
           </div>
           </div>
           </div>

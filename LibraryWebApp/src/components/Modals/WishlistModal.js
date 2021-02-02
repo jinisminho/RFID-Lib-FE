@@ -31,8 +31,12 @@ const wishlistModal = (props) => {
         publishYear: true,
         language: true,
         totalCopies: true,
-        nop: true
+        nop: true,
+        totalAvailableCopies: true,
     }
+    let extraData = [];
+    extraData.hide = hide;
+    extraData.studentId = props.studentId
 
     return (
 
@@ -58,7 +62,7 @@ const wishlistModal = (props) => {
                     tableHeaderClass={"col-hidden"}
                 >
                     <TableHeaderColumn dataField="img" dataFormat={MyUtil.imageFormatter} width="10%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="90%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={hide}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="90%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={extraData}>Description</TableHeaderColumn>
                 </BootstrapTable>
             </Modal.Body>
             <Modal.Footer>

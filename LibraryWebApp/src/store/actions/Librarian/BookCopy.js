@@ -97,7 +97,6 @@ export const getBookCopyStatus = () => {
 }
 
 export const getCopyTypeSuccess = (data) => {
-    console.log(data);
     return {
         type: actionTypes.GET_COPY_TYPE_SUCCESS,
         data: data,
@@ -314,4 +313,70 @@ export const generateBarcode = (data) => {
             dispatch(generateBarcodeFailed(response.error))
         }
     }
+}
+
+//Tag RFID
+export const tagRFIDStart =()=>{
+    return({
+        type: actionTypes.TAG_RFID_START
+    })
+} 
+export const tagRFIDFailed =(error)=>{
+    return({
+        type: actionTypes.TAG_RFID_FAILED,
+        error:error
+    })
+} 
+export const tagRFIDSuccess =(data)=>{
+    return({
+        type: actionTypes.TAG_RFID_SUCCESS,
+    })
+} 
+export const tagRFID = (data) => {
+    return dispatch => {
+        dispatch(tagRFIDStart())
+        console.log("tagRFID");    
+        let response=copyPrototype.tagRFIDByBarcode(data.barcode, data.rfid)
+        if(response.status==true){
+            dispatch(tagRFIDSuccess())
+        }else{
+            dispatch(tagRFIDFailed(response.error))
+        }       
+    }
+}
+
+export const getCopyByBarcodeSuccess = (data, total, page, sizePerPage) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_BARCODE_SUCCESS,
+        total:total,
+        data: data,
+        page:page,
+        sizePerPage:sizePerPage
+    }
+}
+
+export const getCopyByBarcodeFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_BARCODE_FAILED,
+        error: error
+    }
+}
+
+export const getCopyByBarcodeStart = () => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_BARCODE_START
+    }
+}
+
+export const getCopyByBarcode = (barcode) => {
+    return dispatch => {
+        dispatch(getCopyByBarcodeStart())
+        let response=copyPrototype.getCopyByBarcode(barcode)
+        if(response.status){
+            dispatch(getCopyByBarcodeSuccess(response.data))
+        }else{
+            dispatch(getCopyByBarcodeFailed(response.err))
+        }
+    }
+
 }

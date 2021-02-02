@@ -68,7 +68,8 @@ class BookStu extends React.Component {
             await this.fetchData(this.state.studentId);
 
             //Set img src
-            document.getElementById('profileImg').src = require("assets/img/theme/team-4-800x800.jpg")
+            // document.getElementById('profileImg').src = require("assets/img/theme/team-4-800x800.jpg")
+            document.getElementById('profileImg').src = this.props.profile.img ? this.props.profile.img :"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
 
             return
         }

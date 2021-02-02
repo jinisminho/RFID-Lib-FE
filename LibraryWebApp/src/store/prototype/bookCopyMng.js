@@ -1,21 +1,21 @@
-var arrayOfBooks = [{"id":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708181", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":2,"title":"Harry2","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708182", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":3,"title":"Harry3","sub":"test","ddc":"1231231111","author":["J7K"], "isbn":"0439708183", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":4,"title":"Harry4","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":5,"title":"Harry5","sub":"test","ddc":"1231231111","author":["J9K"], "isbn":"0439708185", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":6,"title":"Harry6","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708186", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":7,"title":"Harry7","sub":"test","ddc":"1231231111","author":["JoK"], "isbn":"0439708187", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":8,"title":"Harry8","sub":"test","ddc":"1231231111","author":["J12K"], "isbn":"0439708188", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":9,"title":"Harry9","sub":"test","ddc":"1231231111","author":["J33K"], "isbn":"0439708189", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":10,"title":"Harry10","sub":"test","ddc":"1231231111","author":["J41K"], "isbn":"04397081810", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42},
-{"id":11,"title":"Harry11","sub":"test","ddc":"1231231111","author":["J2K"], "isbn":"0439708111", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42},
-{"id":12,"title":"Harry12","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708112", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42},
-{"id":13,"title":"Harry13","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"04397081813", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":14,"title":"Harry14","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708114", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":15,"title":"Harry15","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708115", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4},
-{"id":16,"title":"Harry16","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708116", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4}];
+var arrayOfBooks = [{"id":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708181", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":2,"title":"Harry2","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708182", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":3,"title":"Harry3","sub":"test","ddc":"1231231111","author":["J7K"], "isbn":"0439708183", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":4,"title":"Harry4","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":5,"title":"Harry5","sub":"test","ddc":"1231231111","author":["J9K"], "isbn":"0439708185", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":6,"title":"Harry6","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708186", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":7,"title":"Harry7","sub":"test","ddc":"1231231111","author":["JoK"], "isbn":"0439708187", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":8,"title":"Harry8","sub":"test","ddc":"1231231111","author":["J12K"], "isbn":"0439708188", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":9,"title":"Harry9","sub":"test","ddc":"1231231111","author":["J33K"], "isbn":"0439708189", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":10,"title":"Harry10","sub":"test","ddc":"1231231111","author":["J41K"], "isbn":"04397081810", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":11,"title":"Harry11","sub":"test","ddc":"1231231111","author":["J2K"], "isbn":"0439708111", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":12,"title":"Harry12","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708112", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":42,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":13,"title":"Harry13","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"04397081813", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":14,"title":"Harry14","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708114", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":15,"title":"Harry15","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708115", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
+{"id":16,"title":"Harry16","sub":"test","ddc":"1231231111","author":["JK"], "isbn":"0439708116", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"}];
 
-var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"1","barcode":"1231","price":123,"status":"PREPARING","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg", "copyType" : "1"},
+var arrayOfCopy=[{"id":1,"book":1,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"1","barcode":"1231","price":123,"status":"PREPARING","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg", "copyType" : "1", "barcode":"ABC123"},
 {"id":2,"book":1,"title":"Harry2","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"2","barcode":"1232","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
 {"id":3,"book":2,"title":"Harry3","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"3","barcode":"1233","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
 {"id":4,"book":3,"title":"Harry","sub":"test","ddc":"1231231111","author":["JK","aa"], "isbn":"0439708184", "publisher":"ABC","language":"English","nop":200,"category":"novel","edition":4,"rfidcode":"4","barcode":"1234","price":123,"status":"READY","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
@@ -161,4 +161,30 @@ function getCopyTypeByValue(value){
     return res;
 }
 
-export {getCopyTypes, getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus,generateBarcode}
+function tagRFIDByBarcode(thisBarcode, rfid){
+    arrayOfCopy.forEach(el => {
+        if(el["barcode"]==thisBarcode){
+            el["rfidcode"]=rfid
+            console.log(el);
+        }
+    });
+    return {"status":true};
+}
+
+function getCopyByBarcode(keyword){
+    for(var i = 0 ; i< arrayOfCopy.length; i++){
+
+        var obj = arrayOfCopy[i];
+        var barcode = obj["barcode"];
+
+        if(keyword && barcode ? barcode.toLowerCase().includes(keyword.toLowerCase()) : false){
+            return {"data": obj,"status":true};
+        }else if (!keyword) {
+            return {"err":"missing keyword","status":false};
+        }  
+    }
+    return {"data": [],"status":true};
+    // return {"err":"Fatal","status":false};
+}
+
+export {getCopyTypes, getBooks, getCopy,addCopy,updateCopy,deleteCopy,getBookCopyStatus,generateBarcode,tagRFIDByBarcode, getCopyByBarcode}

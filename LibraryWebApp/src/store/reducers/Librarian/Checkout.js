@@ -49,7 +49,9 @@ const getBookStart = (state, action) =>{
     return updateObject(state,{
       error:null, 
       bookLoading:true,
-      checkoutSuccess:false
+      checkoutSuccess:false,
+      warning:null,
+      confirmSuccess:false
     })
   }
   const checkoutSuccess = (state, action)=>{
@@ -87,7 +89,29 @@ const getBookStart = (state, action) =>{
     })
   }
 
-
+  const checkPolicyStart = (state, action) =>{
+    return updateObject(state,{
+      error:null, 
+      warning:null,
+      bookLoading:true,
+      confirmSuccess:false
+    })
+  }
+  const checkPolicySuccess = (state, action)=>{
+    return updateObject(state,{
+        bookLoading: false,
+        error:null,
+        warning:action.data,
+        confirmSuccess:true
+    })
+  }
+  const checkPolicyFailed = (state, action) =>{
+    return updateObject(state,{
+        error:action.error,
+        bookLoading:false,
+        confirmSuccess:false
+    })
+  }
   const clearData = (state, action) =>{
     return updateObject(state,{
       studentData: null,
@@ -97,7 +121,14 @@ const getBookStart = (state, action) =>{
       bookError:null,
       studentLoading:false,
       bookLoading:false,
-      checkoutSuccess:false
+      checkoutSuccess:false,
+      warning:null
+    })
+  }
+  const cancelConfirm = (state, action) =>{
+    return updateObject(state,{
+      warning:null,
+      confirmSuccess:false
     })
   }
   const clearBookError = (state, action) =>{
@@ -124,7 +155,9 @@ export default function reducer(state = {
     bookError:null,
     studentLoading:false,
     bookLoading:false,
-    checkoutSuccess:false
+    checkoutSuccess:false,
+    warning:null,
+    confirmSuccess:false,
 }, action) {
   switch(action.type){
     case actionTypes.GET_STUDENT_START: return getStudentStart(state, action)
@@ -143,9 +176,15 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_OVERDUE_SUCCESS: return getOverdueSuccess(state, action)
     case actionTypes.LIB_GET_OVERDUE_FAILED: return getOverdueFailed(state, action)
 
+    case actionTypes.CHECK_POLICY_START: return checkPolicyStart(state, action)
+    case actionTypes.CHECK_POLICY_SUCCESS: return checkPolicySuccess(state, action)
+    case actionTypes.CHECK_POLICY_FAILED: return checkPolicyFailed(state, action)
+
     case actionTypes.CLEAR_CHECKOUT_DATA: return clearData(state, action)
 
     case actionTypes.CLEAR_BOOK_ERROR: return clearBookError(state, action)
+
+    case actionTypes.CANCEL_CHECKOUT_CONFIRM: return cancelConfirm(state, action)
 
     case actionTypes.DELETE_CHECKOUT_BOOK: return deleteCheckoutBook(state, action)
 }

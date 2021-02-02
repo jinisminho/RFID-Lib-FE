@@ -21,7 +21,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import * as actions from '../store/actions/index'
 import { connect } from 'react-redux'
@@ -81,7 +80,7 @@ class Librarian extends React.Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/librarian/index" />
+            <Redirect from="*" to="/librarian/book" />
           </Switch>
         </div>
       </>

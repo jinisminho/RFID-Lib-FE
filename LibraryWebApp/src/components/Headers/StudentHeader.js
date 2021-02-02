@@ -24,10 +24,10 @@ class StudentHeader extends React.Component {
   render() {
     return (
       <>
-        <div className="header bg-gradient-info pb-2 pt-1 pt-md-5">
+        <div className="header bg-white shadow pb-2 pt-7 pt-md-3" style={{position:"sticky", zIndex:"20", top:"65px"}}>
           <Container>
             <div className="header-body text-center">
-              <h1 className="text-danger">{this.props.title}</h1>
+              <h1>{this.props.title}</h1>
             </div>
           </Container>
         </div>

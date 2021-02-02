@@ -119,7 +119,12 @@ export const clearData = () => {
     return {
         type: actionTypes.CLEAR_CHECKOUT_DATA
     }
+}
 
+export const cancelConfirm = () => {
+    return {
+        type: actionTypes.CANCEL_CHECKOUT_CONFIRM
+    }
 }
 
 export const clearBookError = () => {
@@ -164,6 +169,39 @@ export const getOverdue = (search) => {
             dispatch(getOverdueSuccess(response.data))
         }else{
             dispatch(getOverdueFailed(response.err))
+        }
+    }
+
+}
+
+export const checkPolicySuccess = (data) => {
+    return {
+        type: actionTypes.CHECK_POLICY_SUCCESS,
+        data: data
+    }
+}
+
+export const checkPolicyFailed = (error) => {
+    return {
+        type: actionTypes.CHECK_POLICY_FAILED,
+        error: error
+    }
+}
+
+export const checkPolicyStart = () => {
+    return {
+        type: actionTypes.CHECK_POLICY_START
+    }
+}
+
+export const checkPolicy = (data) => {
+    return dispatch => {
+        dispatch(checkPolicyStart())
+        let response=checkoutPrototype.checkPolicy(data)
+        if(response.status){
+            dispatch(checkPolicySuccess(response.warning))
+        }else{
+            dispatch(checkPolicyFailed(response.err))
         }
     }
 

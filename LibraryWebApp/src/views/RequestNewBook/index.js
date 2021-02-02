@@ -68,7 +68,7 @@ class RequestNewBook extends Component{
 
 
     render(){
-        console.log("isbn" + this.state.isbn)
+        // console.log("isbn" + this.state.isbn)
         let display = (
             <div>
             <AvForm onValidSubmit={this.handleValidSubmit}>
