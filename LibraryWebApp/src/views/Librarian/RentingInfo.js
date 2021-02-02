@@ -68,7 +68,6 @@ class RentingInfo extends Component {
     }
 
     handlePageChange(page, sizePerPage) {
-        console.log(page, sizePerPage)
         this.fetchData(page, sizePerPage, this.state.searchValue);
     }
 

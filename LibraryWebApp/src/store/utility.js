@@ -103,8 +103,10 @@ export function compareDate(date1, date2) {
 //     )
 // }
 
-export function bookDescriptionFormat(cell, row, hideFields) {
-    let hide = hideFields ? hideFields : [];
+const detailsTextClassName = "h3"
+
+export function bookDescriptionFormat(cell, row, extraData) {
+    let hide = extraData.hide ? extraData.hide : [];
     let thisBook = [];
     thisBook.push(row)
 
@@ -112,9 +114,10 @@ export function bookDescriptionFormat(cell, row, hideFields) {
         <Link to={{
             pathname: '/patron/book/detail',
             state: {
-                book: thisBook
+                book: thisBook,
+                studentId: extraData.studentId ? extraData.studentId : null
             }
-        }}><h2 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h2></Link>
+        }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
     ) : null;
 
     let authors = row.authors && !hide.author ? (row.authors.length > 0 ? row.authors : []) : [];
@@ -131,43 +134,55 @@ export function bookDescriptionFormat(cell, row, hideFields) {
     //     });
     // let authorStr = row.author.join(", ")
     let author = authorStr !== null && authorStr !== '' ? (
-        <p>By: {authorStr}</p>
+        <p className={detailsTextClassName}>Author(s): {authorStr}</p>
     ) : null;
 
     let edition = row.edition && !hide.edition ? (
-        <p>Edition: {row.edition}</p>
+        <p className={detailsTextClassName}>Edition: {row.edition}</p>
     ) : null;
 
     let position = row.ddc ? "Available at " + row.ddc : null;
     let position_class = "text-success"
-    if (row.status != MyConstant.BOOK_IN_CIRCULATION) {
+    if (row.status != MyConstant.BOOK_IN_CIRCULATION || row.stock <= 0) {
         position = "Not available"
         position_class = "text-danger"
     }
     let pos = position && !hide.position ? (
-        <p className={position_class}>{position}</p>
+        <p className={position_class+" "+detailsTextClassName}>{position}</p>
     ) : null;
 
     let publisherPublishYearStr = row.publisher && !hide.publisher ? row.publisher : "";
     publisherPublishYearStr += row.publishYear && !hide.publishYear ? " - " + row.publishYear : "";
     let publisherPublishYear = publisherPublishYearStr !== "" ? (
-        <p>Publish By: {publisherPublishYearStr}</p>
+        <p className={detailsTextClassName}>Publisher: {publisherPublishYearStr}</p>
     ) : null;
 
     let language = row.language && !hide.language ? (
-        <p>{row.language}</p>
+        <p className={detailsTextClassName}>Language: {row.language}</p>
     ) : null;
 
     let nop = row.nop && !hide.nop ? (
-        <p>{row.nop} Pages</p>
+        <p className={detailsTextClassName}>Number of pages: {row.nop} Pages</p>
     ) : null;
 
-    let warn = row.notAllowed && !hide.notAllowed ? (
-        <p className="text-danger">ONLY IN LIBRARY</p>
+    let warn = row.onlyInLibrary && !hide.warn ? (
+        <p className={"text-danger "+ detailsTextClassName}>ONLY IN LIBRARY</p>
     ) : null;
 
     let totalCopies = row.numberOfCopy && !hide.totalCopies ? (
-        <p>Total Copies: {row.numberOfCopy}</p>
+        <p className={detailsTextClassName}> Total copies: {row.numberOfCopy}</p>
+    ) : null;
+
+    let totalAvailableCopies = row.stock && !hide.totalAvailableCopies ? (
+        <p className={detailsTextClassName}> Total available copies: {row.stock}</p>
+    ) : null;
+
+    let isbn = row.isbn && !hide.isbn ? (
+        <p className={detailsTextClassName}> ISBN: {row.isbn}</p>
+    ) : null;
+
+    let genre = row.genre && !hide.genre ? (
+        <p className={detailsTextClassName}> Genre(s): {row.genre}</p>
     ) : null;
 
     return (
@@ -177,8 +192,11 @@ export function bookDescriptionFormat(cell, row, hideFields) {
             {publisherPublishYear}
             {edition}
             {language}
+            {isbn}
             {nop}
+            {genre}
             {totalCopies}
+            {totalAvailableCopies}
             {pos}
             {warn}
         </>

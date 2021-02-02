@@ -25,7 +25,7 @@ export {
     addBookCopy,
     generateCopyBarcode,
     getAuthor,
-    getGenre
+    getGenre,
 } from './Librarian/Book'
 
 export {
@@ -36,7 +36,9 @@ export {
     getAllBook,
     getBookCopyStatus,
     getCopyType,
-    generateBarcode
+    generateBarcode,
+    tagRFID,
+    getCopyByBarcode,
 } from './Librarian/BookCopy'
 
 export {

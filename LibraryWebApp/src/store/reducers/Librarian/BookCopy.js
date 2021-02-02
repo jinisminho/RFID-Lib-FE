@@ -175,7 +175,6 @@ const getCopyTypeStart = (state, action) => {
   })
 }
 const getCopyTypeSuccess = (state, action) => {
-  console.log(action.data);
   return updateObject(state, {
     copyTypes: action.data,
     error: null,
@@ -188,6 +187,48 @@ const getCopyTypeFail = (state, action) => {
     loading: false,
   })
 }
+
+const tagRFIDStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    updateSuccess: false,
+  })
+}
+const tagRFIDSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    updateSuccess: true
+  })
+}
+const tagRFIDFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 20,
+  })
+}
+
+const getCopyByBarcodeStart = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: [],
+  })
+}
+const getCopyByBarcodeSuccess = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: action.data,
+  })
+}
+const getCopyByBarcodeFail = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: []
+  })
+}
+
+
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -202,8 +243,8 @@ export default function reducer(state = {
   addSuccess: false,
   bookCopyData: null,
   bookCopyStatus: null,
-  copyTypes: null
-
+  copyTypes: null,
+  bookToTagData: [],
 }, action) {
   switch (action.type) {
     case actionTypes.GET_COPY_BOOK_START: return getCopyStart(state, action)
@@ -237,6 +278,14 @@ export default function reducer(state = {
     case actionTypes.GET_COPY_TYPE_START: return getCopyTypeStart(state, action)
     case actionTypes.GET_COPY_TYPE_FAILED: return getCopyTypeFail(state, action)
     case actionTypes.GET_COPY_TYPE_SUCCESS: return getCopyTypeSuccess(state, action)
+
+    case actionTypes.TAG_RFID_START: return tagRFIDStart(state, action)
+    case actionTypes.TAG_RFID_FAILED: return tagRFIDFail(state, action)
+    case actionTypes.TAG_RFID_SUCCESS: return tagRFIDSuccess(state, action)
+
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_START: return getCopyByBarcodeStart(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_SUCCESS: return getCopyByBarcodeSuccess(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_FAILED: return getCopyByBarcodeFail(state, action)
 
   }
   return state

@@ -35,6 +35,7 @@ import {
     Container
 } from "reactstrap";
 import {storage} from '../../firebase'
+import { Link } from 'react-router-dom'
 
 class Book extends React.Component {
     constructor(props) {
@@ -129,7 +130,7 @@ class Book extends React.Component {
             this.setState({imageLoading:true, addFormShow: false})
         },
         (error)=>{
-            console.log(error)
+            // console.log(error)
             this.setState({imageLoading:false})
         },
         ()=>{
@@ -166,7 +167,7 @@ class Book extends React.Component {
                 this.setState({imageLoading:true,updateFormShow: false})
             },
             (error)=>{
-                console.log(error)
+                // console.log(error)
                 this.setState({imageLoading:false})
             },
             ()=>{
@@ -263,6 +264,14 @@ class Book extends React.Component {
         return (<img className="img-thumbnail" src={cell}/>)
     }
     bookDescriptionFormat(cell, row) {
+        let title = row.title ? (
+            <Link to={{
+                pathname: '/librarian/book/detail',
+                state: {
+                    book: row,
+                }
+            }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
+        ) : null;
         let author=row.author.join(", ")
         let position="Available at "+row.ddc
         let position_class= "text-success"
@@ -272,7 +281,8 @@ class Book extends React.Component {
         }
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
+                {/* <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a> */}
+                {title}
                 <p>by {author}</p>
                 <p>Edition: {row.edition}</p>
                 <p className={position_class}>{position}</p>
