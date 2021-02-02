@@ -129,7 +129,7 @@ class Book extends React.Component {
             this.setState({imageLoading:true})
         },
         (error)=>{
-            console.log(error)
+            // console.log(error)
             this.setState({imageLoading:false})
         },
         ()=>{
@@ -166,7 +166,7 @@ class Book extends React.Component {
                 this.setState({imageLoading:true})
             },
             (error)=>{
-                console.log(error)
+                // console.log(error)
                 this.setState({imageLoading:false})
             },
             ()=>{

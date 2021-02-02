@@ -29,6 +29,7 @@ import CopyAddForm from './copyAddForm'
 import CopyUpdateForm from './copyUpdateForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import Select from 'react-select';
+import TagRFIDModal from "../../components/Modals/TagRFIDModal"
 
 import {
     Card,
@@ -44,23 +45,23 @@ class BookCopy extends React.Component {
             successNotice: '',
             successShow: false,
             errorShow: false,
-            errMsg:"",
+            errMsg: "",
             confirmDelete: false,
             deleteId: null,
             updateFormShow: false,
             updateData: null,
-            confirmFormShow:false,
-            selectValue:[]
+            confirmFormShow: false,
+            selectValue: [],
+            tagFormShow: false,
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this)
-        
+
     }
     componentDidMount() {
         this.getAllBookStatus()
         this.getCopyTypes()
-        console.log(this.props.copyTypes);
         this.fetchData()
     }
     componentDidUpdate() {
@@ -78,16 +79,16 @@ class BookCopy extends React.Component {
             this.setState({ successShow: true, successNotice: msg })
         }
         if ((this.props.error != null || this.props.bookError != null) && !this.state.errorShow) {
-            let errMsg=null
-            if(this.props.error != null){
-                errMsg=this.props.error
-            }else if(this.props.bookError){
-                errMsg=this.props.bookError
+            let errMsg = null
+            if (this.props.error != null) {
+                errMsg = this.props.error
+            } else if (this.props.bookError) {
+                errMsg = this.props.bookError
             }
-            this.setState({ errorShow: true,errMsg:errMsg,searchValue:'' })
+            this.setState({ errorShow: true, errMsg: errMsg, searchValue: '' })
         }
-        if(this.props.bookCopyData!=null && !this.state.confirmFormShow){
-            this.setState({confirmFormShow:true})
+        if (this.props.bookCopyData != null && !this.state.confirmFormShow) {
+            this.setState({ confirmFormShow: true })
         }
     }
     inputChangedHandler = (event) => {
@@ -98,15 +99,15 @@ class BookCopy extends React.Component {
             successShow: false,
             errorShow: false
         })
-        this.fetchData(1, 10, this.state.searchValue,this.state.selectValue)
+        this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
     }
     handlePageChange(page, sizePerPage) {
-        this.fetchData(page, sizePerPage, this.state.searchValue,this.state.selectValue);
+        this.fetchData(page, sizePerPage, this.state.searchValue, this.state.selectValue);
     }
 
     handleSizePerPageChange(sizePerPage) {
         // When changing the size per page always navigating to the first page
-        this.fetchData(1, sizePerPage, this.state.searchValue,this.state.selectValue);
+        this.fetchData(1, sizePerPage, this.state.searchValue, this.state.selectValue);
 
     }
     handleAddCancel = () => {
@@ -115,13 +116,13 @@ class BookCopy extends React.Component {
             cancelAdd: true,
         })
     }
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue,selectValue=this.state.selectValue) {
-        this.props.onFetchData(page - 1, sizePerPage, searchValue,selectValue)
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
+        this.props.onFetchData(page - 1, sizePerPage, searchValue, selectValue)
     }
-    getAllBookStatus(){
+    getAllBookStatus() {
         this.props.onGetBookStatus()
     }
-    getCopyTypes(){
+    getCopyTypes() {
         this.props.onGetCopyType()
     }
     handleGenerateSubmit(values) {
@@ -130,7 +131,7 @@ class BookCopy extends React.Component {
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
-        this.fetchData(1, 10, this.state.searchValue,this.state.selectValue);
+        this.fetchData(1, 10, this.state.searchValue, this.state.selectValue);
     }
     handleUpdateCancel = () => {
         this.setState({
@@ -143,7 +144,7 @@ class BookCopy extends React.Component {
         this.props.onUpdateCopy(values)
     }
     handleDeleteSubmit() {
-        this.setState({ confirmDelete: false})
+        this.setState({ confirmDelete: false })
         this.props.onDeleteCopy(this.state.deleteId)
     }
     handleDeleteCancel = () => {
@@ -158,23 +159,23 @@ class BookCopy extends React.Component {
         })
         this.fetchData()
     }
-    handleConfirmSubmit=(values)=>{
+    
+    handleConfirmSubmit = (values) => {
         this.setState({ confirmFormShow: false })
         this.props.onAddCopy(values)
     }
-    handleSelectChange(values){
-        let tmp=[]
-        if(values !=null){
+    handleSelectChange(values) {
+        let tmp = []
+        if (values != null) {
             values.forEach(el => {
                 tmp.push(el["value"])
             });
         }
-        this.setState({selectValue:tmp},()=>{
-        this.fetchData()
+        this.setState({ selectValue: tmp }, () => {
+            this.fetchData()
         })
     }
     activeFormatter(cell, row) {
-        console.log(row);
         return (
             <div>
                 <UpdateButton clicked={() => this.setState({
@@ -188,20 +189,20 @@ class BookCopy extends React.Component {
                 <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
-                })}/>              
+                })} />
             </div>
         )
     }
-    imageFormatter(cell, row){
-        return (<img className="img-thumbnail" src={cell}/>)
+    imageFormatter(cell, row) {
+        return (<img className="img-thumbnail" src={cell} />)
     }
     bookDescriptionFormat(cell, row) {
-        let author=row.author.join(", ")
-        let position="Available at "+row.ddc
-        let position_class= "text-success"
-        if(row.status=="NOT_AVAILABLE"){
-            position="Not available"
-            position_class="text-danger"
+        let author = row.author.join(", ")
+        let position = "Available at " + row.ddc
+        let position_class = "text-success"
+        if (row.status == "NOT_AVAILABLE") {
+            position = "Not available"
+            position_class = "text-danger"
         }
         return (
             <>
@@ -211,7 +212,7 @@ class BookCopy extends React.Component {
                 <p>Price: {row.price}$</p>
                 <p className={position_class}>{position}</p>
             </>
-            )
+        )
     }
     getInitialValues = () => {
         return {
@@ -219,9 +220,9 @@ class BookCopy extends React.Component {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
-            id:this.state.updateData ? this.state.updateData.id : '',
-            price:this.state.updateData ? this.state.updateData.price : '',
-            copyType:this.state.updateData ? this.state.updateData.copyType : '',
+            id: this.state.updateData ? this.state.updateData.id : '',
+            price: this.state.updateData ? this.state.updateData.price : '',
+            copyType: this.state.updateData ? this.state.updateData.copyType : '',
             img: this.state.updateData ? this.state.updateData.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
             sub: this.state.updateData ? this.state.updateData.sub : '',
@@ -229,10 +230,10 @@ class BookCopy extends React.Component {
         };
     }
     getConfirmInitialValues = () => {
-        let barcode=[]
-        if(this.props.bookCopyData && this.props.bookCopyData.barcode.length>0){
+        let barcode = []
+        if (this.props.bookCopyData && this.props.bookCopyData.barcode.length > 0) {
             this.props.bookCopyData.barcode.forEach(el => {
-                barcode.push({"barcode":el})
+                barcode.push({ "barcode": el })
             });
         }
         return {
@@ -243,10 +244,23 @@ class BookCopy extends React.Component {
             edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
             noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
             copyType: this.props.bookCopyData ? this.props.bookCopyData.copyType : '',
-            members:barcode,
-            img: this.props.bookCopyData ?this.props.bookCopyData.img : '',
+            members: barcode,
+            img: this.props.bookCopyData ? this.props.bookCopyData.img : '',
         };
     }
+
+    handleTagCancel = () => {
+        this.setState({
+            tagFormShow: false,
+        })
+        this.fetchData()
+    }
+    handleTagSubmit = values => {
+        console.log(values);
+        this.setState({ tagFormShow: false })
+        this.props.onTagRFID(values)
+    }
+
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -271,19 +285,27 @@ class BookCopy extends React.Component {
                         </InputGroup>
                     </Col>
                     <Col className="col-4">
-                    <Select
-                        closeMenuOnSelect={false}
-                        isMulti
-                        options={this.props.bookCopyStatus}
-                        onChange={(e)=>this.handleSelectChange(e)}
+                        <Select
+                            closeMenuOnSelect={false}
+                            isMulti
+                            options={this.props.bookCopyStatus}
+                            onChange={(e) => this.handleSelectChange(e)}
                         />
                     </Col>
                     <Col className="col-4 pr-4 pull-right">
+
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book Copy
                         </button>
+
+                        <button onClick={() => this.setState({ tagFormShow: true })}
+                            type="button" className="btn mr-2 btn-info btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> <i className="fa fa-plus"></i> Tag RFID
+                        </button>
+
                     </Col>
                 </Row>
 
@@ -301,7 +323,7 @@ class BookCopy extends React.Component {
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
                 >
-                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
@@ -311,15 +333,15 @@ class BookCopy extends React.Component {
                         <Modal.Title>Add Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyAddForm options={this.props.copyTypes}  handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleGenerateSubmit(values)}/>
+                        <CopyAddForm options={this.props.copyTypes} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleGenerateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal dialogClassName="two-col-modal" backdrop="static" show={this.state.confirmFormShow} onHide={() => {this.handleConfirmCancel()}} centered>
+                <Modal dialogClassName="two-col-modal" backdrop="static" show={this.state.confirmFormShow} onHide={() => { this.handleConfirmCancel() }} centered>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirmCancel()} onSubmit={(values) => this.handleConfirmSubmit(values)}/>
+                        <ConfirmCopyForm initialValues={this.getConfirmInitialValues()} handleCancel={() => this.handleConfirmCancel()} onSubmit={(values) => this.handleConfirmSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal dialogClassName="two-col-modal" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()} centered>
@@ -327,7 +349,7 @@ class BookCopy extends React.Component {
                         <Modal.Title>Edit Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyUpdateForm options={this.props.copyTypes} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} dataList={this.props.bookData}/>
+                        <CopyUpdateForm options={this.props.copyTypes} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} dataList={this.props.bookData} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDelete} onHide={() => this.handleDeleteCancel()}>
@@ -340,14 +362,15 @@ class BookCopy extends React.Component {
                         <h4>You will not be able to recover this book copy</h4>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
-                                    Close
+                        <Button variant="secondary" onClick={() => this.handleDeleteCancel()}>
+                            Close
                     </Button>
-                    <Button variant="danger" onClick={() => this.handleDeleteSubmit()}>
-                                    OK
+                        <Button variant="danger" onClick={() => this.handleDeleteSubmit()}>
+                            OK
                     </Button>
                     </Modal.Footer>
                 </Modal>
+                <TagRFIDModal title="Tag RFID" show={this.state.tagFormShow} hide={() => this.handleTagCancel()} submit={values => this.handleTagSubmit(values)}></TagRFIDModal>
             </div>
         )
         if (this.props.loading) {
@@ -410,22 +433,23 @@ const mapStateToProps = state => {
         deleteSuccess: state.copy.deleteSuccess,
         updateSuccess: state.copy.updateSuccess,
         addSuccess: state.copy.addSuccess,
-        bookCopyData:state.copy.bookCopyData,
-        bookCopyStatus:state.copy.bookCopyStatus,
+        bookCopyData: state.copy.bookCopyData,
+        bookCopyStatus: state.copy.bookCopyStatus,
         copyTypes: state.copy.copyTypes
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search,select) => dispatch(actions.getCopy(page, size, search,select)),
+        onFetchData: (page, size, search, select) => dispatch(actions.getCopy(page, size, search, select)),
         onDeleteCopy: (id) => dispatch(actions.deleteCopy(id)),
         onUpdateCopy: (data) => dispatch(actions.updateCopy(data)),
         onAddCopy: (data) => dispatch(actions.addCopy(data)),
         onGetBook: () => dispatch(actions.getAllBook()),
-        onGetBookStatus:()=>dispatch(actions.getBookCopyStatus()),
-        onGetCopyType:()=>dispatch(actions.getCopyType()),
-        onGenerateBarcode:(data)=>dispatch(actions.generateBarcode(data))
+        onGetBookStatus: () => dispatch(actions.getBookCopyStatus()),
+        onGetCopyType: () => dispatch(actions.getCopyType()),
+        onGenerateBarcode: (data) => dispatch(actions.generateBarcode(data)),
+        onTagRFID: (data) => dispatch(actions.tagRFID(data)),
     }
 }
 
