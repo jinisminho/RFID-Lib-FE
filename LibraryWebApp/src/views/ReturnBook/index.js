@@ -2,19 +2,15 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import {Row, Col, Modal, Button } from 'react-bootstrap'
 import StudentHeader from '../../components/Headers/StudentHeader.js';
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import {
     Card,
-    CardHeader,
-    CardFooter,
     Container
 } from "reactstrap";
-import StudentInfoCard from './studentInfoCard'
-import Books from './returningBooks'
 import BarcodeReader from 'react-barcode-reader'
 
 
@@ -76,6 +72,33 @@ class ReturnBook extends React.Component {
         this.props.onClearReturnBookError()
         this.setState({ errorShow: false, errMsg: "" })
     }
+    imageFormatter(cell, row){
+        return (<img className="img-thumbnail" src={cell}/>)
+    }
+    bookDescriptionFormat(cell, row) {
+        let author=row.author.join(", ")
+        let genre=row.genres.join(", ")
+        return (
+            <>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}{row.sub?":" +" "+row.sub:""}</h2></a>
+                <p>by <span className="font-weight-bold">{author}</span></p>
+                <p><span className="font-weight-bold">Edition:</span> {row.edition}</p>
+                <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p>
+                <p><span className="font-weight-bold">Genre(s):</span> {genre}</p>
+            </>
+            )
+    }
+    returnDescriptionFormat(cell, row) {
+        return (
+            <>
+                <p><span className="font-weight-bold">Borrower:</span> {row.borrower}</p>
+                <p><span className="font-weight-bold">Return At:</span> {row.returnat}</p>
+                <p><span className="font-weight-bold">Due Date:</span> {row.duedate}</p>
+                <p><span className="font-weight-bold">Overdue Day(s):</span> {row.overdue}</p>
+                <p><span className="font-weight-bold">Fine:</span> {row.fine} VND</p>
+            </>
+            )
+    }
     render(){
 
         const options = {
@@ -97,11 +120,11 @@ class ReturnBook extends React.Component {
                 />
             <Container className="mt-3" fluid>
                 <Card className="shadow w-100">
-                     <CardHeader className="border-0">
-                        <h3 className="mb-0">Returning books</h3>
-                    </CardHeader>
-                    <Row className="w-100 m-0 p-0">
-                    <Col className="col-12 mb-3 pr-4 pull-right">
+                    <Row className="w-100 mt-3 p-0">
+                    <Col className="col-8 mb-3 pl-4">
+                        <p><span className="font-weight-bold">Retuned book(s):</span> {this.props.bookData.length}</p>
+                    </Col>
+                    <Col className="col-4 mb-3 pr-4 pull-right">
                         <button onClick={() => this.clearBookData()}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
@@ -110,7 +133,7 @@ class ReturnBook extends React.Component {
                     </Col>
                     </Row>
                 </Card>
-            <BootstrapTable
+                <BootstrapTable
                     data={this.props.bookData}
                     options={options}
                     remote
@@ -118,13 +141,13 @@ class ReturnBook extends React.Component {
                     hover
                     condensed
                     className="mt-3"
+                    bordered={false}
+                    tableHeaderClass={"col-hidden"}
+                    keyField="id"
                 >
-                    <TableHeaderColumn dataField="barcode" width="15%" isKey dataAlign="center">Barcode</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="15%"  dataAlign="center">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField="title" width="15%" dataAlign="center">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField="category" dataAlign="center" width="15%">Category</TableHeaderColumn>
-                    <TableHeaderColumn dataField="studentid" dataAlign="center" width="15%">Student ID</TableHeaderColumn>
-                    <TableHeaderColumn dataField="studentname" dataAlign="center" width="15%">Student Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="bookinfo" width="40%"  dataFormat={this.bookDescriptionFormat}>Book Info</TableHeaderColumn>
+                    <TableHeaderColumn dataField='returninfo'width="40%" dataFormat={this.returnDescriptionFormat} >Return Info</TableHeaderColumn>
                 </BootstrapTable>
             
         </Container>

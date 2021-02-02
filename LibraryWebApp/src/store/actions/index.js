@@ -46,7 +46,9 @@ export {
     clearData,
     deleteCheckoutBook,
     getOverdue,
-    clearBookError
+    clearBookError,
+    cancelConfirm,
+    checkPolicy
 } from './Librarian/Checkout'
 
 export {

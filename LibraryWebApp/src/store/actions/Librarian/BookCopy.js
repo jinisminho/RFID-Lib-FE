@@ -97,7 +97,6 @@ export const getBookCopyStatus = () => {
 }
 
 export const getCopyTypeSuccess = (data) => {
-    console.log(data);
     return {
         type: actionTypes.GET_COPY_TYPE_SUCCESS,
         data: data,

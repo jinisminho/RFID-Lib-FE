@@ -227,6 +227,10 @@ export default function reducer(state = {
     case actionTypes.GET_GENRE_SUCCESS: return getGenreSuccess(state, action)
     case actionTypes.GET_GENRE_FAILED: return getGenreFail(state, action)
     
+    case actionTypes.ADD_BOOK_START: return addBookStart(state, action)
+    case actionTypes.ADD_BOOK_FAILED: return addBookFail(state, action)
+    case actionTypes.ADD_BOOK_SUCCESS: return addBookSuccess(state, action)
+
     case actionTypes.DELETE_BOOK_START: return deleteBookStart(state, action)
     case actionTypes.DELETE_BOOK_FAILED: return deleteBookFail(state, action)
     case actionTypes.DELETE_BOOK_SUCCESS: return deleteBookSuccess(state, action)

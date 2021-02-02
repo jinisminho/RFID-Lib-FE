@@ -255,7 +255,7 @@ class BookCopy extends React.Component {
             hideSizePerPage: true,
         };
         let display = (
-            <div className="content">
+            <div className="content mt-3">
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
@@ -350,12 +350,9 @@ class BookCopy extends React.Component {
         }
         return (
             <>
-                <Header />
+                {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Book copy tables</h3>
-                        </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>

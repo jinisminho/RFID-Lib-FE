@@ -50,7 +50,8 @@ class Book extends React.Component {
             copyData: null,
             updateFormShow: false,
             updateData: null,
-            confirmFormShow:false
+            confirmFormShow:false,
+            imageLoading:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -125,7 +126,7 @@ class Book extends React.Component {
         const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
         uploadTask.on('state_changed',
         (snapshot)=>{
-            this.setState({imageLoading:true})
+            this.setState({imageLoading:true, addFormShow: false})
         },
         (error)=>{
             console.log(error)
@@ -133,7 +134,7 @@ class Book extends React.Component {
         },
         ()=>{
             storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
-                this.setState({ addFormShow: false })
+                this.setState({imageLoading:false })
                 values["img"]=url
                 this.props.onAddBook(values)
             })
@@ -162,7 +163,7 @@ class Book extends React.Component {
             const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
             uploadTask.on('state_changed',
             (snapshot)=>{
-                this.setState({imageLoading:true})
+                this.setState({imageLoading:true,updateFormShow: false})
             },
             (error)=>{
                 console.log(error)
@@ -170,7 +171,7 @@ class Book extends React.Component {
             },
             ()=>{
                 storage.ref('images').child(values.img[0].name).getDownloadURL().then(url =>{
-                    this.setState({ updateFormShow: false })
+                    this.setState({ imageLoading:false })
                     values["img"]=url
                     this.props.onUpdateBook(values)
                 })
@@ -326,7 +327,7 @@ class Book extends React.Component {
             hideSizePerPage: true,
         };
         let display = (
-            <div className="content">
+            <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
@@ -417,17 +418,14 @@ class Book extends React.Component {
                 </Modal>
             </div>
         )
-        if (this.props.loading) {
+        if (this.props.loading || this.state.imageLoading) {
             display = <Spinner />
         }
         return (
             <>
-                <Header />
-                <Container className="mt-3" fluid>
+                {/* <Header /> */}
+                <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Book tables</h3>
-                        </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>

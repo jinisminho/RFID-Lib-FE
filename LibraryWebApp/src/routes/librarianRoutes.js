@@ -24,13 +24,6 @@ import ReturnBook from "views/ReturnBook/index.js";
 
 var routes = [
   {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/librarian"
-  },
-  {
     path: "/book",
     name: "Books",
     icon: "ni ni-book-bookmark text-primary",
