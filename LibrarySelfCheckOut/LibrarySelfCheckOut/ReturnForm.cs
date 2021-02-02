@@ -111,6 +111,7 @@ namespace LibrarySelfCheckOut
 
         private void resetReturn()
         {
+            this.btCancel.Show();
             this.timerSessionTimeOut.Enabled = true;
             this.btCancel.Enabled = true;
             this.btDone.Enabled = false;
@@ -159,6 +160,7 @@ namespace LibrarySelfCheckOut
                 }
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
+                this.btCancel.Hide();
             }
             else
             {

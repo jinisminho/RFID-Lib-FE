@@ -137,6 +137,7 @@ namespace LibrarySelfCheckOut
 
         private void resetState()
         {
+            this.btCancel.Show();
             this.timerSession.Enabled = true;
             this.flowLayoutPanelBookList.Controls.Clear();
             this.btCancel.Enabled = true;
@@ -172,6 +173,7 @@ namespace LibrarySelfCheckOut
                 }
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
+                this.btCancel.Hide();
             }
             else
             {
