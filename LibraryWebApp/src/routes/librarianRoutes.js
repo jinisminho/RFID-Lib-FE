@@ -16,7 +16,7 @@
 
 */
 import Index from "views/Index.js";
-import RentingInf from "views/Librarian/RentingInfo.js";
+import CheckoutInf from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
@@ -77,9 +77,9 @@ var routes = [
   },
   {
     path: "/renting",
-    name: "Renting Information",
+    name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
+    component: CheckoutInf,
     layout: "/librarian"
   },
 ];
