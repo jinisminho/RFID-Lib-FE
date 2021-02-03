@@ -174,6 +174,7 @@ namespace LibrarySelfCheckOut
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
                 this.btCancel.Hide();
+                await EmailProcessor.emailCheckOut(new EmailCheckOutRequest(studentId, rs.books));
             }
             else
             {
