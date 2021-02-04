@@ -148,8 +148,13 @@ namespace LibrarySelfCheckOut
             this.txtBookCode.Enabled = false;
             this.spiner.Show();
             ReturnResponseModel rs = await BookProcessor.returnBooks(bookCodeList);
+            if (rs.isSuccess)
+            {
+                await EmailProcessor.emailReturn(rs.books);
+            }
             this.spiner.Hide();
             this.timerSessionTimeOut.Enabled = true;
+
             if (rs.isSuccess)
             {
                 foreach (BookReturnModel b in rs.books)
@@ -161,8 +166,7 @@ namespace LibrarySelfCheckOut
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
                 this.btCancel.Hide();
-                await EmailProcessor.emailReturn(rs.books);
-;            }
+            }
             else
             {
                 this.txtBookCode.Enabled = false;
