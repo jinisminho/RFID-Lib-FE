@@ -308,7 +308,7 @@ class BorrowingInfo extends React.Component {
             )
         }
 
-        let form = <SearchForm placeholder="e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.studentId = value.search)} formTitle="Search Renting Information By Student ID" />
+        let form = <SearchForm placeholder="Search Renting Information By Student ID. e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.studentId = value.search)}/>
 
 
         let errorMsg = null
@@ -325,7 +325,7 @@ class BorrowingInfo extends React.Component {
 
         return (
             <>
-                <Header />
+                {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Row className="justify-content-center">
                         {form}
