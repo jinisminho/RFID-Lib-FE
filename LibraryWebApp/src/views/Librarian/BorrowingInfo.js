@@ -17,6 +17,8 @@ import DueHistoryModal from '../../components/Modals/DueHistoryModal';
 import ExtendDueModal from '../../components/Modals/ExtendDueModal';
 import * as MyConstant from '../Util/Constant'
 import moment from 'moment';
+import StudentInfoCard from './studentInfoCard'
+import SearchForm from '../../components/Forms/SearchForm'
 
 
 class BorrowingInfo extends React.Component {
@@ -49,18 +51,7 @@ class BorrowingInfo extends React.Component {
     }
 
     componentDidMount() {
-
-        const doGetUserIdThenFetchData = async () => {
-            let userid = 1;
-            if (userid) {
-                await this.setState({ searchValue: userid })
-                await this.fetchData();
-            }
-            return
-        }
-
-        return doGetUserIdThenFetchData()
-
+        this.fetchData()
     }
 
     handlePageChangeOverdue(page, sizePerPage) {
@@ -80,7 +71,13 @@ class BorrowingInfo extends React.Component {
     }
 
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        return this.props.onFetchData(page - 1, sizePerPage, searchValue)
+        const doFetchData = async () => {
+            await this.props.onFetchData(page - 1, sizePerPage, searchValue)
+            await this.props.getStudent(searchValue)
+            return
+        }
+
+        return doFetchData()
     }
 
     fetchDataOverdue(page = this.props.pageOverdue, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
@@ -172,11 +169,21 @@ class BorrowingInfo extends React.Component {
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
             await this.props.onExtdSubmit(studentId, bookId)
-            await this.setState({ successShow: true, errorShow: true })
+            await this.setState({ successShow: true, errorShow: true, searchValue: studentId })
             await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
             return
         }
         return doExtdThenReloadTable()
+    }
+
+    getInitialValues = () => {
+        return {
+            name: this.props.studentData ? this.props.studentData.name : '',
+            id: this.props.studentData ? this.props.studentData.id : '',
+            img: this.props.studentData ? this.props.studentData.img : '',
+            department: this.props.studentData ? this.props.studentData.department : '',
+            username: this.props.studentData ? this.props.studentData.username : '',
+        };
     }
 
     render() {
@@ -294,6 +301,16 @@ class BorrowingInfo extends React.Component {
             </div>
         ) : null;
 
+        let studentInfo
+        if (this.props.studentData) {
+            studentInfo = (
+                <StudentInfoCard student={this.getInitialValues()} />
+            )
+        }
+
+        let form = <SearchForm placeholder="Search Renting Information By Student ID. e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.studentId = value.search)}/>
+
+
         let errorMsg = null
         let msg = null
         if (this.props.errOnFetch && this.state.errorShow) {
@@ -310,31 +327,46 @@ class BorrowingInfo extends React.Component {
             <>
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
-                    <Card className="shadow mt-1 pb-auto w-100">
-                        <CardHeader className="border-0 ">
-                            {/* <h3 className="mb-0">Student Infomation</h3> */}
-                        </CardHeader>
-                        {errorMsg}
-                        {msg}
-                    </Card>
-                    <Card className="shadow pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.OVERDUE_BOOKS}</h3>
-                        </CardHeader>
-                        {overdueBooks}
-                    </Card>
-                    <Card className="shadow mt-1 pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.BORROWING_BOOKS}</h3>
-                        </CardHeader>
-                        {borrowingBooks}
-                    </Card>
-                    <Card className="shadow mt-1 pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.RETURNED_BOOKS}</h3>
-                        </CardHeader>
-                        {returnedBooks}
-                    </Card>
+                    <Row className="justify-content-center">
+                        {form}
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Row  className="shadow mt-1 pb-auto w-100">
+                            <Card className="shadow mt-1 pb-auto w-100">
+                                {/* <CardHeader className="border-0 ">
+                                <h3 className="mb-0">Student Infomation</h3>
+                            </CardHeader> */}
+                                {studentInfo}
+                                {errorMsg}
+                                {msg}
+                            </Card>
+                        </Row>
+                        <Row className="shadow mt-1 pb-auto w-100">
+                            <Card className="shadow mt-1 pb-auto w-100">
+                                <CardHeader className="border-0">
+                                    <h3 className="mb-0">{MyConstant.OVERDUE_BOOKS}</h3>
+                                </CardHeader>
+                                {overdueBooks}
+                            </Card>
+                        </Row>
+                        <Row className="shadow mt-1 pb-auto w-100">
+                            <Card className="shadow mt-1 pb-auto w-100">
+                                <CardHeader className="border-0">
+                                    <h3 className="mb-0">{MyConstant.BORROWING_BOOKS}</h3>
+                                </CardHeader>
+                                {borrowingBooks}
+                            </Card>
+                        </Row>
+                        <Row className="shadow mt-1 pb-auto w-100">
+                            <Card className="shadow mt-1 pb-auto w-100">
+                                <CardHeader className="border-0">
+                                    <h3 className="mb-0">{MyConstant.RETURNED_BOOKS}</h3>
+                                </CardHeader>
+                                {returnedBooks}
+                            </Card>
+                        </Row>
+                    </Row>
+
 
                     <Row className="justify-content-center">
                         <DueHistoryModal
@@ -380,6 +412,8 @@ const mapStateToProps = state => {
         pageReturned: state.info.pageReturned,
         sizePerPage: state.info.sizePerPage,
         historyData: state.info.historyData,
+        studentData: state.infoLside.studentData,
+
     }
 }
 
@@ -390,7 +424,8 @@ const mapDispatchToProps = dispatch => {
         onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing(page, size, search)),
         onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned(page, size, search)),
         getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistory(page, size, studentId, bookId)),
-        onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDue(studentId, bookId))
+        onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDue(studentId, bookId)),
+        getStudent: (search) => dispatch(actions.getStudentLibInfo(search)),
     }
 }
 
