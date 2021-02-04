@@ -50,12 +50,26 @@ export const auth = (username, password) =>{
     return dispatch => {
         dispatch(authStart());
         const authData ={
-            username:username,
+            email:username,
             password:password,
             }
-        // let url='/auth/login'
-        // axios.post(url,authData)
-        // .then(response =>{
+        let url='/auth/login'
+        axios.post(url,authData)
+        .then(response =>{
+            const expiryDate= new Date(response.data.expiryDate)
+            localStorage.setItem('accessToken',response.data.accessToken)
+            localStorage.setItem('expiryDate', expiryDate)
+            localStorage.setItem('userId', response.data.userId)
+            localStorage.setItem('role', response.data.role)
+            localStorage.setItem('username', response.data.email)
+            dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
+            // dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
+        })
+        .catch(err =>{
+            dispatch(authFail(err.response.data.message))
+        })
+        // let response=authPrototype.login(username,password)
+        // if(response.status){
         //     const expiryDate= new Date(response.data.expiryDate)
         //     localStorage.setItem('accessToken',response.data.accessToken)
         //     localStorage.setItem('expiryDate', expiryDate)
@@ -63,24 +77,10 @@ export const auth = (username, password) =>{
         //     localStorage.setItem('role', response.data.role)
         //     localStorage.setItem('username', response.data.username)
         //     dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-        //     dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
-        // })
-        // .catch(err =>{
-        //     dispatch(authFail(err))
-        // })
-        let response=authPrototype.login(username,password)
-        if(response.status){
-            const expiryDate= new Date(response.data.expiryDate)
-            localStorage.setItem('accessToken',response.data.accessToken)
-            localStorage.setItem('expiryDate', expiryDate)
-            localStorage.setItem('userId', response.data.userId)
-            localStorage.setItem('role', response.data.role)
-            localStorage.setItem('username', response.data.username)
-            dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-            dispatch(checkAuthTimeOut(expiryDate.getTime()- (new Date().getTime())))
-        }else{
-            dispatch(authFail(response.err))
-        }
+        //     dispatch(checkAuthTimeOut(expiryDate.getTime()- (new Date().getTime())))
+        // }else{
+        //     dispatch(authFail(response.err))
+        // }
     }
 }
 export const authStaff = (username, password) =>{
@@ -108,6 +108,7 @@ export const authStaff = (username, password) =>{
     }
 }
 export const setAuthRedirectPath = (path) =>{
+    console.log(path)
     return {
         type: actionTypes.SET_AUTH_REDIRECT_PATH,
         path: path

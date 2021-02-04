@@ -38,7 +38,7 @@ class Main extends Component {
       </div>
     )
     if (this.props.isAuthenticated) {
-      if (localStorage.getItem("role") == "ADMIN") {
+      if (localStorage.getItem("role") == "ROLE_ADMIN") {
         display = (
             <Switch>
             <Route path="/admin" render={props => <AdminLayout {...props} />} />
@@ -46,7 +46,7 @@ class Main extends Component {
           </Switch>
         )
       }
-      else if (localStorage.getItem("role") == "STUDENT") {
+      else if (localStorage.getItem("role") == "ROLE_STUDENT") {
         display = (
             <Switch>
             <Route path="/patron" render={props => <PatronLayout {...props} />} />
@@ -54,7 +54,7 @@ class Main extends Component {
           </Switch>
         )
       }
-      else if (localStorage.getItem("role") == "LIBRARIAN") {
+      else if (localStorage.getItem("role") == "ROLE_LIBRARIAN") {
         display = (
             <Switch>
             <Route path="/librarian" render={props => <LibrarianLayout {...props} />} />

@@ -63,15 +63,7 @@ class Auth extends React.Component {
 
         let errorMessage = null;
         if (this.props.error) {
-            let msg=null
-            switch(this.props.error){
-                case "Unauthorized":
-                    msg="Username or password is not correct"
-                    break;
-                default:
-                    msg="Error"
-                    break
-            }
+            let msg=this.props.error
             errorMessage = <Alert color="danger">
             {msg}
           </Alert>
