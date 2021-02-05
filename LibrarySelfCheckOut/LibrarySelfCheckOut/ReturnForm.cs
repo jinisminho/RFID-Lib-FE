@@ -148,12 +148,7 @@ namespace LibrarySelfCheckOut
             this.txtBookCode.Enabled = false;
             this.spiner.Show();
             ReturnResponseModel rs = await BookProcessor.returnBooks(bookCodeList);
-            if (rs.isSuccess)
-            {
-                await EmailProcessor.emailReturn(rs.books);
-            }
             this.spiner.Hide();
-            this.timerSessionTimeOut.Enabled = true;
 
             if (rs.isSuccess)
             {
@@ -166,9 +161,12 @@ namespace LibrarySelfCheckOut
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
                 this.btCancel.Hide();
+                await EmailProcessor.emailReturn(rs.books);
+                this.timerSessionTimeOut.Enabled = true;
             }
             else
             {
+                this.timerSessionTimeOut.Enabled = true;
                 this.txtBookCode.Enabled = false;
                 using (ModalOK model = new ModalOK(rs.errorMessage))
                 {
