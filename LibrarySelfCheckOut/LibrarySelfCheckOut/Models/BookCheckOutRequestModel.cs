@@ -13,11 +13,17 @@ namespace LibrarySelfCheckOut.Models
 
         public int groupId { get; set; }
 
-        public BookCheckOutRequestModel(string rfid, string group, int groupId)
+        public int bookId { get; set; }
+
+        public String title { get; set; }
+
+        public BookCheckOutRequestModel(string rfid, string group, int groupId, int bookId, string title)
         {
             this.rfid = rfid;
             this.group = group;
             this.groupId = groupId;
+            this.bookId = bookId;
+            this.title = title;
         }
     }
 }
