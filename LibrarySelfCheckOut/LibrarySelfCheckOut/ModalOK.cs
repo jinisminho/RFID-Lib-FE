@@ -15,7 +15,7 @@ namespace LibrarySelfCheckOut
         public ModalOK(String msg)
         {
             InitializeComponent();
-            this.lbMsg.Text = msg;
+            this.lbMsg.Text = msg + "\nPlease scan again";
             this.TopMost = true;
 
         }
