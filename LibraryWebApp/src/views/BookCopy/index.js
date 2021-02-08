@@ -16,10 +16,9 @@
 
 */
 import React from "react";
-import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import {FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -30,11 +29,10 @@ import CopyUpdateForm from './copyUpdateForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import Select from 'react-select';
 import TagRFIDModal from "../../components/Modals/TagRFIDModal"
+import * as MyConstant from '../Util/Constant'
 
 import {
     Card,
-    CardHeader,
-    CardFooter,
     Container
 } from "reactstrap";
 class BookCopy extends React.Component {
@@ -53,6 +51,8 @@ class BookCopy extends React.Component {
             confirmFormShow: false,
             selectValue: [],
             tagFormShow: false,
+            price:null,
+            copyType:null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -114,6 +114,8 @@ class BookCopy extends React.Component {
         this.setState({
             addFormShow: false,
             cancelAdd: true,
+            price:null,
+            copyType:null
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
@@ -126,7 +128,7 @@ class BookCopy extends React.Component {
         this.props.onGetCopyType()
     }
     handleGenerateSubmit(values) {
-        this.setState({ addFormShow: false })
+        this.setState({ addFormShow: false, price:values.price,copyType:values.copyTypeId})
         this.props.onGenerateBarcode(values)
     }
     handleModalClose() {
@@ -141,7 +143,13 @@ class BookCopy extends React.Component {
     }
     handleUpdateSubmit(values) {
         this.setState({ updateFormShow: false })
-        this.props.onUpdateCopy(values)
+        let data={}
+        data["id"]=values.id
+        data["copyTypeId"]=values.copyType
+        data["price"]=values.price
+        data["rfid"]=values.rfid
+        data["updater"]=this.props.userid
+        this.props.onUpdateCopy(data)
     }
     handleDeleteSubmit() {
         this.setState({ confirmDelete: false })
@@ -161,8 +169,23 @@ class BookCopy extends React.Component {
     }
     
     handleConfirmSubmit = (values) => {
-        this.setState({ confirmFormShow: false })
-        this.props.onAddCopy(values)
+        
+        let data ={}
+        let barcodes=[]
+        values.members.forEach(element => {
+            barcodes.push(element.barcode)
+        });
+        data["bookId"]=values.id
+        data["creatorId"]=this.props.userid
+        data["copyTypeId"]=this.state.copyType
+        data["price"]=this.state.price
+        data["barcodes"]=barcodes
+        this.props.onAddCopy(data)
+        this.setState({ 
+            confirmFormShow: false,
+            copyType:null,
+            price:null
+        })
     }
     handleSelectChange(values) {
         let tmp = []
@@ -186,66 +209,76 @@ class BookCopy extends React.Component {
                      updateFormShow: true,
                      updateData: row
                 })}>Edit</Button>         */}
-                <DeleteButton clicked={() => this.setState({
+                {/* <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
-                })} />
+                })} /> */}
             </div>
         )
     }
     imageFormatter(cell, row) {
-        return (<img className="img-thumbnail" src={cell} />)
+        return (<img className="img-thumbnail" src={row.book.img} />)
     }
     bookDescriptionFormat(cell, row) {
-        let author = row.author.join(", ")
-        let position = "Available at " + row.ddc
-        let position_class = "text-success"
-        if (row.status == "NOT_AVAILABLE") {
-            position = "Not available"
-            position_class = "text-danger"
-        }
+        let author = []
+        row.book.author.forEach(el => author.push(el.name))
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></a>
-                <p>by {author}</p>
-                <p>Edition: {row.edition}</p>
-                <p>Price: {row.price}$</p>
-                <p className={position_class}>{position}</p>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.book.title}: {row.book.subtitle}</h2></a>
+                <p>by {author.join(", ")}</p>
+                <p>Edition: {row.book.edition}</p>
+                <p>Price: {row.price} VND</p>
+                <p>ISBN: {row.book.isbn}</p>
+                <p>Barcode: {row.barcode}</p>
+                <p>Call Number: {row.book.callNumber}</p>
+                <p>Status: {row.status}</p>
             </>
         )
     }
     getInitialValues = () => {
+        let author = []
+        if(this.state.updateData){
+            this.state.updateData.book.author.forEach(el => author.push(el.name))
+        }
         return {
-            rfidcode: this.state.updateData ? this.state.updateData.rfidcode : '',
-            isbn: this.state.updateData ? this.state.updateData.isbn : '',
-            title: this.state.updateData ? this.state.updateData.title : '',
-            edition: this.state.updateData ? this.state.updateData.edition : '',
+            rfid: this.state.updateData ? this.state.updateData.rfid : '',
+            isbn: this.state.updateData ? this.state.updateData.book.isbn : '',
+            title: this.state.updateData ? this.state.updateData.book.title : '',
+            edition: this.state.updateData ? this.state.updateData.book.edition : '',
             id: this.state.updateData ? this.state.updateData.id : '',
             price: this.state.updateData ? this.state.updateData.price : '',
             copyType: this.state.updateData ? this.state.updateData.copyType : '',
-            img: this.state.updateData ? this.state.updateData.img : '',
+            img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
-            sub: this.state.updateData ? this.state.updateData.sub : '',
-            author: this.state.updateData ? this.state.updateData.author : '',
+            subtitle: this.state.updateData ? this.state.updateData.book.subtitle : '',
+            authors: author.join(", "),
         };
     }
     getConfirmInitialValues = () => {
         let barcode = []
-        if (this.props.bookCopyData && this.props.bookCopyData.barcode.length > 0) {
-            this.props.bookCopyData.barcode.forEach(el => {
+        if (this.props.bookCopyData && this.props.bookCopyData.generatedBarcodes.length > 0) {
+            this.props.bookCopyData.generatedBarcodes.forEach(el => {
                 barcode.push({ "barcode": el })
             });
         }
+        let copyType=""
+        if(this.props.copyTypes){
+            this.props.copyTypes.forEach(element => {
+                if(element.value==this.state.copyType){
+                    copyType=element.label
+                }
+            });
+        }
         return {
-            isbn: this.props.bookCopyData ? this.props.bookCopyData.isbn : '',
-            author: this.props.bookCopyData ? this.props.bookCopyData.author : '',
-            price: this.props.bookCopyData ? this.props.bookCopyData.price : '',
-            title: this.props.bookCopyData ? this.props.bookCopyData.title : '',
-            edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
-            noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
-            copyType: this.props.bookCopyData ? this.props.bookCopyData.copyType : '',
+            isbn: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.isbn : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.authors : '',
+            price: this.state.price ? this.state.price : '',
+            title: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.title : '',
+            edition: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.edition : '',
+            copyType: copyType,
             members: barcode,
-            img: this.props.bookCopyData ? this.props.bookCopyData.img : '',
+            img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
+            id:this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : ''
         };
     }
 
@@ -256,8 +289,8 @@ class BookCopy extends React.Component {
         this.fetchData()
     }
     handleTagSubmit = values => {
-        console.log(values);
         this.setState({ tagFormShow: false })
+        values["userid"]=this.props.userid
         this.props.onTagRFID(values)
     }
 
@@ -322,8 +355,9 @@ class BookCopy extends React.Component {
                     className="ml-4 mr-4"
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
+                    keyField="id"
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%" isKey>Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                     <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
@@ -432,7 +466,8 @@ const mapStateToProps = state => {
         addSuccess: state.copy.addSuccess,
         bookCopyData: state.copy.bookCopyData,
         bookCopyStatus: state.copy.bookCopyStatus,
-        copyTypes: state.copy.copyTypes
+        copyTypes: state.copy.copyTypes,
+        userid:state.Auth.userId
     }
 }
 

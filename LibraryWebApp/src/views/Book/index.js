@@ -50,7 +50,9 @@ class Book extends React.Component {
             updateFormShow: false,
             updateData: null,
             confirmFormShow: false,
-            imageLoading: false
+            imageLoading: false,
+            price:null,
+            copyType:null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -62,6 +64,7 @@ class Book extends React.Component {
         this.fetchData();
         this.getAuthorData();
         this.getGenreData()
+        this.getCopyTypes()
     }
     componentDidUpdate() {
         let msg = null
@@ -95,6 +98,9 @@ class Book extends React.Component {
     }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
+    }
+    getCopyTypes() {
+        this.props.onGetCopyType()
     }
     handleSearch() {
         this.setState({
@@ -208,7 +214,9 @@ class Book extends React.Component {
 
     }
     handleCopySubmit(values) {
-        this.setState({ copyShow: false })
+        this.setState({ copyShow: false, price:values.price,copyType:values.copyTypeId })
+        delete values["title"]
+        delete values["id"]
         this.props.onGenerateBarcode(values)
     }
     handleDeleteSubmit() {
@@ -223,19 +231,29 @@ class Book extends React.Component {
     }
     getConfirmInitialValues = () => {
         let barcode = []
-        if (this.props.bookCopyData && this.props.bookCopyData.barcode.length > 0) {
-            this.props.bookCopyData.barcode.forEach(el => {
+        if (this.props.bookCopyData && this.props.bookCopyData.generatedBarcodes.length > 0) {
+            this.props.bookCopyData.generatedBarcodes.forEach(el => {
                 barcode.push({ "barcode": el })
             });
         }
+        let copyType=""
+        if(this.props.copyTypes){
+            this.props.copyTypes.forEach(element => {
+                if(element.value==this.state.copyType){
+                    copyType=element.label
+                }
+            });
+        }
         return {
-            isbn: this.props.bookCopyData ? this.props.bookCopyData.isbn : '',
-            author: this.props.bookCopyData ? this.props.bookCopyData.author : '',
-            price: this.props.bookCopyData ? this.props.bookCopyData.price : '',
-            title: this.props.bookCopyData ? this.props.bookCopyData.title : '',
-            edition: this.props.bookCopyData ? this.props.bookCopyData.edition : '',
-            noc: this.props.bookCopyData ? this.props.bookCopyData.noc : '',
-            members: barcode
+            isbn: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.isbn : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.authors : '',
+            price: this.state.price ? this.state.price : '',
+            title: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.title : '',
+            edition: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.edition : '',
+            copyType: copyType,
+            members: barcode,
+            img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
+            id:this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : ''
         };
     }
     handleConfirmCancel = () => {
@@ -245,8 +263,22 @@ class Book extends React.Component {
         this.fetchData()
     }
     handleConfirmSubmit = (values) => {
-        this.setState({ confirmFormShow: false })
-        this.props.onAddCopy(values)
+        let data ={}
+        let barcodes=[]
+        values.members.forEach(element => {
+            barcodes.push(element.barcode)
+        });
+        data["bookId"]=values.id
+        data["creatorId"]=this.props.userid
+        data["copyTypeId"]=this.state.copyType
+        data["price"]=this.state.price
+        data["barcodes"]=barcodes
+        this.props.onAddCopy(data)
+        this.setState({ 
+            confirmFormShow: false,
+            copyType:null,
+            price:null
+        })
     }
     activeFormatter(cell, row) {
         return (
@@ -255,11 +287,11 @@ class Book extends React.Component {
                     updateFormShow: true,
                     updateData: row
                 })} />
-                <DeleteButton clicked={() => this.setState({
+                {/* <DeleteButton clicked={() => this.setState({
                     confirmDelete: true,
                     deleteId: row.id
-                })} />
-                <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
+                })} /> */}
+                <Button className="btn btn-primary" onClick={() => this.setState({
                     copyShow: true,
                     copyData: row
                 })}>Make Copy</Button>
@@ -297,18 +329,16 @@ class Book extends React.Component {
         ) : null;
         let author = []
         row.author.forEach(el => author.push(el.name))
-        let position = "Available at " + row.callNumber
-        let position_class = "text-success"
-        if (row.status != MyConstant.BOOK_IN_CIRCULATION || row.stock <= 0) {
-            position = "Not available"
-            position_class = "text-danger"
-        }
+
         return (
             <>
                 {title}
                 <p>by {author.join(", ")}</p>
                 <p>Edition: {row.edition}</p>
-                <p className={position_class}>{position}</p>
+                <p>ISBN: {row.isbn}</p>
+                <p>Number of available copy: {row.stock?row.stock:0}/{row.numberOfCopy}</p>
+                <p>Status: {MyConstant.BOOK_STATUS_LIST[row.status]}</p>
+                <p>Call number: {row.callNumber}</p>
             </>
         )
     }
@@ -420,10 +450,10 @@ class Book extends React.Component {
                         <Modal.Title>Make Book Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyForm initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
+                        <CopyForm options={this.props.copyTypes} initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleCopyCancel()} onSubmit={(values) => this.handleCopySubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.confirmFormShow} onHide={() => { this.handleConfirmCancel() }}>
+                <Modal dialogClassName="two-col-modal" backdrop="static" show={this.state.confirmFormShow} onHide={() => { this.handleConfirmCancel() }}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Book Copy</Modal.Title>
                     </Modal.Header>
@@ -509,7 +539,9 @@ const mapStateToProps = state => {
         addSuccess: state.book.addSuccess,
         bookCopyData: state.book.bookCopyData,
         authorData: state.book.authorData,
-        genreData: state.book.genreData
+        genreData: state.book.genreData,
+        copyTypes:state.book.copyTypes,
+        userid:state.Auth.userId
     }
 }
 
@@ -522,6 +554,7 @@ const mapDispatchToProps = dispatch => {
         onAddCopy: (data) => dispatch(actions.addBookCopy(data)),
         onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data)),
         onGetAuthor: () => dispatch(actions.getAuthor()),
+        onGetCopyType: () => dispatch(actions.getBookCopyType()),
         onGetGenre: () => dispatch(actions.getGenre())
     }
 }

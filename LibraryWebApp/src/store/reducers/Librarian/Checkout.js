@@ -10,9 +10,10 @@ const getStudentStart = (state, action) =>{
 }
 const getStudentSuccess = (state, action)=>{
   return updateObject(state,{
-      studentData: action.data,
+      studentData: action.data.patronAccountInfo,
       error:null,
       studentLoading:false,
+      overdueData:action.data.overdueBooks
   })
 }
 const getStudentFail = (state, action) =>{
@@ -69,26 +70,6 @@ const getBookStart = (state, action) =>{
     })
   }
   
-  const getOverdueStart = (state, action) =>{
-    return updateObject(state,{
-      error:null, 
-      studentLoading:true,
-    })
-  }
-  const getOverdueSuccess = (state, action)=>{
-    return updateObject(state,{
-        studentLoading: false,
-        error:null,
-        overdueData:action.data
-    })
-  }
-  const getOverdueFailed = (state, action) =>{
-    return updateObject(state,{
-        error:action.error,
-        studentLoading:false
-    })
-  }
-
   const checkPolicyStart = (state, action) =>{
     return updateObject(state,{
       error:null, 
@@ -139,7 +120,7 @@ const getBookStart = (state, action) =>{
   const deleteCheckoutBook=(state, action) =>{
     let tmp_books=[...state.bookData]
     tmp_books.forEach((book,idx)=> {
-      if(book.id==action.id){
+      if(book.copy.id==action.id){
         tmp_books.splice(idx,1)
       }
     });
@@ -172,9 +153,6 @@ export default function reducer(state = {
     case actionTypes.LIB_CHECKOUT_SUCCESS: return checkoutSuccess(state, action)
     case actionTypes.LIB_CHECKOUT_FAILED: return checkoutFailed(state, action)
 
-    case actionTypes.LIB_GET_OVERDUE_START: return getOverdueStart(state, action)
-    case actionTypes.LIB_GET_OVERDUE_SUCCESS: return getOverdueSuccess(state, action)
-    case actionTypes.LIB_GET_OVERDUE_FAILED: return getOverdueFailed(state, action)
 
     case actionTypes.CHECK_POLICY_START: return checkPolicyStart(state, action)
     case actionTypes.CHECK_POLICY_SUCCESS: return checkPolicySuccess(state, action)
