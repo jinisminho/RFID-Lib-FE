@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
 import * as MyConstant from '../views/Util/Constant'
-
+import * as Constant from './constant'
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -207,10 +207,24 @@ export function imageFormatter(cell, row){
     return (<img className="img-thumbnail" src={cell}/>)
 }
 
+export function responseError(status,err){
+    let msg=""
+    switch (status) {
+        case 500:
+            msg=Constant.INTERNAL_SERVER_ERROR
+            break;
+    
+        default:
+            msg=err.message
+            break;
+    }
+    return msg
+}
 export default {
     updateObject,
     convertToDate,
     compareDate,
     bookDescriptionFormat,
-    imageFormatter
+    imageFormatter,
+    responseError
 };

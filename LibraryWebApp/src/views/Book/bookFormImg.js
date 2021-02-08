@@ -4,24 +4,20 @@ import DropZoneField from "../../components/Dropzone/Dropzone";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
   InputGroup,
-  CardFooter,
   Label,
   Row,
   Col,
 } from "reactstrap";
-import { Popover, OverlayTrigger, Image } from 'react-bootstrap'
+import { Popover, OverlayTrigger } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
-
+import * as MyConstant from '../Util/Constant'
 
 const validateImage = value =>!value ? "Required" : undefined
 const validateNumber = value => {
@@ -35,43 +31,50 @@ const validate = values => {
   const errors = {}
   if (!values.isbn) {
     errors.isbn = 'ISBN is required'
+  }else if(!/^[0-9]{10,13}$/i.test(values.isbn)){
+    errors.isbn = 'ISBN is not valid'
   }
   if (!values.title) {
     errors.title = 'Book title is required'
+  }else if(!values.title>255){
+    errors.title = 'Book title is not valid'
   }
   if (!values.publisher) {
     errors.publisher = 'Publisher is required'
   }
   if (!values.language) {
     errors.language = 'Language is required'
+  }else if(!values.language.length>30){
+    errors.language = 'Language is not valid'
   }
-  if (!values.nop) {
-    errors.nop = 'Number of page is required'
-  } else if (!/^[0-9]+$/i.test(values.nop)) {
-    errors.nop = 'Number of page is not valid'
+  if (!values.pageNumber) {
+    errors.pageNumber = 'Number of page is required'
+  } else if (!/^[0-9]+$/i.test(values.pageNumber)) {
+    errors.pageNumber = 'Number of page is not valid'
   }
-  if (!values.category) {
-    errors.category = 'Category is required'
+  if (values.subtitle) {
+    if(!values.subtitle>255){
+      errors.subtitle = 'Subtitle is not valid'
+    }
   }
-  if (!values.sub) {
-    errors.sub = 'Sub title is required'
-  }
-  if (!values.ddc) {
-    errors.ddc = 'DDC title is required'
+  if (!values.callNumber) {
+    errors.callNumber = 'Call number is required'
+  }else if(!values.callNumber.length>50){
+    errors.callNumber = 'Call number is not valid'
   }
   if (!values.edition) {
     errors.edition = 'Edition is required'
   } else if (!/^[0-9]+$/i.test(values.edition)) {
     errors.edition = 'Edition is not valid'
   }
-  if (!values.publishyear) {
-    errors.publishyear = 'Publish year is required'
+  if (!values.publishYear) {
+    errors.publishYear = 'Publish year is required'
   } 
-  if (!values.genres || values.genres.length==0) {
-    errors.genres = 'Genre is required'
+  if (!values.genreIds || values.genreIds.length==0) {
+    errors.genreIds = 'Genre is required'
   } 
-  if (!values.author || values.author.length==0) {
-    errors.author = 'Author is required'
+  if (!values.authorIds || values.authorIds.length==0) {
+    errors.authorIds = 'Author is required'
   } 
   
   return errors
@@ -224,7 +227,7 @@ class BookFormImg extends Component {
                 <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <FormGroup className="mb-3">
                     <Field
-                      name="sub"
+                      name="subtitle"
                       type="text"
                       placeholder="Sub Title"
                       title="Sub Title"
@@ -234,10 +237,10 @@ class BookFormImg extends Component {
                 <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <FormGroup className="mb-3">
                     <Field
-                      name="ddc"
+                      name="callNumber"
                       type="text"
-                      placeholder="DDC"
-                      title="DDC"
+                      placeholder="Call Number"
+                      title="Call Number"
                       component={renderField} />
                   </FormGroup>
                 </Col>
@@ -256,7 +259,7 @@ class BookFormImg extends Component {
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
               <FormGroup className="mb-3">
                 <Field
-                  name="publishyear"
+                  name="publishYear"
                   type="text"
                   placeholder="Publish year"
                   title="Publish Year"
@@ -276,7 +279,7 @@ class BookFormImg extends Component {
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
               <FormGroup className="mb-3">
                 <Field
-                  name="nop"
+                  name="pageNumber"
                   normalize={validateNumber}
                   type="number"
                   placeholder="Number of page"
@@ -303,9 +306,9 @@ class BookFormImg extends Component {
                 <Row>
                   <InputGroup className="mb-3 input-group-alternative">
                     <Field name="status" component="select" className="form-control">
-                      <option value="ALLOWED_TO_BORROW">Allowed to borrow</option>
-                      <option value="NOT_ALLOWED_TO_BORROW">Not allowed to borrow</option>
-                      <option value="OUT_OF_CIRCULATION">Out of circulation</option>
+                      {Object.keys(MyConstant.BOOK_STATUS_LIST).map(el => {
+                        return <option key={el} value={el}>{MyConstant.BOOK_STATUS_LIST[el]}</option>
+                      })}
                     </Field>
                   </InputGroup>
                 </Row>
@@ -314,7 +317,7 @@ class BookFormImg extends Component {
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
               <FormGroup className="mb-3">
                 <Field
-                  name="author"
+                  name="authorIds"
                   type="select"
                   placeholder="Select Author"
                   title="Author"
@@ -324,7 +327,7 @@ class BookFormImg extends Component {
             </Col>
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <Field
-                  name="genres"
+                  name="genreIds"
                   type="select"
                   placeholder="Select Genre"
                   title="Genre"

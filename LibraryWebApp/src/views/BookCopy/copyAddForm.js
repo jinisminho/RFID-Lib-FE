@@ -78,7 +78,6 @@ const renderSelectField = ({ input, meta: { touched, error }, title, options }) 
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
                     <select {...input} className="form-control">
-                        <option value="">Select</option>
                         {options ? options.map(renderSelectOptions) : null}
                     </select>
                     {touched && ((error && <OverlayTrigger
@@ -114,8 +113,8 @@ const validate = values => {
     if (!values.isbn) {
         errors.isbn = 'ISBN is required'
     }
-    if (!values.copyType && values.copyType !=="") {
-        errors.isbn = 'ISBN is required'
+    if (!values.copyTypeId && values.copyTypeId !=="") {
+        errors.copyTypeId = 'Copy type is required'
     }
     if (!values.price) {
         errors.price = 'Price is required'
@@ -123,10 +122,10 @@ const validate = values => {
         errors.price = 'Price is not valid'
     }
 
-    if (!values.noc) {
-        errors.noc = 'Number of copy is required'
-    } else if (!/^[0-9]+$/i.test(values.noc)) {
-        errors.noc = 'Number of copy is not valid'
+    if (!values.numberOfCopies) {
+        errors.numberOfCopies = 'Number of copy is required'
+    } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
+        errors.numberOfCopies = 'Number of copy is not valid'
     }
     return errors
 }
@@ -148,7 +147,7 @@ const CopyAddForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
-                        name="copyType"
+                        name="copyTypeId"
                         title="Copy Type"
                         options={options}
                         component={renderSelectField}>
@@ -165,7 +164,7 @@ const CopyAddForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
-                        name="noc"
+                        name="numberOfCopies"
                         type="number"
                         normalize={validateNumber}
                         title="Number of copy"

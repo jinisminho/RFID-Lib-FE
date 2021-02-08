@@ -98,7 +98,11 @@ class TagRFIDForm extends React.Component {
     fetchData(event, newValue, previousValue, name) {
         this.props.onFetchData(newValue);
     }
-
+    onKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault(); //<===== This stops the form from being submitted
+        } 
+      }
     render() {
         const {
             handleSubmit,
@@ -113,7 +117,7 @@ class TagRFIDForm extends React.Component {
             
             <Card className="bg-secondary shadow border-0">
                 <CardBody>
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} onKeyDown={this.onKeyPress}>
                         <Row>
                             {myValues.img ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.img} /></Row></Col>): null}
                             <Col lg={{ size: 3, offset: 1 }}>
@@ -137,11 +141,11 @@ class TagRFIDForm extends React.Component {
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="sub"
+                                        name="subtitle"
                                         type="text"
                                         placeholder="Subtitle"
                                         title="Subtitle"
-                                        myValue={myValues.sub}
+                                        myValue={myValues.subtitle}
                                         component={renderFixedField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -150,7 +154,7 @@ class TagRFIDForm extends React.Component {
                                         type="text"
                                         placeholder="Author"
                                         title="Author"
-                                        myValue={myValues.author}
+                                        myValue={myValues.authors}
                                         component={renderFixedField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -184,13 +188,13 @@ class TagRFIDForm extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col sm={{ size: 'auto', offset: 9 }}>
+                            <Col sm={{ size: 'auto', offset: 7 }}>
                                 <div className="text-right mt-2">
                                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                                         <span className="btn-label">
                                         </span> Cancel
                 </button>
-                                    <button type="submit" className="btn btn-wd btn-success " disabled={myValues ? myValues.length == 0 : true || submitting || pristine}>
+                                    <button type="submit" className="btn btn-wd btn-success "  disabled={myValues ? myValues.length == 0 : true || submitting || pristine}>
                                         <span className="btn-label">
                                         </span> Confirm
                 </button>

@@ -6,13 +6,14 @@ const authStart = (state, action) =>{
   return updateObject(state,{error:null, loading:true})
 }
 const authSuccess = (state, action)=>{
-  console.log(action)
   return updateObject(state,{
       token: action.idToken,
       userId: action.userId,
+      username:action.username,
       error:null,
       loading:false,
-      role:action.role
+      role:action.role,
+      avatar:action.avatar
   })
 }
 
@@ -61,6 +62,7 @@ export default function reducer(state = {
   role:null,
   token: null,
   userId: null,
+  avatar:null,
   error: null,
   loading: false,
   authRedirectPath: '/'
