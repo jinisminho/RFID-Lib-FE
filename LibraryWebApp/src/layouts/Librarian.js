@@ -77,6 +77,8 @@ class Librarian extends React.Component {
             {...this.props}
             logout={()=>this.props.onLogout()}
             brandText={this.getBrandText(this.props.location.pathname)}
+            username={this.props.username}
+            avatar={this.props.avatar}
           />
           <Switch>
             {this.getRoutes(routes)}
@@ -89,11 +91,8 @@ class Librarian extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-      // token:state.Auth.token,
-      // loading: state.Auth.loading,
-      // error: state.Auth.error,
-      // isAuthenticated: state.Auth.token !== null,
-      // authRedirectPath: state.Auth.authRedirectPath
+    username:state.Auth.username,
+    avatar:state.Auth.avatar
   }
 }
 

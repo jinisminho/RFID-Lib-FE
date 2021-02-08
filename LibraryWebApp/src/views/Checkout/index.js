@@ -61,10 +61,9 @@ class Checkout extends React.Component {
     }
     
     componentDidUpdate() {
-        console.log(this.props.warning)
         let checkoutAllow=true
         this.props.bookData.forEach(el=>{
-            if(el.status!="AVAILABLE"){
+            if(el.violatePolicy){
                 checkoutAllow=false
             }
         })
@@ -156,37 +155,35 @@ class Checkout extends React.Component {
     }
     getInitialValues = () => {
         return {
-            name: this.props.studentData ? this.props.studentData.name : '',
+            name: this.props.studentData ? this.props.studentData.profile.fullName : '',
             id: this.props.studentData ? this.props.studentData.id : '',
-            img: this.props.studentData ? this.props.studentData.img : '',
-            department: this.props.studentData ? this.props.studentData.department : '',
-            username: this.props.studentData ? this.props.studentData.username : '',
+            email: this.props.studentData ? this.props.studentData.email : '',
+            img: this.props.studentData ? this.props.studentData.avatar : '',
         };
     }
     showOverdue(){
         this.setState({showOverdue:true})
     }
     bookDescriptionFormat(cell, row) {
-        let author=row.author.join(", ")
-        let genre=row.genres.join(", ")
         let msg=""
-        if(row.status!="AVAILABLE"){
-            msg="This book can not be borrowed!"
+        if(row.violatePolicy){
+            msg=row.reasons.join(", ")
         }
         return (
             <div>
                 {msg!="" &&<h3 className="text-danger">{msg.toUpperCase()}</h3>}
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.title}{row.sub?":" +" "+row.sub:""}</h2></a>
-                <p>by <span className="font-weight-bold">{author}</span></p>
-                <p><span className="font-weight-bold">Edition:</span> {row.edition}</p>
-                <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p>
-                <p><span className="font-weight-bold">Genre(s):</span> {genre}</p>
-                <p><span className="font-weight-bold">Overdue at:</span> {row.overdueAt}</p>
+                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.copy.title}{row.copy.subtitle?":" +" "+row.copy.subtitle:""}</h2></a>
+                <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
+                <p><span className="font-weight-bold">Edition:</span> {row.copy.edition}</p>
+                <p><span className="font-weight-bold">Barcode:</span> {row.copy.barcode}</p>
+                <p><span className="font-weight-bold">Genre(s):</span> {row.copy.genres}</p>
+                <p><span className="font-weight-bold">ISBN:</span> {row.copy.isbn}</p>
+                <p><span className="font-weight-bold">Overdue at:</span> {row.dueAt}</p>
             </div>
             )
     }
     imageFormatter(cell, row){
-        return (<img className="img-thumbnail" src={cell}/>)
+        return (<img className="img-thumbnail" src={row.copy.img}/>)
     }
     handleScan(data) {
         if (this.props.studentData != null) {
@@ -196,7 +193,7 @@ class Checkout extends React.Component {
                     errorShow: false,
                     bookCodeList: [...this.state.bookCodeList, data.trim()]
                 })
-                this.props.onGetBook(data.trim())
+                this.props.onGetBook(data.trim(),this.props.studentData.id)
             }
         } else {
             this.setState({
@@ -204,7 +201,6 @@ class Checkout extends React.Component {
                 errorShow: false
             })
             this.props.onFetchData(data.trim().toUpperCase().split("PAT#")[1])
-            this.props.onGetOverdue(data.trim().toUpperCase().split("PAT#")[1])
         }
     }
 
@@ -216,14 +212,14 @@ class Checkout extends React.Component {
             reason=values.reason
         }
         this.props.bookData.forEach(book => {
-            booklist.push(book.id)
+            booklist.push(book.copy.rfid)
         });
-        this.props.onCheckout(studentid, booklist,reason)
+        this.props.onCheckout(studentid, booklist,reason,this.props.userid)
     }
     activeFormatter(cell, row) {
         return (
             <div>
-                <DeleteButton clicked={() => this.handleDeleteBook(row.id, row.rfidcode)} />
+                <DeleteButton clicked={() => this.handleDeleteBook(row.copy.id, row.copy.rfid)} />
             </div>
         )
     }
@@ -272,7 +268,7 @@ class Checkout extends React.Component {
                         </CardHeader>
                         <Row>
                             <Col className="col-12 mb-3 pr-4 pull-right">
-                                <button disabled={!(this.state.checkoutAllow && this.props.bookData.length>0)} onClick={() => this.props.onCheckPolicy(this.props.bookData)}
+                                <button disabled={!(this.state.checkoutAllow && this.props.bookData.length>0)} onClick={() => this.props.onCheckPolicy(this.props.bookData,this.props.studentData.id,this.props.userid)}
                                     type="button" className="btn btn-info btn-fill float-right" >
                                     <span className="btn-label">
                                     </span> Check out
@@ -296,7 +292,7 @@ class Checkout extends React.Component {
                     className="mt-3"
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
-                    keyField="id"
+                    keyField="copy"
                 >
                     <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" width="60%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
@@ -394,7 +390,7 @@ class Checkout extends React.Component {
                         className="mt-3"
                         bordered={false}
                         tableHeaderClass={"col-hidden"}
-                        keyField="id"
+                        keyField="copy"
                     >
                     <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" width="60%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
@@ -425,20 +421,20 @@ const mapStateToProps = state => {
         bookError: state.checkout.bookError,
         checkoutSuccess: state.checkout.checkoutSuccess,
         warning: state.checkout.warning,
-        confirmSuccess: state.checkout.confirmSuccess
+        confirmSuccess: state.checkout.confirmSuccess,
+        userid:state.Auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (search) => dispatch(actions.getStudent(search)),
-        onGetBook: (search) => dispatch(actions.getStudentBook(search)),
-        onCheckout: (studentid, booklist,reason) => dispatch(actions.checkout(studentid, booklist,reason)),
+        onGetBook: (search,id) => dispatch(actions.getStudentBook(search,id)),
+        onCheckout: (studentid, booklist,reason,libid) => dispatch(actions.checkout(studentid, booklist,reason,libid)),
         onClearData: () => dispatch(actions.clearData()),
         onDeleteBook: (id) => dispatch(actions.deleteCheckoutBook(id)),
-        onGetOverdue: (search) => dispatch(actions.getOverdue(search)),
         onClearBookError: () => dispatch(actions.clearBookError()),
-        onCheckPolicy: (data) => dispatch(actions.checkPolicy(data)),
+        onCheckPolicy: (data,patronid,libid) => dispatch(actions.checkPolicy(data,patronid,libid)),
         onCancelConfirm:()=>dispatch(actions.cancelConfirm()),
         onSubmitConfirmForm:() => dispatch(submit("CheckoutConfirmForm"))
     }

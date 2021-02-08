@@ -1,13 +1,16 @@
 import * as actionTypes from '../actionTypes'
 import * as copyPrototype from '../../prototype/bookCopyMng'
+import {responseError} from '../../utility'
+import axios from '../../../axios'
+import { getBookFailed } from './Book'
 
 export const getCopySuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.GET_COPY_BOOK_SUCCESS,
-        total:total,
+        total: total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
+        page: page,
+        sizePerPage: sizePerPage
     }
 }
 
@@ -24,28 +27,18 @@ export const getCopyStart = () => {
     }
 }
 
-export const getCopy = (page,size,search,select) => {
+export const getCopy = (page, size, search, select) => {
     return dispatch => {
         dispatch(getCopyStart())
-        let response=copyPrototype.getCopy(search,page,size,select)
-        if(response.status){
-            dispatch(getCopySuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getCopyFailed(response.err))
-        }
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getCopyFail(error))
-        //     });
+        search=search?search:""
+        let url='/copy/search'+'?page='+page+'&size='+size+"&searchValue="+search
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error=> {
+                dispatch(getCopyFailed(responseError(error.response.data.status,error.response.data)))
+            });
     }
 
 }
@@ -73,10 +66,10 @@ export const getBookCopyStatusStart = () => {
 export const getBookCopyStatus = () => {
     return dispatch => {
         dispatch(getBookCopyStatusStart())
-        let response=copyPrototype.getBookCopyStatus()
-        if(response.status){
+        let response = copyPrototype.getBookCopyStatus()
+        if (response.status) {
             dispatch(getBookCopyStatusSuccess(response.data))
-        }else{
+        } else {
             dispatch(getBookCopyStatusFailed(response.err))
         }
         // let url='/books'
@@ -119,124 +112,108 @@ export const getCopyTypeStart = () => {
 export const getCopyType = () => {
     return dispatch => {
         dispatch(getCopyTypeStart())
-        let response=copyPrototype.getCopyTypes()
-        if(response.status){
-            dispatch(getCopyTypeSuccess(response.data))
-        }else{
-            dispatch(getCopyTypeFailed(response.err))
-        }
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getCopyFail(error))
-        //     });
+        let url = '/copyType/all'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                response.data.forEach(element => {
+                    element["value"] = element["id"]
+                    element["label"] = element["name"]
+                    delete element["id"]
+                    delete element["name"]
+                });
+
+                dispatch(getCopyTypeSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(getCopyTypeFailed(responseError(error.response.data.status,error.response.data)))
+            });
     }
 
 }
 
-export const addCopyStart =()=>{
-    return({
+export const addCopyStart = () => {
+    return ({
         type: actionTypes.ADD_COPY_BOOK_START
     })
-} 
-export const addCopyFail =(error)=>{
-    return({
+}
+export const addCopyFail = (error) => {
+    return ({
         type: actionTypes.ADD_COPY_BOOK_FAILED,
-        error:error
+        error: error
     })
-} 
-export const addCopySuccess =()=>{
-    return({
+}
+export const addCopySuccess = () => {
+    return ({
         type: actionTypes.ADD_COPY_BOOK_SUCCESS
     })
-} 
+}
 export const addCopy = (data) => {
     return dispatch => {
-        dispatch(addCopyStart())    
-        let response=copyPrototype.addCopy(data)
-        if(response.status==true){
-            dispatch(addCopySuccess())
-        }else{
-            dispatch(addCopyFail(response.error))
-        }
-        // axios.post('categories/',data,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(addCopySuccess())
-        //     })
-        //     .catch(error => {
-        //         dispatch(addCopyFail(error))
-        //     });
-        
+        dispatch(addCopyStart())
+        let url='/copy/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(addCopySuccess())
+            })
+            .catch(error=> {
+                dispatch(addCopyFail(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }
 
-export const updateCopyStart =()=>{
-    return({
+export const updateCopyStart = () => {
+    return ({
         type: actionTypes.UPDATE_COPY_BOOK_START
     })
-} 
-export const updateCopyFail =(error)=>{
-    return({
+}
+export const updateCopyFail = (error) => {
+    return ({
         type: actionTypes.UPDATE_COPY_BOOK_FAILED,
-        error:error
+        error: error
     })
-} 
-export const updateCopySuccess =()=>{
-    return({
+}
+export const updateCopySuccess = () => {
+    return ({
         type: actionTypes.UPDATE_COPY_BOOK_SUCCESS,
     })
-} 
+}
 export const updateCopy = (data) => {
     return dispatch => {
-        dispatch(updateCopyStart())    
-        let response=copyPrototype.updateCopy(data)
-        if(response.status==true){
-            dispatch(updateCopySuccess())
-        }else{
-            dispatch(updateCopyFail(response.error))
-        }
-        // axios.post('categories/',data,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(addCopySuccess())
-        //     })
-        //     .catch(error => {
-        //         dispatch(addCopyFail(error))
-        //     });
-        
+        dispatch(updateCopyStart())
+        let url='/copy/update'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updateCopySuccess())
+            })
+            .catch(error=> {
+                dispatch(updateCopyFail(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }
 
-export const deleteCopyStart =()=>{
-    return({
+export const deleteCopyStart = () => {
+    return ({
         type: actionTypes.DELETE_COPY_BOOK_START
     })
-} 
-export const deleteCopyFail =(error)=>{
-    return({
+}
+export const deleteCopyFail = (error) => {
+    return ({
         type: actionTypes.DELETE_COPY_BOOK_FAILED,
-        error:error
+        error: error
     })
-} 
-export const deleteCopySuccess =()=>{
-    return({
+}
+export const deleteCopySuccess = () => {
+    return ({
         type: actionTypes.DELETE_COPY_BOOK_SUCCESS,
     })
-} 
+}
 export const deleteCopy = (id) => {
     return dispatch => {
-        dispatch(deleteCopyStart())    
-        let response=copyPrototype.deleteCopy(id)
-        if(response.status==true){
+        dispatch(deleteCopyStart())
+        let response = copyPrototype.deleteCopy(id)
+        if (response.status == true) {
             dispatch(deleteCopySuccess())
-        }else{
+        } else {
             dispatch(deleteCopyFail(response.error))
         }
     }
@@ -264,10 +241,10 @@ export const getAllBookStart = () => {
 export const getAllBook = () => {
     return dispatch => {
         dispatch(getAllBookStart())
-        let response=copyPrototype.getBooks()
-        if(response.status){
+        let response = copyPrototype.getBooks()
+        if (response.status) {
             dispatch(getAllBookSuccess(response.data))
-        }else{
+        } else {
             dispatch(getAllBookFail(response.err))
         }
         // let url='/books'
@@ -286,72 +263,82 @@ export const getAllBook = () => {
     }
 }
 
-export const generateBarcodeStart =()=>{
-    return({
+export const generateBarcodeStart = () => {
+    return ({
         type: actionTypes.GENERATE_BARCODE_START
     })
-} 
-export const generateBarcodeFailed =(error)=>{
-    return({
+}
+export const generateBarcodeFailed = (error) => {
+    return ({
         type: actionTypes.GENERATE_BARCODE_FAILED,
-        error:error
+        error: error
     })
-} 
-export const generateBarcodeSuccess =(data)=>{
-    return({
+}
+export const generateBarcodeSuccess = (data) => {
+    return ({
         type: actionTypes.GENERATE_BARCODE_SUCCESS,
-        data:data
+        data: data
     })
-} 
+}
 export const generateBarcode = (data) => {
     return dispatch => {
-        dispatch(generateBarcodeStart())    
-        let response=copyPrototype.generateBarcode(data)
-        if(response.status==true){
-            dispatch(generateBarcodeSuccess(response.data))
-        }else{
-            dispatch(generateBarcodeFailed(response.error))
-        }
+        dispatch(generateBarcodeStart())
+        let url='/librarian/barcodes/generate'
+        axios.get(url,{withCredentials: true,params: {
+            ...data
+          }})
+            .then(response => {
+                dispatch(generateBarcodeSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(generateBarcodeFailed(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }
 
 //Tag RFID
-export const tagRFIDStart =()=>{
-    return({
+export const tagRFIDStart = () => {
+    return ({
         type: actionTypes.TAG_RFID_START
     })
-} 
-export const tagRFIDFailed =(error)=>{
-    return({
+}
+export const tagRFIDFailed = (error) => {
+    return ({
         type: actionTypes.TAG_RFID_FAILED,
-        error:error
+        error: error
     })
-} 
-export const tagRFIDSuccess =(data)=>{
-    return({
+}
+export const tagRFIDSuccess = (data) => {
+    return ({
         type: actionTypes.TAG_RFID_SUCCESS,
     })
-} 
+}
 export const tagRFID = (data) => {
     return dispatch => {
+        const tagData ={
+            barcode:data.barcode,
+            rfid:data.rfid,
+            updater:data.userid
+            }
         dispatch(tagRFIDStart())
-        console.log("tagRFID");    
-        let response=copyPrototype.tagRFIDByBarcode(data.barcode, data.rfid)
-        if(response.status==true){
-            dispatch(tagRFIDSuccess())
-        }else{
-            dispatch(tagRFIDFailed(response.error))
-        }       
+        let url = '/copy/tag'
+        axios.post(url,tagData, { withCredentials: true })
+            .then(response => {
+                dispatch(tagRFIDSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(tagRFIDFailed(responseError(error.response.data.status,error.response.data)))
+            });
     }
 }
 
 export const getCopyByBarcodeSuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.LIB_GET_BOOKS_BY_BARCODE_SUCCESS,
-        total:total,
+        total: total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
+        page: page,
+        sizePerPage: sizePerPage
     }
 }
 
@@ -371,12 +358,14 @@ export const getCopyByBarcodeStart = () => {
 export const getCopyByBarcode = (barcode) => {
     return dispatch => {
         dispatch(getCopyByBarcodeStart())
-        let response=copyPrototype.getCopyByBarcode(barcode)
-        if(response.status){
-            dispatch(getCopyByBarcodeSuccess(response.data))
-        }else{
-            dispatch(getCopyByBarcodeFailed(response.err))
-        }
+        let url = '/copy/get/barcode/'+barcode
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getCopyByBarcodeSuccess(response.data.book))
+            })
+            .catch(error => {
+                dispatch(getCopyByBarcodeFailed(responseError(error.response.data.status,error.response.data)))
+            });
     }
 
 }

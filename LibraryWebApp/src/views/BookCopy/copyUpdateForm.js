@@ -92,7 +92,6 @@ const renderSelectField = ({ input, meta: { touched, error }, title, options }) 
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
                     <select {...input} className="form-control">
-                        <option value="">Select</option>
                         {options ? options.map(renderSelectOptions) : null}
                     </select>
                     {touched && ((error && <OverlayTrigger
@@ -113,7 +112,11 @@ const renderSelectField = ({ input, meta: { touched, error }, title, options }) 
         </Row>
     </>
 )
-
+const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); //<===== This stops the form from being submitted
+    } 
+  }
 const validateNumber = value => {
     if (value < 1) {
         return 1
@@ -130,7 +133,7 @@ const CopyForm = ({
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} onKeyDown={onKeyPress}>
                 <Row>
                     <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img}/></Row></Col>
                     <Col lg={{ size: 3, offset: 1 }}>
@@ -164,7 +167,7 @@ const CopyForm = ({
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <Field
-                                name="sub"
+                                name="subtitle"
                                 type="text"
                                 placeholder="Subtitle"
                                 title="Subtitle"
@@ -173,7 +176,7 @@ const CopyForm = ({
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <Field
-                                name="author"
+                                name="authors"
                                 type="text"
                                 placeholder="Author"
                                 title="Author"
@@ -212,7 +215,7 @@ const CopyForm = ({
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <Field
-                                name="rfidcode"
+                                name="rfid"
                                 type="text"
                                 placeholder="RFID Code"
                                 title="RFID Code"

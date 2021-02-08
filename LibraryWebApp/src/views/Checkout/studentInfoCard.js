@@ -14,10 +14,7 @@ const StudentInfoCard = ({student,overdue,showOverdue})  =>{
             <p><b>Name:</b> {student.name}</p>
           </div>
           <div>
-            <p><b>Department:</b> {student.department}</p>
-          </div>
-          <div>
-            <p><b>Email:</b> {student.username}</p>
+            <p><b>Email:</b> {student.email}</p>
           </div>
           <div>
             <p><b>Overdue book(s):</b> <button className="btn btn-info"  onClick={()=>showOverdue()}>{overdue.length}</button></p>

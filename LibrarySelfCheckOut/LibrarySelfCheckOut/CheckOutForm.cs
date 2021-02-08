@@ -144,6 +144,7 @@ namespace LibrarySelfCheckOut
 
         private void resetState()
         {
+            this.btCancel.Show();
             this.timerSession.Enabled = true;
             this.flowLayoutPanelBookList.Controls.Clear();
             this.btCancel.Enabled = true;
@@ -168,7 +169,6 @@ namespace LibrarySelfCheckOut
             this.spiner.Show();
             CheckOutResponseModel rs =  await BookProcessor.checkout(bookCodeList, studentId);
             this.spiner.Hide();
-            this.timerSession.Enabled = true;
             if (rs.isSuccess)
             {
                 foreach (BookCheckOutModel b in rs.books)
@@ -179,9 +179,13 @@ namespace LibrarySelfCheckOut
                 }
                 this.btDone.Text = BT_TXT_DONE;
                 this.btDone.Enabled = true;
+                this.btCancel.Hide();
+                await EmailProcessor.emailCheckOut(new EmailCheckOutRequest(studentId, rs.books));
+                this.timerSession.Enabled = true;
             }
             else
             {
+                this.timerSession.Enabled = true;
                 this.txtBookRFID.Enabled = false;
                 using (ModalOK model = new ModalOK(rs.errorMessage))
                 {
