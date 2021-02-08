@@ -3,10 +3,13 @@ export const BOOKS= "Search Books"
 export const OVERDUE_BOOKS= "Overdue Books"
 export const BORROWING_BOOKS= "Borrowing Books"
 export const RETURNED_BOOKS= "Returned Books"
+export const BORROW_POLICY= "Borrow Policy"
+export const PATRON_POLICY= "Patron Policy"
+export const FINE_POLICY= "Fine Policy"
 
 //Format
-export const DATETIME= "DD/MM/YYYY, HH:mm:ss"
-export const DATE= "DD/MM/YYYY"
+export const DATETIME= "DD-MM-YYYY, HH:mm:ss"
+export const DATE= "DD-MM-YYYY"
 
 //Status
 export const BOOK_COPY_AVAILABLE = "AVAILABLE"

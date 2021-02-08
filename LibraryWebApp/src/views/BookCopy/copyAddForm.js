@@ -66,7 +66,7 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
 
 
 const renderSelectOptions = (option) => (
-    <option key={option.label} value={option.value}>{option.label}</option>
+    <option key={option.id} value={option.id}>{option.name}</option>
 )
 
 const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (

@@ -98,3 +98,16 @@ export {
     getBook as getBookStudentSide,
     
 } from './Student/Book'
+
+export {
+    getBorrowPolicy,
+    getFeePolicy,
+    getPatronPolicy,
+    getPatronType,
+    addBorrowPolicy,
+    updateBorrowPolicy,
+    deleteBorrowPolicy,
+    updatePatronPolicy,
+    getFeePolicies,
+    updateFeePolicy,
+} from './Librarian/Policy'

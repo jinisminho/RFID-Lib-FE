@@ -115,12 +115,12 @@ export const getCopyType = () => {
         let url = '/copyType/all'
         axios.get(url, { withCredentials: true })
             .then(response => {
-                response.data.forEach(element => {
-                    element["value"] = element["id"]
-                    element["label"] = element["name"]
-                    delete element["id"]
-                    delete element["name"]
-                });
+                // response.data.forEach(element => {
+                //     element["value"] = element["id"]
+                //     element["label"] = element["name"]
+                //     delete element["id"]
+                //     delete element["name"]
+                // });
 
                 dispatch(getCopyTypeSuccess(response.data))
             })

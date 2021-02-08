@@ -399,7 +399,7 @@ class RentingInfo extends Component {
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
                             title={this.state.book ? " Due Date History of [" + this.state.book.title + " - ISBN:" + this.state.book.isbn + "]" : "Default"}
-                            onShow={() => this.props.getExtendedHistoryInfo(1, 100, this.state.studentId, this.state.book.id)}
+                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.studentId, this.state.book.id)}
                         />
 
                         <ExtendDueModal
