@@ -22,21 +22,30 @@ import Register from "views/examples/Register.js";
 import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
-import RentingInf from "views/Librarian/RentingInfo.js";
+import BorrowingInfo from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
 import Student from "views/Admin/Student/index.js";
+import Policy from "views/Admin/Policy";
 
 var routes = [
+  // {
+  //   path: "/index",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: Index,
+  //   layout: "/admin"
+  // },
   {
     path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin"
+    name: "Books",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Book,
+    layout: "/admin",
+    invisible:true
   },
   {
     path: "/book",
@@ -67,10 +76,17 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/renting",
-    name: "Renting Information",
+    path: "/checkoutInfo",
+    name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
+    component: BorrowingInfo,
+    layout: "/admin"
+  },
+  {
+    path: "/policy",
+    name: "Policy",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Policy,
     layout: "/admin"
   },
   {

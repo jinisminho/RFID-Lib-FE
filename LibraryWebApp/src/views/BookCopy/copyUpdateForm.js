@@ -80,7 +80,7 @@ const renderFixedField = ({ meta, title }) => (
 )
 
 const renderSelectOptions = (option) => (
-    <option key={option.value} value={option.value}>{option.label}</option>
+    <option key={option.id} value={option.id}>{option.name}</option>
 )
 
 const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
