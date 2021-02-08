@@ -61,7 +61,7 @@ var routes = [
     layout: "/patron"
   },
   {
-    path: "/borrowing",
+    path: "/checkoutInfo",
     name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInf,

@@ -270,3 +270,165 @@ export const arrayOfStudents=[
         value: '57d3578a-3583-4290-8bae-596a4da81a8d',
     },
 ];
+
+export let borrowPolicy =
+[
+  {
+    "id": 1,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "TEXTBOOK"
+  },
+  {
+    "id": 2,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "REFERENCE"
+  },
+  {
+    "id": 3,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "THESIS"
+  },
+  {
+    "id": 4,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "TEXTBOOK"
+  },
+  {
+    "id": 5,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "REFERENCE"
+  },
+  {
+    "id": 6,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "THESIS"
+  },
+  {
+    "id": 7,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "REFERENCE"
+  },
+];
+
+export const patronPolicy =
+[
+  {
+    "id": 1,
+    "patronType": "STUDENT",
+    "maxBorrowNumber": 6
+  },
+  {
+    "id": 2,
+    "patronType": "LECTURER",
+    "maxBorrowNumber": 10
+  }
+]
+
+export let feePolicy =
+[
+  {
+    "id": 1,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-03 21:54:23"
+  },
+  {
+    "id": 2,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-04 21:54:23"
+  },
+  {
+    "id": 3,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-05 21:54:23"
+  },
+]
+
+export const latestFeePolicy =
+[
+  {
+    "id": 1,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-03 21:54:23"
+  }
+]
+
+export const patrontypes =
+[
+  {
+    "id": 1,
+    "name": "STUDENT",
+  },
+  {
+    "id": 2,
+    "name": "LECTURER",
+  }
+]
+
+export const copyTypes = [
+  {
+      name: 'Test - Super Rare',
+      id: 1,
+  },
+  {
+      name: 'Test - Unique',
+      id: 2,
+  },
+  {
+      name: 'Test - Common',
+      id: 3,
+  },
+]

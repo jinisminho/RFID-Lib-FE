@@ -51,7 +51,7 @@ class BorrowingInfo extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData()
+        // this.fetchData()
     }
 
     handlePageChangeOverdue(page, sizePerPage) {
@@ -170,7 +170,7 @@ class BorrowingInfo extends React.Component {
         const doExtdThenReloadTable = async () => {
             await this.props.onExtdSubmit(studentId, bookId)
             await this.setState({ successShow: true, errorShow: true, searchValue: studentId })
-            await this.fetchData(this.props.page, this.props.sizePerPage, this.state.searchValue)
+            await this.fetchData(1, this.props.sizePerPage, this.state.searchValue)
             return
         }
         return doExtdThenReloadTable()
@@ -190,11 +190,47 @@ class BorrowingInfo extends React.Component {
         const options = {
             onSizePerPageList: this.handleSizePerPageChange,
             sizePerPage: this.props.sizePerPage,
-            prePage: 'Previous',
-            nextPage: 'Next',
-            firstPage: 'First',
-            lastPage: 'Last',
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
             hideSizePerPage: true,
+        };
+
+        const options_overdue = {
+            onSizePerPageList: this.handleSizePerPageChange,
+            sizePerPage: this.props.sizePerPage,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: true,
+            page: this.props.pageOverdue,
+            onPageChange: this.handlePageChangeOverdue,
+        };
+
+        const options_borrowing = {
+            onSizePerPageList: this.handleSizePerPageChange,
+            sizePerPage: this.props.sizePerPage,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: true,
+            page: this.props.pageBorrowing,
+            onPageChange: this.handlePageChangeBorrowing,
+        };
+
+        const options_returned = {
+            onSizePerPageList: this.handleSizePerPageChange,
+            sizePerPage: this.props.sizePerPage,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: true,
+            page: this.props.pageReturned,
+            onPageChange: this.handlePageChangeReturned,
         };
 
         let overdueBooks = this.props.dataOverdue ? (
@@ -209,7 +245,7 @@ class BorrowingInfo extends React.Component {
 
                 <BootstrapTable
                     data={this.props.dataOverdue}
-                    options={options}
+                    options={options_overdue}
                     fetchInfo={{ dataTotalSize: this.props.totalSizeOverdue }}
                     remote
                     pagination
@@ -218,8 +254,6 @@ class BorrowingInfo extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                     keyField="id"
-                    onPageChange={this.handlePageChangeOverdue}
-                    page={this.props.pageOverdue}
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
                     <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
@@ -244,7 +278,7 @@ class BorrowingInfo extends React.Component {
 
                 <BootstrapTable
                     data={this.props.dataBorrowing}
-                    options={options}
+                    options={options_borrowing}
                     fetchInfo={{ dataTotalSize: this.props.totalSizeBorrowing }}
                     remote
                     pagination
@@ -253,8 +287,6 @@ class BorrowingInfo extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                     keyField="id"
-                    onPageChange={this.handlePageChangeBorrowing}
-                    page={this.props.pageBorrowing}
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
                     <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
@@ -277,7 +309,7 @@ class BorrowingInfo extends React.Component {
 
                 <BootstrapTable
                     data={this.props.dataReturned}
-                    options={options}
+                    options={options_returned}
                     fetchInfo={{ dataTotalSize: this.props.totalSizeReturned }}
                     remote
                     pagination
@@ -286,8 +318,6 @@ class BorrowingInfo extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                     keyField="id"
-                    onPageChange={this.handlePageChangeReturned}
-                    page={this.props.pageReturned}
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
                     <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
@@ -308,7 +338,7 @@ class BorrowingInfo extends React.Component {
             )
         }
 
-        let form = <SearchForm placeholder="Search Renting Information By Student ID. e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, 10, this.state.studentId = value.search)}/>
+        let form = <SearchForm placeholder="Search Renting Information By Student ID. e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, this.props.sizePerPage, this.state.studentId = value.search)}/>
 
 
         let errorMsg = null
@@ -374,7 +404,7 @@ class BorrowingInfo extends React.Component {
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
                             book={this.state.book ? this.state.book : []}
-                            onShow={() => this.props.getExtendedHistoryInfo(1, 100, this.state.studentId, this.state.book.id)}
+                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.studentId, this.state.book.id)}
                         />
 
                         <ExtendDueModal
@@ -395,7 +425,6 @@ class BorrowingInfo extends React.Component {
 }
 
 const mapStateToProps = state => {
-
     return {
         successMsg: state.info.successMsg,
         errOnFetch: state.info.errOnFetch,
