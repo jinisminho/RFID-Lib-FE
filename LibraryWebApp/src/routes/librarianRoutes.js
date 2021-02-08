@@ -77,7 +77,7 @@ var routes = [
     layout: "/librarian"
   },
   {
-    path: "/renting",
+    path: "/checkoutInfo",
     name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: CheckoutInf,

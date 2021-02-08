@@ -48,10 +48,10 @@ class Policy extends React.Component {
         this.handlePageChangeBorrow = this.handlePageChangeBorrow.bind(this);
         this.handlePageChangePatron = this.handlePageChangePatron.bind(this);
         this.handlePageChangeFee = this.handlePageChangeFee.bind(this);
-        // this.feeActionFormatter = this.feeActionFormatter.bind(this);
-        // this.borrowActionFormatter = this.borrowActionFormatter.bind(this);
-        // this.patronActionFormatter = this.patronActionFormatter.bind(this);
-        // this.afterSaveCell_fee = this.afterSaveCell_fee.bind(this);
+        this.feeActionFormatter = this.feeActionFormatter.bind(this);
+        this.borrowActionFormatter = this.borrowActionFormatter.bind(this);
+        this.patronActionFormatter = this.patronActionFormatter.bind(this);
+        this.afterSaveCell_fee = this.afterSaveCell_fee.bind(this);
     }
 
     componentDidMount() {
@@ -111,66 +111,62 @@ class Policy extends React.Component {
         this.props.getFeePolicyHistory(page - 1, sizePerPage, searchValue)
     }
 
-    // borrowActionFormatter(cell, row) {
-    //     return (
-    //         <div>
-    //             <UpdateButton clicked={() => this.setState({ updateBorrowShow: true, borrowChanged: row })} />
-    //             <DeleteButton clicked={() => this.setState({ deleteBorrowShow: true, borrowToDel: row })} />
-    //         </div>
-    //     )
-    // }
+    borrowActionFormatter(cell, row) {
+        return (
+            <div>
+                <UpdateButton clicked={() => this.setState({ updateBorrowShow: true, borrowChanged: row })} />
+                <DeleteButton clicked={() => this.setState({ deleteBorrowShow: true, borrowToDel: row })} />
+            </div>
+        )
+    }
 
-    // updateBorrowPolicySubmit = (values) => {
-    //     console.log(values);
-    //     if (values) this.props.onUpdateBorrowPolicy(values)
-    //     this.setState({ updateBorrowShow: false, successShow: true, errorShow: true })
-    //     this.fetchDataBorrow()
-    // }
+    updateBorrowPolicySubmit = (values) => {
+        if (values) this.props.onUpdateBorrowPolicy(values)
+        this.setState({ updateBorrowShow: false, successShow: true, errorShow: true })
+        this.fetchDataBorrow()
+    }
 
-    // deleteBorrowPolicySubmit = (value) => {
-    //     console.log("deleteBorrowPolicySubmit - ID: " + value);
-    //     if (value) this.props.onDeleteBorrowPolicy(value)
-    //     this.setState({ deleteBorrowShow: false, successShow: true, errorShow: true })
-    //     this.fetchDataBorrow()
-    // }
+    deleteBorrowPolicySubmit = (value) => {
+        if (value) this.props.onDeleteBorrowPolicy(value)
+        this.setState({ deleteBorrowShow: false, successShow: true, errorShow: true })
+        this.fetchDataBorrow()
+    }
 
-    // patronActionFormatter(cell, row) {
-    //     return (
-    //         <div>
-    //             <UpdateButton clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
-    //         </div>
-    //     )
-    // }
+    patronActionFormatter(cell, row) {
+        return (
+            <div>
+                <UpdateButton clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
+            </div>
+        )
+    }
 
-    // updatePatronPolicySubmit = (values) => {
-    //     console.log(values);
-    //     if (values) this.props.onUpdatePatronPolicy(values)
-    //     this.setState({ updatePatronShow: false, successShow: true, errorShow: true })
-    //     this.fetchDataPatron()
-    // }
+    updatePatronPolicySubmit = (values) => {
+        if (values) this.props.onUpdatePatronPolicy(values)
+        this.setState({ updatePatronShow: false, successShow: true, errorShow: true })
+        this.fetchDataPatron()
+    }
 
-    // feeActionFormatter(cell, row) {
-    // }
+    feeActionFormatter(cell, row) {
+    }
 
-    // updateFeePolicySubmit = (values) => {
-    //     console.log(values);
-    //     if (values) this.props.onUpdateFeePolicy(values)
-    //     this.setState({ updateFeeShow: false, lastFeeChanged: null, successShow: true, errorShow: true })
-    //     this.fetchDataFee()
-    // }
+    updateFeePolicySubmit = (values) => {
+        if (values) this.props.onUpdateFeePolicy(values)
+        this.setState({ updateFeeShow: false, lastFeeChanged: null, successShow: true, errorShow: true })
+        this.fetchDataFee()
+    }
 
-    // handleAddNewBorrowPolicyCancel = () => {
-    //     this.setState({
-    //         addNewBorrowPolicyShow: false,
-    //     })
-    //     this.handleModalClose()
-    // }
+    handleAddNewBorrowPolicyCancel = () => {
+        this.setState({
+            addNewBorrowPolicyShow: false,
+        })
+        this.handleModalClose()
+    }
 
-    // handleAddNewBorrowPolicySubmit = values => {
-    //     this.props.onAddBorrowPolicy(values)
-    //     this.setState({ addNewBorrowPolicyShow: false, successShow: true, errorShow: true })
-    //     this.fetchDataBorrow()
-    // }
+    handleAddNewBorrowPolicySubmit = values => {
+        this.props.onAddBorrowPolicy(values)
+        this.setState({ addNewBorrowPolicyShow: false, successShow: true, errorShow: true })
+        this.fetchDataBorrow()
+    }
 
     handleFeePolicyHistoryClose = () => {
         this.setState({
@@ -184,19 +180,19 @@ class Policy extends React.Component {
         this.fetchData();
     }
 
-    // afterSaveCell(row, cellName, cellValue) {
-    //     row[cellName] = Number(cellValue);
-    // }
+    afterSaveCell(row, cellName, cellValue) {
+        row[cellName] = Number(cellValue);
+    }
 
-    // afterSaveCell_fee(row, cellName, cellValue) {
-    //     row[cellName] = Number(cellValue);
-    //     this.setState({ lastFeeChanged: row })
-    // }
+    afterSaveCell_fee(row, cellName, cellValue) {
+        row[cellName] = Number(cellValue);
+        this.setState({ lastFeeChanged: row })
+    }
 
-    // beforeSaveCell_fee(row, cellName, cellValue) {
-    //     // validation here
-    //     return false;
-    // }
+    beforeSaveCell_fee(row, cellName, cellValue) {
+        // validation here
+        return false;
+    }
 
     render() {
 
@@ -236,22 +232,22 @@ class Policy extends React.Component {
             onPageChange: this.handlePageChangeFee,
         };
 
-        // const cellEditProp = {
-        //     mode: 'click',
-        //     blurToSave: true,
-        //     afterSaveCell: this.afterSaveCell,
-        // };
+        const cellEditProp = {
+            mode: 'click',
+            blurToSave: true,
+            afterSaveCell: this.afterSaveCell,
+        };
 
-        // const cellEditProp_fee = {
-        //     mode: 'click',
-        //     blurToSave: true,
-        //     afterSaveCell: this.afterSaveCell_fee,
-        //     // beforeSaveCell: this.beforeSaveCell_fee,
-        // };
+        const cellEditProp_fee = {
+            mode: 'click',
+            blurToSave: true,
+            afterSaveCell: this.afterSaveCell_fee,
+            // beforeSaveCell: this.beforeSaveCell_fee,
+        };
 
         let borrow_policy = this.props.borrow ? (
             <div className="content mt-2">
-                {/* <Row className="w-100 m-0 p-0">
+                <Row className="w-100 m-0 p-0">
                     <Col className="pull-right">
                         <button onClick={() => this.setState({ addNewBorrowPolicyShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
@@ -259,7 +255,7 @@ class Policy extends React.Component {
                             </span> <i className="fa fa-plus"></i> Add New
                         </button>
                     </Col>
-                </Row> */}
+                </Row>
 
                 <br />
                 <BootstrapTable
@@ -273,7 +269,7 @@ class Policy extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                     keyField="id"
-                    // cellEdit={cellEditProp}
+                    cellEdit={cellEditProp}
                 >
                     <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="bookCopyType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
@@ -281,7 +277,7 @@ class Policy extends React.Component {
                     <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Extend Time</TableHeaderColumn>
                     <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration</TableHeaderColumn>
-                    {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.borrowActionFormatter} editable={false}>Action</TableHeaderColumn> */}
+                    <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.borrowActionFormatter} editable={false}>Action</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -312,11 +308,11 @@ class Policy extends React.Component {
                     condensed
                     className="ml-4 mr-4"
                     keyField="id"
-                    // cellEdit={cellEditProp}
+                    cellEdit={cellEditProp}
                 >
                     <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
-                    {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false}>Action</TableHeaderColumn> */}
+                    <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false}>Action</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -327,11 +323,11 @@ class Policy extends React.Component {
             <div className="content mt-2">
                 <Row className="w-100 m-0 p-0">
                     <Col className="pull-right">
-                        {/* <button onClick={() => { this.setState({ updateFeeShow: true }) }}
+                        <button onClick={() => { this.setState({ updateFeeShow: true }) }}
                             type="button" rel="tooltip"
                             className="btn btn-success btn-fill float-right" disabled={!this.state.lastFeeChanged}>
                             <i className="fa fa-edit"></i> Update
-                        </button> */}
+                        </button>
                         <div>
                             <button className="btn btn-fill btn-primary float-right mr-1" onClick={() => this.setState({
                                 feeHistoryShow: true,
@@ -349,7 +345,7 @@ class Policy extends React.Component {
                     condensed
                     className="ml-4 mr-4 mb-5"
                     keyField="id"
-                    // cellEdit={cellEditProp_fee}
+                    cellEdit={cellEditProp_fee}
                 >
                     <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
@@ -419,6 +415,12 @@ class Policy extends React.Component {
                         <CommonConfirmModal title="Delete borrow policy" show={this.state.deleteBorrowShow} hide={() => this.handleModalClose()} clickConfirm={() => this.deleteBorrowPolicySubmit(this.state.borrowToDel.id)} msg="Do you want to delete this policy?" />
                         <CommonConfirmModal title="Update patron policy" show={this.state.updatePatronShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updatePatronPolicySubmit(this.state.patronChanged)} msg="Do you want to update this policy?" />
                         <CommonConfirmModal title="Update fee policy" show={this.state.updateFeeShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updateFeePolicySubmit(this.state.lastFeeChanged)} msg="Do you want to update this policy?" />
+
+
+
+
+
+
                     </Row>
 
                 </Container>
