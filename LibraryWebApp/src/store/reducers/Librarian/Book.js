@@ -172,6 +172,7 @@ const addCopySuccess = (state, action) => {
 const addCopyFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
+    bookCopyData: null,
     loading: false,
     page: 1,
     sizePerPage: 10,
@@ -199,6 +200,26 @@ const generateBarcodeFailed = (state, action) => {
     sizePerPage: 10,
   })
 }
+
+const getBookCopyTypeStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+  })
+}
+const getBookCopyTypeSuccess = (state, action) => {
+  return updateObject(state, {
+    copyTypes: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getBookCopyTypeFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -213,6 +234,7 @@ export default function reducer(state = {
   bookCopyData: null,
   authorData: [],
   genreData: [],
+  copyTypes: null,
 }, action) {
   switch (action.type) {
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
@@ -247,6 +269,9 @@ export default function reducer(state = {
     case actionTypes.GENERATE_COPY_BARCODE_FAILED: return generateBarcodeFailed(state, action)
     case actionTypes.GENERATE_COPY_BARCODE_SUCCESS: return generateBarcodeSuccess(state, action)
 
+    case actionTypes.GET_BOOK_COPY_TYPE_START: return getBookCopyTypeStart(state, action)
+    case actionTypes.GET_BOOK_COPY_TYPE_FAILED: return getBookCopyTypeFail(state, action)
+    case actionTypes.GET_BOOK_COPY_TYPE_SUCCESS: return getBookCopyTypeSuccess(state, action)
   }
   return state
 }

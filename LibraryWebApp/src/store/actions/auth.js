@@ -8,12 +8,14 @@ export const authStart = ()=>{
     };
 }
 
-export const authSuccess = (token, userId,role)=>{
+export const authSuccess = (token, userId,role,avatar,username)=>{
     return{
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
         userId: userId,
-        role:role
+        role:role,
+        avatar:avatar,
+        username:username
     };
 }
 
@@ -26,19 +28,14 @@ export const authFail =(error) =>{
 }
 
 export const logout =()=>{
-    localStorage.removeItem('accessToken')
     localStorage.removeItem('expiryDate')
-    localStorage.removeItem('userId')
-    localStorage.removeItem('role')
-    localStorage.removeItem('username')
-
+    deleteAllCookies()
     return{
         type: actionTypes.AUTH_LOGOUT
     }
 }
 
 export const checkAuthTimeOut = (expirationTime) =>{
-    console.log(expirationTime)
     return dispatch =>{
         setTimeout(()=>{
             dispatch(logout())
@@ -54,61 +51,23 @@ export const auth = (username, password) =>{
             password:password,
             }
         let url='/auth/login'
-        axios.post(url,authData)
+        axios.post(url,authData,{withCredentials:true,credentials:"include"})
         .then(response =>{
             const expiryDate= new Date(response.data.expiryDate)
-            localStorage.setItem('accessToken',response.data.accessToken)
             localStorage.setItem('expiryDate', expiryDate)
-            localStorage.setItem('userId', response.data.userId)
-            localStorage.setItem('role', response.data.role)
-            localStorage.setItem('username', response.data.email)
-            dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-            // dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
+            setCookie("Userid",response.data.userId)
+            setCookie("Role",response.data.role)
+            setCookie("Avatar",response.data.avatar)
+            setCookie("Username",response.data.email)
+            dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
+            dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
         })
         .catch(err =>{
             dispatch(authFail(err.response.data.message))
         })
-        // let response=authPrototype.login(username,password)
-        // if(response.status){
-        //     const expiryDate= new Date(response.data.expiryDate)
-        //     localStorage.setItem('accessToken',response.data.accessToken)
-        //     localStorage.setItem('expiryDate', expiryDate)
-        //     localStorage.setItem('userId', response.data.userId)
-        //     localStorage.setItem('role', response.data.role)
-        //     localStorage.setItem('username', response.data.username)
-        //     dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-        //     dispatch(checkAuthTimeOut(expiryDate.getTime()- (new Date().getTime())))
-        // }else{
-        //     dispatch(authFail(response.err))
-        // }
-    }
-}
-export const authStaff = (username, password) =>{
-    return dispatch => {
-        dispatch(authStart());
-        const authData ={
-            username:username,
-            password:password,
-            }
-        let url='/api/auth/login'
-        axios.post(url,authData)
-        .then(response =>{
-            const expiryDate= new Date(response.data.expiryTime)
-            localStorage.setItem('accessToken',response.data.accessToken)
-            localStorage.setItem('expiryDate', expiryDate)
-            localStorage.setItem('userId', response.data.userId)
-            localStorage.setItem('role', response.data.role)
-            localStorage.setItem('username', response.data.username)
-            dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role))
-            dispatch(checkAuthTimeOut(response.data.expiryTime- (new Date().getTime())))
-        })
-        .catch(err =>{
-            dispatch(authFail(err.response.data.error))
-        })
     }
 }
 export const setAuthRedirectPath = (path) =>{
-    console.log(path)
     return {
         type: actionTypes.SET_AUTH_REDIRECT_PATH,
         path: path
@@ -117,7 +76,7 @@ export const setAuthRedirectPath = (path) =>{
 
 export const authCheckState = ()=>{
     return dispatch=>{
-        const token =localStorage.getItem('accessToken')
+        const token =getCookie("Authorization")
         if(!token){
             dispatch(logout())
         }else{
@@ -125,9 +84,11 @@ export const authCheckState = ()=>{
             if(expiryDate <= new Date()){
                 dispatch(logout())
             }else{
-                const userId = localStorage.getItem('userId')
-                const role= localStorage.getItem('role')
-                dispatch(authSuccess(token, userId,role))
+                const userId = getCookie("Userid")
+                const role= getCookie("Role")
+                const avt= getCookie("Avatar")
+                const username= getCookie("Username")
+                dispatch(authSuccess(token, userId,role,avt,username))
                 dispatch(checkAuthTimeOut(expiryDate.getTime()- (new Date().getTime())))
             }
         }
@@ -179,5 +140,35 @@ export const changePassword = (id, newPass) =>{
         .catch(err =>{
             dispatch(changePasswordFailed(err.response.data.error))
         })
+    }
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue;
+  }
+  function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 }

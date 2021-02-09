@@ -26,6 +26,7 @@ export {
     generateCopyBarcode,
     getAuthor,
     getGenre,
+    getBookCopyType
 } from './Librarian/Book'
 
 export {
@@ -69,7 +70,9 @@ export {
 export {
     clearBook,
     getReturningBook,
-    clearReturnBookError
+    clearReturnBookError,
+    deleteReturnBook,
+    returnBook
 } from './Librarian/ReturnBook'
 
 export {

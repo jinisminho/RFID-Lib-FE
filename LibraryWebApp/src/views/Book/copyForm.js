@@ -26,11 +26,10 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
     Label,
-    Row
+    Row,
+    Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
@@ -59,23 +58,34 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
 
     </>
 )
-
-const renderFieldAlter = ({ input, disabled, placeholder, type, meta: { touched, error } }) => (
+const renderSelectOptions = (option) => (
+    <option key={option.label} value={option.value}>{option.label}</option>
+)
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
     <>
-        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
-        {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-                <Popover>
-                    <Popover.Content>
-                        <span className="text-danger">{error}</span>
-                    </Popover.Content>
-                </Popover>
-            }
-        >
-            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-        </OverlayTrigger>))}
+        <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectOptions) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+        </Row>
     </>
 )
 
@@ -97,16 +107,17 @@ const validate = values => {
         errors.price = 'Price is not valid'
     }
 
-    if (!values.noc) {
-        errors.noc = 'Number of copy is required'
-    } else if (!/^[0-9]+$/i.test(values.noc)) {
-        errors.noc = 'Number of copy is not valid'
+    if (!values.numberOfCopies) {
+        errors.numberOfCopies = 'Number of copy is required'
+    } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
+        errors.numberOfCopies = 'Number of copy is not valid'
     }
     return errors
 }
 const CopyForm = ({
     handleSubmit,
-    handleCancel
+    handleCancel,
+    options
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
@@ -131,6 +142,14 @@ const CopyForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
+                        name="copyTypeId"
+                        title="Copy Type"
+                        options={options}
+                        component={renderSelectField}>
+                    </Field>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <Field
                         name="price"
                         type="number"
                         placeholder="Price"
@@ -140,7 +159,7 @@ const CopyForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
-                        name="noc"
+                        name="numberOfCopies"
                         type="number"
                         title="Number of copy"
                         normalize={validateNumber}

@@ -31,29 +31,36 @@ const validate = values => {
   const errors = {}
   if (!values.isbn) {
     errors.isbn = 'ISBN is required'
+  }else if(!/^[0-9]{10,13}$/i.test(values.isbn)){
+    errors.isbn = 'ISBN is not valid'
   }
   if (!values.title) {
     errors.title = 'Book title is required'
+  }else if(!values.title>255){
+    errors.title = 'Book title is not valid'
   }
   if (!values.publisher) {
     errors.publisher = 'Publisher is required'
   }
   if (!values.language) {
     errors.language = 'Language is required'
+  }else if(!values.language.length>30){
+    errors.language = 'Language is not valid'
   }
   if (!values.pageNumber) {
     errors.pageNumber = 'Number of page is required'
   } else if (!/^[0-9]+$/i.test(values.pageNumber)) {
     errors.pageNumber = 'Number of page is not valid'
   }
-  if (!values.category) {
-    errors.category = 'Category is required'
-  }
-  if (!values.subtitle) {
-    errors.subtitle = 'Subtitle is required'
+  if (values.subtitle) {
+    if(!values.subtitle>255){
+      errors.subtitle = 'Subtitle is not valid'
+    }
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
+  }else if(!values.callNumber.length>50){
+    errors.callNumber = 'Call number is not valid'
   }
   if (!values.edition) {
     errors.edition = 'Edition is required'
