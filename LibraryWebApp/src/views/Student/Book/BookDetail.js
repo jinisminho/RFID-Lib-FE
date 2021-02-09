@@ -169,7 +169,7 @@ class BookDetail extends React.Component {
         }
         return (
             <>
-                <Header />
+                {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
                         {display}

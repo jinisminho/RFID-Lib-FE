@@ -16,12 +16,13 @@
 
 */
 import Index from "views/Index.js";
-import RentingInf from "views/Librarian/RentingInfo.js";
+import CheckoutInf from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import BookDetail from "views/Book/BookDetail";
+import Policy from "views/Librarian/Policy";
 
 var routes = [
   // {
@@ -76,10 +77,17 @@ var routes = [
     layout: "/librarian"
   },
   {
-    path: "/renting",
-    name: "Renting Information",
+    path: "/checkoutInfo",
+    name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
+    component: CheckoutInf,
+    layout: "/librarian"
+  },
+  {
+    path: "/policy",
+    name: "Policy",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Policy,
     layout: "/librarian"
   },
 ];

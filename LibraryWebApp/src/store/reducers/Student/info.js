@@ -34,7 +34,7 @@ const getBorrowingInfoFail = (state, action) => {
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
     dataReturned: null
@@ -67,7 +67,7 @@ const getBorrowingInfoOverdueFail = (state, action) => {
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
     dataReturned: null
@@ -100,7 +100,7 @@ const getBorrowingInfoBorrowingFail = (state, action) => {
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
     dataReturned: null
@@ -133,7 +133,7 @@ const getBorrowingInfoReturnedFail = (state, action) => {
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
     dataReturned: null
@@ -162,7 +162,7 @@ const getExtendedHistoryInfoFail = (state, action) => {
     loading: false,
     total: 0,
     page: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     historyData: null,
   })
 }
@@ -208,7 +208,7 @@ const getStudentProfileFail = (state, action) => {
     loading: false,
     total: 0,
     page: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     profile: null,
   })
 }
@@ -233,7 +233,7 @@ const updateStudentProfileFail = (state, action) => {
     loading: false,
     total: 0,
     page: 1,
-    sizePerPage: 10,
+    sizePerPage: 5,
     data: null,
   })
 }
@@ -297,7 +297,7 @@ export default function reducer(state = {
   pageOverdue: 1,
   pageBorrowing: 1,
   pageReturned: 1,
-  sizePerPage: 10,
+  sizePerPage: 5,
   historyData: null,
   successMsg: null,
   profile: [],
