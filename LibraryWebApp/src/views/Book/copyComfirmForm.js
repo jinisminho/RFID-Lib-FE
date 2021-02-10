@@ -31,36 +31,10 @@ import {
     InputGroup,
     Row,
     Col,
-    Container,
     Label
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
-    <>
-        <Row>
-            <Label>{title}</Label>
-        </Row>
-        <Row>
-            <InputGroup className="input-group-alternative">
-                <Input {...input} placeholder={placeholder} type={type} disabled={disabled} />
-                {touched && ((error && <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement="right"
-                    overlay={
-                        <Popover>
-                            <Popover.Content>
-                                <span className="text-danger">{error}</span>
-                            </Popover.Content>
-                        </Popover>
-                    }
-                >
-                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                </OverlayTrigger>))}
-            </InputGroup>
-        </Row>
-    </>
-)
 
 const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched, error } }) => (
     <>
@@ -81,26 +55,6 @@ const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched,
     </>
 )
 
-// const renderCode = ({ fields, meta: { error, submitFailed } }) => (
-//     <>
-//         {fields.map((member, index) =>
-//             <InputGroup className="mb-3" key={index}>
-//                 <InputGroupAddon addonType="prepend">
-//                     <InputGroupText>
-//                         {index + 1}
-//                     </InputGroupText>
-//                 </InputGroupAddon>
-//                 <Field
-//                     name={`${member}.barcode`}
-//                     type="text"
-//                     placeholder="Book's barcode"
-//                     component={renderField}
-//                     disabled
-//                     label="Book's barcode" />
-//             </InputGroup>
-//         )}
-//     </>
-// )
 
 const renderCode = ({ fields, meta: { error, submitFailed } }) => (
     <>
@@ -125,8 +79,6 @@ const renderCode = ({ fields, meta: { error, submitFailed } }) => (
                             disabled
                             label="Book's barcode" />
                     </InputGroup>
-                    // </Row>
-
                 )}
             </div>
         </Row>
@@ -231,5 +183,5 @@ const ConfirmCopyForm = ({
 );
 
 export default reduxForm({
-    form: 'ConfirmCopyForm'
+    form: 'BookConfirmCopyForm'
 })(ConfirmCopyForm)

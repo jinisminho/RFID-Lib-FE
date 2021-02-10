@@ -261,9 +261,9 @@ export default function reducer(state = {
     case actionTypes.UPDATE_BOOK_FAILED: return updateBookFail(state, action)
     case actionTypes.UPDATE_BOOK_SUCCESS: return updateBookSuccess(state, action)
 
-    case actionTypes.ADD_COPY_BOOK_START: return addCopyStart(state, action)
-    case actionTypes.ADD_COPY_BOOK_FAILED: return addCopyFail(state, action)
-    case actionTypes.ADD_COPY_BOOK_SUCCESS: return addCopySuccess(state, action)
+    case actionTypes.ADD_BOOK_COPY_START: return addCopyStart(state, action)
+    case actionTypes.ADD_BOOK_COPY_FAILED: return addCopyFail(state, action)
+    case actionTypes.ADD_BOOK_COPY_SUCCESS: return addCopySuccess(state, action)
 
     case actionTypes.GENERATE_COPY_BARCODE_START: return generateBarcodeStart(state, action)
     case actionTypes.GENERATE_COPY_BARCODE_FAILED: return generateBarcodeFailed(state, action)

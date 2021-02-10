@@ -23,7 +23,6 @@ import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
-import DeleteButton from '../../components/Button/DeleteButton'
 import BookFormImg from './bookFormImg'
 import CopyForm from './copyForm'
 import ConfirmCopyForm from './copyComfirmForm'
@@ -90,6 +89,9 @@ class Book extends React.Component {
         }
         if (this.props.bookCopyData != null && !this.state.confirmFormShow) {
             this.setState({ confirmFormShow: true })
+        }
+        if(this.props.bookCopyData == null && this.state.confirmFormShow){
+            this.setState({ confirmFormShow: false })
         }
     }
     getAuthorData() {
@@ -270,13 +272,13 @@ class Book extends React.Component {
         values.members.forEach(element => {
             barcodes.push(element.barcode)
         });
-        data["bookId"] = values.id
-        data["creatorId"] = this.props.userid
-        data["copyTypeId"] = this.state.copyType
-        data["price"] = this.state.price
-        data["barcodes"] = barcodes
-        this.props.onAddCopy(data)
-        this.setState({
+        data["bookId"]=values.id
+        data["creatorId"]=this.props.userid
+        data["copyTypeId"]=this.state.copyType
+        data["price"]=this.state.price
+        data["barcodes"]=barcodes
+         this.props.onAddCopy(data)
+        this.setState({ 
             confirmFormShow: false,
             copyType: null,
             price: null
@@ -338,11 +340,16 @@ class Book extends React.Component {
                 <p>by {author.join(", ")}</p>
                 <p>Edition: {row.edition}</p>
                 <p>ISBN: {row.isbn}</p>
-                <p>Number of available copy: {row.stock ? row.stock : 0}/{row.numberOfCopy}</p>
-                <p>Status: {MyConstant.BOOK_STATUS_LIST[row.status]}</p>
+                <p>Number of available copy: {row.stock?row.stock:0}/{row.numberOfCopy}</p>
+                <p>Status: {MyConstant.BOOK_STATUS_ADD_LIST[row.status]}</p>
                 <p>Call number: {row.callNumber}</p>
             </>
         )
+    }
+    getInitialAddStatus(){
+        return{
+            status:Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)[0]
+        }
     }
     getInitialValues = () => {
         let author = []
@@ -376,7 +383,8 @@ class Book extends React.Component {
         return {
             isbn: this.state.copyData ? this.state.copyData.isbn : '',
             title: this.state.copyData ? this.state.copyData.title : '',
-            id: this.state.copyData ? this.state.copyData.id : ''
+            id: this.state.copyData ? this.state.copyData.id : '',
+            copyTypeId:this.props.copyTypes?this.props.copyTypes[0]["value"]:""
         };
     }
     render() {
@@ -436,7 +444,7 @@ class Book extends React.Component {
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg initialValues={this.getInitialAddStatus()} authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>

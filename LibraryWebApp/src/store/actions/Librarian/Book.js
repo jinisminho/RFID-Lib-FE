@@ -161,18 +161,18 @@ export const addBook = (data) => {
 
 export const addCopyStart =()=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_START
+        type: actionTypes.ADD_BOOK_COPY_START
     })
 } 
 export const addCopyFail =(error)=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_FAILED,
+        type: actionTypes.ADD_BOOK_COPY_FAILED,
         error:error
     })
 } 
 export const addCopySuccess =()=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_SUCCESS,
+        type: actionTypes.ADD_BOOK_COPY_SUCCESS,
     })
 } 
 export const addBookCopy = (data) => {

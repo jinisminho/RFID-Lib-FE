@@ -56,7 +56,7 @@ class Main extends Component {
           </Switch>
         )
       }
-      else if (this.props.role == "ROLE_STUDENT") {
+      else if (this.props.role == "ROLE_PATRON") {
         display = (
             <Switch>
             <Route path="/patron" render={props => <PatronLayout {...props} />} />
