@@ -51,14 +51,16 @@ class Book extends React.Component {
             updateData: null,
             confirmFormShow: false,
             imageLoading: false,
-            price:null,
-            copyType:null
+            price: null,
+            copyType: null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this);
         this.getAuthorData = this.getAuthorData.bind(this);
         this.getGenreData = this.getGenreData.bind(this);
+        this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this);
+        
     }
     componentDidMount() {
         this.fetchData();
@@ -177,7 +179,7 @@ class Book extends React.Component {
         })
     }
     handleUpdateSubmit(values) {
-        values.publishYear=values.publishYear.getFullYear()
+        values.publishYear = values.publishYear.getFullYear()
         let authorList = []
         values.authorIds.forEach(element => {
             authorList.push(element["value"])
@@ -214,7 +216,7 @@ class Book extends React.Component {
 
     }
     handleCopySubmit(values) {
-        this.setState({ copyShow: false, price:values.price,copyType:values.copyTypeId })
+        this.setState({ copyShow: false, price: values.price, copyType: values.copyTypeId })
         delete values["title"]
         delete values["id"]
         this.props.onGenerateBarcode(values)
@@ -236,24 +238,24 @@ class Book extends React.Component {
                 barcode.push({ "barcode": el })
             });
         }
-        let copyType=""
-        if(this.props.copyTypes){
+        let copyType = ""
+        if (this.props.copyTypes) {
             this.props.copyTypes.forEach(element => {
-                if(element.value==this.state.copyType){
-                    copyType=element.label
+                if (element.value == this.state.copyType) {
+                    copyType = element.label
                 }
             });
         }
         return {
             isbn: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.isbn : '',
-            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.authors : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.author : '',
             price: this.state.price ? this.state.price : '',
             title: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.title : '',
             edition: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.edition : '',
             copyType: copyType,
             members: barcode,
             img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
-            id:this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : ''
+            id: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : ''
         };
     }
     handleConfirmCancel = () => {
@@ -263,21 +265,21 @@ class Book extends React.Component {
         this.fetchData()
     }
     handleConfirmSubmit = (values) => {
-        let data ={}
-        let barcodes=[]
+        let data = {}
+        let barcodes = []
         values.members.forEach(element => {
             barcodes.push(element.barcode)
         });
-        data["bookId"]=values.id
-        data["creatorId"]=this.props.userid
-        data["copyTypeId"]=this.state.copyType
-        data["price"]=this.state.price
-        data["barcodes"]=barcodes
+        data["bookId"] = values.id
+        data["creatorId"] = this.props.userid
+        data["copyTypeId"] = this.state.copyType
+        data["price"] = this.state.price
+        data["barcodes"] = barcodes
         this.props.onAddCopy(data)
-        this.setState({ 
+        this.setState({
             confirmFormShow: false,
-            copyType:null,
-            price:null
+            copyType: null,
+            price: null
         })
     }
     activeFormatter(cell, row) {
@@ -321,7 +323,7 @@ class Book extends React.Component {
     bookDescriptionFormat(cell, row) {
         let title = row.title ? (
             <Link to={{
-                pathname: '/librarian/book/detail',
+                pathname: this.props.location.pathname.includes('/admin') ? '/admin/bookDetail' : '/librarian/book/detail',
                 state: {
                     book: row,
                 }
@@ -336,7 +338,7 @@ class Book extends React.Component {
                 <p>by {author.join(", ")}</p>
                 <p>Edition: {row.edition}</p>
                 <p>ISBN: {row.isbn}</p>
-                <p>Number of available copy: {row.stock?row.stock:0}/{row.numberOfCopy}</p>
+                <p>Number of available copy: {row.stock ? row.stock : 0}/{row.numberOfCopy}</p>
                 <p>Status: {MyConstant.BOOK_STATUS_LIST[row.status]}</p>
                 <p>Call number: {row.callNumber}</p>
             </>
@@ -540,8 +542,8 @@ const mapStateToProps = state => {
         bookCopyData: state.book.bookCopyData,
         authorData: state.book.authorData,
         genreData: state.book.genreData,
-        copyTypes:state.book.copyTypes,
-        userid:state.Auth.userId
+        copyTypes: state.book.copyTypes,
+        userid: state.Auth.userId
     }
 }
 

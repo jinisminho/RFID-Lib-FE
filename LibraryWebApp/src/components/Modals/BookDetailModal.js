@@ -37,7 +37,7 @@ const bookDetailModal = (props) => {
           hover
         >
           <TableHeaderColumn dataField="title" isKey dataAlign="center" width="24%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
-          <TableHeaderColumn dataField="authors" dataFormat={getName} dataAlign="center" width="15%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Authors</TableHeaderColumn>
+          <TableHeaderColumn dataField="author" dataFormat={getName} dataAlign="center" width="15%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Authors</TableHeaderColumn>
           <TableHeaderColumn dataField="isbn" dataAlign="center" width="15%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
           <TableHeaderColumn dataField="publisher" dataAlign="center" width="10%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Publisher</TableHeaderColumn>
           <TableHeaderColumn dataField="language" dataAlign="center" width="5%" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Language</TableHeaderColumn>

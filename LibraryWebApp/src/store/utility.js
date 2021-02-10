@@ -45,64 +45,6 @@ export function compareDate(date1, date2) {
     );
 }
 
-// export function bookDescriptionFormat(cell, row) {
-//     let res = "";
-//     let authors = row.authors;
-//     let authorStr = "";
-
-//     let i = 0;
-//     authors.forEach(element => {
-//         i < authors.length - 1 ? authorStr += " " + element["name"] + " , " : authorStr += " " + element["name"] + " ";
-//         i++;
-//     });
-
-//     res += row.sub ? row.title + " - " + row.sub : row.title
-//     res +=  " / By " + authorStr + " - Publisher:" + row.publisher + " - " + row.language + " - " + row.nop + " pages - Edition: " + row.edition 
-
-//     return res;
-
-//     // let authorStr = row.author.join();
-//     // return (
-//     //     <Row>
-
-//     //         <Col className="col-6">Title: {row.title}</Col>
-//     //         <Col className="col-6">Subtitle: {row.sub}</Col>
-//     //         <Col className="col-4">DDC: {row.ddc}</Col>
-//     //         <Col className="col-4">Author: {authorStr}</Col>
-//     //         <Col className="col-4">Publisher:{row.publisher}</Col>
-//     //         <Col className="col-4">Language: {row.language}</Col>
-//     //         <Col className="col-4">Number of page: {row.nop}</Col>
-//     //         <Col className="col-4">Edition: {row.edition}</Col>
-//     //     </Row>
-//     // )
-// }
-
-// export function bookDescriptionFormat(cell, row) {
-//     let thisBook = [];
-//     thisBook.push(row)
-//     console.log(row, thisBook);
-//     let author = row.author.join(", ")
-//     let position = "Available at " + row.ddc
-//     let position_class = "text-success"
-//     if (row.status == "NOT_AVAILABLE") {
-//         position = "Not available"
-//         position_class = "text-danger"
-//     }
-//     return (
-//         <>
-//             <Link to={{
-//                 pathname: '/student/book/detail',
-//                 state: {
-//                     book: thisBook
-//                 }
-//             }}><h2 className="font-weight-bolder">{row.title}: {row.sub}</h2></Link>
-//             <p>by {author}</p>
-//             <p>Edition: {row.edition}</p>
-//             <p className={position_class}>{position}</p>
-//         </>
-//     )
-// }
-
 const detailsTextClassName = "h3"
 
 export function bookDescriptionFormat(cell, row, extraData) {
@@ -120,18 +62,13 @@ export function bookDescriptionFormat(cell, row, extraData) {
         }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
     ) : null;
 
-    let authors = row.authors && !hide.author ? (row.authors.length > 0 ? row.authors : []) : [];
+    let authors = row.author && !hide.author ? (row.author.length > 0 ? row.author : []) : [];
     let authorStr = "";
     let i = 0;
     authors.forEach(element => {
         i < authors.length - 1 ? authorStr += " " + element["name"] + " , " : authorStr += " " + element["name"] + " ";
         i++;
     });
-    // if (authors)
-    //     authors.forEach(element => {
-    //         i < authors.length - 1 ? authorStr += " " + element + " , " : authorStr += " " + element + " ";
-    //         i++;
-    //     });
     // let authorStr = row.author.join(", ")
     let author = authorStr !== null && authorStr !== '' ? (
         <p className={detailsTextClassName}>Author(s): {authorStr}</p>
