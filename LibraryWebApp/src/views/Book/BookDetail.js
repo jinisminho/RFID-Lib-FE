@@ -63,11 +63,19 @@ class BookDetail extends React.Component {
     render() {
         const thisBook = this.state.book
 
-        let authors = thisBook.authors ? (thisBook.authors.length > 0 ? thisBook.authors : []) : [];
+        let authors = thisBook.author ? (thisBook.author.length > 0 ? thisBook.author : []) : [];
         let formatedAuthor = "";
         let i = 0;
         authors.forEach(element => {
             i < authors.length - 1 ? formatedAuthor += " " + element["name"] + " , " : formatedAuthor += " " + element["name"] + " ";
+            i++;
+        });
+
+        let genres = thisBook.genres ? (thisBook.genres.length > 0 ? thisBook.genres : []) : [];
+        let formatedGenres = "";
+        i = 0;
+        genres.forEach(element => {
+            i < genres.length - 1 ? formatedGenres += " " + element["name"] + " , " : formatedGenres += " " + element["name"] + " ";
             i++;
         });
 
@@ -92,16 +100,16 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Subtitle:</th>
-                                    <td>{thisBook.sub}</td>
+                                    <td>{thisBook.subtitle}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Total available:</th>
                                     <td>{thisBook.stock}</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <th className="pl-sm-4 pl-7">Location:</th>
                                     <td>{thisBook.location}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Call number:</th>
                                     <td>{thisBook.callNumber}</td>
@@ -137,7 +145,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Number of pages:</th>
-                                    <td className="border-0">{thisBook.nop}</td>
+                                    <td className="border-0">{thisBook.pageNumber}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Language:</th>
@@ -145,7 +153,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Genre(s):</th>
-                                    <td className="border-0">{thisBook.genre}</td>
+                                    <td className="border-0">{formatedGenres}</td>
                                 </tr>
                             </tbody>
                         </Table>

@@ -63,7 +63,7 @@ class BookDetail extends React.Component {
     render() {
         const thisBook = this.state.book[0]
 
-        let authors = thisBook.authors ? (thisBook.authors.length > 0 ? thisBook.authors : []) : [];
+        let authors = thisBook.author ? (thisBook.author.length > 0 ? thisBook.author : []) : [];
         let formatedAuthor = "";
         let i = 0;
         authors.forEach(element => {
@@ -102,7 +102,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Subtitle:</th>
-                                    <td>{thisBook.sub}</td>
+                                    <td>{thisBook.subtitle}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Total available:</th>

@@ -68,7 +68,7 @@ class Librarian extends React.Component {
           routes={routes}
           logo={{
             innerLink: "/librarian/index",
-            imgSrc: require("assets/img/brand/logo_trans.PNG"),
+            imgSrc: require("assets/img/brand/logo_trans_2.png"),
             imgAlt: "..."
           }}
         />

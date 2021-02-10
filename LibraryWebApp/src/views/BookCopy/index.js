@@ -248,7 +248,7 @@ class BookCopy extends React.Component {
             id: this.state.updateData ? this.state.updateData.id : '',
             price: this.state.updateData ? this.state.updateData.price : '',
             copyType: this.state.updateData ? (this.state.updateData.copyType? this.state.updateData.copyType.id : '') : '',
-            img: this.state.updateData ? this.state.updateData.img : '',
+            img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
             subtitle: this.state.updateData ? this.state.updateData.book.subtitle : '',
             authors: author.join(", "),
@@ -264,8 +264,8 @@ class BookCopy extends React.Component {
         let copyType=""
         if(this.props.copyTypes){
             this.props.copyTypes.forEach(element => {
-                if(element.value==this.state.copyType){
-                    copyType=element.label
+                if(element.id==this.state.copyType){
+                    copyType=element.name
                 }
             });
         }

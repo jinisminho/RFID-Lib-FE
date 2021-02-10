@@ -1,18 +1,18 @@
 export const arrayOfBooks = [
-  { "id": 1,"status": "IN_CIRCULATION", "ddc":"1231231111",  "stock": 6, "title": "Harry", "authors": [{ "id": 1, "name": "Jk" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 2,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 7, "title": "Harry2", "authors": [{ "id": 1, "name": "k" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 3,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 6, "title": "Harry3", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 4, "onlyInLibrary": true, "status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 0, "title": "Harry4", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 5,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 5, "title": "Harry5", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kjj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 6,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "authors": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 7,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 10, "title": "Sapiens", "sub": "A Brief History of Humankind", "authors": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
-  { "id": 8,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 11, "title": "Nineteen Eighty-Four", "authors": [{ "id": 6, "name": "George Orwell" }], "isbn": "1521900515", "publisher": "Independently published","publishYear":2017, "language": "English", "nop": 292, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 1,"status": "IN_CIRCULATION", "ddc":"1231231111",  "stock": 6, "title": "Harry", "author": [{ "id": 1, "name": "Jk" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 2,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 7, "title": "Harry2", "author": [{ "id": 1, "name": "k" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 3,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 6, "title": "Harry3", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 4, "onlyInLibrary": true, "status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 0, "title": "Harry4", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 5,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 5, "title": "Harry5", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kjj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 6,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "author": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 7,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 10, "title": "Sapiens", "sub": "A Brief History of Humankind", "author": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 8,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 11, "title": "Nineteen Eighty-Four", "author": [{ "id": 6, "name": "George Orwell" }], "isbn": "1521900515", "publisher": "Independently published","publishYear":2017, "language": "English", "nop": 292, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
 ];
 
 export var wishList = [
-  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "authors": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
-  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "authors": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
-  { "id": 8, "stock": 11, "title": "Harry8", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
+  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "author": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
+  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "author": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
+  { "id": 8, "stock": 11, "title": "Harry8", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
 ];
 
 export const rentingInfo = [
@@ -25,7 +25,7 @@ export const rentingInfo = [
       "id": 1,
       "stock": 6,
       "title": "Harry",
-      "authors": [
+      "author": [
         {
           "id": 1,
           "name": "J. K. Rowling"
@@ -53,7 +53,7 @@ export const rentingInfo = [
       "id": 2,
       "stock": 8,
       "title": 1984,
-      "authors": [
+      "author": [
         {
           "id": 2,
           "name": "George Orwell"
@@ -81,7 +81,7 @@ export const rentingInfo = [
       "id": 3,
       "stock": 2,
       "title": "Lord of the Flies",
-      "authors": [
+      "author": [
         {
           "id": 3,
           "name": "William Golding"
@@ -117,7 +117,7 @@ export const rentingInfo = [
       "id": 4,
       "stock": 6,
       "title": "Doctor Sleep",
-      "authors": [
+      "author": [
         {
           "id": 6,
           "name": "Stephen King"
@@ -145,7 +145,7 @@ export const rentingInfo = [
       "id": 5,
       "stock": 6,
       "title": "Doctor Sleep",
-      "authors": [
+      "author": [
         {
           "id": 6,
           "name": "Stephen King"
@@ -173,7 +173,7 @@ export const rentingInfo = [
       "id": 6,
       "stock": 6,
       "title": "Harmony",
-      "authors": [
+      "author": [
         {
           "id": 7,
           "name": "Project Itoh"
