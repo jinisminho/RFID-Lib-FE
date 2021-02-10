@@ -29,6 +29,7 @@ import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
 import Student from "views/Admin/Student/index.js";
+import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Admin/Policy";
 
 var routes = [
@@ -53,6 +54,14 @@ var routes = [
     icon: "ni ni-book-bookmark text-primary",
     component: Book,
     layout: "/admin"
+  },
+  {
+    path: "/bookDetail",
+    name: "Book Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: BookDetail,
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/copy",
