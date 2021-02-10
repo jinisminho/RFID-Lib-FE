@@ -113,18 +113,22 @@ const validate = values => {
     if (!values.isbn) {
         errors.isbn = 'ISBN is required'
     }
-    if (!values.copyTypeId && values.copyTypeId !=="") {
+    if (!(values.copyTypeId && values.copyTypeId !=="")) {
         errors.copyTypeId = 'Copy type is required'
     }
     if (!values.price) {
         errors.price = 'Price is required'
     } else if (!/^[0-9]+$/i.test(values.price)) {
         errors.price = 'Price is not valid'
+    }else if(parseInt(values.price)<1000 || parseInt(values.price)>1000000000){
+        errors.price = 'Price is not valid'
     }
 
     if (!values.numberOfCopies) {
         errors.numberOfCopies = 'Number of copy is required'
     } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
+        errors.numberOfCopies = 'Number of copy is not valid'
+    }else if(parseInt(values.numberOfCopies)>50){
         errors.numberOfCopies = 'Number of copy is not valid'
     }
     return errors

@@ -337,10 +337,15 @@ class Book extends React.Component {
                 <p>Edition: {row.edition}</p>
                 <p>ISBN: {row.isbn}</p>
                 <p>Number of available copy: {row.stock?row.stock:0}/{row.numberOfCopy}</p>
-                <p>Status: {MyConstant.BOOK_STATUS_LIST[row.status]}</p>
+                <p>Status: {MyConstant.BOOK_STATUS_ADD_LIST[row.status]}</p>
                 <p>Call number: {row.callNumber}</p>
             </>
         )
+    }
+    getInitialAddStatus(){
+        return{
+            status:Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)[0]
+        }
     }
     getInitialValues = () => {
         let author = []
@@ -434,7 +439,7 @@ class Book extends React.Component {
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg initialValues={this.getInitialAddStatus()} authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>

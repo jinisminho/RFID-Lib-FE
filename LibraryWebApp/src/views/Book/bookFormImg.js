@@ -41,6 +41,8 @@ const validate = values => {
   }
   if (!values.publisher) {
     errors.publisher = 'Publisher is required'
+  }else if(!values.publisher>255){
+    errors.publisher = 'Publisher is not valid'
   }
   if (!values.language) {
     errors.language = 'Language is required'
@@ -50,6 +52,8 @@ const validate = values => {
   if (!values.pageNumber) {
     errors.pageNumber = 'Number of page is required'
   } else if (!/^[0-9]+$/i.test(values.pageNumber)) {
+    errors.pageNumber = 'Number of page is not valid'
+  }else if(parseInt(values.pageNumber)>100000){
     errors.pageNumber = 'Number of page is not valid'
   }
   if (values.subtitle) {
@@ -66,6 +70,8 @@ const validate = values => {
     errors.edition = 'Edition is required'
   } else if (!/^[0-9]+$/i.test(values.edition)) {
     errors.edition = 'Edition is not valid'
+  }else if(parseInt(values.edition)>1000){
+    errors.edition = 'Edition page is not valid'
   }
   if (!values.publishYear) {
     errors.publishYear = 'Publish year is required'
@@ -76,10 +82,43 @@ const validate = values => {
   if (!values.authorIds || values.authorIds.length==0) {
     errors.authorIds = 'Author is required'
   } 
+  if (!values.status) {
+    errors.status = 'Status is required'
+  } 
   
   return errors
 }
-
+const renderSelectOptions = (option) => (
+  <option key={option} value={option}>{MyConstant.BOOK_STATUS_ADD_LIST[option]}</option>
+)
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
+  return(
+  <>
+      <Row>
+              <Label>{title}</Label>
+          </Row>
+          <Row >
+              <InputGroup className="input-group-alternative">
+                  <select {...input} className="form-control">
+                      {options ? options.map(renderSelectOptions) : null}
+                  </select>
+                  {touched && ((error && <OverlayTrigger
+                      trigger={['hover', 'focus']}
+                      placement="right"
+                      overlay={
+                          <Popover>
+                              <Popover.Content>
+                                  <span className="text-danger">{error}</span>
+                              </Popover.Content>
+                          </Popover>
+                      }
+                  >
+                      <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                  </OverlayTrigger>))}
+              </InputGroup>
+      </Row>
+  </>
+)}
  
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
   <>
@@ -181,7 +220,9 @@ class BookFormImg extends Component {
   state = { imageFile: []};
   componentDidMount(){
     if(this.props.initialValues){
-      this.setState({imageFile:[this.props.initialValues.img]})
+      if(this.props.initialValues.img){
+        this.setState({imageFile:[this.props.initialValues.img]})
+      }
     }
   }
   handleOnDrop = newImageFile => this.setState({ imageFile: newImageFile });
@@ -300,18 +341,13 @@ class BookFormImg extends Component {
             </Col>
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
               <FormGroup className="mb-3">
-                <Row>
-                  <Label>Status</Label>
-                </Row>
-                <Row>
-                  <InputGroup className="mb-3 input-group-alternative">
-                    <Field name="status" component="select" className="form-control">
-                      {Object.keys(MyConstant.BOOK_STATUS_LIST).map(el => {
-                        return <option key={el} value={el}>{MyConstant.BOOK_STATUS_LIST[el]}</option>
-                      })}
+                <Field
+                        name="status"
+                        title="Status"
+                        defaultValue={Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)[0]}
+                        options={Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)}
+                        component={renderSelectField}>
                     </Field>
-                  </InputGroup>
-                </Row>
               </FormGroup>
             </Col>
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
