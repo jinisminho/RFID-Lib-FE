@@ -23,7 +23,6 @@ import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
-import DeleteButton from '../../components/Button/DeleteButton'
 import BookFormImg from './bookFormImg'
 import CopyForm from './copyForm'
 import ConfirmCopyForm from './copyComfirmForm'
@@ -88,6 +87,9 @@ class Book extends React.Component {
         }
         if (this.props.bookCopyData != null && !this.state.confirmFormShow) {
             this.setState({ confirmFormShow: true })
+        }
+        if(this.props.bookCopyData == null && this.state.confirmFormShow){
+            this.setState({ confirmFormShow: false })
         }
     }
     getAuthorData() {
@@ -273,7 +275,7 @@ class Book extends React.Component {
         data["copyTypeId"]=this.state.copyType
         data["price"]=this.state.price
         data["barcodes"]=barcodes
-        this.props.onAddCopy(data)
+         this.props.onAddCopy(data)
         this.setState({ 
             confirmFormShow: false,
             copyType:null,
@@ -379,7 +381,8 @@ class Book extends React.Component {
         return {
             isbn: this.state.copyData ? this.state.copyData.isbn : '',
             title: this.state.copyData ? this.state.copyData.title : '',
-            id: this.state.copyData ? this.state.copyData.id : ''
+            id: this.state.copyData ? this.state.copyData.id : '',
+            copyTypeId:this.props.copyTypes?this.props.copyTypes[0]["value"]:""
         };
     }
     render() {

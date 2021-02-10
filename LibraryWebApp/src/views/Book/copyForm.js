@@ -112,6 +112,9 @@ const validate = values => {
     } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
         errors.numberOfCopies = 'Number of copy is not valid'
     }
+    if (!(values.copyTypeId && values.copyTypeId !=="")) {
+        errors.copyTypeId = 'Copy type is required'
+    }
     return errors
 }
 const CopyForm = ({

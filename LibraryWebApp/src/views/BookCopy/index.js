@@ -96,6 +96,9 @@ class BookCopy extends React.Component {
         if (this.props.bookCopyData != null && !this.state.confirmFormShow) {
             this.setState({ confirmFormShow: true })
         }
+        if (this.props.bookCopyData == null && this.state.confirmFormShow) {
+            this.setState({ confirmFormShow: false })
+        }
     }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
@@ -193,7 +196,6 @@ class BookCopy extends React.Component {
         })
     }
     handleSelectChange(values) {
-        console.log(values)
         let tmp = []
         if (values != null) {
             values.forEach(el => {
@@ -270,8 +272,8 @@ class BookCopy extends React.Component {
         let copyType = ""
         if (this.props.copyTypes) {
             this.props.copyTypes.forEach(element => {
-                if (element.value == this.state.copyType) {
-                    copyType = element.label
+                if (element.id == this.state.copyType) {
+                    copyType = element.name
                 }
             });
         }
@@ -299,7 +301,11 @@ class BookCopy extends React.Component {
         values["userid"] = this.props.userid
         this.props.onTagRFID(values)
     }
-
+    getInitialCopyValues() {
+        return {
+            copyTypeId:this.props.copyTypes?this.props.copyTypes[0]["id"]:""
+        };
+    }
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -338,7 +344,7 @@ class BookCopy extends React.Component {
                         <Modal.Title>Add Copy</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CopyAddForm options={this.props.copyTypes} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleGenerateSubmit(values)} />
+                        <CopyAddForm options={this.props.copyTypes} initialValues={this.getInitialCopyValues()} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleGenerateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal dialogClassName="two-col-modal" backdrop="static" show={this.state.confirmFormShow} onHide={() => { this.handleConfirmCancel() }} centered>
