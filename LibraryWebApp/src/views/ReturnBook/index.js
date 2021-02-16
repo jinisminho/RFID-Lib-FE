@@ -95,7 +95,7 @@ class ReturnBook extends React.Component {
                 errorShow: false,
                 bookCodeList: [...this.state.bookCodeList, data.trim()]
             })
-            this.props.onGetBook(data.trim(), this.props.userid)
+            this.props.onGetBook(data.trim())
         }
     }
     clearReturnBookError() {
@@ -208,7 +208,7 @@ class ReturnBook extends React.Component {
                         <Modal.Title>Confirm Return</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
-                        <h1 className="text-primary display-1"><i class="fas fa-question-circle"></i></h1>
+                        <h1 className="text-primary display-1"><i className="fas fa-question-circle"></i></h1>
                         <h2>Confirm return books</h2>
                     </Modal.Body>
                     <Modal.Footer>
@@ -252,7 +252,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetBook: (search, libid) => dispatch(actions.getReturningBook(search, libid)),
+        onGetBook: (search) => dispatch(actions.getReturningBook(search)),
         onClearBook: () => dispatch(actions.clearBook()),
         onClearReturnBookError: () => dispatch(actions.clearReturnBookError()),
         onDeleteBook: (id) => dispatch(actions.deleteReturnBook(id)),

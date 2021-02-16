@@ -187,7 +187,7 @@ class Checkout extends React.Component {
     }
     handleScan(data) {
         if (this.props.studentData != null) {
-            if (!this.state.bookCodeList.includes(data.trim())) {
+            if (!(this.state.bookCodeList.includes(data.trim()) || data.trim().length!=24)) {
                 this.setState({
                     successShow: false,
                     errorShow: false,
@@ -195,7 +195,7 @@ class Checkout extends React.Component {
                 })
                 this.props.onGetBook(data.trim(),this.props.studentData.id)
             }
-        } else {
+        } else if(data.trim().toUpperCase().includes("PAT#")) {
             this.setState({
                 successShow: false,
                 errorShow: false
@@ -214,7 +214,7 @@ class Checkout extends React.Component {
         this.props.bookData.forEach(book => {
             booklist.push(book.copy.rfid)
         });
-        this.props.onCheckout(studentid, booklist,reason,this.props.userid)
+        this.props.onCheckout(studentid, booklist,reason,this.props.userid,this.props.studentData.email)
     }
     activeFormatter(cell, row) {
         return (
@@ -430,7 +430,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (search) => dispatch(actions.getStudent(search)),
         onGetBook: (search,id) => dispatch(actions.getStudentBook(search,id)),
-        onCheckout: (studentid, booklist,reason,libid) => dispatch(actions.checkout(studentid, booklist,reason,libid)),
+        onCheckout: (studentid, booklist,reason,libid,mail) => dispatch(actions.checkout(studentid, booklist,reason,libid,mail)),
         onClearData: () => dispatch(actions.clearData()),
         onDeleteBook: (id) => dispatch(actions.deleteCheckoutBook(id)),
         onClearBookError: () => dispatch(actions.clearBookError()),

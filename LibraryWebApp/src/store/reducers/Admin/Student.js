@@ -32,6 +32,30 @@ const getStudentFail = (state, action) =>{
   })
 }
 
+const getAllPatronTypeStart = (state, action) =>{
+  return updateObject(state,{
+    error:null, 
+    loading:true,
+    deleteSuccess:false,
+    updateSuccess:false,
+    addSuccess:false,
+    patronType:[]
+  })
+}
+const getAllPatronTypeSuccess = (state, action)=>{
+  return updateObject(state,{
+      patronType: action.data,
+      error:null,
+      loading:false,
+  })
+}
+const getAllPatronTypeFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+  })
+}
+
 const deleteStudentStart = (state, action) =>{
   return updateObject(state,{
     error:null,
@@ -111,7 +135,8 @@ export default function reducer(state = {
     sizePerPage:10,
     deleteSuccess: false,
     updateSuccess:false,
-    addSuccess:false
+    addSuccess:false,
+    patronType:[]
 }, action) {
   switch(action.type){
     case actionTypes.ADMIN_GET_STUDENT_START: return getStudentStart(state, action)
@@ -129,6 +154,10 @@ export default function reducer(state = {
     case actionTypes.UPDATE_STUDENT_START: return updateStudentStart(state, action)
     case actionTypes.UPDATE_STUDENT_FAILED: return updateStudentFail(state, action)
     case actionTypes.UPDATE_STUDENT_SUCCESS: return updateStudentSuccess(state, action)
+
+    case actionTypes.GET_ALL_PATRON_TYPE_START: return getAllPatronTypeStart(state, action)
+    case actionTypes.GET_ALL_PATRON_TYPE_SUCCESS: return getAllPatronTypeSuccess(state, action)
+    case actionTypes.GET_ALL_PATRON_TYPE_FAILED: return getAllPatronTypeFail(state, action)
 }
 return state
 }

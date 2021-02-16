@@ -16,21 +16,22 @@
 
 */
 import React from "react";
-import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import { FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
 import * as actions from '../../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../../components/Spinner/Spinner'
 import UpdateButton from '../../../components/Button/UpdateButton'
 import StudentForm from './studentForm'
+import StudentUpdateForm from './studentUpdateForm'
 import moment from 'moment'
 import {
     Card,
-    CardHeader,
     Container
 } from "reactstrap";
+import { storage } from '../../../firebase'
+
 class Student extends React.Component {
     constructor(props) {
         super(props);
@@ -40,10 +41,11 @@ class Student extends React.Component {
             successShow: false,
             errorShow: false,
             confirmActiveStatus: false,
-            confirmDisableStatus:false,
+            confirmDisableStatus: false,
             statusId: null,
             updateFormShow: false,
-            updateData: null
+            updateData: null,
+            imageLoading: false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -51,6 +53,7 @@ class Student extends React.Component {
     }
     componentDidMount() {
         this.fetchData();
+        this.getPatronType();
     }
     componentDidUpdate() {
         let msg = null
@@ -69,6 +72,9 @@ class Student extends React.Component {
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue: '' })
         }
+    }
+    getPatronType() {
+        this.props.onGetPatronType()
     }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
@@ -98,8 +104,25 @@ class Student extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
     handleAddSubmit(values) {
-        this.setState({ addFormShow: false })
-        this.props.onAddStudent(values)
+        const uploadTask = storage.ref(`images/patron/${values.avatar[0].name}`).put(values.avatar[0])
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                this.setState({ imageLoading: true, addFormShow: false })
+            },
+            (error) => {
+                // console.log(error)
+                this.setState({ imageLoading: false })
+            },
+            () => {
+                storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                    this.setState({ imageLoading: false })
+                    values["avatar"] = url
+                    values["creatorId"]=this.props.userid
+                    this.props.onAddStudent(values)
+                })
+            }
+        )
+
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -112,40 +135,75 @@ class Student extends React.Component {
         })
     }
     handleUpdateSubmit(values) {
-        this.setState({ updateFormShow: false })
-        this.props.onUpdateStudent(values)
+        if (Array.isArray(values.avatar)) {
+            const uploadTask = storage.ref(`images/patron/${values.avatar[0].name}`).put(values.avatar[0])
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    this.setState({ imageLoading: true, updateFormShow: false })
+                },
+                (error) => {
+                    // console.log(error)
+                    this.setState({ imageLoading: false })
+                },
+                () => {
+                    storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                        this.setState({ imageLoading: false })
+                        values["avatar"] = url
+                        values["updaterId"] = this.props.userid
+                        this.props.onUpdateStudent(values)
+                    })
+                }
+            )
+        } else {
+            this.setState({ updateFormShow: false })
+            values["updaterId"] = this.props.userid
+            this.props.onUpdateStudent(values)
+        }
+
     }
     handleChangeStatusSubmit(status) {
-        this.setState({ confirmActiveStatus: false,confirmDisableStatus:false })
-        this.props.onChangeStatusStudent(this.state.statusId,status)
+        this.setState({ confirmActiveStatus: false, confirmDisableStatus: false })
+        this.props.onChangeStatusStudent(this.state.statusId, status)
     }
     handleChangeStatusCancel = () => {
         this.setState({
             confirmActiveStatus: false,
-            confirmDisableStatus:false,
+            confirmDisableStatus: false,
             statusId: null,
         })
     }
     statusFormat(cell,row){
         let status = null
-        if(!row.status){
-            status = <span className="text-danger">disable</span>
+        if(!row.active){
+            status = <span className="text-danger">DISABLE</span>
         }else{
-            status = <span className="text-success">active</span>
+            status = <span className="text-success">ACTIVE</span>
         }
         return(
             <>{status}</>
         )
     }
+    genderFormat(cell,row){
+        return row.profile.gender=="M"?"Male":"Female"
+    }
+    phoneFormat(cell,row){
+        return row.profile.phone
+    }
+    typeFormat(cell,row){
+        return row.patronType?row.patronType.name:""
+    }
+    nameFormat(cell,row){
+        return row.profile.fullName
+    }
     activeFormatter(cell, row) {
-        let status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-danger btn-simple btn-icon" onClick={() => this.setState({
+        let status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-danger btn-simple btn-icon" onClick={() => this.setState({
             confirmDisableStatus: true,
             statusId: row.id
         })}>
                         <i className="fa fa-trash"></i> Disable
                     </button>
-                    if (!row.status){
-                        status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-primary btn-simple btn-icon" onClick={() => this.setState({
+                    if (!row.active){
+                        status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-primary btn-simple btn-icon" onClick={() => this.setState({
                             confirmActiveStatus: true,
                             statusId: row.id
                         })}> <i className="fa fa-check"></i> Enable
@@ -164,14 +222,13 @@ class Student extends React.Component {
     }
     getInitialValues = () => {
         return {
-            name: this.state.updateData ? this.state.updateData.name : '',
-            username: this.state.updateData ? this.state.updateData.username : '',
-            password: this.state.updateData ? this.state.updateData.password : '',
+            fullName: this.state.updateData ? this.state.updateData.profile.fullName : '',
             email: this.state.updateData ? this.state.updateData.email : '',
-            phone: this.state.updateData ? this.state.updateData.phone : '',
-            address: this.state.updateData ? this.state.updateData.address : '',
-            dob: this.state.updateData ? this.state.updateData.dob : '',
-            gender: this.state.updateData ? this.state.updateData.gender : '',
+            phone: this.state.updateData ? this.state.updateData.profile.phone : '',
+            gender: this.state.updateData ? this.state.updateData.profile.gender : '',
+            rfid: this.state.updateData ? this.state.updateData.rfid : '',
+            avatar: this.state.updateData ? this.state.updateData.avatar : '',
+            patronTypeId: this.state.updateData ? this.state.updateData.patronType?this.state.updateData.patronType.id:null:null,
             id: this.state.updateData ? this.state.updateData.id : ''
         };
     }
@@ -188,7 +245,7 @@ class Student extends React.Component {
             hideSizePerPage: true,
         };
         let display = (
-            <div className="content">
+            <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
@@ -217,37 +274,42 @@ class Student extends React.Component {
                     striped
                     hover
                     condensed
+                    className="mx-4"
                 >
                     <TableHeaderColumn
                         dataField="id"
                         isKey
                         dataAlign="center"
-                        width="10%"
+                        width="7%"
                     >
                         Id
           </TableHeaderColumn>
                     <TableHeaderColumn
-                        dataField="username"
+                        dataField="email"
                         dataAlign="center"
-                        width="15%"
+                        width="20%"
                     >
-                        Username
+                        Email
 
           </TableHeaderColumn>
                     <TableHeaderColumn
                         dataField="name"
                         dataAlign="center"
                         width="15%"
+                        dataFormat={this.nameFormat}
                     >
                         Name
           </TableHeaderColumn>
-                    <TableHeaderColumn dataField="gender" dataAlign="center" width="10%">
+                    <TableHeaderColumn dataField="gender" dataAlign="center" width="10%" dataFormat={this.genderFormat}>
                         Gender
           </TableHeaderColumn>
-                    <TableHeaderColumn dataField="phone" dataAlign="center" width="15%">
+                    <TableHeaderColumn dataField="phone" dataAlign="center" width="10%" dataFormat={this.phoneFormat}>
                         Phone
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="status" dataAlign="center" width="15%" dataFormat={this.statusFormat}>
+          <TableHeaderColumn dataField="type" dataAlign="center" width="10%" dataFormat={this.typeFormat}>
+                        Type
+          </TableHeaderColumn>
+                    <TableHeaderColumn dataField="status" dataAlign="center" width="10%" dataFormat={this.statusFormat}>
                         Status
           </TableHeaderColumn>
                     <TableHeaderColumn
@@ -260,25 +322,27 @@ class Student extends React.Component {
           </TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
-                <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <StudentForm initialValues={{
-                                    gender:'M',
-                                    dob:moment().subtract(18,'years').startOf("year").format('YYYY-MM-DD')
-                                }} 
-                                handleCancel={() => this.handleAddCancel()} 
-                                onSubmit={(values) => this.handleAddSubmit(values)} />
+                            gender: 'M',
+                            dob: moment().subtract(18, 'years').startOf("year").format('YYYY-MM-DD'),
+                            patronTypeId:this.props.patronType?this.props.patronType[0]?this.props.patronType[0].id:null:null
+                        }}
+                            patronTypes={this.props.patronType}
+                            handleCancel={() => this.handleAddCancel()}
+                            onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Update Student</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <StudentForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <StudentUpdateForm patronTypes={this.props.patronType} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
@@ -322,12 +386,8 @@ class Student extends React.Component {
         }
         return (
             <>
-                <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Student tables</h3>
-                        </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>
@@ -374,16 +434,19 @@ const mapStateToProps = state => {
         sizePerPage: state.student.sizePerPage,
         deleteSuccess: state.student.deleteSuccess,
         updateSuccess: state.student.updateSuccess,
-        addSuccess: state.student.addSuccess
+        addSuccess: state.student.addSuccess,
+        patronType: state.student.patronType,
+        userid: state.Auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getAdminStudent(page, size, search)),
-        onChangeStatusStudent: (id,status) => dispatch(actions.changeStatusStudent(id,status)),
+        onChangeStatusStudent: (id, status) => dispatch(actions.changeStatusStudent(id, status)),
         onUpdateStudent: (data) => dispatch(actions.updateStudent(data)),
-        onAddStudent: (data) => dispatch(actions.addStudent(data))
+        onAddStudent: (data) => dispatch(actions.addStudent(data)),
+        onGetPatronType:() => dispatch(actions.getAllPatronType())
     }
 }
 

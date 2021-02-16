@@ -92,7 +92,7 @@ export const checkoutStart = () => {
     }
 }
 
-export const checkout = (studentid,booklist,reason,libid) => {
+export const checkout = (studentid,booklist,reason,libid,mail) => {
     return dispatch => {
         dispatch(checkoutStart())
         let checkoutData={
@@ -105,6 +105,14 @@ export const checkout = (studentid,booklist,reason,libid) => {
         axios.post(url,checkoutData, {withCredentials: true})
             .then(response => {
                 dispatch(checkoutSuccess())
+                let emailData={
+                        ...response.data
+                }
+                let mailUrl='/mail/checkout?patronEmail='+mail
+                axios.post(mailUrl,emailData, {withCredentials: true})
+                .catch(error=>{
+                    console.log(error)
+                })
             })
             .catch(error=> {
                 dispatch(checkoutFailed(responseError(error.response.data.status,error.response.data)))

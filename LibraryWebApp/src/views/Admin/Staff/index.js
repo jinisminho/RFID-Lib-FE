@@ -16,21 +16,20 @@
 
 */
 import React from "react";
-import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Navbar, FormGroup, FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import {FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
 import * as actions from '../../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../../components/Spinner/Spinner'
 import UpdateButton from '../../../components/Button/UpdateButton'
-import DeleteButton from '../../../components/Button/DeleteButton'
 import StaffForm from './staffForm'
-import SwitchControl from "../../../components/Switch/Switch";
+import StaffUpdateForm from './staffUpdateForm'
 import moment from 'moment'
+import { storage } from '../../../firebase'
+
 import {
     Card,
-    CardHeader,
     Container
 } from "reactstrap";
 class Staff extends React.Component {
@@ -45,7 +44,8 @@ class Staff extends React.Component {
             confirmDisableStatus:false,
             statusId: null,
             updateFormShow: false,
-            updateData: null
+            updateData: null,
+            imageLoading:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -100,8 +100,25 @@ class Staff extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
     handleAddSubmit(values) {
-        this.setState({ addFormShow: false })
-        this.props.onAddStaff(values)
+        const uploadTask = storage.ref(`images/staff/${values.avatar[0].name}`).put(values.avatar[0])
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                this.setState({ imageLoading: true, addFormShow: false })
+            },
+            (error) => {
+                // console.log(error)
+                this.setState({ imageLoading: false })
+            },
+            () => {
+                storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                    this.setState({ imageLoading: false })
+                    values["avatar"] = url
+                    values["creatorId"]=this.props.userid
+                    this.props.onAddStaff(values)
+                })
+            }
+        )
+
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -114,8 +131,31 @@ class Staff extends React.Component {
         })
     }
     handleUpdateSubmit(values) {
-        this.setState({ updateFormShow: false })
-        this.props.onUpdateStaff(values)
+        if (Array.isArray(values.avatar)) {
+            const uploadTask = storage.ref(`images/staff/${values.avatar[0].name}`).put(values.avatar[0])
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    this.setState({ imageLoading: true, updateFormShow: false })
+                },
+                (error) => {
+                    // console.log(error)
+                    this.setState({ imageLoading: false })
+                },
+                () => {
+                    storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                        this.setState({ imageLoading: false })
+                        values["avatar"] = url
+                        values["updaterId"] = this.props.userid
+                        this.props.onUpdateStaff(values)
+                    })
+                }
+            )
+        } else {
+            this.setState({ updateFormShow: false })
+            values["updaterId"] = this.props.userid
+            this.props.onUpdateStaff(values)
+        }
+
     }
     handleChangeStatusSubmit(status) {
         this.setState({ confirmActiveStatus: false,confirmDisableStatus:false })
@@ -130,24 +170,33 @@ class Staff extends React.Component {
     }
     statusFormat(cell,row){
         let status = null
-        if(!row.status){
-            status = <span className="text-danger">disable</span>
+        if(!row.active){
+            status = <span className="text-danger">DISABLE</span>
         }else{
-            status = <span className="text-success">active</span>
+            status = <span className="text-success">ACTIVE</span>
         }
         return(
             <>{status}</>
         )
     }
+    nameFormat(cell,row){
+        return row.profile.fullName
+    }
+    genderFormat(cell,row){
+        return row.profile.gender=="M"?"Male":"Female"
+    }
+    phoneFormat(cell,row){
+        return row.profile.phone
+    }
     activeFormatter(cell, row) {
-        let status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-danger btn-simple btn-icon" onClick={() => this.setState({
+        let status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-danger btn-simple btn-icon" onClick={() => this.setState({
             confirmDisableStatus: true,
             statusId: row.id
         })}>
                         <i className="fa fa-trash"></i> Disable
                     </button>
-                    if (!row.status){
-                        status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-sm btn-primary btn-simple btn-icon" onClick={() => this.setState({
+                    if (!row.active){
+                        status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-primary btn-simple btn-icon" onClick={() => this.setState({
                             confirmActiveStatus: true,
                             statusId: row.id
                         })}> <i className="fa fa-check"></i> Enable
@@ -166,14 +215,12 @@ class Staff extends React.Component {
     }
     getInitialValues = () => {
         return {
-            name: this.state.updateData ? this.state.updateData.name : '',
-            username: this.state.updateData ? this.state.updateData.username : '',
-            password: this.state.updateData ? this.state.updateData.password : '',
+            fullName: this.state.updateData ? this.state.updateData.profile.fullName : '',
             email: this.state.updateData ? this.state.updateData.email : '',
-            phone: this.state.updateData ? this.state.updateData.phone : '',
-            address: this.state.updateData ? this.state.updateData.address : '',
-            dob: this.state.updateData ? this.state.updateData.dob : '',
-            gender: this.state.updateData ? this.state.updateData.gender : '',
+            phone: this.state.updateData ? this.state.updateData.profile.phone : '',
+            gender: this.state.updateData ? this.state.updateData.profile.gender : '',
+            rfid: this.state.updateData ? this.state.updateData.rfid : '',
+            avatar: this.state.updateData ? this.state.updateData.avatar : '',
             id: this.state.updateData ? this.state.updateData.id : ''
         };
     }
@@ -190,7 +237,7 @@ class Staff extends React.Component {
             hideSizePerPage: true,
         };
         let display = (
-            <div className="content">
+            <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
@@ -219,6 +266,7 @@ class Staff extends React.Component {
                     striped
                     hover
                     condensed
+                    className="mx-4"
                 >
                     <TableHeaderColumn
                         dataField="id"
@@ -229,24 +277,25 @@ class Staff extends React.Component {
                         Id
           </TableHeaderColumn>
                     <TableHeaderColumn
-                        dataField="username"
+                        dataField="email"
                         dataAlign="center"
                         width="15%"
                     >
-                        Username
+                        Email
 
           </TableHeaderColumn>
                     <TableHeaderColumn
                         dataField="name"
                         dataAlign="center"
                         width="15%"
+                        dataFormat={this.nameFormat}
                     >
                         Name
           </TableHeaderColumn>
-                    <TableHeaderColumn dataField="gender" dataAlign="center" width="10%">
+                    <TableHeaderColumn dataField="gender" dataAlign="center" width="10%" dataFormat={this.genderFormat}>
                         Gender
           </TableHeaderColumn>
-                    <TableHeaderColumn dataField="phone" dataAlign="center" width="15%">
+                    <TableHeaderColumn dataField="phone" dataAlign="center" width="15%" dataFormat={this.phoneFormat}>
                         Phone
           </TableHeaderColumn>
           <TableHeaderColumn dataField="status" dataAlign="center" width="15%" dataFormat={this.statusFormat}>
@@ -262,7 +311,7 @@ class Staff extends React.Component {
           </TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
-                <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Staff</Modal.Title>
                     </Modal.Header>
@@ -275,12 +324,12 @@ class Staff extends React.Component {
                                 onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
+                <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Update Staff</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <StaffForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <StaffUpdateForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
@@ -319,17 +368,13 @@ class Staff extends React.Component {
                 </Modal>
             </div>
         )
-        if (this.props.loading) {
+        if (this.props.loading || this.state.imageLoading) {
             display = <Spinner />
         }
         return (
             <>
-                <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">Staff tables</h3>
-                        </CardHeader>
                         <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>
@@ -376,7 +421,8 @@ const mapStateToProps = state => {
         sizePerPage: state.staff.sizePerPage,
         deleteSuccess: state.staff.deleteSuccess,
         updateSuccess: state.staff.updateSuccess,
-        addSuccess: state.staff.addSuccess
+        addSuccess: state.staff.addSuccess,
+        userid: state.Auth.userId
     }
 }
 

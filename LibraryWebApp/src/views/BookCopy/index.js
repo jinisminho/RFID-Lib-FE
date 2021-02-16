@@ -128,7 +128,6 @@ class BookCopy extends React.Component {
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
-        console.log(selectValue)
         this.props.onFetchData(page - 1, sizePerPage, searchValue, selectValue)
     }
 
@@ -203,7 +202,7 @@ class BookCopy extends React.Component {
             });
         }
         this.setState({ selectValue: tmp }, () => {
-            this.fetchData()
+            this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
         })
     }
     activeFormatter(cell, row) {
@@ -248,6 +247,7 @@ class BookCopy extends React.Component {
         if (this.state.updateData) {
             this.state.updateData.book.author.forEach(el => author.push(el.name))
         }
+        console.log(this.state.updateData)
         return {
             rfid: this.state.updateData ? this.state.updateData.rfid : '',
             isbn: this.state.updateData ? this.state.updateData.book.isbn : '',
@@ -255,7 +255,7 @@ class BookCopy extends React.Component {
             edition: this.state.updateData ? this.state.updateData.book.edition : '',
             id: this.state.updateData ? this.state.updateData.id : '',
             price: this.state.updateData ? this.state.updateData.price : '',
-            copyType: this.state.updateData ? (this.state.updateData.copyType? this.state.updateData.copyType.id : '') : '',
+            copyType: this.state.updateData ? (this.state.updateData.bookCopyTypeDto? this.state.updateData.bookCopyTypeDto.id : '') : '',
             img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
             subtitle: this.state.updateData ? this.state.updateData.book.subtitle : '',

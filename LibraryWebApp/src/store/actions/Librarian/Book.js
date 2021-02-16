@@ -1,5 +1,4 @@
 import * as actionTypes from '../actionTypes'
-import * as copyBooksPrototype from '../../prototype/bookCopyMng'
 import axios from '../../../axios'
 import {responseError} from '../../utility'
 export const getBookSuccess = (data, total, page, sizePerPage) => {
