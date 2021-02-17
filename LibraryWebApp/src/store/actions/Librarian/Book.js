@@ -35,7 +35,7 @@ export const getBook = (page,size,search) => {
                 dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getBookFailed(responseError(error)))
             });
     }
 
@@ -77,7 +77,7 @@ export const getAuthor = () => {
                 dispatch(getAuthorSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getBookFailed(responseError(error)))
             });
     }
 
@@ -118,7 +118,7 @@ export const getGenre = () => {
                 dispatch(getGenreSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getGenreFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getGenreFailed(responseError(error)))
             });
     }
 
@@ -152,7 +152,7 @@ export const addBook = (data) => {
                 dispatch(addBookSuccess())
             })
             .catch(error=> {
-                dispatch(addBookFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(addBookFail(responseError(error)))
             });   
         
     }
@@ -183,7 +183,7 @@ export const addBookCopy = (data) => {
                 dispatch(addCopySuccess())
             })
             .catch(error=> {
-                dispatch(addCopyFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(addCopyFail(responseError(error)))
             });  
     }
 }
@@ -214,7 +214,7 @@ export const updateBook = (data) => {
                 dispatch(updateBookSuccess())
             })
             .catch(error=> {
-                dispatch(updateBookFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(updateBookFail(responseError(error)))
             });   
         
     }
@@ -245,7 +245,7 @@ export const deleteBook = (id) => {
                 dispatch(deleteBookSuccess())
             })
             .catch(error=> {
-                dispatch(deleteBookFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(deleteBookFail(responseError(error)))
             });   
         
     }
@@ -279,7 +279,7 @@ export const generateCopyBarcode = (data) => {
                 dispatch(generateCopyBarcodeSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(generateCopyBarcodeFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(generateCopyBarcodeFailed(responseError(error)))
             });   
     }
 }
@@ -319,7 +319,7 @@ export const getBookCopyType = () => {
                 dispatch(getBookCopyTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getBookCopyTypeFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getBookCopyTypeFailed(responseError(error)))
             });
     }
 

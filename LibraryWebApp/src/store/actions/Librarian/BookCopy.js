@@ -2,7 +2,6 @@ import * as actionTypes from '../actionTypes'
 import * as copyPrototype from '../../prototype/bookCopyMng'
 import {responseError} from '../../utility'
 import axios from '../../../axios'
-import { getBookFailed } from './Book'
 
 export const getCopySuccess = (data, total, page, sizePerPage) => {
     return {
@@ -38,7 +37,7 @@ export const getCopy = (page, size, search, select) => {
                 dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getCopyFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getCopyFailed(responseError(error)))
             });
     }
 
@@ -126,7 +125,7 @@ export const getCopyType = () => {
                 dispatch(getCopyTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getCopyTypeFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getCopyTypeFailed(responseError(error)))
             });
     }
 
@@ -157,7 +156,7 @@ export const addCopy = (data) => {
                 dispatch(addCopySuccess())
             })
             .catch(error=> {
-                dispatch(addCopyFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(addCopyFail(responseError(error)))
             });   
     }
 }
@@ -187,7 +186,7 @@ export const updateCopy = (data) => {
                 dispatch(updateCopySuccess())
             })
             .catch(error=> {
-                dispatch(updateCopyFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(updateCopyFail(responseError(error)))
             });   
     }
 }
@@ -292,7 +291,7 @@ export const generateBarcode = (data) => {
                 dispatch(generateBarcodeSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(generateBarcodeFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(generateBarcodeFailed(responseError(error)))
             });   
     }
 }
@@ -328,7 +327,7 @@ export const tagRFID = (data) => {
                 dispatch(tagRFIDSuccess(response.data))
             })
             .catch(error => {
-                dispatch(tagRFIDFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(tagRFIDFailed(responseError(error)))
             });
     }
 }
@@ -365,7 +364,7 @@ export const getCopyByBarcode = (barcode) => {
                 dispatch(getCopyByBarcodeSuccess(response.data.book))
             })
             .catch(error => {
-                dispatch(getCopyByBarcodeFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getCopyByBarcodeFailed(responseError(error)))
             });
     }
 

@@ -144,17 +144,25 @@ export function imageFormatter(cell, row){
     return (<img className="img-thumbnail" src={cell}/>)
 }
 
-export function responseError(status,err){
+export function responseError(err){
     let msg=""
-    switch (status) {
-        case 500:
-            msg=Constant.INTERNAL_SERVER_ERROR
-            break;
-    
-        default:
+    if(err.response){
+        if(err.response.data){
+            switch (err.response.data.status) {
+                case 500:
+                    msg=Constant.INTERNAL_SERVER_ERROR
+                    break;
+                default:
+                    msg=err.response.data.message
+                    break;
+            }
+        }else{
             msg=err.message
-            break;
+        }
+    }else{
+        msg=err.message
     }
+    
     return msg
 }
 export default {

@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import axios from '../../axios'
+import {responseError} from '../utility'
 
 export const authStart = ()=>{
     return{
@@ -61,8 +62,8 @@ export const auth = (username, password) =>{
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
             dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
         })
-        .catch(err =>{
-            dispatch(authFail(err.response.data.message))
+        .catch(error =>{
+            dispatch(authFail(responseError(error)))
         })
     }
 }
@@ -136,8 +137,8 @@ export const changePassword = (id, newPass) =>{
             dispatch(changePasswordSuccess(response.data.accessToken, response.data.userId))
             dispatch(checkAuthTimeOut(response.data.expiresIn))
         })
-        .catch(err =>{
-            dispatch(changePasswordFailed(err.response.data.error))
+        .catch(error =>{
+            dispatch(changePasswordFailed(responseError(error)))
         })
     }
 }

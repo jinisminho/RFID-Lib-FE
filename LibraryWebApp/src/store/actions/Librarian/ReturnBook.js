@@ -33,7 +33,7 @@ export const getReturningBook = (rfid) => {
                 dispatch(getReturningBookSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getReturningBookFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(getReturningBookFail(responseError(error)))
             });
     }
 
@@ -74,7 +74,6 @@ export const returnBook = (data,libid) => {
         axios.post(url,returnData, {withCredentials: true})
             .then(response => {
                 dispatch(returnBookSuccess())
-                console.log(response.data)
                 let emailData={
                     ...response.data
             }
@@ -86,7 +85,7 @@ export const returnBook = (data,libid) => {
 
             })
             .catch(error=> {
-                dispatch(returnBookFail(responseError(error.response.data.status,error.response.data)))
+                dispatch(returnBookFail(responseError(error)))
             });
     }
 

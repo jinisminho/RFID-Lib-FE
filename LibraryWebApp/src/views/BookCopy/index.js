@@ -247,7 +247,6 @@ class BookCopy extends React.Component {
         if (this.state.updateData) {
             this.state.updateData.book.author.forEach(el => author.push(el.name))
         }
-        console.log(this.state.updateData)
         return {
             rfid: this.state.updateData ? this.state.updateData.rfid : '',
             isbn: this.state.updateData ? this.state.updateData.book.isbn : '',
