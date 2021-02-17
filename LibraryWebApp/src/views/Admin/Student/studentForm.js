@@ -15,26 +15,26 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
-
+import React, { Component } from "react";
+import { Field, reduxForm } from 'redux-form';
+import DropZoneField from "../../../components/Dropzone/Dropzone";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import * as MyConstant from '../../Util/Constant'
+import moment from 'moment'
 // reactstrap components
 import {
     Button,
     Card,
-    CardHeader,
     CardBody,
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
-    CardFooter,
-    Row,
-    Label
+    Label,
+    Col
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
+import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
@@ -59,10 +59,73 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
                 </OverlayTrigger>))}
             </InputGroup>
         </Row>
-
-
     </>
 )
+const renderSelectOptions = (option) => (
+    <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
+)
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
+    return (
+        <>
+            <Row>
+                <Label>{title}</Label>
+            </Row>
+            <Row >
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectOptions) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Row>
+        </>
+    )
+}
+const renderSelectOptionsPatron = (option) => (
+    <option key={option.id} value={option.id}>{option.name}</option>
+)
+const renderSelectPatron = ({ input, meta: { touched, error }, title, options }) => {
+    return (
+        <>
+            <Row>
+                <Label>{title}</Label>
+            </Row>
+            <Row >
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectOptionsPatron) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Row>
+        </>
+    )
+}
+const validateImage = value => !value ? "Required" : undefined
 
 const validate = values => {
     const errors = {};
@@ -71,20 +134,10 @@ const validate = values => {
     } else if (values.address.length < 3) {
         errors.address = 'Must be 3 characters or more';
     }
-    if (!values.name) {
-        errors.name = 'Student name is required';
-    } else if (values.name.length > 100) {
-        errors.name = 'Student name length is less than 100';
-    }
-    if (!values.username) {
-        errors.username = 'Username is required';
-    } else if (values.username.length < 6) {
-        errors.username = 'Must be 6 characters or more';
-    }
-    if (!values.password) {
-        errors.password = 'Password is required';
-    } else if (values.password.length < 6) {
-        errors.password = 'Must be 6 characters or more';
+    if (!values.fullName) {
+        errors.fullName = 'Staff name is required';
+    } else if (values.fullName.length > 100) {
+        errors.fullName = 'Staff name length is less than 100';
     }
     if (!values.phone) {
         errors.phone = 'Phone number is required';
@@ -96,107 +149,156 @@ const validate = values => {
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
-    if (!values.dob) {
-        errors.dob = 'Date of birth is required';
+    if (!values.rfid) {
+        errors.rfid = 'RFID is required';
+    }
+    if (!values.gender) {
+        errors.gender = 'Gender is required';
+    }
+    if (!values.patronTypeId) {
+        errors.patronTypeId = 'Patron Type is required';
     }
     return errors;
 };
+const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); //<===== This stops the form from being submitted
+    }
+}
+class StudentForm extends Component {
+    state = { imageFile: [] };
+    componentDidMount() {
+        if (this.props.initialValues) {
+            if (this.props.initialValues.avatar) {
+                this.setState({ imageFile: [this.props.initialValues.avatar] })
+            }
+        }
+    }
+    handleOnDrop = newImageFile => this.setState({ imageFile: newImageFile });
+    render = () => (
+        <Card className="bg-secondary shadow border-0">
+            <CardBody>
+                <Form onSubmit={this.props.handleSubmit} onKeyDown={onKeyPress}>
+                    <Row className="text-center justify-content-center mb-5">
+                        <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+                            <FormGroup className="mb-3">
+                                <Field
+                                    name="avatar"
+                                    component={DropZoneField}
+                                    type="file"
+                                    imagefile={this.state.imageFile}
+                                    handleOnDrop={this.handleOnDrop}
+                                    validate={validateImage}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+                            <Row>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <FormGroup className="mb-3">
+                                        <Field
+                                            name="rfid"
+                                            component={renderField}
+                                            type="text"
+                                            placeholder="Enter RFID Number"
+                                            title="RFID Number"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <FormGroup className="mb-3">
+                                        <Field
+                                            name="fullName"
+                                            component={renderField}
+                                            type="text"
+                                            placeholder="Enter Staff Full Name"
+                                            title="Name"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <FormGroup className="mb-3">
+                                        <Field
+                                            name="email"
+                                            component={renderField}
+                                            type="email"
+                                            placeholder="Email"
+                                            title="Email"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <FormGroup className="mb-3">
+                                        <Field
+                                            name="phone"
+                                            component={renderField}
+                                            type="text"
+                                            placeholder="Enter phone number"
+                                            title="Phone"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                {/* <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <FormGroup className="mb-3">
+                                        <Field
+                                            name="address"
+                                            component={renderField}
+                                            type="text"
+                                            placeholder="Enter address"
+                                            title="Address"
+                                        />
+                                    </FormGroup>
+                                </Col> */}
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <FormGroup className="mb-3">
+                                    <Field
+                                        name="gender"
+                                        title="Gender"
+                                        options={Object.keys(MyConstant.GENDER_LIST)}
+                                        component={renderSelectField} />
+                                        </FormGroup>
+                                </Col>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <FormGroup className="mb-3">
+                                    <Field
+                                        name="patronTypeId"
+                                        type="select"
+                                        placeholder="Select Patron Type"
+                                        title="Patron Type"
+                                        options={this.props.patronTypes}
+                                        component={renderSelectPatron} />
+                                        </FormGroup>
+                                </Col>
+                            </Row>
+                        </Col>
+                        {/* <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+                            <FormGroup className="mb-3">
+                            <Field
+                                name="dob"
+                                type="text"
+                                placeholder="Date of birth"
+                                title="Date of birth"
+                                component={FieldDatePicker} />
+                            </FormGroup>
+                        </Col> */}
 
-const StudentForm = ({
-    handleSubmit,
-    handleCancel
-}) => (
-    <Card className="bg-secondary shadow border-0">
-        <CardBody>
-            <Form onSubmit={handleSubmit}>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="name"
-                        component={renderField}
-                        type="text"
-                        title="Student Name"
-                        placeholder="Enter Student Name"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="username"
-                        component={renderField}
-                        type="text"
-                        title="UserName"
-                        placeholder="Enter username"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="password"
-                        component={renderField}
-                        type="password"
-                        title="Password"
-                        placeholder="Enter password"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="email"
-                        component={renderField}
-                        title="Email"
-                        type="email"
-                        placeholder="Email"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="phone"
-                        title="Phone Number"
-                        component={renderField}
-                        type="text"
-                        placeholder="Enter phone number"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="address"
-                        component={renderField}
-                        title="Address"
-                        type="text"
-                        placeholder="Enter address"
-                    />
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <Row>
-                        <Label>Date of Birth</Label>
                     </Row>
-                    <Row>
-                        <Field
-                            name="dob"
-                            component="input"
-                            className="form-control"
-                            type="date"
-                        />
-                    </Row>
-                </FormGroup>
-                <div className="form-group">
-                    <label className="font-weight-bold mr-4">Gender:</label>
-                    <Field name="gender" checked component="input" type="radio" value="M" /><label className="ml-1 mr-3"> Male</label>
-                    <Field name="gender" component="input" type="radio" value="F" /><label className="ml-1 mr-3">Female</label>
-                </div>
-                <div className="text-right">
-                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                        <span className="btn-label">
-                        </span> Cancel
+                    <div className="text-right">
+                        <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
+                            <span className="btn-label">
+                            </span> Cancel
                 </button>
-                    <button type="submit" className="btn btn-wd btn-success ">
-                        <span className="btn-label">
-                        </span> Save
+                        <button type="submit" className="btn btn-wd btn-success ">
+                            <span className="btn-label">
+                            </span> Save
                 </button>
-                </div>
-            </Form>
-        </CardBody>
-    </Card>
-);
-
+                    </div>
+                </Form>
+            </CardBody>
+        </Card>
+    )
+}
 export default reduxForm({
-    form: 'fieldArrays',
+    form: 'studentAddForm',
     validate
 })(StudentForm)

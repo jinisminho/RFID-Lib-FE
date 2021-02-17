@@ -106,11 +106,6 @@ const validate = values => {
     } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
         errors.phone = 'Invalid phone';
     }
-    if (!values.email) {
-        errors.email = 'Email is required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
     if (!values.rfid) {
         errors.rfid = 'RFID is required';
     }
@@ -121,7 +116,7 @@ const onKeyPress = (event) => {
       event.preventDefault(); //<===== This stops the form from being submitted
     } 
   }
-class StaffForm extends Component {
+class StaffUpdateForm extends Component {
     state = { imageFile: [] };
     componentDidMount() {
         if (this.props.initialValues) {
@@ -169,17 +164,6 @@ class StaffForm extends Component {
                                             type="text"
                                             placeholder="Enter Staff Full Name"
                                             title="Name"
-                                        />
-                                    </FormGroup>
-                                </Col>
-                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <FormGroup className="mb-3">
-                                        <Field
-                                            name="email"
-                                            component={renderField}
-                                            type="email"
-                                            placeholder="Email"
-                                            title="Email"
                                         />
                                     </FormGroup>
                                 </Col>
@@ -243,6 +227,6 @@ class StaffForm extends Component {
     )
 }
 export default reduxForm({
-    form: 'staffAddForm',
+    form: 'staffUpdateForm',
     validate
-})(StaffForm)
+})(StaffUpdateForm)

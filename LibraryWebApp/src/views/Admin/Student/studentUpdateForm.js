@@ -18,10 +18,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from 'redux-form';
 import DropZoneField from "../../../components/Dropzone/Dropzone";
-import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import * as MyConstant from '../../Util/Constant'
-import moment from 'moment'
 // reactstrap components
 import {
     Button,
@@ -38,36 +36,36 @@ import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
-      <Row>
-        <Label>{title}</Label>
-      </Row>
-      <Row>
-        <InputGroup className="input-group-alternative">
-          <Input {...input} placeholder={placeholder} type={type} />
-          {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-              <Popover>
-                <Popover.Content>
-                  <span className="text-danger">{error}</span>
-                </Popover.Content>
-              </Popover>
-            }
-          >
-            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-          </OverlayTrigger>))}
-        </InputGroup>
-      </Row>
-    </>
-  )
-  const renderSelectOptions = (option) => (
-    <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
-  )
-  const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
-    return(
-    <>
         <Row>
+            <Label>{title}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+    </>
+)
+const renderSelectOptions = (option) => (
+    <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
+)
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
+    return (
+        <>
+            <Row>
                 <Label>{title}</Label>
             </Row>
             <Row >
@@ -89,9 +87,42 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
                         <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
                     </OverlayTrigger>))}
                 </InputGroup>
-        </Row>
-    </>
-  )}
+            </Row>
+        </>
+    )
+}
+const renderSelectOptionsPatron = (option) => (
+    <option key={option.id} value={option.id}>{option.name}</option>
+)
+const renderSelectPatron = ({ input, meta: { touched, error }, title, options }) => {
+    return (
+        <>
+            <Row>
+                <Label>{title}</Label>
+            </Row>
+            <Row >
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectOptionsPatron) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Row>
+        </>
+    )
+}
 const validateImage = value => !value ? "Required" : undefined
 
 const validate = values => {
@@ -106,22 +137,23 @@ const validate = values => {
     } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
         errors.phone = 'Invalid phone';
     }
-    if (!values.email) {
-        errors.email = 'Email is required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
     if (!values.rfid) {
         errors.rfid = 'RFID is required';
+    }
+    if (!values.gender) {
+        errors.gender = 'Gender is required';
+    }
+    if (!values.patronTypeId) {
+        errors.patronTypeId = 'Patron Type is required';
     }
     return errors;
 };
 const onKeyPress = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); //<===== This stops the form from being submitted
-    } 
-  }
-class StaffForm extends Component {
+        event.preventDefault(); //<===== This stops the form from being submitted
+    }
+}
+class StudentUpdateForm extends Component {
     state = { imageFile: [] };
     componentDidMount() {
         if (this.props.initialValues) {
@@ -150,7 +182,7 @@ class StaffForm extends Component {
                         </Col>
                         <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                             <Row>
-                            <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <FormGroup className="mb-3">
                                         <Field
                                             name="rfid"
@@ -169,17 +201,6 @@ class StaffForm extends Component {
                                             type="text"
                                             placeholder="Enter Staff Full Name"
                                             title="Name"
-                                        />
-                                    </FormGroup>
-                                </Col>
-                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                    <FormGroup className="mb-3">
-                                        <Field
-                                            name="email"
-                                            component={renderField}
-                                            type="email"
-                                            placeholder="Email"
-                                            title="Email"
                                         />
                                     </FormGroup>
                                 </Col>
@@ -206,13 +227,25 @@ class StaffForm extends Component {
                                     </FormGroup>
                                 </Col> */}
                                 <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <Field
-                                    name="gender"
-                                    title="Gender"
-                                    defaultValue={Object.keys(MyConstant.GENDER_LIST)[0]}
-                                    options={Object.keys(MyConstant.GENDER_LIST)}
-                                    component={renderSelectField}/>
-                            </Col>
+                                <FormGroup className="mb-3">
+                                    <Field
+                                        name="gender"
+                                        title="Gender"
+                                        options={Object.keys(MyConstant.GENDER_LIST)}
+                                        component={renderSelectField} />
+                                        </FormGroup>
+                                </Col>
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <FormGroup className="mb-3">
+                                    <Field
+                                        name="patronTypeId"
+                                        type="select"
+                                        placeholder="Select Patron Type"
+                                        title="Patron Type"
+                                        options={this.props.patronTypes}
+                                        component={renderSelectPatron} />
+                                        </FormGroup>
+                                </Col>
                             </Row>
                         </Col>
                         {/* <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
@@ -225,7 +258,7 @@ class StaffForm extends Component {
                                 component={FieldDatePicker} />
                             </FormGroup>
                         </Col> */}
-                        
+
                     </Row>
                     <div className="text-right">
                         <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
@@ -243,6 +276,6 @@ class StaffForm extends Component {
     )
 }
 export default reduxForm({
-    form: 'staffAddForm',
+    form: 'studentUpdateForm',
     validate
-})(StaffForm)
+})(StudentUpdateForm)

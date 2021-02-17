@@ -31,7 +31,8 @@ export const getCopy = (page, size, search, select) => {
     return dispatch => {
         dispatch(getCopyStart())
         search=search?search:""
-        let url='/copy/search'+'?page='+page+'&size='+size+"&searchValue="+search
+        select=select.length>0?select.join(","):""
+        let url='/copy/search'+'?page='+page+'&size='+size+"&searchValue="+search+"&status="+select
         axios.get(url, {withCredentials: true})
             .then(response => {
                 dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))

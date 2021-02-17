@@ -24,19 +24,13 @@ export const getReturningBookStart = () => {
     }
 }
 
-export const getReturningBook = (rfid,libid) => {
+export const getReturningBook = (rfid) => {
     return dispatch => {
         dispatch(getReturningBookStart())
-        let url='/librarian/return/validate'
-        let data={
-            bookRfidTags:[rfid],
-            librarianId:libid,
-            patronId:null
-        }
-        axios.post(url,data, {withCredentials: true})
+        let url='/librarian/return/validate?rfid='+rfid
+        axios.get(url, {withCredentials: true})
             .then(response => {
-                console.log(response)
-                dispatch(getReturningBookSuccess(response.data[0]))
+                dispatch(getReturningBookSuccess(response.data))
             })
             .catch(error=> {
                 dispatch(getReturningBookFail(responseError(error.response.data.status,error.response.data)))
@@ -45,10 +39,9 @@ export const getReturningBook = (rfid,libid) => {
 
 }
 
-export const returnBookSuccess = (data) => {
+export const returnBookSuccess = () => {
     return {
-        type: actionTypes.LIB_RETURN_BOOK_SUCCESS,
-        bookData: data
+        type: actionTypes.LIB_RETURN_BOOK_SUCCESS
     }
 }
 
@@ -80,7 +73,17 @@ export const returnBook = (data,libid) => {
         }
         axios.post(url,returnData, {withCredentials: true})
             .then(response => {
-                dispatch(returnBookSuccess(response.data[0]))
+                dispatch(returnBookSuccess())
+                console.log(response.data)
+                let emailData={
+                    ...response.data
+            }
+            let mailUrl='/mail/return'
+            axios.post(mailUrl,emailData, {withCredentials: true})
+            .catch(error=>{
+                console.log(error)
+            })
+
             })
             .catch(error=> {
                 dispatch(returnBookFail(responseError(error.response.data.status,error.response.data)))

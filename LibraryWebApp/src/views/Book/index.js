@@ -132,7 +132,7 @@ class Book extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
     handleAddSubmit(values) {
-        const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
+        const uploadTask = storage.ref(`images/book/${values.img[0].name}`).put(values.img[0])
         uploadTask.on('state_changed',
             (snapshot) => {
                 this.setState({ imageLoading: true, addFormShow: false })
@@ -194,7 +194,7 @@ class Book extends React.Component {
         });
         values.genreIds = genreList
         if (Array.isArray(values.img)) {
-            const uploadTask = storage.ref(`images/${values.img[0].name}`).put(values.img[0])
+            const uploadTask = storage.ref(`images/book/${values.img[0].name}`).put(values.img[0])
             uploadTask.on('state_changed',
                 (snapshot) => {
                     this.setState({ imageLoading: true, updateFormShow: false })

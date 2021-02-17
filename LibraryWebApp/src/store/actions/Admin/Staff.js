@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes'
-import * as staffPrototype from '../../prototype/staffMng'
-
+import axios from '../../../axios'
+import {responseError} from '../../utility'
 export const getStaffSuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.GET_STAFF_SUCCESS,
@@ -27,12 +27,16 @@ export const getStaffStart = () => {
 export const getStaff = (page,size,search) => {
     return dispatch => {
         dispatch(getStaffStart())
-        let response=staffPrototype.getStaff(search,page,size)
-        if(response.status){
-            dispatch(getStaffSuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getStaffFailed(response.err))
-        }
+        search=search?search:""
+        let url='/account/librarian/find'+'?page='+page+'&size='+size+"&email="+search
+        // let url='/book/all'
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getStaffSuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error=> {
+                dispatch(getStaffFailed(responseError(error.response.data.status,error.response.data)))
+            });
     }
 
 }
@@ -57,12 +61,14 @@ export const addStaffSuccess =()=>{
 export const addStaff = (data) => {
     return dispatch => {
         dispatch(addStaffStart())    
-        let response=staffPrototype.addStaff(data)
-        if(response.status==true){
-            dispatch(addStaffSuccess())
-        }else{
-            dispatch(addStaffFail(response.error))
-        }
+        let url='/account/librarian/create'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(addStaffSuccess())
+            })
+            .catch(error=> {
+                dispatch(addStaffFail(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }
 
@@ -85,12 +91,14 @@ export const updateStaffSuccess =()=>{
 export const updateStaff = (data) => {
     return dispatch => {
         dispatch(updateStaffStart())    
-        let response=staffPrototype.updateStaff(data)
-        if(response.status==true){
-            dispatch(updateStaffSuccess())
-        }else{
-            dispatch(updateStaffFail(response.error))
-        }
+        let url='/account/librarian/update'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updateStaffSuccess())
+            })
+            .catch(error=> {
+                dispatch(updateStaffFail(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }
 
@@ -113,11 +121,18 @@ export const changeStatusStaffSuccess =()=>{
 export const changeStatusStaff = (id,status) => {
     return dispatch => {
         dispatch(changeStatusStaffStart())    
-        let response=staffPrototype.changeStatusStaff(id,status)
-        if(response.status==true){
-            dispatch(changeStatusStaffSuccess())
+        let url = ""
+        if(status){
+            url="/account/activate?id="+id
         }else{
-            dispatch(changeStatusStaffFail(response.error))
+            url="/account/deactivate?id="+id
         }
+        axios.post(url,{},{ withCredentials: true })
+            .then(response => {
+                dispatch(changeStatusStaffSuccess())
+            })
+            .catch(error=> {
+                dispatch(changeStatusStaffFail(responseError(error.response.data.status,error.response.data)))
+            });   
     }
 }

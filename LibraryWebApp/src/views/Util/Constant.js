@@ -27,3 +27,5 @@ export const BOOK_STATUS_ADD_LIST={OUT_OF_CIRCULATION:"Out of circulation", IN_C
 export const BOOK_STATUS_LIST={OUT_OF_CIRCULATION:"Out of circulation", IN_CIRCULATION:"In circulation", LIB_USE_ONLY:"Library use only", DISCARD:"Discard"}
 
 export const BOOK_COPY_STATUS_LIST={AVAILABLE:"Available",IN_PROCESS:"In process",BORROWED:"Borrowed",OUT_OF_CIRCULATION:"Out of circulation",LOST:"Lost",LIB_USE_ONLY:"Library use only", DISCARD:"Discard"}
+
+export const GENDER_LIST={M:"Male", F:"Female"}

@@ -86,7 +86,8 @@ export {
     getAdminStudent,
     addStudent,
     updateStudent,
-    changeStatusStudent
+    changeStatusStudent,
+    getAllPatronType
 } from './Admin/Student'
 
 export{

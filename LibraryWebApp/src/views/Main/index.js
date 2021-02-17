@@ -74,6 +74,7 @@ class Main extends Component {
       }
        else {
         this.deleteAllCookies()
+        this.props.onLogout()
       }
     }
     return (
@@ -92,6 +93,7 @@ const mapStateToProp = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onTryAutoSignUp: () => dispatch(actions.authCheckState()),
+    onLogout: () => dispatch(actions.logout()),
   }
 }
 
