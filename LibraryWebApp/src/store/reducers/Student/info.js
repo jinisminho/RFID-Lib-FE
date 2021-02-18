@@ -284,6 +284,31 @@ const addReminderFail = (state, action) => {
   })
 }
 
+//check policy remainder
+const checkPolicyStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    newDueDate: null,
+    policyViolation:null,
+  })
+}
+const checkPolicySuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    newDueDate: action.newDueDate,
+    policyViolation: action.policyViolation,
+  })
+}
+const checkPolicyFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    newDueDate: null,
+    policyViolation:null,
+  })
+}
 export default function reducer(state = {
   dataOverdue: null,
   dataBorrowing: null,
@@ -304,6 +329,8 @@ export default function reducer(state = {
   wishlistSizePerPage: 2,
   wishlistData: null,
   wishlistTotalSize:0,
+  newDueDate: null,
+  policyViolation: null,
 }, action) {
   switch (action.type) {
     case actionTypes.PATRON_GET_BORROWINGINFO_START: return getBorrowingInfoStart(state, action)
@@ -313,9 +340,11 @@ export default function reducer(state = {
     case actionTypes.PATRON_GET_BORROWINGINFO_OVERDUE_START: return getBorrowingInfoOverdueStart(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_OVERDUE_SUCCESS: return getBorrowingInfoOverdueSuccess(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_OVERDUE_FAILED: return getBorrowingInfoOverdueFail(state, action)
+
     case actionTypes.PATRON_GET_BORROWINGINFO_BORROWING_START: return getBorrowingInfoBorrowingStart(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_BORROWING_SUCCESS: return getBorrowingInfoBorrowingSuccess(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_BORROWING_FAILED: return getBorrowingInfoBorrowingFail(state, action)
+
     case actionTypes.PATRON_GET_BORROWINGINFO_RETURNED_START: return getBorrowingInfoReturnedStart(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_RETURNED_SUCCESS: return getBorrowingInfoReturnedSuccess(state, action)
     case actionTypes.PATRON_GET_BORROWINGINFO_RETURNED_FAILED: return getBorrowingInfoReturnedFail(state, action)
@@ -324,21 +353,30 @@ export default function reducer(state = {
     case actionTypes.PATRON_GET_DUEHISTORY_START: return getExtendedHistoryInfoStart(state, action)
     case actionTypes.PATRON_GET_DUEHISTORY_SUCCESS: return getExtendedHistoryInfoSuccess(state, action)
     case actionTypes.PATRON_GET_DUEHISTORY_FAILED: return getExtendedHistoryInfoFail(state, action)
+
     case actionTypes.PATRON_EXTEND_DUE_START: return extendDueStart(state, action)
     case actionTypes.PATRON_EXTEND_DUE_SUCCESS: return extendDueSuccess(state, action)
     case actionTypes.PATRON_EXTEND_DUE_FAILED: return extendDueFail(state, action)
+
     case actionTypes.PATRON_ADD_REMINDER_START: return addReminderStart(state, action)
     case actionTypes.PATRON_ADD_REMINDER_SUCCESS: return addReminderSuccess(state, action)
     case actionTypes.PATRON_ADD_REMINDER_FAILED: return addReminderFail(state, action)
+
     case actionTypes.PATRON_GET_PROFILE_START: return getStudentProfileStart(state, action)
     case actionTypes.PATRON_GET_PROFILE_SUCCESS: return getStudentProfileSuccess(state, action)
     case actionTypes.PATRON_GET_PROFILE_FAILED: return getStudentProfileFail(state, action)
+
     case actionTypes.PATRON_UPDATE_PROFILE_START: return updateStudentProfileStart(state, action)
     case actionTypes.PATRON_UPDATE_PROFILE_SUCCESS: return updateStudentProfileSuccess(state, action)
     case actionTypes.PATRON_UPDATE_PROFILE_FAILED: return updateStudentProfileFail(state, action)
+
     case actionTypes.PATRON_GET_WISHLIST_START: return getWishlistStart(state, action)
     case actionTypes.PATRON_GET_WISHLIST_SUCCESS: return getWishlistSuccess(state, action)
     case actionTypes.PATRON_GET_WISHLIST_FAILED: return getWishlistFail(state, action)  
+
+    case actionTypes.PATRON_CHECK_POLICY_REMINDER_START: return checkPolicyStart(state, action)
+    case actionTypes.PATRON_CHECK_POLICY_REMINDER_SUCCESS: return checkPolicySuccess(state, action)
+    case actionTypes.PATRON_CHECK_POLICY_REMINDER_FAILED: return checkPolicyFail(state, action)
 
   }
   return state

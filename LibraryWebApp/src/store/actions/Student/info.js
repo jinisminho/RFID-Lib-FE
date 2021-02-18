@@ -188,11 +188,11 @@ export const getExtendedHistoryStart = () => {
     }
 }
 
-export const getExtendedHistory = (page, size, studentId, bookId) => {
+export const getExtendedHistory = (page, size, patronId, bookId) => {
     return dispatch => {
         dispatch(getExtendedHistoryStart())
         let response = prototype.getExtendedHistory()
-        if (!studentId && !bookId) response.status = false
+        if (!patronId && !bookId) response.status = false
         if (response.status) {
             dispatch(getExtendedHistorySuccess(response.data, response.total, page, size))
         } else {
@@ -236,17 +236,17 @@ export const extendDueStart = () => {
     }
 }
 
-export const extendDue = (studentId, bookId) => {
+export const extendDue = (patronId, bookId) => {
     return dispatch => {
 
         dispatch(extendDueStart())
 
         let response
 
-        if (!studentId && !bookId) {
+        if (!patronId && !bookId) {
             response = { "err": "Error at extendDue", "status": false }
         } else {
-            prototype.addDueDate(studentId, bookId).status ? response = { "status": true } : response = { "err": "Error at extendDue", "status": false };
+            prototype.addDueDate(patronId, bookId).status ? response = { "status": true } : response = { "err": "Error at extendDue", "status": false };
         }
 
         if (response.status) {
@@ -295,11 +295,11 @@ export const getStudentProfileStart = () => {
     }
 }
 
-export const getStudentProfile = (studentId) => {
+export const getStudentProfile = (patronId) => {
     return dispatch => {
         dispatch(getStudentProfileStart())
-        let response = prototype.getStudentProfile(studentId);
-        if (!studentId) {
+        let response = prototype.getStudentProfile(patronId);
+        if (!patronId) {
             response = { "err": "Error at getStudentProfile", "status": false }
         }
 
@@ -333,15 +333,15 @@ export const updateStudentProfileStart = () => {
     }
 }
 
-export const updateStudentProfile = (studentId, form) => {
+export const updateStudentProfile = (patronId, form) => {
     return dispatch => {
         dispatch(updateStudentProfileStart())
 
-        form.id = studentId
+        form.id = patronId
 
         let response = prototype.updateStudentProfile(form);
 
-        if (!studentId) {
+        if (!patronId) {
             response = { "err": "Error at updateStudentProfile", "status": false }
         }
 
@@ -413,12 +413,12 @@ export const addReminderStart = () => {
     }
 }
 
-export const addReminder = (bookId, studentId) => {
+export const addReminder = (bookId, patronId) => {
     return dispatch => {
         dispatch(addReminderStart())
         let response
 
-        if (!bookId || !studentId) {
+        if (!bookId || !patronId) {
             response = { "err": "Error at addReminder", "status": false }
         } else {
             prototype.addWishlist(bookId).status ? response = { "msg": "Added reminder successfully", "status": true } : response = { "err": "Added reminder successfully", "status": false }
@@ -428,6 +428,51 @@ export const addReminder = (bookId, studentId) => {
             dispatch(addReminderSuccess(response.status, response.msg))
         } else {
             dispatch(addReminderFailed(response.err))
+        }
+    }
+
+}
+
+//check policy before add reminder
+export const checkPolicySuccess = (status, data) => {
+    return {
+        type: actionTypes.PATRON_CHECK_POLICY_REMINDER_SUCCESS,
+        status: status,
+        policyViolation: data.policyViolation,
+        newDueDate: data.newDueDate,
+    }
+}
+
+export const checkPolicyFailed = (error) => {
+    return {
+        type: actionTypes.PATRON_CHECK_POLICY_REMINDER_FAILED,
+        error: error
+    }
+}
+
+export const checkPolicyStart = () => {
+    return {
+        type: actionTypes.PATRON_CHECK_POLICY_REMINDER_START
+    }
+}
+
+export const checkPolicy = (bookId, patronId) => {
+    return dispatch => {
+        dispatch(checkPolicyStart())
+        let response
+
+        if (!bookId || !patronId) {
+            response = { "err": "Error at checkPolicy", "status": false }
+        } else {
+            // prototype.checkPolicy(bookId).status ? response = { "newDueDate": "December 20, 2020 15:15:30","policyViolation": ["Reason1","Reason2"], "status": true } : response = { "err": "Check policy successfully", "status": false }
+            prototype.checkPolicy(bookId).status ? response = {"policyViolation": ["Reason1","Reason2"], "status": true } : response = { "err": "Check policy successfully", "status": false }
+            // prototype.checkPolicy(bookId).status ? response = { "newDueDate": "December 20, 2020 15:15:30", "status": true } : response = { "err": "Check policy successfully", "status": false }
+        }
+
+        if (response.status) {
+            dispatch(checkPolicySuccess(response.status, response))
+        } else {
+            dispatch(checkPolicyFailed(response.err))
         }
     }
 

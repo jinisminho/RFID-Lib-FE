@@ -65,6 +65,7 @@ export {
     updateStudentProfile,
     addReminder,
     getWishlist,
+    checkPolicy as checkPolicyRemainder,
 } from './Student/info'
 
 export {

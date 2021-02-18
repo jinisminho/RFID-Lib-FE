@@ -31,7 +31,7 @@ class BorrowingInfo extends React.Component {
             nowBorrowingData: null,
             returnedData: null,
             showHistory: false,
-            studentId: null,
+            patronId: null,
             book: null,
             showExtdForm: false,
             dueDate: null
@@ -107,14 +107,14 @@ class BorrowingInfo extends React.Component {
     }
 
     otherFormatter(cell, row) {
-        var stdId = row.borrower.id
+        var borrowerId = row.borrower.id
         var bok = row.book
 
         return (
             <div>
                 <button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
                     showHistory: true,
-                    studentId: stdId,
+                    patronId: borrowerId,
                     book: bok,
                 })} ><i className="ni ni-collection" /> History </button>
             </div>
@@ -122,22 +122,17 @@ class BorrowingInfo extends React.Component {
     }
 
     otherFormatter2(cell, row) {
-        var stdId = row.borrower.id
+        var borrowerId = row.borrower.id
         var bok = row.book
         let date = MyUtil.convertToDate(row.dueDate)
 
         return (
             <div>
                 <Row>
-                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => this.setState({
-                        showExtdForm: true,
-                        studentId: stdId,
-                        book: bok,
-                        dueDate: date,
-                    })} >Renew</button></Col>
+                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => this.handleExtdFormShow(borrowerId,bok)} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
-                        studentId: stdId,
+                        patronId: borrowerId,
                         book: bok
                     })} ><i className="ni ni-collection" /></button></Col>
                 </Row>
@@ -161,6 +156,13 @@ class BorrowingInfo extends React.Component {
         })
 
     }
+    handleExtdFormShow = (stdId,bok) => {
+        this.setState({
+            showExtdForm: true,
+            patronId: stdId,
+            book: bok,
+        })
+    }
 
     handleExtdFormClose = () => {
         this.setState({
@@ -168,10 +170,10 @@ class BorrowingInfo extends React.Component {
         })
     }
 
-    handleExtdSubmit(studentId, bookId) {
+    handleExtdSubmit(patronId, bookId) {
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
-            await this.props.onExtdSubmit(studentId, bookId)
+            await this.props.onExtdSubmit(patronId, bookId)
             await this.setState({ successShow: true, errorShow: true })
             await this.fetchData(1, this.props.sizePerPage, this.state.searchValue)
             return
@@ -372,15 +374,17 @@ class BorrowingInfo extends React.Component {
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
                             book={this.state.book ? this.state.book : []}
-                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.studentId, this.state.book.id)}
+                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.patronId, this.state.book.id)}
                         />
 
                         <ExtendDueModal
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Renew Due Date"
-                            submit={() => this.handleExtdSubmit(this.state.studentId, this.state.book.id)}
-                            dueDate={this.state.dueDate}
+                            submit={() => this.handleExtdSubmit(this.state.patronId, this.state.book.id)}
+                            patronId={this.state.patronId}
+                            bookId={this.state.book ? this.state.book.id : null}
+                            // dueDate={this.state.dueDate}
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
                         />
 
@@ -395,6 +399,7 @@ class BorrowingInfo extends React.Component {
 const mapStateToProps = state => {
 
     return {
+        nowUserId: state.Auth.userid,
         successMsg: state.info.successMsg,
         errOnFetch: state.info.errOnFetch,
         error: state.info.error,
@@ -419,8 +424,8 @@ const mapDispatchToProps = dispatch => {
         onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue(page, size, search)),
         onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing(page, size, search)),
         onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned(page, size, search)),
-        getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistory(page, size, studentId, bookId)),
-        onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDue(studentId, bookId))
+        getExtendedHistoryInfo: (page, size, patronId, bookId) => dispatch(actions.getExtendedHistory(page, size, patronId, bookId)),
+        onExtdSubmit: (patronId, bookId) => dispatch(actions.extendDue(patronId, bookId))
     }
 }
 
