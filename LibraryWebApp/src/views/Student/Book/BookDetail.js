@@ -31,13 +31,15 @@ import { Button, Modal } from 'react-bootstrap'
 import MyUtil from 'store/utility'
 import * as MyConstant from '../../Util/Constant'
 import * as actions from '../../../store/actions/index'
+import CommonErrorModal from "components/Modals/CommonErrorModal";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 
 class BookDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             book: this.props.location.state.book,
-            studentId: this.props.location.state.studentId,
+            patronId: this.props.location.state.patronId,
             successNotice: '',
             successShow: false,
             errorShow: false,
@@ -48,12 +50,12 @@ class BookDetail extends React.Component {
     componentDidUpdate() {
     }
 
-    handleAddReminder(bookId, studentId) {
+    handleAddReminder(bookId, patronId) {
         this.setState({
             errorShow: true,
             successShow: true
         })
-        this.props.onAddReminder(bookId, studentId);
+        this.props.onAddReminder(bookId, patronId);
     }
 
     handleModalClose() {
@@ -71,11 +73,19 @@ class BookDetail extends React.Component {
             i++;
         });
 
+        let genres = thisBook.genres ? (thisBook.genres.length > 0 ? thisBook.genres : []) : [];
+        let formatedGenre = "";
+        i = 0;
+        genres.forEach(element => {
+            i < genres.length - 1 ? formatedGenre += " " + element["name"] + " , " : formatedGenre += " " + element["name"] + " ";
+            i++;
+        });
+
         let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
 
 
-        let addToWishlistButton = thisBook.stock <= 0 || thisBook.status !== MyConstant.BOOK_IN_CIRCULATION ? (<Button className="btn btn-sm btn-primary btn-block text-truncate my-2" onClick={() => this.handleAddReminder(thisBook.id, this.state.studentId)}>Add to Wishlist</Button>) : null;
+        let addToWishlistButton = thisBook.stock <= 0 || thisBook.status !== MyConstant.BOOK_IN_CIRCULATION ? (<Button className="btn btn-sm btn-primary btn-block text-truncate my-2" onClick={() => this.handleAddReminder(thisBook.id, this.state.patronId)}>Add to Wishlist</Button>) : null;
 
         let display = (
             <div className="content">
@@ -108,10 +118,10 @@ class BookDetail extends React.Component {
                                     <th className="pl-sm-4 pl-7">Total available:</th>
                                     <td>{thisBook.stock}</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <th className="pl-sm-4 pl-7">Location:</th>
                                     <td>{thisBook.location}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Call number:</th>
                                     <td>{thisBook.callNumber}</td>
@@ -147,7 +157,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Number of pages:</th>
-                                    <td className="border-0">{thisBook.nop}</td>
+                                    <td className="border-0">{thisBook.pageNumber}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Language:</th>
@@ -155,7 +165,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Genre(s):</th>
-                                    <td className="border-0">{thisBook.genre}</td>
+                                    <td className="border-0">{formatedGenre}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -176,9 +186,7 @@ class BookDetail extends React.Component {
                     </Card>
                 </Container>
 
-
-
-                <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
+                {/* <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                     <Modal.Header className="bg-success" closeButton>
                         <Modal.Title>Success</Modal.Title>
                     </Modal.Header>
@@ -205,7 +213,10 @@ class BookDetail extends React.Component {
                             Close
                                 </Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
+
+                <CommonErrorModal show={this.props.errorInfo && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
+                <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
             </>
         );
     }
@@ -214,14 +225,14 @@ class BookDetail extends React.Component {
 const mapStateToProps = state => {
     return {
         loading: state.bookStu.loading,
-        error: state.info.error,
+        errorInfo: state.info.error,
         successMsg: state.info.successMsg,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddReminder: (bookId, studentId) => dispatch(actions.addReminder(bookId, studentId)),
+        onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
     }
 }
 

@@ -22,8 +22,7 @@ class ExtendDueForm extends React.Component {
     }
 
     fetchData() {
-        console.log(this.props.bookId,this.props.patronId);
-        this.props.onCheckPolicy(this.props.bookId,this.props.patronId)
+        this.props.onCheckPolicy(this.props.bookBorrowingId)
     }
 
     render() {
@@ -34,9 +33,9 @@ class ExtendDueForm extends React.Component {
         } = this.props
 
 
-        let dueDate = this.props.newDueDate ? (
+        let dueDate = this.props.newDueDate && this.props.ableToRenew ? (
             <>
-            <p className="font-weight-bold">{"Please return before: " + this.props.newDueDate}</p>
+            <p className="font-weight-bold">{"Please return before: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
             </>
         ) : null
 
@@ -44,7 +43,7 @@ class ExtendDueForm extends React.Component {
             <p key={reason}>{reason}</p>
         )
         
-        let policyViolation = this.props.policyViolation ? (
+        let policyViolation = this.props.policyViolation && this.props.policyViolation.length != 0 ? (
             <>
             <p className="font-weight-bold">{"This book can not be renew because: "}</p>
             {/* {this.props.policyViolation ? this.props.policyViolation.forEach(element => <p className="font-weight-bold">{element}</p>) : null} */}
@@ -65,7 +64,7 @@ class ExtendDueForm extends React.Component {
                             </span> Back
                         </button>
                         &nbsp;&nbsp;
-                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || this.props.policyViolation || !this.props.newDueDate}>
+                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || !this.props.ableToRenew}>
                             <span className="btn-label">
                             </span> Confirm
                         </button>
@@ -80,12 +79,13 @@ const mapStateToProps = state => {
     return {
         newDueDate: state.info.newDueDate,
         policyViolation: state.info.policyViolation,
+        ableToRenew: state.info.ableToRenew,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCheckPolicy: (bookId, patronId) => dispatch(actions.checkPolicyRemainder(bookId, patronId)),
+        onCheckPolicy: (bookBorrowingId) => dispatch(actions.checkPolicyRemainder(bookBorrowingId)),
     }
 }
 

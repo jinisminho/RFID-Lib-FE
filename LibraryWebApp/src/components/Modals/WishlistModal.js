@@ -19,11 +19,19 @@ const wishlistModal = (props) => {
     };
 
     function handlePageChange(page, sizePerPage) {
-        props.fetchData(page, sizePerPage, props.studentId);
+        props.fetchData(page, sizePerPage, props.patronId);
     }
 
     function thisOnShow() {
-        props.fetchData(1, props.sizePerPage, props.studentId);
+        props.fetchData(1, props.sizePerPage, props.patronId);
+    }
+
+    function thisImageFormatter(cell, row) {
+        return MyUtil.imageFormatter(row.book.img,row.book)
+    }
+
+    function thisBookDescriptionFormat(cell, row, extraData) {
+        return MyUtil.bookDescriptionFormat(cell, row.book, extraData)
     }
 
     const hide = {
@@ -33,10 +41,11 @@ const wishlistModal = (props) => {
         totalCopies: true,
         nop: true,
         totalAvailableCopies: true,
+        position: true,
     }
     let extraData = [];
     extraData.hide = hide;
-    extraData.studentId = props.studentId
+    extraData.patronId = props.patronId
 
     return (
 
@@ -60,9 +69,10 @@ const wishlistModal = (props) => {
                     className="ml-4 mr-4"
                     bordered={false}
                     tableHeaderClass={"col-hidden"}
+                    keyField="id"
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={MyUtil.imageFormatter} width="10%" isKey>Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="90%" headerAlign="center" dataFormat={MyUtil.bookDescriptionFormat} formatExtraData={extraData}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={thisImageFormatter} width="10%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="90%" headerAlign="center" dataFormat={thisBookDescriptionFormat} formatExtraData={extraData}>Description</TableHeaderColumn>
                 </BootstrapTable>
             </Modal.Body>
             <Modal.Footer>

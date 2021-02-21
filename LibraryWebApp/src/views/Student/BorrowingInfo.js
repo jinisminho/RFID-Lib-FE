@@ -17,6 +17,8 @@ import DueHistoryModal from '../../components/Modals/DueHistoryModal';
 import ExtendDueModal from '../../components/Modals/ExtendDueModal';
 import * as MyConstant from '../Util/Constant'
 import moment from 'moment';
+import CommonErrorModal from "components/Modals/CommonErrorModal";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 
 
 class BorrowingInfo extends React.Component {
@@ -32,8 +34,9 @@ class BorrowingInfo extends React.Component {
             returnedData: null,
             showHistory: false,
             patronId: null,
-            book: null,
+            bookCopy: null,
             showExtdForm: false,
+            bookBorrowing: null,
             dueDate: null
         }
         this.fetchData = this.fetchData.bind(this);
@@ -44,6 +47,7 @@ class BorrowingInfo extends React.Component {
         this.otherFormatter = this.otherFormatter.bind(this);
         this.otherFormatter2 = this.otherFormatter2.bind(this);
         this.dateFormatter = this.dateFormatter.bind(this);
+        this.datetimeFormatter = this.datetimeFormatter.bind(this);
         this.ifNullFormatter = this.ifNullFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
     }
@@ -51,7 +55,7 @@ class BorrowingInfo extends React.Component {
     componentDidMount() {
 
         const doGetUserIdThenFetchData = async () => {
-            let userid = 1;
+            let userid = this.props.currentUserId;
             if (userid) {
                 await this.setState({ searchValue: userid })
                 await this.fetchData();
@@ -79,8 +83,10 @@ class BorrowingInfo extends React.Component {
 
     }
 
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        return this.props.onFetchData(page - 1, sizePerPage, searchValue)
+    fetchData(page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+        this.fetchDataOverdue(page, sizePerPage, this.state.searchValue);
+        this.fetchDataBorrowing(page, sizePerPage, this.state.searchValue);
+        this.fetchDataReturned(page, sizePerPage, this.state.searchValue);
     }
 
     fetchDataOverdue(page = this.props.pageOverdue, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
@@ -96,10 +102,12 @@ class BorrowingInfo extends React.Component {
     }
 
     titleFormatter(cell, row) {
-        let res = cell.title;
-        res += cell.edition ? " - Edition[" + cell.edition + "]" : "";
+        if (row.bookCopy) {
+            let res = row.bookCopy.book.title;
+            res += row.bookCopy.book.edition ? " - Edition[" + row.bookCopy.book.edition + "]" : "";
 
-        return res;
+            return res;
+        }
     }
 
     isbnFormatter(cell, row) {
@@ -107,33 +115,37 @@ class BorrowingInfo extends React.Component {
     }
 
     otherFormatter(cell, row) {
-        var borrowerId = row.borrower.id
-        var bok = row.book
+
+        var borrowerId = row.borrowing ? row.borrowing.borrower.accountId : null
+        var bokCpy = row.bookCopy ? row.bookCopy : null
+        var bokBorrowing = row ? row : null
+
 
         return (
             <div>
                 <button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
                     showHistory: true,
                     patronId: borrowerId,
-                    book: bok,
+                    bookBorrowing: bokBorrowing,
+                    bookCopy: bokCpy
                 })} ><i className="ni ni-collection" /> History </button>
             </div>
         )
     }
 
     otherFormatter2(cell, row) {
-        var borrowerId = row.borrower.id
-        var bok = row.book
-        let date = MyUtil.convertToDate(row.dueDate)
-
+        var borrowerId = row.borrowing ? row.borrowing.borrower.accountId : null
+        var bokCpy = row.bookCopy ? row.bookCopy : null
+        var bokBorrowing = row ? row : null
         return (
             <div>
                 <Row>
-                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => this.handleExtdFormShow(borrowerId,bok)} >Renew</button></Col>
+                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => {this.handleExtdFormShow(borrowerId, bokCpy); this.setState({bookBorrowing: bokBorrowing})}} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
                         patronId: borrowerId,
-                        book: bok
+                        bookCopy: bokCpy,
+                        bookBorrowing: bokBorrowing
                     })} ><i className="ni ni-collection" /></button></Col>
                 </Row>
 
@@ -143,7 +155,11 @@ class BorrowingInfo extends React.Component {
     }
 
     dateFormatter(cell, row) {
-        return moment(MyUtil.convertToDate(cell)).format(MyConstant.DATETIME)
+        return moment(MyUtil.convertToDate(cell)).format(MyConstant.DATE)
+    }
+
+    datetimeFormatter(cell, row) {
+        return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
     }
 
     ifNullFormatter(cell, row) {
@@ -156,11 +172,11 @@ class BorrowingInfo extends React.Component {
         })
 
     }
-    handleExtdFormShow = (stdId,bok) => {
+    handleExtdFormShow = (ptrnId, bokCpy) => {
         this.setState({
             showExtdForm: true,
-            patronId: stdId,
-            book: bok,
+            patronId: ptrnId,
+            bookCopy: bokCpy,
         })
     }
 
@@ -175,10 +191,17 @@ class BorrowingInfo extends React.Component {
         const doExtdThenReloadTable = async () => {
             await this.props.onExtdSubmit(patronId, bookId)
             await this.setState({ successShow: true, errorShow: true })
-            await this.fetchData(1, this.props.sizePerPage, this.state.searchValue)
+            // await this.fetchData(1, this.props.sizePerPage, this.state.searchValue)
+            await this.fetchData()
             return
         }
         return doExtdThenReloadTable()
+    }
+
+    handleModalClose() {
+        this.setState({ successShow: false, errorShow: false })
+        // this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
+        this.fetchData();
     }
 
     render() {
@@ -228,7 +251,7 @@ class BorrowingInfo extends React.Component {
             onPageChange: this.handlePageChangeReturned,
         };
 
-        let overdueBooks = this.props.dataOverdue ? (
+        let overdueBooks = this.props.dataOverdue && this.props.dataOverdue.length != 0  ? (
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -251,10 +274,10 @@ class BorrowingInfo extends React.Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
-                    <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDate" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="borrowedAt" dataFormat={(cell, row) => { return this.datetimeFormatter(row.borrowing.borrowedAt, row) }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Date</TableHeaderColumn>
                     <TableHeaderColumn dataField="overdueDays" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Day(s)</TableHeaderColumn>
-                    <TableHeaderColumn dataField="fine" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine</TableHeaderColumn>
+                    <TableHeaderColumn dataField="fine" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine - {MyConstant.CURRENCY}</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}></TableHeaderColumn>
                 </BootstrapTable>
 
@@ -262,7 +285,7 @@ class BorrowingInfo extends React.Component {
             </div>
         ) : null;
 
-        let borrowingBooks = this.props.dataBorrowing ? (
+        let borrowingBooks = this.props.dataBorrowing && this.props.dataBorrowing.length != 0 ? (
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -284,8 +307,8 @@ class BorrowingInfo extends React.Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
-                    <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDate" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Date</TableHeaderColumn>
+                    <TableHeaderColumn dataField="borrowedAt" dataFormat={(cell, row) => { return this.datetimeFormatter(row.borrowing.borrowedAt, row) }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Date</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter2} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
@@ -293,7 +316,7 @@ class BorrowingInfo extends React.Component {
             </div>
         ) : null;
 
-        let returnedBooks = this.props.dataReturned ? (
+        let returnedBooks = this.props.dataReturned && this.props.dataReturned.length != 0 ? (
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -315,10 +338,10 @@ class BorrowingInfo extends React.Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
-                    <TableHeaderColumn dataField="borrowedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
-                    <TableHeaderColumn dataField="returnedAt" dataFormat={this.dateFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Returned At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="borrowedAt" dataFormat={(cell, row) => { return this.datetimeFormatter(row.borrowing.borrowedAt, row) }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="returnedAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Returned At</TableHeaderColumn>
                     <TableHeaderColumn dataField="overdueDays" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Day(s)</TableHeaderColumn>
-                    <TableHeaderColumn dataField="fine" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine</TableHeaderColumn>
+                    <TableHeaderColumn dataField="fine" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine - {MyConstant.CURRENCY}</TableHeaderColumn>
                     <TableHeaderColumn dataField="book" dataFormat={this.otherFormatter} columnClassName='my-class' dataAlign="center"></TableHeaderColumn>
                 </BootstrapTable>
 
@@ -326,17 +349,17 @@ class BorrowingInfo extends React.Component {
             </div>
         ) : null;
 
-        let errorMsg = null
-        let msg = null
-        if (this.props.errOnFetch && this.state.errorShow) {
-            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })}>{this.props.errOnFetch}</Alert>
-        }
-        if (this.props.error && this.state.errorShow) {
-            errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.error}</Alert>
-        }
-        if (this.props.successMsg && this.state.successShow) {
-            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
-        }
+        // let errorMsg = null
+        // let msg = null
+        // if (this.props.errOnFetch && this.state.errorShow) {
+        //     errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })}>{this.props.errOnFetch}</Alert>
+        // }
+        // if (this.props.error && this.state.errorShow) {
+        //     errorMsg = <Alert key="danger" variant="danger" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.error}</Alert>
+        // }
+        // if (this.props.successMsg && this.state.successShow) {
+        //     msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
+        // }
 
         return (
             <>
@@ -346,8 +369,8 @@ class BorrowingInfo extends React.Component {
                         <CardHeader className="border-0 ">
                             {/* <h3 className="mb-0">Student Infomation</h3> */}
                         </CardHeader>
-                        {errorMsg}
-                        {msg}
+                        {/* {errorMsg}
+                        {msg} */}
                     </Card>
                     <Card className="shadow pb-auto">
                         <CardHeader className="border-0">
@@ -373,20 +396,23 @@ class BorrowingInfo extends React.Component {
                             show={this.state.showHistory}
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
-                            book={this.state.book ? this.state.book : []}
-                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.patronId, this.state.book.id)}
+                            bookCopy={this.state.bookCopy ? this.state.bookCopy : []}
+                            bookBorrowing={this.state.bookBorrowing}
+                            onShow={() => this.props.getExtendedHistoryInfo(this.state.bookBorrowing.id)}
                         />
 
                         <ExtendDueModal
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Renew Due Date"
-                            submit={() => this.handleExtdSubmit(this.state.patronId, this.state.book.id)}
-                            patronId={this.state.patronId}
-                            bookId={this.state.book ? this.state.book.id : null}
+                            submit={() => this.handleExtdSubmit(this.state.bookBorrowing.id)}
+                            bookBorrowingId={this.state.bookBorrowing ? this.state.bookBorrowing.id : null}
                             // dueDate={this.state.dueDate}
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
                         />
+
+                        <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+                        <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
 
                     </Row>
 
@@ -415,17 +441,17 @@ const mapStateToProps = state => {
         pageReturned: state.info.pageReturned,
         sizePerPage: state.info.sizePerPage,
         historyData: state.info.historyData,
+        currentUserId: state.Auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, search) => dispatch(actions.getBorrowingInfo(page, size, search)),
         onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue(page, size, search)),
         onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing(page, size, search)),
         onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned(page, size, search)),
-        getExtendedHistoryInfo: (page, size, patronId, bookId) => dispatch(actions.getExtendedHistory(page, size, patronId, bookId)),
-        onExtdSubmit: (patronId, bookId) => dispatch(actions.extendDue(patronId, bookId))
+        getExtendedHistoryInfo: (bookBorrowingId) => dispatch(actions.getExtendedHistory(bookBorrowingId)),
+        onExtdSubmit: (bookBorrowingId) => dispatch(actions.extendDue(bookBorrowingId))
     }
 }
 

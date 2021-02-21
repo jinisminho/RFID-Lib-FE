@@ -152,8 +152,6 @@ const getExtendedHistoryInfoSuccess = (state, action) => {
     total: action.total,
     error: null,
     loading: false,
-    page: action.page,
-    sizePerPage: action.sizePerPage
   })
 }
 const getExtendedHistoryInfoFail = (state, action) => {
@@ -284,13 +282,14 @@ const addReminderFail = (state, action) => {
   })
 }
 
-//check policy remainder
+//check policy renew
 const checkPolicyStart = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: true,
     newDueDate: null,
     policyViolation:null,
+    ableToRenew: null
   })
 }
 const checkPolicySuccess = (state, action) => {
@@ -299,6 +298,7 @@ const checkPolicySuccess = (state, action) => {
     loading: false,
     newDueDate: action.newDueDate,
     policyViolation: action.policyViolation,
+    ableToRenew: action.ableToRenew
   })
 }
 const checkPolicyFail = (state, action) => {
@@ -307,6 +307,7 @@ const checkPolicyFail = (state, action) => {
     loading: false,
     newDueDate: null,
     policyViolation:null,
+    ableToRenew: null
   })
 }
 export default function reducer(state = {
@@ -331,6 +332,7 @@ export default function reducer(state = {
   wishlistTotalSize:0,
   newDueDate: null,
   policyViolation: null,
+  ableToRenew: null
 }, action) {
   switch (action.type) {
     case actionTypes.PATRON_GET_BORROWINGINFO_START: return getBorrowingInfoStart(state, action)
@@ -374,9 +376,9 @@ export default function reducer(state = {
     case actionTypes.PATRON_GET_WISHLIST_SUCCESS: return getWishlistSuccess(state, action)
     case actionTypes.PATRON_GET_WISHLIST_FAILED: return getWishlistFail(state, action)  
 
-    case actionTypes.PATRON_CHECK_POLICY_REMINDER_START: return checkPolicyStart(state, action)
-    case actionTypes.PATRON_CHECK_POLICY_REMINDER_SUCCESS: return checkPolicySuccess(state, action)
-    case actionTypes.PATRON_CHECK_POLICY_REMINDER_FAILED: return checkPolicyFail(state, action)
+    case actionTypes.PATRON_CHECK_POLICY_RENEW_START: return checkPolicyStart(state, action)
+    case actionTypes.PATRON_CHECK_POLICY_RENEW_SUCCESS: return checkPolicySuccess(state, action)
+    case actionTypes.PATRON_CHECK_POLICY_RENEW_FAILED: return checkPolicyFail(state, action)
 
   }
   return state

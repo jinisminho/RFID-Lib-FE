@@ -16,8 +16,7 @@ const extendDueModal = props => {
           // minDate ={props.minDate}
           // maxDate ={props.maxDate}
           dueDate = {props.dueDate}
-          patronId={props.patronId}
-          bookId={props.bookId}
+          bookBorrowingId={props.bookBorrowingId}
           numOfDateToAdd = {props.numOfDateToAdd}
         />
       </Modal.Body>

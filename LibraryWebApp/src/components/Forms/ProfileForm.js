@@ -89,6 +89,9 @@ const validate = values => {
         if (!values.phone.match(regex)) {
             errors.phone = 'Invalid Format'
         }
+        if (values.phone.length != 10) {
+            errors.phone = 'Must be 10 digits'
+        }
     } else {
         errors.phone = 'Phone is required'
     }
