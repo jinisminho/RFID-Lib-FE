@@ -255,13 +255,15 @@ export const extendDueStart = () => {
     }
 }
 
-export const extendDue = (bookBorrowingId) => {
+export const extendDue = (bookBorrowingId, librarianId, form) => {
     return dispatch => {
 
         dispatch(extendDueStart())
 
-        let url = '/renew/createExtendHistory/' + bookBorrowingId
-        axios.post(url, {}, { withCredentials: true })
+        let reason = form? form.reason : null
+
+        let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId="+librarianId : "") 
+        axios.post(url, {reason}, { withCredentials: true })
             .then(response => {
                 dispatch(addReminderSuccess(true, "Renewed successfully"))
             })

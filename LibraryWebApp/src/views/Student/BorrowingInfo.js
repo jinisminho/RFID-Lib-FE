@@ -1,8 +1,6 @@
 import React from "react";
-import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Alert } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import {
@@ -140,7 +138,7 @@ class BorrowingInfo extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => {this.handleExtdFormShow(borrowerId, bokCpy); this.setState({bookBorrowing: bokBorrowing})}} >Renew</button></Col>
+                    <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => { this.handleExtdFormShow(borrowerId, bokCpy); this.setState({ bookBorrowing: bokBorrowing }) }} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
                         patronId: borrowerId,
@@ -172,6 +170,7 @@ class BorrowingInfo extends React.Component {
         })
 
     }
+
     handleExtdFormShow = (ptrnId, bokCpy) => {
         this.setState({
             showExtdForm: true,
@@ -186,10 +185,10 @@ class BorrowingInfo extends React.Component {
         })
     }
 
-    handleExtdSubmit(patronId, bookId) {
+    handleExtdSubmit(bookBorrowingId) {
         this.setState({ showExtdForm: false })
         const doExtdThenReloadTable = async () => {
-            await this.props.onExtdSubmit(patronId, bookId)
+            await this.props.onExtdSubmit(bookBorrowingId)
             await this.setState({ successShow: true, errorShow: true })
             // await this.fetchData(1, this.props.sizePerPage, this.state.searchValue)
             await this.fetchData()
@@ -251,7 +250,7 @@ class BorrowingInfo extends React.Component {
             onPageChange: this.handlePageChangeReturned,
         };
 
-        let overdueBooks = this.props.dataOverdue && this.props.dataOverdue.length != 0  ? (
+        let overdueBooks = this.props.dataOverdue && this.props.dataOverdue.length != 0 ? (
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
