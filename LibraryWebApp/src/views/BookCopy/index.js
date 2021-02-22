@@ -29,7 +29,6 @@ import ConfirmCopyForm from './copyComfirmForm'
 import Select from 'react-select';
 import TagRFIDModal from "../../components/Modals/TagRFIDModal"
 import * as MyConstant from '../Util/Constant'
-import AsyncSelect from 'react-select/async';
 import {
     Card,
     Container

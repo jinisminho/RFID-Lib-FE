@@ -114,7 +114,7 @@ class Student extends React.Component {
                 this.setState({ imageLoading: false })
             },
             () => {
-                storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                storage.ref('images/patron').child(values.avatar[0].name).getDownloadURL().then(url => {
                     this.setState({ imageLoading: false })
                     values["avatar"] = url
                     values["creatorId"]=this.props.userid
@@ -146,7 +146,7 @@ class Student extends React.Component {
                     this.setState({ imageLoading: false })
                 },
                 () => {
-                    storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                    storage.ref('images/patron').child(values.avatar[0].name).getDownloadURL().then(url => {
                         this.setState({ imageLoading: false })
                         values["avatar"] = url
                         values["updaterId"] = this.props.userid

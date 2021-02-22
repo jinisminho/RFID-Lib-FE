@@ -142,7 +142,8 @@ class Book extends React.Component {
                 this.setState({ imageLoading: false })
             },
             () => {
-                storage.ref('images').child(values.img[0].name).getDownloadURL().then(url => {
+                storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
+                    console.log(url)
                     this.setState({ imageLoading: false })
                     values["img"] = url
                     values.publishYear = values.publishYear.getFullYear()
@@ -204,7 +205,7 @@ class Book extends React.Component {
                     this.setState({ imageLoading: false })
                 },
                 () => {
-                    storage.ref('images').child(values.img[0].name).getDownloadURL().then(url => {
+                    storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
                         this.setState({ imageLoading: false })
                         values["img"] = url
                         this.props.onUpdateBook(values)

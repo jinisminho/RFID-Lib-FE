@@ -110,7 +110,7 @@ class Staff extends React.Component {
                 this.setState({ imageLoading: false })
             },
             () => {
-                storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                storage.ref('images/staff').child(values.avatar[0].name).getDownloadURL().then(url => {
                     this.setState({ imageLoading: false })
                     values["avatar"] = url
                     values["creatorId"]=this.props.userid
@@ -142,7 +142,7 @@ class Staff extends React.Component {
                     this.setState({ imageLoading: false })
                 },
                 () => {
-                    storage.ref('images').child(values.avatar[0].name).getDownloadURL().then(url => {
+                    storage.ref('images/staff').child(values.avatar[0].name).getDownloadURL().then(url => {
                         this.setState({ imageLoading: false })
                         values["avatar"] = url
                         values["updaterId"] = this.props.userid
