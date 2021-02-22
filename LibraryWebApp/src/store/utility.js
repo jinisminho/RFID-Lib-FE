@@ -12,7 +12,7 @@ export const updateObject = (oldObject, updatedProperties) => {
 export function convertToDate(d) {
     // Converts the date in d to a date-object. The input can be:
     //   a date object: returned without modification
-    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11 -> fixed: month is 1-12.
     //   a number     : Interpreted as number of milliseconds
     //                  since 1 Jan 1970 (a timestamp) 
     //   a string     : Any format supported by the javascript engine, like
@@ -21,10 +21,22 @@ export function convertToDate(d) {
     //                  attributes.  **NOTE** month is 0-11.
     return (
         d.constructor === Date ? d :
-            d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+            // d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+            d.constructor === Array ? new Date(d[0], d[1]-1, d[2]) :
                 d.constructor === Number ? new Date(d) :
                     d.constructor === String ? new Date(d) :
                         typeof d === "object" ? new Date(d.year, d.month, d.date) :
+                            NaN
+    );
+}
+
+export function convertToDateTime(d) {
+    return (
+        d.constructor === Date ? d :
+            d.constructor === Array ? new Date(d[0], d[1]-1, d[2], d[3], d[4], d[5]) :
+                d.constructor === Number ? new Date(d) :
+                    d.constructor === String ? new Date(d) :
+                        typeof d === "object" ? new Date(d.year, d.month, d.date, d.hour, d.minute, d.second) :
                             NaN
     );
 }
@@ -57,9 +69,9 @@ export function bookDescriptionFormat(cell, row, extraData) {
             pathname: '/patron/book/detail',
             state: {
                 book: thisBook,
-                studentId: extraData.studentId ? extraData.studentId : null
+                patronId: extraData.patronId ? extraData.patronId : null
             }
-        }}><h1 className="font-weight-bolder">{row.title}{row.sub ? " : " + row.sub : null}</h1></Link>
+        }}><h1 className="font-weight-bolder">{row.title}{row.subtitle ? " : " + row.subtitle : null}</h1></Link>
     ) : null;
 
     let authors = row.author && !hide.author ? (row.author.length > 0 ? row.author : []) : [];
@@ -78,7 +90,7 @@ export function bookDescriptionFormat(cell, row, extraData) {
         <p className={detailsTextClassName}>Edition: {row.edition}</p>
     ) : null;
 
-    let position = row.ddc ? "Available at " + row.ddc : null;
+    let position = row.callNumber ? "Available at " + row.callNumber : null;
     let position_class = "text-success"
     if (row.status != MyConstant.BOOK_IN_CIRCULATION || row.stock <= 0) {
         position = "Not available"
@@ -111,15 +123,26 @@ export function bookDescriptionFormat(cell, row, extraData) {
     ) : null;
 
     let totalAvailableCopies = row.stock && !hide.totalAvailableCopies ? (
-        <p className={detailsTextClassName}> Total available copies: {row.stock}</p>
+        <p className={detailsTextClassName}> Total available copies: {row.stock}{row.numberOfCopy ? " of "+row.numberOfCopy : null}</p>
     ) : null;
 
     let isbn = row.isbn && !hide.isbn ? (
         <p className={detailsTextClassName}> ISBN: {row.isbn}</p>
     ) : null;
 
-    let genre = row.genre && !hide.genre ? (
-        <p className={detailsTextClassName}> Genre(s): {row.genre}</p>
+    // let genre = row.genres && !hide.genre ? (
+    //     <p className={detailsTextClassName}> Genre(s): {row.genres}</p>
+    // ) : null;
+
+    let genres = row.genres && !hide.genre ? (row.genres.length > 0 ? row.genres : []) : [];
+    let genreStr = "";
+    i = 0;
+    genres.forEach(element => {
+        i < genres.length - 1 ? genreStr += " " + element["name"] + " , " : genreStr += " " + element["name"] + " ";
+        i++;
+    });
+    let genre = genreStr !== null && genreStr !== '' ? (
+        <p className={detailsTextClassName}>Genre(s): {genreStr}</p>
     ) : null;
 
     return (
@@ -165,9 +188,17 @@ export function responseError(err){
     
     return msg
 }
+
+export function responseErrorwithCustomMsg(err, msg){
+    return responseError(err);
+    
+    return msg
+}
+
 export default {
     updateObject,
     convertToDate,
+    convertToDateTime,
     compareDate,
     bookDescriptionFormat,
     imageFormatter,

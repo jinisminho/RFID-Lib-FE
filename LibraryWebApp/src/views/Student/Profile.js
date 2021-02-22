@@ -34,6 +34,8 @@ import {
     Input,
     Container,
 } from "reactstrap";
+import CommonErrorModal from "components/Modals/CommonErrorModal";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 //css
 
 
@@ -47,7 +49,7 @@ class BookStu extends React.Component {
             edited: false,
             submited: false,
             selectedImage: null,
-            studentId: null,
+            patronId: null,
             newEmail: null,
             newFstName: null,
             newLstName: null,
@@ -61,15 +63,15 @@ class BookStu extends React.Component {
         const doFetchData = async () => {
             //Get and set student id, reset edited
             await this.setState({
-                studentId: '1'
+                patronId: this.props.currentUserId
             })
 
             //Then fetchData
-            await this.fetchData(this.state.studentId);
+            await this.fetchData(this.state.patronId);
 
             //Set img src
             // document.getElementById('profileImg').src = require("assets/img/theme/team-4-800x800.jpg")
-            document.getElementById('profileImg').src = this.props.profile.img ? this.props.profile.img :"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.img ? this.props.profile.img : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
 
             return
         }
@@ -87,24 +89,29 @@ class BookStu extends React.Component {
         }
     }
 
-    fetchData(studentId = this.state.studentId) {
-        this.props.onFetchData(studentId)
+    fetchData(patronId = this.state.patronId) {
+        this.props.onFetchData(patronId)
     }
 
     getInitialValues = () => {
         return {
-            fullname: this.props.profile.fullname,
-            email: this.props.profile.email,
-            department: this.props.profile.department,
-            phone: this.props.profile.phone
+            fullname: this.props.profile ? this.props.profile.fullName : null,
+            email: this.props.profile ? this.props.profile.email : null,
+            // department: this.props.profile.department,
+            phone: this.props.profile ? this.props.profile.phone : null
         };
     }
 
     onSubmit = (form) => {
         // console.log(JSON.stringify(form, null, 2));
-        this.props.onSubmitUpdate(this.state.studentId, form)
+        this.props.onSubmitUpdate(this.state.patronId, form)
         this.setState({ successShow: true, submited: true })
         this.fetchData()
+    }
+
+    handleModalClose() {
+        this.setState({ successShow: false, errorShow: false })
+        this.fetchData();
     }
 
     render() {
@@ -164,14 +171,14 @@ class BookStu extends React.Component {
             display = <Spinner />
         }
 
-        let errorMsg = null
-        let msg = null
-        if (this.props.error && this.state.errorShow) {
-            errorMsg = <Alert bsStyle="danger" onDismiss={() => this.setState({ errorShow: false })}>{this.props.error.message}</Alert>
-        }
-        if (this.props.successMsg && this.state.successShow) {
-            msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false })} dismissible>{this.props.successMsg}</Alert>
-        }
+        // let errorMsg = null
+        // let msg = null
+        // if (this.props.error && this.state.errorShow) {
+        //     errorMsg = <Alert bsStyle="danger" onDismiss={() => this.setState({ errorShow: false })}>{this.props.error.message}</Alert>
+        // }
+        // if (this.props.successMsg && this.state.successShow) {
+        //     msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false })} dismissible>{this.props.successMsg}</Alert>
+        // }
 
         return (
             <>
@@ -181,11 +188,13 @@ class BookStu extends React.Component {
                         <CardHeader className="border-0">
                             {/* <h3 className="mb-0">Profile</h3> */}
                         </CardHeader>
-                        {errorMsg}
-                        {msg}
+                        {/* {errorMsg}
+                        {msg} */}
                         {display}
                     </Card>
                 </Container>
+                <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+                <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
             </>
         );
     }
@@ -202,15 +211,16 @@ const mapStateToProps = state => {
         successMsg: state.info.successMsg,
         profile: state.info.profile,
         formEnabled: isValid('ProfileForm')(state) && !isSubmitting('ProfileForm')(state) && isDirty('ProfileForm')(state),
-        formIsValid: isValid('ProfileForm')(state)
+        formIsValid: isValid('ProfileForm')(state),
+        currentUserId: state.Auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (studentId) => dispatch(actions.getStudentProfile(studentId)),
+        onFetchData: (patronId) => dispatch(actions.getStudentProfile(patronId)),
         submitForm: () => dispatch(submit('ProfileForm')),
-        onSubmitUpdate: (studentId, form) => dispatch(actions.updateStudentProfile(studentId, form))
+        onSubmitUpdate: (patronId, form) => dispatch(actions.updateStudentProfile(patronId, form))
     }
 }
 

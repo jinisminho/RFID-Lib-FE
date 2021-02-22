@@ -139,7 +139,7 @@ class BookCopy extends React.Component {
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
-        this.fetchData(1, 10, this.state.searchValue, this.state.selectValue);
+        this.fetchData(1, this.props.sizePerPage, this.state.searchValue, this.state.selectValue);
     }
     handleUpdateCancel = () => {
         this.setState({
