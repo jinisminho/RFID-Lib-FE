@@ -44,7 +44,10 @@ const validate = values => {
     const errors = {}
     if (!values.reason) {
         errors.reason = 'Reason is required'
+    } else if (values.reason > 500) {
+        errors.reason = "Reason's max lenght is"
     }
+    
     return errors
 }
 
