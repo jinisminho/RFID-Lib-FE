@@ -30,10 +30,16 @@ export function convertToDate(d) {
     );
 }
 
+function checkIfZero(inValue) {
+    return inValue ? inValue  : 0; 
+}
+
 export function convertToDateTime(d) {
+    
+
     return (
         d.constructor === Date ? d :
-            d.constructor === Array ? new Date(d[0], d[1]-1, d[2], d[3], d[4], d[5]) :
+            d.constructor === Array ? new Date(d[0], d[1]-1, d[2], checkIfZero(d[3]), checkIfZero(d[4]), checkIfZero(d[5])) :
                 d.constructor === Number ? new Date(d) :
                     d.constructor === String ? new Date(d) :
                         typeof d === "object" ? new Date(d.year, d.month, d.date, d.hour, d.minute, d.second) :
