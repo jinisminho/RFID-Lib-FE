@@ -17,6 +17,8 @@ namespace LibrarySelfCheckOut.Models
         public int groupId { get; set; }
         public String  group { get; set; }
         public String genres { get; set; }
+        public int bookId { get; set; }
+
 
     }
 }
