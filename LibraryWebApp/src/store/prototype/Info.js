@@ -27,59 +27,59 @@ function getRentingInfos(studentId) {
 
 function getRentingInfosSplit(studentId) {
     var response = this.getRentingInfos(studentId);
-    if(response.data) {
+    if (response.data) {
         var dta = response.data;
         var retrnedDta = dta.filter(element => element.returnedAt)
         var borrowingDta = dta.filter(element => !element.returnedAt);
         var ovrDta = borrowingDta.filter(element => MyUtil.compareDate(element.dueDate, Date.now()) < 0)
         borrowingDta = borrowingDta.filter(element => MyUtil.compareDate(element.dueDate, Date.now()) >= 0);
-        var data = { "dataOverdue": ovrDta, "totalOverdue": ovrDta.length,"dataBorrowing": borrowingDta, "totalBorrowing": borrowingDta.length,"dataReturned": retrnedDta, "totalReturned": retrnedDta.length};
-        return {"data": data,"status": true }
+        var data = { "dataOverdue": ovrDta, "totalOverdue": ovrDta.length, "dataBorrowing": borrowingDta, "totalBorrowing": borrowingDta.length, "dataReturned": retrnedDta, "totalReturned": retrnedDta.length };
+        return { "data": data, "status": true }
     }
-    
+
     return response;
 }
 
-function getRentingInfosFilter(studentId,page,sizePerPage, filter) {
+function getRentingInfosFilter(studentId, page, sizePerPage, filter) {
     var arr = mock_data.rentingInfo;
     let rs = []
-    
+
     for (var i = 0; i < arr.length; i++) {
         var obj = arr[i];
         var stuId = obj.borrower.id;
 
         // if(!keywords) {alert ("keywords is false or 0 or undefined or null")} 
         if (!studentId ? false : stuId == studentId) {
-            switch(filter) {
+            switch (filter) {
                 case 1:
-                    if(MyUtil.compareDate(Date.now(),obj.dueDate) > 0 && !obj.returnedAt) {
+                    if (MyUtil.compareDate(Date.now(), obj.dueDate) > 0 && !obj.returnedAt) {
                         rs.push(obj)
                     }
                     break;
                 case 2:
-                    if(!obj.returnedAt && MyUtil.compareDate(Date.now(),obj.dueDate) <= 0) {
+                    if (!obj.returnedAt && MyUtil.compareDate(Date.now(), obj.dueDate) <= 0) {
                         rs.push(obj)
                     }
                     break;
                 case 3:
-                    if(obj.returnedAt) {
+                    if (obj.returnedAt) {
                         rs.push(obj)
                     }
                     break;
                 default:
-                    rs.push(obj);            
+                    rs.push(obj);
             }
-            
+
         }
     }
 
-    if(rs.length < 1)    return {"err":"Unauthorized","status":false};
+    if (rs.length < 1) return { "err": "Unauthorized", "status": false };
     let final = []
-    if((sizePerPage)*(page)>rs.length){
-        final=rs
-    }else{
-        for(i=(sizePerPage)*(page);i<sizePerPage*(page+1);i++){
-            if(i<rs.length)
+    if ((sizePerPage) * (page) > rs.length) {
+        final = rs
+    } else {
+        for (i = (sizePerPage) * (page); i < sizePerPage * (page + 1); i++) {
+            if (i < rs.length)
                 final.push(rs[i])
         }
     }
@@ -126,14 +126,14 @@ function addDueDate(studentId, bookId) {
     return { "err": "Unauthorized", "status": false };
 }
 
-function getStudent(code){
-    let rs= null
-    mock_data.arrayOfStudents.forEach(el=>{
-        if(el["code"]==code){
-            rs=el
+function getStudent(code) {
+    let rs = null
+    mock_data.arrayOfStudents.forEach(el => {
+        if (el["code"] == code) {
+            rs = el
         }
     })
-    return {"data":rs,"status":true}
+    return { "data": rs, "status": true }
 }
 
 function getStudentProfile(studentId) {
@@ -194,4 +194,11 @@ function addWishlist(bookid) {
     return { "err": "Unauthorized", "status": false };
 }
 
-export { getRentingInfos, getRentingInfosSplit, getRentingInfosFilter, getExtendedHistory, getStudentProfile, updateStudentProfile, getWishlist, addWishlist, addDueDate , getStudent}
+function checkPolicy(bookid) {
+    if (bookid == "6")
+        return { "status": true };
+    return { "err": "Unauthorized", "status": false };
+}
+
+
+export { getRentingInfos, getRentingInfosSplit, getRentingInfosFilter, getExtendedHistory, getStudentProfile, updateStudentProfile, getWishlist, addWishlist, addDueDate, getStudent, checkPolicy }

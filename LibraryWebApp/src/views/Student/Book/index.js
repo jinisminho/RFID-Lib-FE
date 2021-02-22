@@ -31,6 +31,8 @@ import {
     Container
 } from "reactstrap";
 import WishlistModal from "components/Modals/WishlistModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 
 class Book extends React.Component {
     constructor(props) {
@@ -41,7 +43,7 @@ class Book extends React.Component {
             successShow: false,
             errorShow: false,
             wishlistShow: false,
-            studentId: null,
+            patronId: null,
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -50,8 +52,8 @@ class Book extends React.Component {
     }
     componentDidMount() {
         this.fetchData();
-        // get then set studentId
-        this.setState({ studentId: '1' });
+        // get then set patronId
+        this.setState({ patronId: this.props.currentUserId });
     }
 
     componentDidUpdate() {
@@ -93,7 +95,7 @@ class Book extends React.Component {
         this.props.onFetchData(page - 1, sizePerPage, searchValue)
     }
 
-    fetchWishlist(page = this.props.wishlistPage, sizePerPage = this.props.wishlistSizePerPage, searchValue = this.state.wishlistSearchValue) {
+    fetchWishlist(page = this.props.wishlistPage, sizePerPage = this.props.wishlistSizePerPage, searchValue = this.state.patronId) {
         this.props.onGetWishlist(page - 1, sizePerPage, searchValue)
     }
 
@@ -104,7 +106,7 @@ class Book extends React.Component {
                     <Row className="align-items-center">
                         <Col></Col>
                         <Col>
-                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.studentId)}>Add to Wishlist</Button>
+                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.patronId)}>Add to Wishlist</Button>
                         </Col>
                         <Col></Col>
                     </Row>
@@ -137,7 +139,7 @@ class Book extends React.Component {
                     <Row className="align-items-center">
                         <Col></Col>
                         <Col>
-                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.studentId)}>Add to Wishlist</Button>
+                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.patronId)}>Add to Wishlist</Button>
                         </Col>
                         <Col></Col>
                     </Row>
@@ -149,18 +151,18 @@ class Book extends React.Component {
         return (<img className="img-thumbnail" src={cell}/>)
     }
 
-    handleAddReminder(bookId, studentId) {
+    handleAddReminder(bookId, patronId) {
         this.setState({
             errorShow: true,
             successShow: true
         })
-        this.props.onAddReminder(bookId, studentId);
+        this.props.onAddReminder(bookId, patronId);
     }
 
     
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
-        this.fetchData(1, 10, this.state.searchValue);
+        this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
     }
 
     render() {
@@ -181,12 +183,12 @@ class Book extends React.Component {
             language: true,
             totalCopies: true,
             nop: true,
-            isbn: true,
-            totalAvailableCopies: true,
+            // isbn: true,
+            // totalAvailableCopies: true,
         }
         let extraData = [];
         extraData.hide = hide;
-        extraData.studentId = this.state.studentId
+        extraData.patronId = this.state.patronId
 
         let display = (
             <div className="content">
@@ -242,7 +244,8 @@ class Book extends React.Component {
                         <CardHeader className="border-0">
                             {/* <h3 className="mb-0">{MyConstant.BOOKS}</h3> */}
                         </CardHeader>
-                        <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
+
+                        {/* <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header className="bg-success" closeButton>
                                 <Modal.Title>Success</Modal.Title>
                             </Modal.Header>
@@ -255,8 +258,8 @@ class Book extends React.Component {
                                     Close
                                 </Button>
                             </Modal.Footer>
-                        </Modal>
-                        <Modal show={this.props.errorInfo && this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
+                        </Modal> */}
+                        {/* <Modal show={this.props.errorInfo && this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                             <Modal.Header closeButton className="bg-danger">
                                 <Modal.Title>Error</Modal.Title>
                             </Modal.Header>
@@ -269,7 +272,10 @@ class Book extends React.Component {
                                     Close
                                 </Button>
                             </Modal.Footer>
-                        </Modal>
+                        </Modal> */}
+                        
+                        <CommonErrorModal show={this.props.errorInfo && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
+                        <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
                         {display}
 
                         <WishlistModal
@@ -280,7 +286,7 @@ class Book extends React.Component {
                             totalSize={this.props.wishlistTotalSize}
                             page={this.props.wishlistPage}
                             sizePerPage={this.props.wishlistSizePerPage}
-                            studentId={this.state.studentId}
+                            patronId={this.state.patronId}
                             fetchData={this.fetchWishlist}
                         />
 
@@ -313,14 +319,17 @@ const mapStateToProps = state => {
         
         successMsg: state.info.successMsg,
         errorInfo: state.info.error,
-        errOnFetchInfo: state.info.errOnFetch
+        errOnFetchInfo: state.info.errOnFetch,
+
+        currentUserId: state.Auth.userId
+
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getBookStudentSide(search, page, size)),
-        onAddReminder: (bookId, studentId) => dispatch(actions.addReminder(bookId, studentId)),
+        onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
         onGetWishlist: (page, size, search) => dispatch(actions.getWishlist(search, page, size))
     }
 }

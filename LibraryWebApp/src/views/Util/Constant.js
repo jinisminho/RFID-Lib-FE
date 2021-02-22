@@ -21,6 +21,8 @@ export const BOOK_NOT_ALLOWED_TO_BORROWED = "NOT_ALLOWED_TO_BORROWED"
 
 //Other
 export const DEFAULT_DATE_TO_ADD = 7
+export const CURRENCY = "VND"
+
 
 //Book status
 export const BOOK_STATUS_ADD_LIST={OUT_OF_CIRCULATION:"Out of circulation", IN_CIRCULATION:"In circulation", LIB_USE_ONLY:"Library use only"}

@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
 

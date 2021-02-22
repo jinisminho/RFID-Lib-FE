@@ -167,7 +167,7 @@ class Book extends React.Component {
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
-        this.fetchData(1, 10, this.state.searchValue);
+        this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
     }
     handleUpdateCancel = () => {
         this.setState({

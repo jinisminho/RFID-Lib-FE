@@ -16,27 +16,33 @@ const extendedDueModal = (props) => {
   }
 
   function dateFormatter(cell, row) {
-    return cell ? toDateTime(cell) : ''
+    return cell ? moment(MyUtil.convertToDate(cell)).format(MyConstant.DATE) : null
   }
 
   function toDateTime(date) {
-    return moment(MyUtil.convertToDate(date)).format(MyConstant.DATETIME)
+    return moment(MyUtil.convertToDateTime(date)).format(MyConstant.DATETIME)
   }
 
-  return (
+  function datetimeFormatter(cell, row) {
+    return cell ? moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME) : null
+  }
 
+  const bookCopy = props.bookCopy
+  const book = bookCopy ? bookCopy.book : null;
+
+  return (
 
     <Modal dialogClassName="book-detail-modal" backdrop="static" aria-labelledby="contained-modal-title-vcenter" show={props.show} onHide={props.hide} onShow={props.onShow} centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           <Row className="ml-2">
-            Book: {props.book.title ? props.book.title : ""} {props.book.subtitle ? " - " + props.book.subtitle : ""} {props.book.edition ? " - Edition [" + props.book.edition + "]" : ""}
+            Book:{book ? ((book.title ? book.title : "") + (book.subtitle ? " - " + book.subtitle : "") + (book.edition ? " - Edition [" + book.edition + "]" : "")) : null}
           </Row>
           <Row className="ml-2">
-            Barcode: {props.book.barcode ? props.book.barcode : ""}
+            Barcode: {bookCopy.barcode ? bookCopy.barcode : ""}
           </Row>
           <Row className="ml-2">
-            Borrowed At: {props.data ? (props.data[1].borrowedAt ? toDateTime(props.data[1].borrowedAt) : "") : ""}
+            Borrowed At: {props.bookBorrowing ? (props.bookBorrowing.borrowing.borrowedAt ? toDateTime(props.bookBorrowing.borrowing.borrowedAt) : "") : ""}
           </Row>
         </Modal.Title>
       </Modal.Header>
@@ -50,8 +56,8 @@ const extendedDueModal = (props) => {
           keyField="id"
         >
           <TableHeaderColumn dataField="#" dataFormat={indexFormatter} dataAlign="center">#</TableHeaderColumn>
-          <TableHeaderColumn dataField="renewedAt" dataFormat={dateFormatter} dataAlign="center">Renewed At</TableHeaderColumn>
-          <TableHeaderColumn dataField="dueDate" dataFormat={dateFormatter} dataAlign="center">Due Date</TableHeaderColumn>
+          <TableHeaderColumn dataField="extendedAt" dataFormat={datetimeFormatter} dataAlign="center">Renewed At</TableHeaderColumn>
+          <TableHeaderColumn dataField="dueAt" dataFormat={dateFormatter} dataAlign="center">Due Date</TableHeaderColumn>
         </BootstrapTable>
       </Modal.Body>
       <Modal.Footer>
