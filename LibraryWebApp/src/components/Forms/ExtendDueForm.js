@@ -1,58 +1,98 @@
-import React, { Component } from 'react';
-import { Field, reduxForm} from 'redux-form';
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import React from 'react';
+import { reduxForm } from 'redux-form';
 import 'react-datepicker/dist/react-datepicker.css';
-import MyUltil from "store/ultility"
+import MyUtil from "store/utility"
+import * as MyConstant from '../../views/Util/Constant'
+import moment from 'moment';
+import * as actions from 'store/actions/index'
+import { connect } from 'react-redux'
 
-// const FieldDatePicker = ({ input, placeholder, minDate, maxDate }) => (
-//     <DatePicker
-//         className="plus-icon"
-//         dateFormat="yyyy/MM/dd"
-//         selected={input.value || null}
-//         onChange={input.onChange}
-//         minDate={minDate}
-//         maxDate={maxDate}
-//         disabledKeyboardNavigation
-//         placeholderText={placeholder}
-//     />
-// );
+function toDateTime(date) {
+    return moment(MyUtil.convertToDate(date)).format(MyConstant.DATE)
+}
 
-function thisDueDate(dueDate, numOfDateToAdd) {
-    let date = MyUltil.convertToDate(dueDate)
-    date.setDate(date.getDate() + numOfDateToAdd)
-    return date.toDateString()
-};
+class ExtendDueForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.fetchData = this.fetchData.bind(this);
+    }
 
-const ExtendDueForm = ({
-    handleSubmit,
-    handleCancel,
-    // minDate,
-    // maxDate,
-    dueDate,
-    numOfDateToAdd
-}) => (
-        <div className="card">
-            <div className="content">
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label className="control-label"> {"New Due Date:  "} <p className="font-weight-bold">{"" + thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}</p></label>
-                        {/* <Field name={"datePicker"} component={FieldDatePicker} placeholder="YYYY/MM/DD" minDate={minDate} maxDate={maxDate}/>                            */}
-                        <input type="hidden" id="newDueDate" name="newDueDate" value={thisDueDate(dueDate, numOfDateToAdd ? numOfDateToAdd : 1)}></input>
-                    </div>
-                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                        <span className="btn-label">
-                        </span> Back
+    componentDidMount() {
+        this.fetchData()
+    }
+
+    fetchData() {
+        this.props.onCheckPolicy(this.props.bookBorrowingId)
+    }
+
+    render() {
+        const {
+            handleSubmit,
+            handleCancel,
+            submitting,
+        } = this.props
+
+
+        let dueDate = this.props.newDueDate && this.props.ableToRenew ? (
+            <>
+            <p className="font-weight-bold">{"Please return before: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
+            </>
+        ) : null
+
+        const reasons = (reason) => (
+            <p key={reason}>{reason}</p>
+        )
+        
+        let policyViolation = this.props.policyViolation && this.props.policyViolation.length != 0 ? (
+            <>
+            <p className="font-weight-bold">{"This book can not be renew because: "}</p>
+            {/* {this.props.policyViolation ? this.props.policyViolation.forEach(element => <p className="font-weight-bold">{element}</p>) : null} */}
+            {this.props.policyViolation ? this.props.policyViolation.map(reasons) : null}
+            </>
+        ) : null
+
+        return (
+            <div className="card border-0">
+                <div className="content">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            {dueDate}
+                            {policyViolation}
+                        </div>
+                        <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                            <span className="btn-label">
+                            </span> Back
                         </button>
                         &nbsp;&nbsp;
-                    <button type="submit" className="btn btn-wd btn-success ">
-                        <span className="btn-label">
-                        </span> Confirm
+                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || !this.props.ableToRenew}>
+                            <span className="btn-label">
+                            </span> Confirm
                         </button>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-    );
+        )
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        newDueDate: state.info.newDueDate,
+        policyViolation: state.info.policyViolation,
+        ableToRenew: state.info.ableToRenew,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onCheckPolicy: (bookBorrowingId) => dispatch(actions.checkPolicyRemainder(bookBorrowingId)),
+    }
+}
+
+ExtendDueForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ExtendDueForm)
 
 export default reduxForm({
     form: 'extendDueForm'

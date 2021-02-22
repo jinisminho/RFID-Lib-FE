@@ -31,11 +31,12 @@ import {
     InputGroupText,
     InputGroup,
     CardFooter,
-    Label
+    Label,
+    Row,
+    Col,
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
-import Row from "reactstrap/lib/Row";
-
+import { Popover, OverlayTrigger,Image} from 'react-bootstrap'
+import Basic from './bookFormImg'
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
@@ -61,6 +62,7 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
         </Row>
     </>
 )
+
 const renderFieldAlter = ({ input, placeholder, type, meta: { touched, error } }) => (
     <>
         <Input {...input} placeholder={placeholder} type={type} />
@@ -79,6 +81,7 @@ const renderFieldAlter = ({ input, placeholder, type, meta: { touched, error } }
         </OverlayTrigger>))}
     </>
 )
+
 const renderAuthors = ({ fields, meta: { error, submitFailed } }) => (
     <>
         <Row>
@@ -175,8 +178,19 @@ const BookForm = ({
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
+                <Row className="text-center justify-content-center">
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
+                    <Field
+                        name="image"
+                        type="file"
+                        placeholder="ISBN"
+                        component={Basic} />
 
+                </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+                <FormGroup className="mb-3">
                     <Field
                         name="isbn"
                         type="text"
@@ -185,6 +199,8 @@ const BookForm = ({
                         component={renderField} />
 
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="title"
@@ -193,6 +209,8 @@ const BookForm = ({
                         title="Title"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="sub"
@@ -201,6 +219,8 @@ const BookForm = ({
                         title="Sub Title"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="ddc"
@@ -209,6 +229,8 @@ const BookForm = ({
                         title="DDC"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="publisher"
@@ -217,6 +239,8 @@ const BookForm = ({
                         title="Publisher"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="language"
@@ -225,6 +249,8 @@ const BookForm = ({
                         title="Language"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="nop"
@@ -234,6 +260,8 @@ const BookForm = ({
                         title="Number of page"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="category"
@@ -242,6 +270,8 @@ const BookForm = ({
                         title="Category"
                         component={renderField} />
                 </FormGroup>
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Field
                         name="edition"
@@ -251,8 +281,8 @@ const BookForm = ({
                         title="Edition"
                         component={renderField} />
                 </FormGroup>
-
-
+                </Col>
+                <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <FormGroup className="mb-3">
                     <Row>
                         <Label>Status</Label>
@@ -267,9 +297,8 @@ const BookForm = ({
                         </InputGroup>
                     </Row>
                 </FormGroup>
-
-                <FieldArray name="members" component={renderAuthors} />
-                
+                </Col>
+                </Row>
                 <div className="text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                         <span className="btn-label">

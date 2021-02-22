@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbBorrower = new System.Windows.Forms.Label();
             this.lbGroup = new System.Windows.Forms.Label();
             this.lbAuthors = new System.Windows.Forms.Label();
             this.lbEdition = new System.Windows.Forms.Label();
@@ -57,11 +58,21 @@
             this.panel1.Size = new System.Drawing.Size(1590, 170);
             this.panel1.TabIndex = 0;
             // 
+            // lbBorrower
+            // 
+            this.lbBorrower.AutoSize = true;
+            this.lbBorrower.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.lbBorrower.Location = new System.Drawing.Point(12, 13);
+            this.lbBorrower.Name = "lbBorrower";
+            this.lbBorrower.Size = new System.Drawing.Size(138, 24);
+            this.lbBorrower.TabIndex = 9;
+            this.lbBorrower.Text = "Borrower: tram";
+            // 
             // lbGroup
             // 
             this.lbGroup.AutoSize = true;
             this.lbGroup.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbGroup.Location = new System.Drawing.Point(154, 111);
+            this.lbGroup.Location = new System.Drawing.Point(154, 109);
             this.lbGroup.Name = "lbGroup";
             this.lbGroup.Size = new System.Drawing.Size(68, 24);
             this.lbGroup.TabIndex = 8;
@@ -71,7 +82,7 @@
             // 
             this.lbAuthors.AutoSize = true;
             this.lbAuthors.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbAuthors.Location = new System.Drawing.Point(154, 78);
+            this.lbAuthors.Location = new System.Drawing.Point(154, 77);
             this.lbAuthors.Name = "lbAuthors";
             this.lbAuthors.Size = new System.Drawing.Size(94, 24);
             this.lbAuthors.TabIndex = 7;
@@ -81,7 +92,7 @@
             // 
             this.lbEdition.AutoSize = true;
             this.lbEdition.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbEdition.Location = new System.Drawing.Point(154, 45);
+            this.lbEdition.Location = new System.Drawing.Point(154, 44);
             this.lbEdition.Name = "lbEdition";
             this.lbEdition.Size = new System.Drawing.Size(89, 24);
             this.lbEdition.TabIndex = 6;

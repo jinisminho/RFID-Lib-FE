@@ -21,7 +21,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import * as actions from '../store/actions/index'
 import { connect } from 'react-redux'
@@ -69,7 +68,7 @@ class Librarian extends React.Component {
           routes={routes}
           logo={{
             innerLink: "/librarian/index",
-            imgSrc: require("assets/img/brand/argon-react.png"),
+            imgSrc: require("assets/img/brand/logo_trans_2.png"),
             imgAlt: "..."
           }}
         />
@@ -78,10 +77,12 @@ class Librarian extends React.Component {
             {...this.props}
             logout={()=>this.props.onLogout()}
             brandText={this.getBrandText(this.props.location.pathname)}
+            username={this.props.username}
+            avatar={this.props.avatar}
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/librarian/index" />
+            <Redirect from="*" to="/librarian/book" />
           </Switch>
         </div>
       </>
@@ -90,11 +91,8 @@ class Librarian extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-      // token:state.Auth.token,
-      // loading: state.Auth.loading,
-      // error: state.Auth.error,
-      // isAuthenticated: state.Auth.token !== null,
-      // authRedirectPath: state.Auth.authRedirectPath
+    username:state.Auth.username,
+    avatar:state.Auth.avatar
   }
 }
 

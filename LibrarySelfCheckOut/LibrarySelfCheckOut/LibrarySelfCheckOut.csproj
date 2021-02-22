@@ -184,14 +184,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8_ok_16px.png" />
-    <None Include="Resources\check-circle.gif" />
-    <None Include="Resources\remove-icon-21.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\success-icon-10.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\giphy.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -204,22 +196,10 @@
     <None Include="Resources\return-book.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\scan-pay-payment-15-512.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\insert-card.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\welcome2.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\logi.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\selfcheckoutservice.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SCS.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\welcome3.PNG" />
@@ -228,19 +208,10 @@
     <None Include="Resources\welcome4.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SCS2.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\logi_rescaled_trans.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\checkout-bck.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\93634.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\back-arrow-1767531-1502435.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\backicon.PNG" />

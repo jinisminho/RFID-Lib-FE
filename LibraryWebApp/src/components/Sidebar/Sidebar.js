@@ -23,36 +23,22 @@ import { PropTypes } from "prop-types";
 
 // reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
   Collapse,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Media,
   NavbarBrand,
   Navbar,
   NavItem,
   NavLink,
   Nav,
-  Progress,
-  Table,
   Container,
   Row,
   Col
 } from "reactstrap";
 
-var ps;
 
 class Sidebar extends React.Component {
   state = {
@@ -81,6 +67,7 @@ class Sidebar extends React.Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks = routes => {
     return routes.map((prop, key) => {
+      if(prop.invisible) return null;
       return (
         <NavItem key={key}>
           <NavLink
@@ -112,7 +99,7 @@ class Sidebar extends React.Component {
     }
     return (
       <Navbar
-        className="navbar-vertical fixed-left navbar-light bg-white"
+        className="navbar-vertical fixed-left navbar-light bg-white fixed-top"
         expand="md"
         id="sidenav-main"
       >
@@ -136,22 +123,7 @@ class Sidebar extends React.Component {
             </NavbarBrand>
           ) : null}
           {/* User */}
-          <Nav className="align-items-center d-md-none">
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav className="nav-link-icon">
-                <i className="ni ni-bell-55" />
-              </DropdownToggle>
-              <DropdownMenu
-                aria-labelledby="navbar-default_dropdown_1"
-                className="dropdown-menu-arrow"
-                right
-              >
-                <DropdownItem>Action</DropdownItem>
-                <DropdownItem>Another action</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Something else here</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+          <Nav className="align-items-center d-md-none" >
             <UncontrolledDropdown nav>
               <DropdownToggle nav>
                 <Media className="align-items-center">
@@ -170,18 +142,6 @@ class Sidebar extends React.Component {
                 <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
@@ -221,22 +181,6 @@ class Sidebar extends React.Component {
                 </Col>
               </Row>
             </div>
-            {/* Form */}
-            <Form className="mt-4 mb-3 d-md-none">
-              <InputGroup className="input-group-rounded input-group-merge">
-                <Input
-                  aria-label="Search"
-                  className="form-control-rounded form-control-prepended"
-                  placeholder="Search"
-                  type="search"
-                />
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <span className="fa fa-search" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </Form>
             {/* Navigation */}
             <Nav navbar>{this.createLinks(routes)}</Nav>
           </Collapse>

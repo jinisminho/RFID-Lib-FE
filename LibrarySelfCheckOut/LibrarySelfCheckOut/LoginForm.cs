@@ -52,7 +52,7 @@ namespace LibrarySelfCheckOut
             if(e.KeyCode == Keys.Enter)
             {
                 this.txtStudentRFID.Enabled = false;
-                studentFRID = this.txtStudentRFID.Text.Trim();
+                studentFRID = this.txtStudentRFID.Text.Trim().ToUpper();
                 if (studentFRID.StartsWith(Constant.PATRON_CARD_PREFIX))
                 {
                     this.sessionTimer.Enabled = false;

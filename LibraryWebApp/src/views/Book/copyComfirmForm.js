@@ -29,11 +29,16 @@ import {
     InputGroupAddon,
     InputGroupText,
     InputGroup,
+    Row,
+    Col,
+    Label
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-const renderField = ({ input,disabled, placeholder, type, meta: { touched, error } }) => (
+
+
+const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched, error } }) => (
     <>
-        <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+        <Input className="pl-3" {...input} placeholder={placeholder} type={type} disabled={disabled} />
         {touched && ((error && <OverlayTrigger
             trigger={['hover', 'focus']}
             placement="right"
@@ -45,127 +50,138 @@ const renderField = ({ input,disabled, placeholder, type, meta: { touched, error
                 </Popover>
             }
         >
-            <Button onClick={(e)=>e.preventDefault()}  className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
         </OverlayTrigger>))}
     </>
 )
+
+
 const renderCode = ({ fields, meta: { error, submitFailed } }) => (
     <>
-        {fields.map((member, index) =>
-            <InputGroup className="mb-3" key={index}>
-                <InputGroupAddon addonType="prepend">
+        <Row className="ml-0 ml-sm-2">
+            <Label>Generated Barcode(s) - Total: {fields.length}</Label>
+        </Row>
+        <Row className="ml-0 ml-sm-2">
+            <div style={{ maxHeight: "400px", overflowY: "scroll", boxSizing: "border-box", width: "100%", paddingRight: "5px" }}>
+                {fields.map((member, index) =>
+                    // <Row key={index}>
+                    <InputGroup className="mb-3 input-group-alternative" key={index}>
+                        <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                            {index+1}
+                                {index + 1}
                             </InputGroupText>
                         </InputGroupAddon>
-                <Field
-                    name={`${member}.barcode`}
-                    type="text"
-                    placeholder="Book's barcode"
-                    component={renderField}
-                    disabled
-                    label="Book's barcode" />
-            </InputGroup>
-        )}
+                        <Field
+                            name={`${member}.barcode`}
+                            type="text"
+                            placeholder="Book's barcode"
+                            component={renderFieldAlter}
+                            disabled
+                            label="Book's barcode" />
+                    </InputGroup>
+                )}
+            </div>
+        </Row>
+    </>
+)
+
+const renderFixedField = ({ meta, title }) => (
+    <>
+        <Row>
+            <Label>{title + ": " + (meta.initial ? meta.initial : null)}</Label>
+        </Row>
     </>
 )
 
 const ConfirmCopyForm = ({
     handleSubmit,
-    handleCancel
+    handleCancel,
+    initialValues
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
             <Form onSubmit={handleSubmit}>
-            <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="fas fa-barcode" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="isbn"
-                            type="text"
-                            placeholder="isbn"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="title"
-                            type="text"
-                            placeholder="Title"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="author"
-                            type="text"
-                            placeholder="Author"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="edition"
-                            type="text"
-                            placeholder="Edition"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup className="mb-3">
-                    <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                <i className="ni ni-book-bookmark" />
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name="price"
-                            type="text"
-                            placeholder="Price"
-                            disabled
-                            component={renderField} />
-                    </InputGroup>
-                </FormGroup>
-                <div style={{maxHeight: "400px", overflowY:"scroll"}}>
-                <FieldArray name="members" component={renderCode} />
-                </div>
-                <div className="text-right">
-                <button type="submit" className="btn btn-wd btn-success ">
-                    <span className="btn-label">
-                    </span> OK
+                <Row>
+                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img} /></Row></Col>
+                    <Col lg={{ size: 3, offset: 1 }}>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="isbn"
+                                type="text"
+                                placeholder="isbn"
+                                title="ISBN"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="title"
+                                type="text"
+                                placeholder="Title"
+                                title="Title"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="author"
+                                type="text"
+                                placeholder="Author"
+                                title="Author"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="edition"
+                                type="text"
+                                placeholder="Edition"
+                                title="Edition"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="price"
+                                type="text"
+                                placeholder="Price"
+                                title="Price"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
+                                name="copyType"
+                                type="text"
+                                placeholder="Copy Type"
+                                title="Copy Type"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                    </Col>
+                    <Col lg="6" className="border-left">
+                        <FieldArray name="members" component={renderCode} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="0" lg={{ size: 'auto', offset: 9 }}>
+                        <div className="text-right mt-2">
+                            <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                                <span className="btn-label">
+                                </span> Cancel
                 </button>
-            </div>
+                            <button type="submit" className="btn btn-wd btn-success ">
+                                <span className="btn-label">
+                                </span> Confirm
+                </button>
+                        </div>
+                    </Col>
+                </Row>
             </Form>
         </CardBody>
     </Card>
 );
 
 export default reduxForm({
-    form: 'ConfirmCopyForm'
+    form: 'BookConfirmCopyForm'
 })(ConfirmCopyForm)

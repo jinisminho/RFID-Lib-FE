@@ -1,31 +1,31 @@
 export const arrayOfBooks = [
-  { "id": 1, "stock": 6, "title": "Harry", "authors": [{ "id": 1, "name": "Jk" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
-  { "id": 2, "stock": 7, "title": "Harry2", "authors": [{ "id": 1, "name": "k" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
-  { "id": 3, "stock": 6, "title": "Harry3", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
-  { "id": 4, "stock": 0, "title": "Harry4", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
-  { "id": 5, "stock": 5, "title": "Harry5", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kjj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
-  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "authors": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "category": "novel", "edition": 1 },
-  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "authors": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "category": "Non-fiction", "edition": 1 },
-  { "id": 8, "stock": 11, "title": "Harry8", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 1,"status": "IN_CIRCULATION", "ddc":"1231231111",  "stock": 6, "title": "Harry", "author": [{ "id": 1, "name": "Jk" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 2,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 7, "title": "Harry2", "author": [{ "id": 1, "name": "k" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 3,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 6, "title": "Harry3", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 4, "onlyInLibrary": true, "status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 0, "title": "Harry4", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 5,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 5, "title": "Harry5", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "kjj" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 6,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "author": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 7,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 10, "title": "Sapiens", "sub": "A Brief History of Humankind", "author": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
+  { "id": 8,"status": "IN_CIRCULATION", "ddc":"1231231111", "stock": 11, "title": "Nineteen Eighty-Four", "author": [{ "id": 6, "name": "George Orwell" }], "isbn": "1521900515", "publisher": "Independently published","publishYear":2017, "language": "English", "nop": 292, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" },
 ];
 
 export var wishList = [
-  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "authors": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "category": "novel", "edition": 1 },
-  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "authors": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "category": "Non-fiction", "edition": 1 },
-  { "id": 8, "stock": 11, "title": "Harry8", "authors": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "category": "novel", "edition": 4 },
+  { "id": 6, "stock": 13, "title": "Strange Case of Dr Jekyll and Mr Hyde", "author": [{ "id": 1, "name": "Robert Louis Stevenson" }], "isbn": "978-0-553-21277-8", "publisher": "Longmans, Green & Co.", "language": "English", "nop": 141, "genre": "novel", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
+  { "id": 7, "stock": 10, "title": "Sapiens: A Brief History of Humankind", "author": [{ "id": 1, "name": "Yuval Noah Harari" }], "isbn": "978-0062316097", "publisher": "Harper", "language": "English", "nop": 443, "genre": "Non-fiction", "edition": 1, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
+  { "id": 8, "stock": 11, "title": "Harry8", "author": [{ "id": 1, "name": "J. K. Rowling" }, { "id": 2, "name": "Rowling" }, { "id": 3, "name": "testing This" }], "isbn": "0439708184", "publisher": "ABC", "language": "English", "nop": 200, "genre": "novel", "edition": 4, "img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"  },
 ];
 
 export const rentingInfo = [
   {
     "id": 1,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "December 24, 2020 15:15:30",
-    "dateDue": "December 24, 2020 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "December 24, 2020 15:15:30",
+    "dueDate": "December 24, 2020 23:59:59",
     "book": {
       "id": 1,
       "stock": 6,
       "title": "Harry",
-      "authors": [
+      "author": [
         {
           "id": 1,
           "name": "J. K. Rowling"
@@ -35,7 +35,7 @@ export const rentingInfo = [
       "publisher": "ABC",
       "language": "English",
       "nop": 200,
-      "category": "novel",
+      "genre": "novel",
       "edition": 4
     },
     "borrower": {
@@ -46,14 +46,14 @@ export const rentingInfo = [
   },
   {
     "id": 2,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "December 24, 2020 15:15:34",
-    "dateDue": "January 20, 2021 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "December 24, 2020 15:15:34",
+    "dueDate": "January 20, 2021 23:59:59",
     "book": {
       "id": 2,
       "stock": 8,
       "title": 1984,
-      "authors": [
+      "author": [
         {
           "id": 2,
           "name": "George Orwell"
@@ -63,7 +63,7 @@ export const rentingInfo = [
       "publisher": "ABC",
       "language": "English",
       "nop": 200,
-      "category": "novel",
+      "genre": "novel",
       "edition": 4
     },
     "borrower": {
@@ -74,14 +74,14 @@ export const rentingInfo = [
   },
   {
     "id": 3,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "",
-    "dateDue": "January 20, 2021 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "",
+    "dueDate": "January 20, 2021 23:59:59",
     "book": {
       "id": 3,
       "stock": 2,
       "title": "Lord of the Flies",
-      "authors": [
+      "author": [
         {
           "id": 3,
           "name": "William Golding"
@@ -99,7 +99,7 @@ export const rentingInfo = [
       "publisher": "ABC",
       "language": "English",
       "nop": 200,
-      "category": "novel",
+      "genre": "novel",
       "edition": 4
     },
     "borrower": {
@@ -110,14 +110,14 @@ export const rentingInfo = [
   },
   {
     "id": 4,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "",
-    "dateDue": "December 24, 2020 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "",
+    "dueDate": "December 24, 2020 23:59:59",
     "book": {
       "id": 4,
       "stock": 6,
       "title": "Doctor Sleep",
-      "authors": [
+      "author": [
         {
           "id": 6,
           "name": "Stephen King"
@@ -127,7 +127,7 @@ export const rentingInfo = [
       "publisher": "ABC",
       "language": "English",
       "nop": 200,
-      "category": "novel",
+      "genre": "novel",
       "edition": 4
     },
     "borrower": {
@@ -138,14 +138,14 @@ export const rentingInfo = [
   },
   {
     "id": 5,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "",
-    "dateDue": "December 24, 2020 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "",
+    "dueDate": "December 24, 2020 23:59:59",
     "book": {
       "id": 5,
       "stock": 6,
       "title": "Doctor Sleep",
-      "authors": [
+      "author": [
         {
           "id": 6,
           "name": "Stephen King"
@@ -155,7 +155,7 @@ export const rentingInfo = [
       "publisher": "ABC",
       "language": "English",
       "nop": 200,
-      "category": "novel",
+      "genre": "novel",
       "edition": 4
     },
     "borrower": {
@@ -166,14 +166,14 @@ export const rentingInfo = [
   },
   {
     "id": 6,
-    "dateLent": "December 20, 2020 15:15:30",
-    "dateReturned": "",
-    "dateDue": "July 7, 2021 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "returnedAt": "",
+    "dueDate": "July 7, 2021 23:59:59",
     "book": {
       "id": 6,
       "stock": 6,
       "title": "Harmony",
-      "authors": [
+      "author": [
         {
           "id": 7,
           "name": "Project Itoh"
@@ -183,7 +183,7 @@ export const rentingInfo = [
       "publisher": "Haikasoru",
       "language": " English",
       "nop": 256,
-      "category": "novel",
+      "genre": "novel",
       "edition": 0
     },
     "borrower": {
@@ -197,24 +197,28 @@ export const rentingInfo = [
 export var extendedDueHistory = [
   {
     "id": 1,
-    "dateExtended": "December 20, 2020 15:15:30",
-    "dateDue": "December 24, 2020 23:59:59"
+    "renewedAt": "",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "dueDate": "December 24, 2020 23:59:59"
   },
   {
     "id": 2,
-    "dateExtended": "December 24, 2020 15:15:30",
-    "dateDue": "January 10, 2021 23:59:59"
+    "renewedAt": "December 24, 2020 15:15:30",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "dueDate": "January 10, 2021 23:59:59"
   },
   {
     "id": 3,
-    "dateExtended": "February 1, 2021 15:15:30",
-    "dateDue": "January 30, 2021 23:59:59"
+    "renewedAt": "February 1, 2021 15:15:30",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "dueDate": "January 30, 2021 23:59:59"
   },
 
   {
     "id": 4,
-    "dateExtended": "",
-    "dateDue": "February 15, 2021 23:59:59"
+    "renewedAt": "February 10, 2021 23:59:59",
+    "borrowedAt": "December 20, 2020 15:15:30",
+    "dueDate": "February 15, 2021 23:59:59"
   },
 ]
 
@@ -251,3 +255,180 @@ export const arrayOfStudents=[
   {"id":4,"code":"4","name":"Nguyen Trung Kien","department":"SE","username":"kien@mail.com","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
   {"id":5,"code":"5","name":"Nguyen Quoc Van","department":"SA","username":"van@mail.com","img":"https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"},
   ]
+
+  export const userOptions = [
+    {
+        label: 'Erika',
+        value: '4e4cf51f-b406-413a-ae46-2cf06c7aabff',
+    },
+    {
+        label: 'Julia',
+        value: 'edad97c7-f2dc-4198-91a9-8f20c7bc67b2',
+    },
+    {
+        label: 'Sarah',
+        value: '57d3578a-3583-4290-8bae-596a4da81a8d',
+    },
+];
+
+export let borrowPolicy =
+[
+  {
+    "id": 1,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "TEXTBOOK"
+  },
+  {
+    "id": 2,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "REFERENCE"
+  },
+  {
+    "id": 3,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "STUDENT",
+    "bookCopyType": "THESIS"
+  },
+  {
+    "id": 4,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "TEXTBOOK"
+  },
+  {
+    "id": 5,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "REFERENCE"
+  },
+  {
+    "id": 6,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "THESIS"
+  },
+  {
+    "id": 7,
+    "dueDuration": 7,
+    "maxBorrowNumber": 4,
+    "maxExtendTime": 2,
+    "extendDueDuration": 7,
+    "createdAt": "2021-02-03 21:54:23",
+    "updatedAt": "2021-02-03 21:54:23",
+    "patronType": "LECTURER",
+    "bookCopyType": "REFERENCE"
+  },
+];
+
+export const patronPolicy =
+[
+  {
+    "id": 1,
+    "patronType": "STUDENT",
+    "maxBorrowNumber": 6
+  },
+  {
+    "id": 2,
+    "patronType": "LECTURER",
+    "maxBorrowNumber": 10
+  }
+]
+
+export let feePolicy =
+[
+  {
+    "id": 1,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-03 21:54:23"
+  },
+  {
+    "id": 2,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-04 21:54:23"
+  },
+  {
+    "id": 3,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-05 21:54:23"
+  },
+]
+
+export const latestFeePolicy =
+[
+  {
+    "id": 1,
+    "overdueFinePerDay": 2000,
+    "maxPercentageOverdueFine": 100,
+    "documentProcessingFee": 30000,
+    "missingDocMultiplier": 5,
+    "createdAt": "2021-02-03 21:54:23"
+  }
+]
+
+export const patrontypes =
+[
+  {
+    "id": 1,
+    "name": "STUDENT",
+  },
+  {
+    "id": 2,
+    "name": "LECTURER",
+  }
+]
+
+export const copyTypes = [
+  {
+      name: 'Test - Super Rare',
+      id: 1,
+  },
+  {
+      name: 'Test - Unique',
+      id: 2,
+  },
+  {
+      name: 'Test - Common',
+      id: 3,
+  },
+]

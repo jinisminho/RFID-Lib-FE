@@ -62,6 +62,13 @@ namespace LibrarySelfCheckOut
         }
 
 
+        private void CheckOutForm_Load(object sender, EventArgs e)
+        {
+            int x_label = (pnNav.Width - lbUsername.Width - 10);
+            lbUsername.Location = new Point(x_label, lbUsername.Location.Y);
+        }
+
+
         private async void txtBookRFID_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -221,6 +228,7 @@ namespace LibrarySelfCheckOut
                 }
             }
         }
+
 
         private bool isDuplicateBorrowingBook(List<BookCheckOutRequestModel> bookCodeList)
         {

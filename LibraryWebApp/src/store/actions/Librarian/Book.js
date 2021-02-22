@@ -1,8 +1,6 @@
 import * as actionTypes from '../actionTypes'
-import * as booksPrototype from '../../prototype/bookMng'
-import * as copyBooksPrototype from '../../prototype/bookCopyMng'
-import { $CombinedState } from 'redux'
-
+import axios from '../../../axios'
+import {responseError} from '../../utility'
 export const getBookSuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.ADMIN_GET_BOOKS_SUCCESS,
@@ -28,26 +26,100 @@ export const getBookStart = () => {
 
 export const getBook = (page,size,search) => {
     return dispatch => {
+        search=search?search:""
         dispatch(getBookStart())
-        let response=booksPrototype.getBooks(search,page,size)
-        if(response.status){
-            dispatch(getBookSuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getBookFailed(response.err))
-        }
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getBookFail(error))
-        //     });
+        let url='/book/search'+'?page='+page+'&size='+size+"&searchValue="+search
+        // let url='/book/all'
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error=> {
+                dispatch(getBookFailed(responseError(error)))
+            });
+    }
+
+}
+
+export const getAuthorSuccess = (data) => {
+    return {
+        type: actionTypes.GET_AUTHOR_SUCCESS,
+        data: data,
+    }
+}
+
+export const getAuthorFailed = (error) => {
+    return {
+        type: actionTypes.GET_AUTHOR_FAILED,
+        error: error
+    }
+}
+
+export const getAuthorStart = () => {
+    return {
+        type: actionTypes.GET_AUTHOR_START
+    }
+}
+
+export const getAuthor = () => {
+    return dispatch => {
+        dispatch(getAuthorStart())
+        let url='/author/all'
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                response.data.forEach(element => {
+                    element["value"]=element["id"]
+                    element["label"]=element["name"]
+                    delete element["id"]
+                    delete element["name"]
+                });
+                
+                dispatch(getAuthorSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getBookFailed(responseError(error)))
+            });
+    }
+
+}
+export const getGenreSuccess = (data) => {
+    return {
+        type: actionTypes.GET_GENRE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getGenreFailed = (error) => {
+    return {
+        type: actionTypes.GET_GENRE_FAILED,
+        error: error
+    }
+}
+
+export const getGenreStart = () => {
+    return {
+        type: actionTypes.GET_GENRE_START
+    }
+}
+
+export const getGenre = () => {
+    return dispatch => {
+        dispatch(getGenreStart())
+        let url='/genre/all'
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                response.data.forEach(element => {
+                    element["value"]=element["id"]
+                    element["label"]=element["name"]
+                    delete element["id"]
+                    delete element["name"]
+                });
+                
+                dispatch(getGenreSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getGenreFailed(responseError(error)))
+            });
     }
 
 }
@@ -71,50 +143,48 @@ export const addBookSuccess =()=>{
 } 
 
 export const addBook = (data) => {
+
     return dispatch => {
-        dispatch(addBookStart())    
-        let response=booksPrototype.addBooks(data)
-        if(response.status==true){
-            dispatch(addBookSuccess())
-        }else{
-            dispatch(addBookFail(response.error))
-        }
-        // axios.post('categories/',data,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(addBookSuccess())
-        //     })
-        //     .catch(error => {
-        //         dispatch(addBookFail(error))
-        //     });
+        dispatch(addBookStart()) 
+        let url='/book/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(addBookSuccess())
+            })
+            .catch(error=> {
+                dispatch(addBookFail(responseError(error)))
+            });   
         
     }
 }
 
 export const addCopyStart =()=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_START
+        type: actionTypes.ADD_BOOK_COPY_START
     })
 } 
 export const addCopyFail =(error)=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_FAILED,
+        type: actionTypes.ADD_BOOK_COPY_FAILED,
         error:error
     })
 } 
 export const addCopySuccess =()=>{
     return({
-        type: actionTypes.ADD_COPY_BOOK_SUCCESS,
+        type: actionTypes.ADD_BOOK_COPY_SUCCESS,
     })
 } 
 export const addBookCopy = (data) => {
     return dispatch => {
         dispatch(addCopyStart())    
-        let response=copyBooksPrototype.addCopy(data)
-        if(response.status==true){
-            dispatch(addCopySuccess())
-        }else{
-            dispatch(addCopyFail(response.error))
-        }
+        let url='/copy/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(addCopySuccess())
+            })
+            .catch(error=> {
+                dispatch(addCopyFail(responseError(error)))
+            });  
     }
 }
 
@@ -138,19 +208,14 @@ export const updateBookSuccess =()=>{
 export const updateBook = (data) => {
     return dispatch => {
         dispatch(updateBookStart())    
-        let response=booksPrototype.updateBooks(data)
-        if(response.status==true){
-            dispatch(updateBookSuccess())
-        }else{
-            dispatch(updateBookFail(response.error))
-        }
-        // axios.post('categories/',data,{ headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(addBookSuccess())
-        //     })
-        //     .catch(error => {
-        //         dispatch(addBookFail(error))
-        //     });
+        let url='/book/update'
+        axios.post(url,data, {withCredentials: true})
+            .then(response => {
+                dispatch(updateBookSuccess())
+            })
+            .catch(error=> {
+                dispatch(updateBookFail(responseError(error)))
+            });   
         
     }
 }
@@ -174,12 +239,15 @@ export const deleteBookSuccess =()=>{
 export const deleteBook = (id) => {
     return dispatch => {
         dispatch(deleteBookStart())    
-        let response=booksPrototype.deleteBook(id)
-        if(response.status==true){
-            dispatch(deleteBookSuccess())
-        }else{
-            dispatch(deleteBookFail(response.error))
-        }
+        let url='/book/delete'
+        axios.post(url,id, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
+            .then(response => {
+                dispatch(deleteBookSuccess())
+            })
+            .catch(error=> {
+                dispatch(deleteBookFail(responseError(error)))
+            });   
+        
     }
 }
 
@@ -203,11 +271,56 @@ export const generateCopyBarcodeSuccess =(data)=>{
 export const generateCopyBarcode = (data) => {
     return dispatch => {
         dispatch(generateCopyBarcodeStart())    
-        let response=copyBooksPrototype.generateBarcode(data)
-        if(response.status==true){
-            dispatch(generateCopyBarcodeSuccess(response.data))
-        }else{
-            dispatch(generateCopyBarcodeFailed(response.error))
-        }
+        let url='/librarian/barcodes/generate'
+        axios.get(url,{withCredentials: true,params: {
+            ...data
+          }})
+            .then(response => {
+                dispatch(generateCopyBarcodeSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(generateCopyBarcodeFailed(responseError(error)))
+            });   
     }
+}
+
+export const getBookCopyTypeSuccess = (data) => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_TYPE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getBookCopyTypeFailed = (error) => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_TYPE_FAILED,
+        error: error
+    }
+}
+
+export const getBookCopyTypeStart = () => {
+    return {
+        type: actionTypes.GET_BOOK_COPY_TYPE_START
+    }
+}
+
+export const getBookCopyType = () => {
+    return dispatch => {
+        dispatch(getBookCopyTypeStart())
+        let url = '/copyType/all'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                response.data.forEach(element => {
+                    element["value"] = element["id"]
+                    element["label"] = element["name"]
+                    delete element["id"]
+                    delete element["name"]
+                });
+                dispatch(getBookCopyTypeSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(getBookCopyTypeFailed(responseError(error)))
+            });
+    }
+
 }

@@ -30,36 +30,76 @@ import {
     InputGroupText,
     InputGroup,
     Label,
-    Row
+    Row,
+    Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-import Select from 'react-select'
 
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
-            <Label>{title}</Label>
-        </Row>
-        <Row>
-            <InputGroup className="input-group-alternative">
-                <Input {...input} placeholder={placeholder} type={type} />
-                {touched && ((error && <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement="right"
-                    overlay={
-                        <Popover>
-                            <Popover.Content>
-                                <span className="text-danger">{error}</span>
-                            </Popover.Content>
-                        </Popover>
-                    }
-                >
-                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                </OverlayTrigger>))}
-            </InputGroup>
+            <Col lg="3">
+                <Label>{title}</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <Input {...input} placeholder={placeholder} type={type} />
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
         </Row>
     </>
 )
+
+
+
+const renderSelectOptions = (option) => (
+    <option key={option.id} value={option.id}>{option.name}</option>
+)
+
+const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+    <>
+        <Row>
+            <Col lg="3">
+                <Label>{title}</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectOptions) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
+        </Row>
+    </>
+)
+
+
 
 const validateNumber = value => {
     if (value < 1) {
@@ -73,22 +113,30 @@ const validate = values => {
     if (!values.isbn) {
         errors.isbn = 'ISBN is required'
     }
+    if (!(values.copyTypeId && values.copyTypeId !=="")) {
+        errors.copyTypeId = 'Copy type is required'
+    }
     if (!values.price) {
         errors.price = 'Price is required'
     } else if (!/^[0-9]+$/i.test(values.price)) {
         errors.price = 'Price is not valid'
+    }else if(parseInt(values.price)<1000 || parseInt(values.price)>1000000000){
+        errors.price = 'Price is not valid'
     }
 
-    if (!values.noc) {
-        errors.noc = 'Number of copy is required'
-    } else if (!/^[0-9]+$/i.test(values.noc)) {
-        errors.noc = 'Number of copy is not valid'
+    if (!values.numberOfCopies) {
+        errors.numberOfCopies = 'Number of copy is required'
+    } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
+        errors.numberOfCopies = 'Number of copy is not valid'
+    }else if(parseInt(values.numberOfCopies)>50){
+        errors.numberOfCopies = 'Number of copy is not valid'
     }
     return errors
 }
 const CopyAddForm = ({
     handleSubmit,
-    handleCancel
+    handleCancel,
+    options
 }) => (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
@@ -103,6 +151,14 @@ const CopyAddForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
+                        name="copyTypeId"
+                        title="Copy Type"
+                        options={options}
+                        component={renderSelectField}>
+                    </Field>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <Field
                         name="price"
                         type="number"
                         placeholder="Price"
@@ -112,7 +168,7 @@ const CopyAddForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
-                        name="noc"
+                        name="numberOfCopies"
                         type="number"
                         normalize={validateNumber}
                         title="Number of copy"
@@ -126,7 +182,7 @@ const CopyAddForm = ({
                 </button>
                     <button type="submit" className="btn btn-wd btn-success ">
                         <span className="btn-label">
-                        </span> Save
+                        </span> Next
                 </button>
                 </div>
             </Form>

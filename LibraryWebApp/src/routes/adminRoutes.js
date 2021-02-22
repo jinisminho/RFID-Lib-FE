@@ -22,28 +22,31 @@ import Register from "views/examples/Register.js";
 import Login from "views/Login/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
-import RentingInf from "views/Librarian/RentingInfo.js";
+import BorrowingInfo from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
 import Student from "views/Admin/Student/index.js";
+import BookDetail from "views/Book/BookDetail";
+import Policy from "views/Admin/Policy";
 
 var routes = [
   {
     path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin"
-  },
-  {
-    path: "/book",
     name: "Books",
     icon: "ni ni-book-bookmark text-primary",
     component: Book,
     layout: "/admin"
+  },
+  {
+    path: "/bookDetail",
+    name: "Book Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: BookDetail,
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/copy",
@@ -67,38 +70,17 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/renting",
-    name: "Renting Information",
+    path: "/checkoutInfo",
+    name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
+    component: BorrowingInfo,
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/admin"
-  },
-  {
-    path: "/tables",
-    name: "Tables",
+    path: "/policy",
+    name: "Policy",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
+    component: Policy,
     layout: "/admin"
   },
   {
@@ -109,7 +91,7 @@ var routes = [
     layout: "/admin"
   },{
     path: "/student",
-    name: "Student Management",
+    name: "Patron Management",
     icon: "fa fa-book-reader text-red",
     component: Student,
     layout: "/admin"

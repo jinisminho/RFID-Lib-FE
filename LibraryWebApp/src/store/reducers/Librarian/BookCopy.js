@@ -1,188 +1,252 @@
+import { getCopyType } from 'store/actions'
 import * as actionTypes from '../../actions/actionTypes'
-import {updateObject} from '../../ultility'
+import {updateObject} from '../../utility'
 
 
-const getCopyStart = (state, action) =>{
-  return updateObject(state,{
-    error:null, 
-    loading:true,
-    deleteSuccess:false,
-    updateSuccess:false,
-    addSuccess:false,
-    bookCopyData:null
-  })
-}
-const getCopySuccess = (state, action)=>{
-  return updateObject(state,{
-      data: action.data,
-      total:action.total,
-      error:null,
-      loading:false,
-      page:action.page+1,
-      sizePerPage: action.sizePerPage
-  })
-}
-const getCopyFail = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      loading:false,
-      total:0,
-      page:1,
-      sizePerPage:10,
-      
-  })
-}
-
-const getBookStart = (state, action) =>{
-    return updateObject(state,{
-      bookError:null, 
-      loading:true,
-    })
-  }
-  const getBookSuccess = (state, action)=>{
-    return updateObject(state,{
-        bookData: action.bookData,
-        bookError:null,
-        loading:false,
-    })
-  }
-  const getBookFail = (state, action) =>{
-    return updateObject(state,{
-        bookError:action.error,
-        loading:false,
-    })
-  }
-
-  const getBookStatusStart = (state, action) =>{
-    return updateObject(state,{
-      error:null, 
-      loading:true,
-    })
-  }
-  const getBookStatusSuccess = (state, action)=>{
-    return updateObject(state,{
-        bookCopyStatus: action.data,
-        error:null,
-        loading:false,
-    })
-  }
-  const getBookStatusFail = (state, action) =>{
-    return updateObject(state,{
-        error:action.error,
-        loading:false,
-    })
-  }
-const deleteCopyStart = (state, action) =>{
-  return updateObject(state,{
-    error:null,
-    loading:true,
-    deleteSuccess:false,
-  })
-}
-const deleteCopySuccess = (state, action)=>{
-  return updateObject(state,{
-      error:null,
-      loading:false,
-      deleteSuccess:true
-  })
-}
-const deleteCopyFail = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      loading:false,
-      total:0,
-      page:1,
-      sizePerPage:20,
-  })
-}
-
-const updateCopyStart = (state, action) =>{
-  return updateObject(state,{
-    error:null,
-    loading:true,
-    updateSuccess:false,
-  })
-}
-const updateCopySuccess = (state, action)=>{
-  return updateObject(state,{
-      error:null,
-      loading:false,
-      updateSuccess:true
-  })
-}
-const updateCopyFail = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      loading:false,
-      total:0,
-      page:1,
-      sizePerPage:20,
-  })
-}
-
-const addCopyStart = (state, action) =>{
-  return updateObject(state,{
-    error:null,
-    loading:true,
-    addSuccess:false,
-  })
-}
-const addCopySuccess = (state, action)=>{
-  return updateObject(state,{
-      error:null,
-      loading:false,
-      addSuccess:true,
-      bookCopyData:null
-  })
-}
-const addCopyFail = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      bookCopyData:null,
-      loading:false,
-      page:1,
-      sizePerPage:10,
-  })
-}
-const generateBarcodeStart = (state, action) =>{
-  return updateObject(state,{
-    error:null,
-    loading:true,
-    addSuccess:false,
-  })
-}
-const generateBarcodeSuccess = (state, action)=>{
-  return updateObject(state,{
-      error:null,
-      loading:false,
-      bookCopyData:action.data
-  })
-}
-const generateBarcodeFailed = (state, action) =>{
-  return updateObject(state,{
-      error:action.error,
-      loading:false,
-      page:1,
-      sizePerPage:10,
-  })
-}
-export default function reducer(state = {
-    data: null,
-    total:0,
-    error:null,
-    bookData:null,
-    bookError:null,
-    loading:false,
-    page:1,
-    sizePerPage:10,
+const getCopyStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
     deleteSuccess: false,
-    updateSuccess:false,
-    addSuccess:false,
-    bookCopyData:null,
-    bookCopyStatus:null
-    
+    updateSuccess: false,
+    addSuccess: false,
+    bookCopyData: null
+  })
+}
+const getCopySuccess = (state, action) => {
+  return updateObject(state, {
+    data: action.data,
+    total: action.total,
+    error: null,
+    loading: false,
+    page: action.page + 1,
+    sizePerPage: action.sizePerPage
+  })
+}
+const getCopyFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 10,
+
+  })
+}
+
+const getBookStart = (state, action) => {
+  return updateObject(state, {
+    bookError: null,
+    loading: true,
+  })
+}
+const getBookSuccess = (state, action) => {
+  return updateObject(state, {
+    bookData: action.bookData,
+    bookError: null,
+    loading: false,
+  })
+}
+const getBookFail = (state, action) => {
+  return updateObject(state, {
+    bookError: action.error,
+    loading: false,
+  })
+}
+
+const getBookStatusStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+  })
+}
+const getBookStatusSuccess = (state, action) => {
+  return updateObject(state, {
+    bookCopyStatus: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getBookStatusFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
+const deleteCopyStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    deleteSuccess: false,
+  })
+}
+const deleteCopySuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    deleteSuccess: true
+  })
+}
+const deleteCopyFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 20,
+  })
+}
+
+const updateCopyStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    updateSuccess: false,
+  })
+}
+const updateCopySuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    updateSuccess: true
+  })
+}
+const updateCopyFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 20,
+  })
+}
+
+const addCopyStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    addSuccess: false,
+  })
+}
+const addCopySuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    addSuccess: true,
+    bookCopyData: null
+  })
+}
+const addCopyFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    bookCopyData: null,
+    loading: false,
+    page: 1,
+    sizePerPage: 10,
+  })
+}
+const generateBarcodeStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    addSuccess: false,
+  })
+}
+const generateBarcodeSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    bookCopyData: action.data
+  })
+}
+const generateBarcodeFailed = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    page: 1,
+    sizePerPage: 10,
+  })
+}
+
+const getCopyTypeStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+  })
+}
+const getCopyTypeSuccess = (state, action) => {
+  return updateObject(state, {
+    copyTypes: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getCopyTypeFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
+
+const tagRFIDStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    updateSuccess: false,
+  })
+}
+const tagRFIDSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    updateSuccess: true
+  })
+}
+const tagRFIDFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+    total: 0,
+    page: 1,
+    sizePerPage: 20,
+  })
+}
+
+const getCopyByBarcodeStart = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: [],
+  })
+}
+const getCopyByBarcodeSuccess = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: action.data,
+  })
+}
+const getCopyByBarcodeFail = (state, action) => {
+  return updateObject(state, {
+    bookToTagData: []
+  })
+}
+
+
+export default function reducer(state = {
+  data: null,
+  total: 0,
+  error: null,
+  bookData: null,
+  bookError: null,
+  loading: false,
+  page: 1,
+  sizePerPage: 10,
+  deleteSuccess: false,
+  updateSuccess: false,
+  addSuccess: false,
+  bookCopyData: null,
+  bookCopyStatus: null,
+  copyTypes: null,
+  bookToTagData: [],
 }, action) {
-  switch(action.type){
+  switch (action.type) {
     case actionTypes.GET_COPY_BOOK_START: return getCopyStart(state, action)
     case actionTypes.GET_COPY_BOOK_SUCCESS: return getCopySuccess(state, action)
     case actionTypes.GET_COPY_BOOK_FAILED: return getCopyFail(state, action)
@@ -198,19 +262,31 @@ export default function reducer(state = {
     case actionTypes.ADD_COPY_BOOK_START: return addCopyStart(state, action)
     case actionTypes.ADD_COPY_BOOK_SUCCESS: return addCopySuccess(state, action)
     case actionTypes.ADD_COPY_BOOK_FAILED: return addCopyFail(state, action)
-    
+
     case actionTypes.DELETE_COPY_BOOK_START: return deleteCopyStart(state, action)
     case actionTypes.DELETE_COPY_BOOK_FAILED: return deleteCopyFail(state, action)
     case actionTypes.DELETE_COPY_BOOK_SUCCESS: return deleteCopySuccess(state, action)
-    
+
     case actionTypes.UPDATE_COPY_BOOK_START: return updateCopyStart(state, action)
     case actionTypes.UPDATE_COPY_BOOK_FAILED: return updateCopyFail(state, action)
     case actionTypes.UPDATE_COPY_BOOK_SUCCESS: return updateCopySuccess(state, action)
-   
+
     case actionTypes.GENERATE_BARCODE_START: return generateBarcodeStart(state, action)
     case actionTypes.GENERATE_BARCODE_FAILED: return generateBarcodeFailed(state, action)
     case actionTypes.GENERATE_BARCODE_SUCCESS: return generateBarcodeSuccess(state, action)
+
+    case actionTypes.GET_COPY_TYPE_START: return getCopyTypeStart(state, action)
+    case actionTypes.GET_COPY_TYPE_FAILED: return getCopyTypeFail(state, action)
+    case actionTypes.GET_COPY_TYPE_SUCCESS: return getCopyTypeSuccess(state, action)
+
+    case actionTypes.TAG_RFID_START: return tagRFIDStart(state, action)
+    case actionTypes.TAG_RFID_FAILED: return tagRFIDFail(state, action)
+    case actionTypes.TAG_RFID_SUCCESS: return tagRFIDSuccess(state, action)
+
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_START: return getCopyByBarcodeStart(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_SUCCESS: return getCopyByBarcodeSuccess(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_BARCODE_FAILED: return getCopyByBarcodeFail(state, action)
+
+  }
+  return state
 }
-return state
-}
- 

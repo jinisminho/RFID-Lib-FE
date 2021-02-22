@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-import { updateObject } from '../../ultility'
+import { updateObject } from '../../utility'
 
 
 const getRentingInfoStart = (state, action) => {
@@ -82,7 +82,8 @@ const extendDueFail = (state, action) => {
 const getStudentStart = (state, action) =>{
   return updateObject(state,{
     error:null, 
-    studentLoading:true
+    studentLoading:true,
+    studentData: null
   })
 }
 const getStudentSuccess = (state, action)=>{
@@ -96,6 +97,7 @@ const getStudentFail = (state, action) =>{
   return updateObject(state,{
       error:action.error,
       studentLoading:false,
+      studentData: null
   })
 }
 

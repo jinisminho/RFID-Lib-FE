@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-import {updateObject} from '../../ultility'
+import {updateObject} from '../../utility'
 
 
 
@@ -24,9 +24,35 @@ const getReturningBookFail = (state, action) =>{
   })
 }
 
+const returnBookStart = (state, action) =>{
+  return updateObject(state,{
+    bookError:null, 
+    bookLoading:true,
+  })
+}
+const returnBookSuccess = (state, action)=>{
+  return updateObject(state,{
+      bookData: [],
+      bookError:null,
+      bookLoading:false,
+      returnSuccess:true
+  })
+}
+const returnBookFail = (state, action) =>{
+  return updateObject(state,{
+      bookError:action.error,
+      bookLoading:false,
+      bookData:[]
+  })
+}
+
+
 const clearReturnBook=(state, action) =>{
   return updateObject(state,{
-    bookData:[]
+    bookData:[],
+    bookError:null,
+    bookLoading:false,
+    returnSuccess:false
 })
 }
 const clearReturnBookError=(state, action) =>{
@@ -35,10 +61,23 @@ const clearReturnBookError=(state, action) =>{
 })
 }
 
+const deleteReturnBook=(state, action) =>{
+  let tmp_books=[...state.bookData]
+  tmp_books.forEach((book,idx)=> {
+    if(book.id==action.id){
+      tmp_books.splice(idx,1)
+    }
+  });
+  return updateObject(state,{
+    bookData:tmp_books
+  })
+}
+
 export default function reducer(state = {
     bookData:[],
     bookError:null,
     bookLoading:false,
+    returnSuccess:false
     
 }, action) {
   switch(action.type){
@@ -48,6 +87,12 @@ export default function reducer(state = {
     case actionTypes.LIB_RETURN_GET_BOOK_START: return getReturningBookStart(state, action)
     case actionTypes.LIB_RETURN_GET_BOOK_SUCCESS: return getReturningBookSuccess(state, action)
     case actionTypes.LIB_RETURN_GET_BOOK_FAILED: return getReturningBookFail(state, action)
+
+    case actionTypes.LIB_RETURN_BOOK_START: return returnBookStart(state, action)
+    case actionTypes.LIB_RETURN_BOOK_SUCCESS: return returnBookSuccess(state, action)
+    case actionTypes.LIB_RETURN_BOOK_FAILED: return returnBookFail(state, action)
+
+    case actionTypes.DELETE_RETURN_BOOK: return deleteReturnBook(state, action)
 }
 return state
 }

@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-import {updateObject} from '../../ultility'
+import {updateObject} from '../../utility'
 
 
 const getStudentStart = (state, action) =>{
@@ -10,9 +10,10 @@ const getStudentStart = (state, action) =>{
 }
 const getStudentSuccess = (state, action)=>{
   return updateObject(state,{
-      studentData: action.data,
+      studentData: action.data.patronAccountInfo,
       error:null,
       studentLoading:false,
+      overdueData:action.data.overdueBooks
   })
 }
 const getStudentFail = (state, action) =>{
@@ -49,7 +50,9 @@ const getBookStart = (state, action) =>{
     return updateObject(state,{
       error:null, 
       bookLoading:true,
-      checkoutSuccess:false
+      checkoutSuccess:false,
+      warning:null,
+      confirmSuccess:false
     })
   }
   const checkoutSuccess = (state, action)=>{
@@ -67,27 +70,29 @@ const getBookStart = (state, action) =>{
     })
   }
   
-  const getOverdueStart = (state, action) =>{
+  const checkPolicyStart = (state, action) =>{
     return updateObject(state,{
       error:null, 
-      studentLoading:true,
+      warning:null,
+      bookLoading:true,
+      confirmSuccess:false
     })
   }
-  const getOverdueSuccess = (state, action)=>{
+  const checkPolicySuccess = (state, action)=>{
     return updateObject(state,{
-        studentLoading: false,
+        bookLoading: false,
         error:null,
-        overdueData:action.data
+        warning:action.data,
+        confirmSuccess:true
     })
   }
-  const getOverdueFailed = (state, action) =>{
+  const checkPolicyFailed = (state, action) =>{
     return updateObject(state,{
         error:action.error,
-        studentLoading:false
+        bookLoading:false,
+        confirmSuccess:false
     })
   }
-
-
   const clearData = (state, action) =>{
     return updateObject(state,{
       studentData: null,
@@ -97,7 +102,14 @@ const getBookStart = (state, action) =>{
       bookError:null,
       studentLoading:false,
       bookLoading:false,
-      checkoutSuccess:false
+      checkoutSuccess:false,
+      warning:null
+    })
+  }
+  const cancelConfirm = (state, action) =>{
+    return updateObject(state,{
+      warning:null,
+      confirmSuccess:false
     })
   }
   const clearBookError = (state, action) =>{
@@ -108,7 +120,7 @@ const getBookStart = (state, action) =>{
   const deleteCheckoutBook=(state, action) =>{
     let tmp_books=[...state.bookData]
     tmp_books.forEach((book,idx)=> {
-      if(book.id==action.id){
+      if(book.copy.id==action.id){
         tmp_books.splice(idx,1)
       }
     });
@@ -124,7 +136,9 @@ export default function reducer(state = {
     bookError:null,
     studentLoading:false,
     bookLoading:false,
-    checkoutSuccess:false
+    checkoutSuccess:false,
+    warning:null,
+    confirmSuccess:false,
 }, action) {
   switch(action.type){
     case actionTypes.GET_STUDENT_START: return getStudentStart(state, action)
@@ -139,13 +153,16 @@ export default function reducer(state = {
     case actionTypes.LIB_CHECKOUT_SUCCESS: return checkoutSuccess(state, action)
     case actionTypes.LIB_CHECKOUT_FAILED: return checkoutFailed(state, action)
 
-    case actionTypes.LIB_GET_OVERDUE_START: return getOverdueStart(state, action)
-    case actionTypes.LIB_GET_OVERDUE_SUCCESS: return getOverdueSuccess(state, action)
-    case actionTypes.LIB_GET_OVERDUE_FAILED: return getOverdueFailed(state, action)
+
+    case actionTypes.CHECK_POLICY_START: return checkPolicyStart(state, action)
+    case actionTypes.CHECK_POLICY_SUCCESS: return checkPolicySuccess(state, action)
+    case actionTypes.CHECK_POLICY_FAILED: return checkPolicyFailed(state, action)
 
     case actionTypes.CLEAR_CHECKOUT_DATA: return clearData(state, action)
 
     case actionTypes.CLEAR_BOOK_ERROR: return clearBookError(state, action)
+
+    case actionTypes.CANCEL_CHECKOUT_CONFIRM: return cancelConfirm(state, action)
 
     case actionTypes.DELETE_CHECKOUT_BOOK: return deleteCheckoutBook(state, action)
 }

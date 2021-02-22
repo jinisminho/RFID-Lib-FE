@@ -29,7 +29,7 @@ import {
     Row,
     Col
 } from "reactstrap";
-import MyUltil from "store/ultility"
+import MyUtil from "store/utility"
 import 'views/Librarian/librarian.css'
 import SearchForm from '../../components/Forms/SearchForm'
 import DueHistoryModal from '../../components/Modals/DueHistoryModal';
@@ -68,7 +68,6 @@ class RentingInfo extends Component {
     }
 
     handlePageChange(page, sizePerPage) {
-        console.log(page, sizePerPage)
         this.fetchData(page, sizePerPage, this.state.searchValue);
     }
 
@@ -92,8 +91,8 @@ class RentingInfo extends Component {
                 var dta = this.props.data
                 var retrnedDta = dta.filter(element => element.dateReturned)
                 var ovrDta = dta.filter(element => !element.dateReturned)
-                var rentingDta = ovrDta.filter(element => MyUltil.compareDate(element.dateDue, Date.now()) >= 0);
-                ovrDta = ovrDta.filter(element => MyUltil.compareDate(element.dateDue, Date.now()) < 0);
+                var rentingDta = ovrDta.filter(element => MyUtil.compareDate(element.dateDue, Date.now()) >= 0);
+                ovrDta = ovrDta.filter(element => MyUtil.compareDate(element.dateDue, Date.now()) < 0);
 
                 this.setState({
                     overDueData: Object.keys(ovrDta).length > 0 ? ovrDta : null,
@@ -120,7 +119,7 @@ class RentingInfo extends Component {
     otherFormatter(cell, row) {
         var stdId = row.borrower.id
         var bok = row.book
-        let date = MyUltil.convertToDate(row.dateDue)
+        let date = MyUtil.convertToDate(row.dateDue)
 
         return (
             <div>
@@ -136,7 +135,7 @@ class RentingInfo extends Component {
     otherFormatter2(cell, row) {
         var stdId = row.borrower.id
         var bok = row.book
-        let date = MyUltil.convertToDate(row.dateDue)
+        let date = MyUtil.convertToDate(row.dateDue)
 
         return (
             <div>
@@ -160,7 +159,7 @@ class RentingInfo extends Component {
     }
 
     dateFormatter(cell, row) {
-        return MyUltil.convertToDate(cell).toDateString()
+        return MyUtil.convertToDate(cell).toDateString()
     }
 
     handleHistoryClose = () => {
@@ -361,7 +360,7 @@ class RentingInfo extends Component {
         return (
             <>
                 <Header />
-                <Container className="mt--7" fluid>
+                <Container className="mt-3" fluid>
                     <Row className="justify-content-center">
                         {form}
                     </Row>
@@ -400,7 +399,7 @@ class RentingInfo extends Component {
                             hide={() => this.handleHistoryClose()}
                             data={this.props.historyData}
                             title={this.state.book ? " Due Date History of [" + this.state.book.title + " - ISBN:" + this.state.book.isbn + "]" : "Default"}
-                            onShow={() => this.props.getExtendedHistoryInfo(1, 100, this.state.studentId, this.state.book.id)}
+                            onShow={() => this.props.getExtendedHistoryInfo(0, 100, this.state.studentId, this.state.book.id)}
                         />
 
                         <ExtendDueModal

@@ -54,6 +54,7 @@
             // 
             // lbUsername
             // 
+            this.lbUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbUsername.AutoSize = true;
             this.lbUsername.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.lbUsername.ForeColor = System.Drawing.Color.White;
@@ -230,6 +231,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CheckOutForm";
             this.Text = "SMART LIBRARY";
+            this.Load += new System.EventHandler(this.CheckOutForm_Load);
             this.panelHead.ResumeLayout(false);
             this.panelHead.PerformLayout();
             this.pnNav.ResumeLayout(false);

@@ -1,6 +1,7 @@
 import * as actionTypes from '../actionTypes'
 import * as checkoutPrototype from '../../prototype/checkout'
-
+import axios from '../../../axios'
+import {responseError} from '../../utility'
 export const getStudentSuccess = (data) => {
     return {
         type: actionTypes.GET_STUDENT_SUCCESS,
@@ -24,14 +25,15 @@ export const getStudentStart = () => {
 export const getStudent = (search) => {
     return dispatch => {
         dispatch(getStudentStart())
-        let response=checkoutPrototype.getStudent(search)
-        if(response.status){
-            dispatch(getStudentSuccess(response.data))
-        }else{
-            dispatch(getStudentFailed(response.error))
-        }
+        let url='/patron/profile/getCheckoutPatron/'+search
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getStudentSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getStudentFailed(responseError(error)))
+            });
     }
-
 }
 
 
@@ -55,37 +57,25 @@ export const getStudentBookStart = () => {
         type: actionTypes.GET_STUDENT_BOOK_START
     }
 }
-export const getStudentBook = (code) => {
+export const getStudentBook = (code,id) => {
     return dispatch => {
         dispatch(getStudentBookStart())
-        let response=checkoutPrototype.getBook(code)
-        if(response.status){
-            dispatch(getStudentBookSuccess(response.data))
-        }else{
-            dispatch(getStudentBookFail(response.error))
-        }
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getStudentSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getStudentFail(error))
-        //     });
+        let url='/copy/validate/'+code
+        axios.get(url, {withCredentials: true, params:{patronId: id}})
+            .then(response => {
+                dispatch(getStudentBookSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getStudentBookFail(responseError(error)))
+            });
     }
 
 }
 
 
-export const checkoutSuccess = (data) => {
+export const checkoutSuccess = () => {
     return {
-        type: actionTypes.LIB_CHECKOUT_SUCCESS,
-        data: data
+        type: actionTypes.LIB_CHECKOUT_SUCCESS
     }
 }
 
@@ -102,15 +92,31 @@ export const checkoutStart = () => {
     }
 }
 
-export const checkout = (studentid,booklist) => {
+export const checkout = (studentid,booklist,reason,libid,mail) => {
     return dispatch => {
         dispatch(checkoutStart())
-        let response=checkoutPrototype.checkout(studentid,booklist)
-        if(response.status){
-            dispatch(checkoutSuccess())
-        }else{
-            dispatch(checkoutFailed(response.err))
+        let checkoutData={
+            bookRfidTags:booklist,
+            librarianId:libid,
+            patronId:studentid,
+            reason:reason
         }
+        let url='/librarian/checkout'
+        axios.post(url,checkoutData, {withCredentials: true})
+            .then(response => {
+                dispatch(checkoutSuccess())
+                let emailData={
+                        ...response.data
+                }
+                let mailUrl='/mail/checkout?patronEmail='+mail
+                axios.post(mailUrl,emailData, {withCredentials: true})
+                .catch(error=>{
+                    console.log(error)
+                })
+            })
+            .catch(error=> {
+                dispatch(checkoutFailed(responseError(error)))
+            });
     }
 
 }
@@ -119,7 +125,12 @@ export const clearData = () => {
     return {
         type: actionTypes.CLEAR_CHECKOUT_DATA
     }
+}
 
+export const cancelConfirm = () => {
+    return {
+        type: actionTypes.CANCEL_CHECKOUT_CONFIRM
+    }
 }
 
 export const clearBookError = () => {
@@ -165,6 +176,54 @@ export const getOverdue = (search) => {
         }else{
             dispatch(getOverdueFailed(response.err))
         }
+    }
+
+}
+
+export const checkPolicySuccess = (data) => {
+    return {
+        type: actionTypes.CHECK_POLICY_SUCCESS,
+        data: data
+    }
+}
+
+export const checkPolicyFailed = (error) => {
+    return {
+        type: actionTypes.CHECK_POLICY_FAILED,
+        error: error
+    }
+}
+
+export const checkPolicyStart = () => {
+    return {
+        type: actionTypes.CHECK_POLICY_START
+    }
+}
+
+export const checkPolicy = (data,patronid,libid) => {
+    return dispatch => {
+        dispatch(checkPolicyStart())
+        let rfid=[]
+        data.forEach(element => {
+            rfid.push(element.copy.rfid)
+        })
+        let checkData={
+            bookRfidTags:rfid,
+            librarianId:libid,
+            patronId:patronid
+        }
+        let url='/librarian/checkout/validate'
+        axios.post(url,checkData, {withCredentials: true})
+            .then(response => {
+                let warning=null
+                if(response.data.duplicateBook || response.data.haveOverdueCopies || response.data.violatePolicy){
+                    warning=response.data.reasons.join(", ")
+                }
+                dispatch(checkPolicySuccess(warning))
+            })
+            .catch(error=> {
+                dispatch(checkPolicyFailed(responseError(error)))
+            });
     }
 
 }

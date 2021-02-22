@@ -33,10 +33,24 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { Popover, OverlayTrigger } from 'react-bootstrap'
+
 const renderField = ({ input, placeholder, type, meta: { touched, error} }) => (
     <>
-      <Input {...input} placeholder={placeholder} type={type}/>
-      {touched && ((error && <span className="text-danger">{error}</span>))}
+                <Input className="pl-3" {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
       </>
 )
 const required = value => value ? undefined : 'Required'
@@ -82,19 +96,6 @@ const Login = ({
                     component={renderField} />
                   </InputGroup>
                 </FormGroup>
-                <div className="custom-control custom-control-alternative custom-checkbox">
-                  <input
-                    className="custom-control-input"
-                    id=" customCheckLogin"
-                    type="checkbox"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor=" customCheckLogin"
-                  >
-                    <span className="text-muted">Remember me</span>
-                  </label>
-                </div>
                 <div className="text-center">
                 <Button className="my-4" color="primary" type="submit" disabled={submitting}>
                     Sign in

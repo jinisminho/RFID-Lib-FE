@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {Redirect } from "react-router-dom";
 
 // reactstrap components
 import { Container, Row, Col,Alert } from "reactstrap";
@@ -24,7 +24,6 @@ import { Container, Row, Col,Alert } from "reactstrap";
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 
-import routes from "routes.js";
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/index'
 import Login from 'views/Login/Login'
@@ -40,21 +39,7 @@ class Auth extends React.Component {
   componentWillUnmount() {
     document.body.classList.remove("bg-default");
   }
-  // getRoutes = routes => {
-  //   return routes.map((prop, key) => {
-  //     if (prop.layout === "/auth") {
-  //       return (
-  //         <Route
-  //           path={prop.layout + prop.path}
-  //           component={prop.component}
-  //           key={key}
-  //         />
-  //       );
-  //     } else {
-  //       return null;
-  //     }
-  //   });
-  // };
+  
   render() {
     let form = <Login onSubmit={values => this.props.onAuth(values["username"], values["password"])} />
         if (this.props.loading) {
@@ -63,15 +48,7 @@ class Auth extends React.Component {
 
         let errorMessage = null;
         if (this.props.error) {
-            let msg=null
-            switch(this.props.error){
-                case "Unauthorized":
-                    msg="Username or password is not correct"
-                    break;
-                default:
-                    msg="Error"
-                    break
-            }
+            let msg=this.props.error
             errorMessage = <Alert color="danger">
             {msg}
           </Alert>
@@ -89,7 +66,7 @@ class Auth extends React.Component {
               <div className="header-body text-center mb-7">
                 <Row className="justify-content-center">
                   <Col lg="5" md="6">
-                    <h1 className="text-white">Welcome to FPT University Library</h1>
+                    <h1 className="text-white">Welcome to Smart Library</h1>
                   </Col>
                 </Row>
               </div>
@@ -117,10 +94,6 @@ class Auth extends React.Component {
               <Col className="col-md-5 col-lg-5 col-sm-6 h-100 col-md-offset-3 col-lg-offset-3">
               {errorMessage}
                </Col>
-              {/* <Switch>
-                {this.getRoutes(routes)}
-                <Redirect from="*" to="/auth/login" />
-              </Switch> */}
             </Row>
             <Row className="justify-content-center">
                {form}

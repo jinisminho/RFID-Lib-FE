@@ -1,6 +1,8 @@
 import * as actionTypes from '../actionTypes'
 import * as prototype from '../../prototype/Info'
-import MyUltil from "store/ultility"
+import MyUtil from "store/utility"
+import axios from '../../../axios'
+import { responseError } from '../../utility'
 
 
 //getRentingInfo
@@ -180,19 +182,29 @@ export const getStudentFailed = (error) => {
 
 export const getStudentStart = () => {
     return {
-        type: actionTypes.LIBRARIAN_INFO_GET_STUDENT_START
+        type: actionTypes.LIBRARIAN_INFO_GET_STUDENT_START,
     }
 }
 
 export const getStudent = (search) => {
     return dispatch => {
         dispatch(getStudentStart())
-        let response=prototype.getStudent(search)
-        if(response.status){
-            dispatch(getStudentSuccess(response.data))
-        }else{
-            dispatch(getStudentFailed(response.err))
-        }
+
+        let url = '/patron/profile/getProfile/' + search
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getStudentSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(getStudentFailed(responseError(error.response.data.status, error.response.data)))
+            });
+
+        // let response=prototype.getStudent(search)
+        // if(response.status){
+        //     dispatch(getStudentSuccess(response.data))
+        // }else{
+        //     dispatch(getStudentFailed(response.err))
+        // }
     }
 
 }

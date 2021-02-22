@@ -16,25 +16,37 @@
 
 */
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import Login from "views/Login/Login.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
-import RentingInf from "views/Librarian/RentingInfo.js";
+import CheckoutInf from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
+import BookDetail from "views/Book/BookDetail";
+import Policy from "views/Librarian/Policy";
 
 var routes = [
+  // {
+  //   path: "/index",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: Index,
+  //   layout: "/librarian"
+  // },
   {
     path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/librarian"
+    name: "Books",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Book,
+    layout: "/librarian",
+    invisible:true
+  },
+  {
+    path: "/book/detail",
+    name: "Book Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: BookDetail,
+    layout: "/librarian",
+    invisible: true
   },
   {
     path: "/book",
@@ -65,53 +77,18 @@ var routes = [
     layout: "/librarian"
   },
   {
-    path: "/renting",
-    name: "Renting Information",
+    path: "/checkoutInfo",
+    name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
-    component: RentingInf,
+    component: CheckoutInf,
     layout: "/librarian"
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/librarian"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/librarian"
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/librarian"
-  },
-  {
-    path: "/tables",
-    name: "Tables",
+    path: "/policy",
+    name: "Policy",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
+    component: Policy,
     layout: "/librarian"
   },
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth"
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth"
-  }
 ];
 export default routes;

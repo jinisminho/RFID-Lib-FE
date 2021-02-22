@@ -17,6 +17,7 @@ namespace LibrarySelfCheckOut
         public ModalYESNO(string msg, string header)
         {
             InitializeComponent();
+            this.lbHeader.Text = header;
             this.lbMsg.Text = msg;
             this.TopMost = true;
             this.lbHeader.Text = header;

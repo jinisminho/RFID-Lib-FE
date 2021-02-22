@@ -28,6 +28,7 @@ import { connect } from 'react-redux'
 import routes from "routes/adminRoutes";
 
 class Admin extends React.Component {
+  
   componentDidUpdate(e) {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -68,7 +69,7 @@ class Admin extends React.Component {
           routes={routes}
           logo={{
             innerLink: "/admin/index",
-            imgSrc: require("assets/img/brand/argon-react.png"),
+            imgSrc: require("assets/img/brand/logo_trans_2.png"),
             imgAlt: "..."
           }}
         />
@@ -76,6 +77,8 @@ class Admin extends React.Component {
           <AdminNavbar
             {...this.props}
             logout={()=>this.props.onLogout()}
+            username={this.props.username}
+            avatar={this.props.avatar}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>
@@ -89,11 +92,8 @@ class Admin extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-      // token:state.Auth.token,
-      // loading: state.Auth.loading,
-      // error: state.Auth.error,
-      // isAuthenticated: state.Auth.token !== null,
-      // authRedirectPath: state.Auth.authRedirectPath
+      username:state.Auth.username,
+      avatar:state.Auth.avatar
   }
 }
 

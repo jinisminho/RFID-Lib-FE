@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import AdminLayout from "../../layouts/Admin.js";
 import AuthLayout from '../../layouts/Auth';
 import GuestLayout from '../../layouts/Guest';
-import StudentLayout from '../../layouts/Student';
+import PatronLayout from '../../layouts/Patron';
 import LibrarianLayout from '../../layouts/Librarian';
 import * as actions from '../../store/actions/index'
 
@@ -26,6 +26,16 @@ class Main extends Component {
   componentDidMount() {
     this.props.onTryAutoSignUp()
   }
+  deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
   render() {
 
     let display = (
@@ -38,7 +48,7 @@ class Main extends Component {
       </div>
     )
     if (this.props.isAuthenticated) {
-      if (localStorage.getItem("role") == "ADMIN") {
+      if (this.props.role == "ROLE_ADMIN") {
         display = (
             <Switch>
             <Route path="/admin" render={props => <AdminLayout {...props} />} />
@@ -46,15 +56,15 @@ class Main extends Component {
           </Switch>
         )
       }
-      else if (localStorage.getItem("role") == "STUDENT") {
+      else if (this.props.role == "ROLE_PATRON") {
         display = (
             <Switch>
-            <Route path="/student" render={props => <StudentLayout {...props} />} />
-            <Redirect to="/student" />
+            <Route path="/patron" render={props => <PatronLayout {...props} />} />
+            <Redirect to="/patron" />
           </Switch>
         )
       }
-      else if (localStorage.getItem("role") == "LIBRARIAN") {
+      else if (this.props.role == "ROLE_LIBRARIAN") {
         display = (
             <Switch>
             <Route path="/librarian" render={props => <LibrarianLayout {...props} />} />
@@ -63,12 +73,8 @@ class Main extends Component {
         )
       }
        else {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('expiryDate')
-        localStorage.removeItem('userId')
-        localStorage.removeItem('role')
-        localStorage.removeItem('username')
-
+        this.deleteAllCookies()
+        this.props.onLogout()
       }
     }
     return (
@@ -87,6 +93,7 @@ const mapStateToProp = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onTryAutoSignUp: () => dispatch(actions.authCheckState()),
+    onLogout: () => dispatch(actions.logout()),
   }
 }
 

@@ -23,7 +23,10 @@ export {
     updateBook,
     deleteBook,
     addBookCopy,
-    generateCopyBarcode
+    generateCopyBarcode,
+    getAuthor,
+    getGenre,
+    getBookCopyType
 } from './Librarian/Book'
 
 export {
@@ -33,7 +36,10 @@ export {
     deleteCopy,
     getAllBook,
     getBookCopyStatus,
-    generateBarcode
+    getCopyType,
+    generateBarcode,
+    tagRFID,
+    getCopyByBarcode,
 } from './Librarian/BookCopy'
 
 export {
@@ -43,23 +49,31 @@ export {
     clearData,
     deleteCheckoutBook,
     getOverdue,
-    clearBookError
+    clearBookError,
+    cancelConfirm,
+    checkPolicy
 } from './Librarian/Checkout'
 
 export {
-    getRentingInfo,
+    getBorrowingInfo,
+    getBorrowingInfo_Overdue,
+    getBorrowingInfo_Borrowing,
+    getBorrowingInfo_Returned,
     getExtendedHistory,
     extendDue,
     getStudentProfile,
     updateStudentProfile,
     addReminder,
     getWishlist,
+    checkPolicy as checkPolicyRemainder,
 } from './Student/info'
 
 export {
     clearBook,
     getReturningBook,
-    clearReturnBookError
+    clearReturnBookError,
+    deleteReturnBook,
+    returnBook
 } from './Librarian/ReturnBook'
 
 export {
@@ -73,7 +87,8 @@ export {
     getAdminStudent,
     addStudent,
     updateStudent,
-    changeStatusStudent
+    changeStatusStudent,
+    getAllPatronType
 } from './Admin/Student'
 
 export{
@@ -85,3 +100,16 @@ export {
     getBook as getBookStudentSide,
     
 } from './Student/Book'
+
+export {
+    getBorrowPolicy,
+    getFeePolicy,
+    getPatronPolicy,
+    getPatronType,
+    addBorrowPolicy,
+    updateBorrowPolicy,
+    deleteBorrowPolicy,
+    updatePatronPolicy,
+    getFeePolicies,
+    updateFeePolicy,
+} from './Librarian/Policy'

@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-import {updateObject} from '../../ultility'
+import {updateObject} from '../../utility'
 
 
 const getBookStart = (state, action) =>{
@@ -35,14 +35,12 @@ export default function reducer(state = {
     error:null,
     loading:false,
     page:1,
-    sizePerPage:10,
-    WishlistData: null,
-    wishlistTotalSize: null,
+    sizePerPage:10
 }, action) {
   switch(action.type){
-    case actionTypes.STUDENT_GET_BOOKS_START: return getBookStart(state, action)
-    case actionTypes.STUDENT_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
-    case actionTypes.STUDENT_GET_BOOKS_FAILED: return getBookFail(state, action)
+    case actionTypes.PATRON_GET_BOOKS_START: return getBookStart(state, action)
+    case actionTypes.PATRON_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
+    case actionTypes.PATRON_GET_BOOKS_FAILED: return getBookFail(state, action)
 }
 return state
 }
