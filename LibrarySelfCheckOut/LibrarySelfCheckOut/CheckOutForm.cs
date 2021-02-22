@@ -97,7 +97,7 @@ namespace LibrarySelfCheckOut
                             BookScannedItem item = new BookScannedItem(rs.book);
                             item.Width = this.flowLayoutPanelBookList.Width - 10;
                             flowLayoutPanelBookList.Controls.Add(item);
-                            bookCodeList.Add(new BookCheckOutRequestModel(rs.book.rfid, rs.book.group, rs.book.groupId));
+                            bookCodeList.Add(new BookCheckOutRequestModel(rs.book.rfid, rs.book.group, rs.book.groupId, rs.book.bookId, rs.book.title));
                             bookCodeMap.Add(this.bookRFID, this.bookRFID);
                         }
                         else
@@ -167,32 +167,49 @@ namespace LibrarySelfCheckOut
             this.timerSession.Enabled = false;
             this.btDone.Enabled = false;
             this.spiner.Show();
-            CheckOutResponseModel rs =  await BookProcessor.checkout(bookCodeList, studentId);
-            this.spiner.Hide();
-            if (rs.isSuccess)
-            {
-                foreach (BookCheckOutModel b in rs.books)
-                {
-                    BookItem item = new BookItem( b);
-                    item.Width = flowLayoutPanelBookList.Width - 10;
-                    this.flowLayoutPanelBookList.Controls.Add(item);
-                }
-                this.btDone.Text = BT_TXT_DONE;
-                this.btDone.Enabled = true;
-                this.btCancel.Hide();
-                await EmailProcessor.emailCheckOut(new EmailCheckOutRequest(studentId, rs.books));
-                this.timerSession.Enabled = true;
-            }
-            else
+            bool isDuplicate = isDuplicateBorrowingBook(bookCodeList);
+            if (isDuplicate)
             {
                 this.timerSession.Enabled = true;
+                this.spiner.Hide();
                 this.txtBookRFID.Enabled = false;
-                using (ModalOK model = new ModalOK(rs.errorMessage))
+                using (ModalOK model = new ModalOK("Take the same books out."))
                 {
                     model.ShowDialog();
                 }
                 resetState();
             }
+            else
+            {
+                CheckOutResponseModel rs = await BookProcessor.checkout(bookCodeList, studentId);
+                this.spiner.Hide();
+                if (rs.isSuccess)
+                {
+                    foreach (BookCheckOutModel b in rs.books)
+                    {
+                        BookItem item = new BookItem(b);
+                        item.Width = flowLayoutPanelBookList.Width - 10;
+                        this.flowLayoutPanelBookList.Controls.Add(item);
+                    }
+                    this.btDone.Text = BT_TXT_DONE;
+                    this.btDone.Enabled = true;
+                    this.btCancel.Hide();
+                    await EmailProcessor.emailCheckOut(new EmailCheckOutRequest(studentId, rs.books));
+                    this.timerSession.Enabled = true;
+                }
+                else
+                {
+                    this.timerSession.Enabled = true;
+                    this.txtBookRFID.Enabled = false;
+                    using (ModalOK model = new ModalOK(rs.errorMessage))
+                    {
+                        model.ShowDialog();
+                    }
+                    resetState();
+                }
+            }
+
+
         }
 
         private void btCancel_Click(object sender, EventArgs e)
@@ -212,5 +229,18 @@ namespace LibrarySelfCheckOut
             }
         }
 
+
+        private bool isDuplicateBorrowingBook(List<BookCheckOutRequestModel> bookCodeList)
+        {
+            var duplicateList = bookCodeList.GroupBy(x => x.bookId).Where(x => x.Count() > 1).ToList();
+            if(duplicateList.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

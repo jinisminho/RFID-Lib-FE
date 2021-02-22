@@ -49,7 +49,7 @@
             this.panel1.Controls.Add(this.lbMsg);
             this.panel1.Location = new System.Drawing.Point(4, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(592, 253);
+            this.panel1.Size = new System.Drawing.Size(801, 308);
             this.panel1.TabIndex = 0;
             // 
             // panel2
@@ -58,7 +58,7 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(592, 41);
+            this.panel2.Size = new System.Drawing.Size(801, 41);
             this.panel2.TabIndex = 9;
             // 
             // label1
@@ -80,7 +80,7 @@
             this.BtOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtOK.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.BtOK.ForeColor = System.Drawing.Color.White;
-            this.BtOK.Location = new System.Drawing.Point(415, 194);
+            this.BtOK.Location = new System.Drawing.Point(624, 249);
             this.BtOK.Name = "BtOK";
             this.BtOK.Size = new System.Drawing.Size(130, 37);
             this.BtOK.TabIndex = 8;
@@ -95,10 +95,10 @@
             this.lbMsg.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbMsg.AutoSize = true;
             this.lbMsg.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.lbMsg.Location = new System.Drawing.Point(45, 54);
-            this.lbMsg.MaximumSize = new System.Drawing.Size(500, 0);
+            this.lbMsg.Location = new System.Drawing.Point(13, 55);
+            this.lbMsg.MaximumSize = new System.Drawing.Size(770, 0);
             this.lbMsg.Name = "lbMsg";
-            this.lbMsg.Size = new System.Drawing.Size(481, 145);
+            this.lbMsg.Size = new System.Drawing.Size(768, 87);
             this.lbMsg.TabIndex = 0;
             this.lbMsg.Text = resources.GetString("lbMsg.Text");
             // 
@@ -107,7 +107,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
-            this.ClientSize = new System.Drawing.Size(600, 259);
+            this.ClientSize = new System.Drawing.Size(809, 314);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
