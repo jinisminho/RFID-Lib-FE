@@ -7,15 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibrarySelfCheckOut.Utils;
 
 namespace LibrarySelfCheckOut
 {
     public partial class ModalOK : Form
     {
-        public ModalOK(String msg)
+        public ModalOK(String title,String msg)
         {
             InitializeComponent();
-            this.lbMsg.Text = msg + "\nThe system will reset scaning for violate policy/error";
+            if (title.Contains(Constant.RESET_TITLE))
+            {
+                this.lbMsg.Text = msg + "\nThe system will reset scaning for violate policy/error";
+
+            }
+            this.lbMsg.Text = msg;
             this.TopMost = true;
 
         }

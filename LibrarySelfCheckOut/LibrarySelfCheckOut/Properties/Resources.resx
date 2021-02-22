@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="insert-card" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\insert-card.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="backicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\backicon.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -130,23 +127,11 @@
   <data name="welcome2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\welcome2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icons8_ok_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8_ok_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SCS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SCS2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="selfcheckoutservice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\selfcheckoutservice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Spinner-1s-200px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Spinner-1s-200px.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="logo_dark_bcg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_dark_bcg.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="check-circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\check-circle.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="giphy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\giphy.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,20 +145,11 @@
   <data name="return-book" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\return-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="back-arrow-1767531-1502435" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\back-arrow-1767531-1502435.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="welcome3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\welcome3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="logi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logi.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="scan-pay-payment-15-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\scan-pay-payment-15-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SCS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SCS.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CSV-dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CSV-dark.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,20 +157,11 @@
   <data name="borrow-book" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\borrow-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="success-icon-10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\success-icon-10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="checkout-bck" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\checkout-bck.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="back-arrow_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\back-arrow_white.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="remove-icon-21" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\remove-icon-21.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="93634" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\93634.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="welcome-dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\welcome-dark.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
