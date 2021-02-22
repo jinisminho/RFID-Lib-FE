@@ -157,7 +157,7 @@ class Book extends React.Component {
                         genreList.push(element["value"])
                     });
                     values.genreIds = genreList
-
+                    values["creatorId"]=this.props.userid
                     this.props.onAddBook(values)
                 })
             }
