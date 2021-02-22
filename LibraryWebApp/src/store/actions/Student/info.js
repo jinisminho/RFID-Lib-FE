@@ -85,14 +85,17 @@ export const getBorrowingInfoOverdueStart = () => {
 export const getBorrowingInfo_Overdue = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoOverdueStart())
-        let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED"
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
-            })
-            .catch(error => {
-                dispatch(getBorrowingInfoOverdueFailed(responseError(error.response.data.status, error.response.data)))
-            });
+        if (search) {
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED"
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
+                })
+                .catch(error => {
+                    dispatch(getBorrowingInfoOverdueFailed(responseError(error.response.data.status, error.response.data)))
+                });
+        }
+
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
         //     dispatch(getBorrowingInfoOverdueSuccess(response.data, page, size))
@@ -129,14 +132,17 @@ export const getBorrowingInfoBorrowingStart = () => {
 export const getBorrowingInfo_Borrowing = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoBorrowingStart())
-        let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING"
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
-            })
-            .catch(error => {
-                dispatch(getBorrowingInfoBorrowingFailed(responseError(error.response.data.status, error.response.data)))
-            });
+        if (search) {
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING"
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
+                })
+                .catch(error => {
+                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error.response.data.status, error.response.data)))
+                });
+        }
+
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
         //     dispatch(getBorrowingInfoBorrowingSuccess(response.data, page, size))
@@ -173,14 +179,17 @@ export const getBorrowingInfoReturnedStart = () => {
 export const getBorrowingInfo_Returned = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoReturnedStart())
-        let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED"
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
-            })
-            .catch(error => {
-                dispatch(getBorrowingInfoReturnedFailed(responseError(error.response.data.status, error.response.data)))
-            });
+        if (search) {
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED"
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
+                })
+                .catch(error => {
+                    dispatch(getBorrowingInfoReturnedFailed(responseError(error.response.data.status, error.response.data)))
+                });
+        }
+
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
         //     dispatch(getBorrowingInfoReturnedSuccess(response.data, page, size))
@@ -262,8 +271,8 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
 
         let reason = form ? (form.reason ? form.reason : null) : null
 
-        let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId="+librarianId : "") 
-        axios.post(url, reason, { withCredentials: true, headers: {'Content-Type': 'application/json'}  })
+        let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId=" + librarianId : "")
+        axios.post(url, reason, { withCredentials: true, headers: { 'Content-Type': 'application/json' } })
             .then(response => {
                 dispatch(addReminderSuccess(true, "Renewed successfully"))
             })
