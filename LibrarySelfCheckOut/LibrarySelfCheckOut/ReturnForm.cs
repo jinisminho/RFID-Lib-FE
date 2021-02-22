@@ -94,7 +94,7 @@ namespace LibrarySelfCheckOut
                         else
                         {
                             this.txtBookCode.Enabled = false;
-                            using (ModalOK model = new ModalOK(rs.errorMessage))
+                            using (ModalOK model = new ModalOK(Constant.RESET_TITLE,rs.errorMessage))
                             {
                                 model.ShowDialog();
                             }
@@ -168,7 +168,7 @@ namespace LibrarySelfCheckOut
             {
                 this.timerSessionTimeOut.Enabled = true;
                 this.txtBookCode.Enabled = false;
-                using (ModalOK model = new ModalOK(rs.errorMessage))
+                using (ModalOK model = new ModalOK(Constant.RESET_TITLE,rs.errorMessage))
                 {
                     model.ShowDialog();
                 }
