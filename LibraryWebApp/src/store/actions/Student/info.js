@@ -260,10 +260,10 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
 
         dispatch(extendDueStart())
 
-        let reason = form? form.reason : null
+        let reason = form ? (form.reason ? form.reason : null) : null
 
         let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId="+librarianId : "") 
-        axios.post(url, {reason}, { withCredentials: true })
+        axios.post(url, reason, { withCredentials: true, headers: {'Content-Type': 'application/json'}  })
             .then(response => {
                 dispatch(addReminderSuccess(true, "Renewed successfully"))
             })
