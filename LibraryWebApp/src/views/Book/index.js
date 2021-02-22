@@ -250,7 +250,7 @@ class Book extends React.Component {
         }
         return {
             isbn: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.isbn : '',
-            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.author : '',
+            author: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.authors : '',
             price: this.state.price ? this.state.price : '',
             title: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.title : '',
             edition: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.edition : '',
