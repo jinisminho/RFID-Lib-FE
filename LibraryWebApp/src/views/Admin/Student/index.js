@@ -163,7 +163,7 @@ class Student extends React.Component {
     }
     handleChangeStatusSubmit(status) {
         this.setState({ confirmActiveStatus: false, confirmDisableStatus: false })
-        this.props.onChangeStatusStudent(this.state.statusId, status)
+        this.props.onChangeStatusStudent(this.state.statusId, status,this.props.userid)
     }
     handleChangeStatusCancel = () => {
         this.setState({
@@ -443,7 +443,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getAdminStudent(page, size, search)),
-        onChangeStatusStudent: (id, status) => dispatch(actions.changeStatusStudent(id, status)),
+        onChangeStatusStudent: (id, status,updater) => dispatch(actions.changeStatusStudent(id, status,updater)),
         onUpdateStudent: (data) => dispatch(actions.updateStudent(data)),
         onAddStudent: (data) => dispatch(actions.addStudent(data)),
         onGetPatronType:() => dispatch(actions.getAllPatronType())

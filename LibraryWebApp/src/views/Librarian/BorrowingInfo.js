@@ -35,12 +35,14 @@ class BorrowingInfo extends React.Component {
             nowBorrowingData: null,
             returnedData: null,
             showHistory: false,
-            studentId: null,
+            patronId: null,
             book: null,
             showExtdForm: false,
             dueDate: null
         }
-        this.fetchData = this.fetchData.bind(this);
+        this.fetchDataOverdue = this.fetchDataOverdue.bind(this);
+        this.fetchDataBorrowing = this.fetchDataBorrowing.bind(this);
+        this.fetchDataReturned = this.fetchDataReturned.bind(this);
         this.handlePageChangeOverdue = this.handlePageChangeOverdue.bind(this);
         this.handlePageChangeBorrowing = this.handlePageChangeBorrowing.bind(this);
         this.handlePageChangeReturned = this.handlePageChangeReturned.bind(this);
@@ -50,20 +52,21 @@ class BorrowingInfo extends React.Component {
         this.dateFormatter = this.dateFormatter.bind(this);
         this.ifNullFormatter = this.ifNullFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
-        this.fetchData()
+        this.getStudentAndHistories()
     }
 
     handlePageChangeOverdue(page, sizePerPage) {
-        this.fetchDataOverdue(page, sizePerPage, this.state.searchValue);
+        this.fetchDataOverdue(page, sizePerPage, this.props.studentData.accountId);
     }
     handlePageChangeBorrowing(page, sizePerPage) {
-        this.fetchDataBorrowing(page, sizePerPage, this.state.searchValue);
+        this.fetchDataBorrowing(page, sizePerPage, this.props.studentData.accountId);
     }
     handlePageChangeReturned(page, sizePerPage) {
-        this.fetchDataReturned(page, sizePerPage, this.state.searchValue);
+        this.fetchDataReturned(page, sizePerPage, this.props.studentData.accountId);
     }
 
     handleSizePerPageChange(sizePerPage) {
@@ -72,34 +75,42 @@ class BorrowingInfo extends React.Component {
 
     }
 
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        const doFetchData = async () => {
-            await this.fetchDataOverdue(page, sizePerPage, searchValue);
-            await this.fetchDataBorrowing(page, sizePerPage, searchValue);
-            await this.fetchDataReturned(page, sizePerPage, searchValue);
-            await this.props.getStudent(searchValue)
-            await this.setState({ searchValue: searchValue })
-            return
-        }
-
-        return doFetchData()
+    handleSearch(value) {
+        this.getStudentAndHistories(1, this.props.sizePerPage, value.search)
+        this.setState({
+            notFoundShow: true,
+        })
     }
 
-    fetchDataOverdue(page = this.props.pageOverdue, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchData() {
+        this.fetchDataOverdue()
+        this.fetchDataBorrowing()
+        this.fetchDataReturned()
+    }
+
+    getStudentAndHistories(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+        this.props.getStudent(page - 1, sizePerPage, searchValue)
+        this.setState({
+            searchValue: searchValue,
+        })
+    }
+
+    fetchDataOverdue(page = this.props.pageOverdue, sizePerPage = this.props.sizePerPage, searchValue = this.props.studentData.accountId) {
         return this.props.onFetchOverdue(page - 1, sizePerPage, searchValue)
     }
 
-    fetchDataBorrowing(page = this.props.pageBorrowing, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchDataBorrowing(page = this.props.pageBorrowing, sizePerPage = this.props.sizePerPage, searchValue = this.props.studentData.accountId) {
         return this.props.onFetchBorrowing(page - 1, sizePerPage, searchValue)
     }
 
-    fetchDataReturned(page = this.props.pageReturned, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchDataReturned(page = this.props.pageReturned, sizePerPage = this.props.sizePerPage, searchValue = this.props.studentData.accountId) {
         return this.props.onFetchReturned(page - 1, sizePerPage, searchValue)
     }
 
     titleFormatter(cell, row) {
         if (row.bookCopy) {
             let res = row.bookCopy.book.title;
+            res += row.bookCopy.book.subtitle ? " : " + row.bookCopy.book.subtitle : "";
             res += row.bookCopy.book.edition ? " - Edition[" + row.bookCopy.book.edition + "]" : "";
 
             return res;
@@ -121,7 +132,7 @@ class BorrowingInfo extends React.Component {
             <div>
                 <button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
                     showHistory: true,
-                    patronId: borrowerId,
+                    // patronId: borrowerId,
                     bookBorrowing: bokBorrowing,
                     bookCopy: bokCpy
                 })} ><i className="ni ni-collection" /> History </button>
@@ -139,7 +150,7 @@ class BorrowingInfo extends React.Component {
                     <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => { this.handleExtdFormShow(borrowerId, bokCpy); this.setState({ bookBorrowing: bokBorrowing }) }} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
-                        patronId: borrowerId,
+                        // patronId: borrowerId,
                         bookCopy: bokCpy,
                         bookBorrowing: bokBorrowing
                     })} ><i className="ni ni-collection" /></button></Col>
@@ -172,7 +183,7 @@ class BorrowingInfo extends React.Component {
     handleExtdFormShow = (ptrnId, bokCpy) => {
         this.setState({
             showExtdForm: true,
-            patronId: ptrnId,
+            // patronId: ptrnId,
             bookCopy: bokCpy,
         })
     }
@@ -361,7 +372,7 @@ class BorrowingInfo extends React.Component {
             )
         }
 
-        let form = <SearchForm placeholder="Search Renting Information By Student ID. e.g. 130111" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.fetchData(1, this.props.sizePerPage, this.state.studentId = value.search)} />
+        let form = <SearchForm placeholder="Get checkout Informations by a student's RFID or Email. e.g. 130111, example@fpt.edu.vn" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.handleSearch(value)} />
 
 
         // let errorMsg = null
@@ -376,11 +387,17 @@ class BorrowingInfo extends React.Component {
         //     msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
         // }
 
+        let errorMsg = null
+        if (!this.props.studentData && this.state.notFoundShow) {
+            errorMsg = <Alert className="w-100" key="danger" variant="danger" onClose={() => this.setState({ notFoundShow: false })}  dismissible>Patron not found</Alert>
+        }
+
         return (
             <>
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Row className="justify-content-center">
+                        {errorMsg}
                         {form}
                     </Row>
                     <Row className="justify-content-center">
@@ -435,11 +452,11 @@ class BorrowingInfo extends React.Component {
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Renew Due Date"
-                            submit={values => this.handleExtdSubmit(this.state.bookBorrowing.id,values)}
+                            submit={values => this.handleExtdSubmit(this.state.bookBorrowing.id, values)}
                             bookBorrowingId={this.state.bookBorrowing ? this.state.bookBorrowing.id : null}
                             // dueDate={this.state.dueDate}
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
-                            libraianId = {this.props.currentUserId}
+                            libraianId={this.props.currentUserId}
                         />
 
                         <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
@@ -459,19 +476,20 @@ const mapStateToProps = state => {
         errOnFetch: state.info.errOnFetch,
         error: state.info.error,
         loading: state.info.loading,
-        dataOverdue: state.info.dataOverdue,
-        dataBorrowing: state.info.dataBorrowing,
-        dataReturned: state.info.dataReturned,
-        totalSizeOverdue: state.info.totalOverdue,
-        totalSizeBorrowing: state.info.totalBorrowing,
-        totalSizeReturned: state.info.totalReturned,
-        pageOverdue: state.info.pageOverdue,
-        pageBorrowing: state.info.pageBorrowing,
-        pageReturned: state.info.pageReturned,
-        sizePerPage: state.info.sizePerPage,
+        dataOverdue: state.infoLside.dataOverdue,
+        dataBorrowing: state.infoLside.dataBorrowing,
+        dataReturned: state.infoLside.dataReturned,
+        totalSizeOverdue: state.infoLside.totalOverdue,
+        totalSizeBorrowing: state.infoLside.totalBorrowing,
+        totalSizeReturned: state.infoLside.totalReturned,
+        pageOverdue: state.infoLside.pageOverdue,
+        pageBorrowing: state.infoLside.pageBorrowing,
+        pageReturned: state.infoLside.pageReturned,
+        sizePerPage: state.infoLside.sizePerPage,
         historyData: state.info.historyData,
         studentData: state.infoLside.studentData,
         currentUserId: state.Auth.userId,
+        page: state.infoLside.page
 
     }
 }
@@ -482,16 +500,16 @@ const mapDispatchToProps = dispatch => {
         // onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue(page, size, search)),
         // onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing(page, size, search)),
         // onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned(page, size, search)),
-        // getExtendedHistoryInfo: (page, size, studentId, bookId) => dispatch(actions.getExtendedHistory(page, size, studentId, bookId)),
-        // onExtdSubmit: (studentId, bookId) => dispatch(actions.extendDue(studentId, bookId)),
+        // getExtendedHistoryInfo: (page, size, patronId, bookId) => dispatch(actions.getExtendedHistory(page, size, patronId, bookId)),
+        // onExtdSubmit: (patronId, bookId) => dispatch(actions.extendDue(patronId, bookId)),
 
-        onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue(page, size, search)),
-        onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing(page, size, search)),
-        onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned(page, size, search)),
+        onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue_Lib(page, size, search)),
+        onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing_Lib(page, size, search)),
+        onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned_Lib(page, size, search)),
         getExtendedHistoryInfo: (bookBorrowingId) => dispatch(actions.getExtendedHistory(bookBorrowingId)),
         onExtdSubmit: (bookBorrowingId, librarianId, form) => dispatch(actions.extendDue(bookBorrowingId, librarianId, form)),
 
-        getStudent: (search) => dispatch(actions.getStudentLibInfo(search)),
+        getStudent: (page, sizePerPage, search) => dispatch(actions.getStudentThenGetBorrowingHistories(page, sizePerPage, search)),
     }
 }
 

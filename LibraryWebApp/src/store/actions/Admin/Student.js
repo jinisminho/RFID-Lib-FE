@@ -119,14 +119,14 @@ export const changeStatusStudentSuccess =()=>{
         type: actionTypes.CHANGE_STATUS_STUDENT_SUCCESS,
     })
 } 
-export const changeStatusStudent = (id,status) => {
+export const changeStatusStudent = (id,status,updater) => {
     return dispatch => {
         dispatch(changeStatusStudentStart())    
         let url = ""
         if(status){
-            url="/account/activate?id="+id
+            url="/account/activate?id="+id+"&auditorId="+updater
         }else{
-            url="/account/deactivate?id="+id
+            url="/account/deactivate?id="+id+"&auditorId="+updater
         }
         axios.post(url,{},{ withCredentials: true })
             .then(response => {

@@ -19,7 +19,7 @@ import React from "react";
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
-
+import * as MyConstant from '../../views/Util/Constant'
 
 
 // reactstrap components
@@ -85,6 +85,18 @@ const validate = values => {
     }
     if (!values.maxExtendTime) {
         errors.maxExtendTime = 'Max extend time is required';
+    }
+    if (MyConstant.MIN_DUE_DURATION > values.dueDuration || values.dueDuration > MyConstant.MAX_DUE_DURATION) {
+        errors.dueDuration = "Due duration must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
+    }
+    if (MyConstant.MIN_EXTEND_DUE_DURATION > values.extendDueDuration || values.extendDueDuration > MyConstant.MAX_EXTEND_DUE_DURATION) {
+        errors.extendDueDuration = "Extend due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
+    }
+    if (MyConstant.MIN_NUMBER_BORROW > values.maxNumberCopyBorrow || values.maxNumberCopyBorrow > MyConstant.MAX_NUMBER_BORROW) {
+        errors.maxNumberCopyBorrow = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+    }
+    if (MyConstant.MIN_EXTEND_TIME > values.maxExtendTime || values.maxExtendTime > MyConstant.MAX_EXTEND_TIME) {
+        errors.maxExtendTime = "Max extend time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
     }
     return errors
 }
@@ -174,7 +186,7 @@ class AddBorrowPolicyForm extends React.Component {
 
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="copyTypeId"
+                                        name="bookCopyTypeId"
                                         title="Copy Type"
                                         options={copyTypes}
                                         component={renderSelectField}>
@@ -194,7 +206,7 @@ class AddBorrowPolicyForm extends React.Component {
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="maxBorrowNumber"
+                                        name="maxNumberCopyBorrow"
                                         type="number"
                                         placeholder="Max Borrow Number"
                                         title="Max Borrow Number"
