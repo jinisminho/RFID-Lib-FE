@@ -52,6 +52,7 @@ class BorrowingInfo extends React.Component {
         this.dateFormatter = this.dateFormatter.bind(this);
         this.ifNullFormatter = this.ifNullFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
@@ -72,6 +73,13 @@ class BorrowingInfo extends React.Component {
         // When changing the size per page always navigating to the first page
         this.fetchData(1, sizePerPage, this.state.searchValue);
 
+    }
+
+    handleSearch(value) {
+        this.getStudentAndHistories(1, this.props.sizePerPage, value.search)
+        this.setState({
+            notFoundShow: true,
+        })
     }
 
     fetchData() {
@@ -102,6 +110,7 @@ class BorrowingInfo extends React.Component {
     titleFormatter(cell, row) {
         if (row.bookCopy) {
             let res = row.bookCopy.book.title;
+            res += row.bookCopy.book.subtitle ? " : " + row.bookCopy.book.subtitle : "";
             res += row.bookCopy.book.edition ? " - Edition[" + row.bookCopy.book.edition + "]" : "";
 
             return res;
@@ -363,7 +372,7 @@ class BorrowingInfo extends React.Component {
             )
         }
 
-        let form = <SearchForm placeholder="Get checkout Informations by a student's RFID or Email. e.g. 130111, example@fpt.edu.vn" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.getStudentAndHistories(1, this.props.sizePerPage, value.search)} />
+        let form = <SearchForm placeholder="Get checkout Informations by a student's RFID or Email. e.g. 130111, example@fpt.edu.vn" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.handleSearch(value)} />
 
 
         // let errorMsg = null
@@ -378,11 +387,17 @@ class BorrowingInfo extends React.Component {
         //     msg = <Alert key="success" variant="success" onClose={() => this.setState({ successShow: false, errorShow: false })} dismissible>{this.props.successMsg}</Alert>
         // }
 
+        let errorMsg = null
+        if (!this.props.studentData && this.state.notFoundShow) {
+            errorMsg = <Alert className="w-100" key="danger" variant="danger" onClose={() => this.setState({ notFoundShow: false })}  dismissible>Patron not found</Alert>
+        }
+
         return (
             <>
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Row className="justify-content-center">
+                        {errorMsg}
                         {form}
                     </Row>
                     <Row className="justify-content-center">
@@ -437,11 +452,11 @@ class BorrowingInfo extends React.Component {
                             show={this.state.showExtdForm}
                             hide={() => this.handleExtdFormClose()}
                             title="Renew Due Date"
-                            submit={values => this.handleExtdSubmit(this.state.bookBorrowing.id,values)}
+                            submit={values => this.handleExtdSubmit(this.state.bookBorrowing.id, values)}
                             bookBorrowingId={this.state.bookBorrowing ? this.state.bookBorrowing.id : null}
                             // dueDate={this.state.dueDate}
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
-                            libraianId = {this.props.currentUserId}
+                            libraianId={this.props.currentUserId}
                         />
 
                         <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
