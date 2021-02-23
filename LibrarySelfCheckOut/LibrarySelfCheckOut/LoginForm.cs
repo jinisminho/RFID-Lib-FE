@@ -73,7 +73,7 @@ namespace LibrarySelfCheckOut
                         {
                             if (rs.student.overDue == true)
                             {
-                                using (ModalOK model = new ModalOK("Please return over dued book(s) at the librarian counter to continue borrowing book"))
+                                using (ModalOK model = new ModalOK("Error","Please return over dued book(s) at the librarian counter to continue borrowing book"))
                                 {
                                     model.ShowDialog();
                                 }
@@ -95,7 +95,7 @@ namespace LibrarySelfCheckOut
                     else
                     {
                         //http khac ok
-                        using (ModalOK model = new ModalOK(rs.msg))
+                        using (ModalOK model = new ModalOK(Constant.RESET_TITLE,rs.msg))
                         {
                             model.ShowDialog();
                         }
@@ -106,6 +106,7 @@ namespace LibrarySelfCheckOut
                 }
                 else
                 {
+                    incorrectCount++;
                     showIvalidStudentCard();
                     resetLogin();
                 }

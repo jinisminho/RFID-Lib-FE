@@ -113,8 +113,6 @@ const addBorrowPolicyFail = (state, action) => {
         error: action.error,
         successMsg: null,
         loading: false,
-        page: 1,
-        sizePerPage: 10,
     })
 }
 
@@ -140,8 +138,6 @@ const updateBorrowPolicyFail = (state, action) => {
         error: action.error,
         successMsg: null,
         loading: false,
-        page: 1,
-        sizePerPage: 10,
     })
 }
 
@@ -168,8 +164,6 @@ const deleteBorrowPolicyFail = (state, action) => {
         successMsg: null,
         loading: false,
         total: 0,
-        page: 1,
-        sizePerPage: 20,
     })
 }
 
@@ -195,8 +189,6 @@ const updatePatronPolicyFail = (state, action) => {
         error: action.error,
         successMsg: null,
         loading: false,
-        page: 1,
-        sizePerPage: 10,
     })
 }
 
@@ -245,8 +237,6 @@ const updateFeePolicyFail = (state, action) => {
         error: action.error,
         successMsg: null,
         loading: false,
-        page: 1,
-        sizePerPage: 10,
     })
 }
 

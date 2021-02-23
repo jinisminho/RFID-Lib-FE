@@ -103,7 +103,7 @@ namespace LibrarySelfCheckOut
                         else
                         {
                             this.txtBookRFID.Enabled = false;
-                            using (ModalOK model = new ModalOK(rs.errorMessage))
+                            using (ModalOK model = new ModalOK(Constant.RESET_TITLE,rs.errorMessage))
                             {
                                 model.ShowDialog();
                             }
@@ -173,7 +173,7 @@ namespace LibrarySelfCheckOut
                 this.timerSession.Enabled = true;
                 this.spiner.Hide();
                 this.txtBookRFID.Enabled = false;
-                using (ModalOK model = new ModalOK("Take the same books out."))
+                using (ModalOK model = new ModalOK(Constant.RESET_TITLE,"Take the same books out."))
                 {
                     model.ShowDialog();
                 }
@@ -201,7 +201,7 @@ namespace LibrarySelfCheckOut
                 {
                     this.timerSession.Enabled = true;
                     this.txtBookRFID.Enabled = false;
-                    using (ModalOK model = new ModalOK(rs.errorMessage))
+                    using (ModalOK model = new ModalOK(Constant.RESET_TITLE, rs.errorMessage))
                     {
                         model.ShowDialog();
                     }

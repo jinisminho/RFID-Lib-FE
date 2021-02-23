@@ -159,7 +159,7 @@ class Staff extends React.Component {
     }
     handleChangeStatusSubmit(status) {
         this.setState({ confirmActiveStatus: false,confirmDisableStatus:false })
-        this.props.onChangeStatusStaff(this.state.statusId,status)
+        this.props.onChangeStatusStaff(this.state.statusId,status,this.props.userid)
     }
     handleChangeStatusCancel = () => {
         this.setState({
@@ -429,7 +429,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, search) => dispatch(actions.getStaff(page, size, search)),
-        onChangeStatusStaff: (id,status) => dispatch(actions.changeStatusStaff(id,status)),
+        onChangeStatusStaff: (id,status,updater) => dispatch(actions.changeStatusStaff(id,status,updater)),
         onUpdateStaff: (data) => dispatch(actions.updateStaff(data)),
         onAddStaff: (data) => dispatch(actions.addStaff(data))
     }
