@@ -132,7 +132,7 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoBorrowingStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING&sort=borrowing.borrowedAt%2Cdesc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
@@ -179,7 +179,7 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoReturnedStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED&sort=returnedAt%2Cdesc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
@@ -364,7 +364,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                 dispatch(getStudentSuccess(response.data))
 
                 //Overdued
-                let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=OVERDUED"
+                let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=OVERDUED&sort=dueAt%2Casc"
                 axios.get(url, { withCredentials: true })
                     .then(response => {
                         dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
@@ -374,7 +374,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                     });
 
                 //Borrowing    
-                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=BORROWING"
+                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=BORROWING&sort=borrowing.borrowedAt%2Cdesc"
                 axios.get(url, { withCredentials: true })
                     .then(response => {
                         dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
@@ -384,7 +384,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                     });
 
                 //Returned
-                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=RETURNED"
+                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=RETURNED&sort=returnedAt%2Cdesc"
                 axios.get(url, { withCredentials: true })
                     .then(response => {
                         dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
