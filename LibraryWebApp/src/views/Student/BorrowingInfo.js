@@ -102,6 +102,7 @@ class BorrowingInfo extends React.Component {
     titleFormatter(cell, row) {
         if (row.bookCopy) {
             let res = row.bookCopy.book.title;
+            res += row.bookCopy.book.subtitle ? " : " + row.bookCopy.book.subtitle : "";
             res += row.bookCopy.book.edition ? " - Edition[" + row.bookCopy.book.edition + "]" : "";
 
             return res;

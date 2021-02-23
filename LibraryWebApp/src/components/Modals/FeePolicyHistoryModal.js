@@ -11,6 +11,10 @@ import moment from 'moment';
 
 const FeePolicyHistoryModal = (props) => {
 
+    function datetimeFormatter(cell, row) {
+        return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
+    }
+
     return (
 
         <Modal dialogClassName="book-detail-modal" backdrop="static" aria-labelledby="contained-modal-title-vcenter" show={props.show} onHide={props.hide} onShow={props.onShow} centered>
@@ -34,9 +38,9 @@ const FeePolicyHistoryModal = (props) => {
                     <TableHeaderColumn dataField="id" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} isKey={true}>ID</TableHeaderColumn>
                     <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField="documentProcessingFee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
+                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
-                    <TableHeaderColumn dataField="createdAt" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Created At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="createdAt" dataFormat={datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Created At</TableHeaderColumn>
                 </BootstrapTable>
             </Modal.Body>
             <Modal.Footer>

@@ -14,7 +14,11 @@ export {
     getRentingInfo as getRentingInfoLibrarianSide,
     getExtendedHistory as getExtendedHistoryLibrarianSide,
     extendDue as extendDueLibrarianSide,
-    getStudent as getStudentLibInfo
+    getStudent as getStudentLibInfo,
+    getStudentThenGetBorrowingHistories,
+    getBorrowingInfo_Overdue as getBorrowingInfo_Overdue_Lib,
+    getBorrowingInfo_Borrowing as getBorrowingInfo_Borrowing_Lib,
+    getBorrowingInfo_Returned as getBorrowingInfo_Returned_Lib,
 } from './Librarian/info'
 
 export {

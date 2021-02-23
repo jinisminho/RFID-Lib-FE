@@ -1,14 +1,16 @@
 import * as actionTypes from '../actionTypes'
 import * as prototype from '../../prototype/policy'
+import axios from '../../../axios'
+import { responseError } from '../../utility'
 
 //Borrow
 export const getBorrowPolicySuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.LIB_GET_BORROW_POLICY_SUCCESS,
-        total:total,
+        total: total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
+        page: page,
+        sizePerPage: sizePerPage
     }
 }
 
@@ -25,15 +27,25 @@ export const getBorrowPolicyStart = () => {
     }
 }
 
-export const getBorrowPolicy = (page,size) => {
+export const getBorrowPolicy = (page, size) => {
     return dispatch => {
         dispatch(getBorrowPolicyStart())
-        let response=prototype.getBorrowPolicy(page,size)
-        if(response.status){
-            dispatch(getBorrowPolicySuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getBorrowPolicyFailed(response.err))
-        }
+
+        let url = '/borrowPolicy/get' + '?page=' + page + '&size=' + size
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getBorrowPolicySuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error => {
+                dispatch(getBorrowPolicyFailed(responseError(error)))
+            });
+
+        // let response=prototype.getBorrowPolicy(page,size)
+        // if(response.status){
+        //     dispatch(getBorrowPolicySuccess(response.data,response.total,page,size))
+        // }else{
+        //     dispatch(getBorrowPolicyFailed(response.err))
+        // }
     }
 
 }
@@ -41,10 +53,10 @@ export const getBorrowPolicy = (page,size) => {
 export const getPatronPolicySuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.LIB_GET_PATRON_POLICY_SUCCESS,
-        total:total,
+        total: total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
+        page: page,
+        sizePerPage: sizePerPage
     }
 }
 
@@ -61,26 +73,33 @@ export const getPatronPolicyStart = () => {
     }
 }
 
-export const getPatronPolicy = (page,size) => {
+export const getPatronPolicy = (page, size) => {
     return dispatch => {
         dispatch(getPatronPolicyStart())
-        let response=prototype.getPatronPolicy(page,size)
-        if(response.status){
-            dispatch(getPatronPolicySuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getPatronPolicyFailed(response.err))
-        }
+
+        let url = '/patronType/find' + '?page=' + page + '&size=' + size
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getPatronPolicySuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error => {
+                dispatch(getPatronPolicyFailed(responseError(error)))
+            });
+
+        // let response=prototype.getPatronPolicy(page,size)
+        // if(response.status){
+        //     dispatch(getPatronPolicySuccess(response.data,response.total,page,size))
+        // }else{
+        //     dispatch(getPatronPolicyFailed(response.err))
+        // }
     }
 
 }
 //Fee
-export const getFeePolicySuccess = (data, total, page, sizePerPage) => {
+export const getFeePolicySuccess = (data) => {
     return {
         type: actionTypes.LIB_GET_FEE_POLICY_SUCCESS,
-        total:total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
     }
 }
 
@@ -97,15 +116,28 @@ export const getFeePolicyStart = () => {
     }
 }
 
-export const getFeePolicy = (page,size) => {
+export const getFeePolicy = () => {
     return dispatch => {
         dispatch(getFeePolicyStart())
-        let response=prototype.getFeePolicy()
-        if(response.status){
-            dispatch(getFeePolicySuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getFeePolicyFailed(response.err))
-        }
+
+
+        let url = '/feePolicy/getLatest'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                let arr = []
+                arr[0] = response.data;
+                dispatch(getFeePolicySuccess(arr))
+            })
+            .catch(error => {
+                dispatch(getFeePolicyFailed(responseError(error)))
+            });
+
+        // let response = prototype.getFeePolicy()
+        // if (response.status) {
+        //     dispatch(getFeePolicySuccess(response.data, response.total, page, size))
+        // } else {
+        //     dispatch(getFeePolicyFailed(response.err))
+        // }
     }
 
 }
@@ -135,10 +167,10 @@ export const getPatronTypeStart = () => {
 export const getPatronType = () => {
     return dispatch => {
         dispatch(getPatronTypeStart())
-        let response=prototype.getPatronTypes()
-        if(response.status){
+        let response = prototype.getPatronTypes()
+        if (response.status) {
             dispatch(getPatronTypeSuccess(response.data))
-        }else{
+        } else {
             dispatch(getPatronTypeFailed(response.err))
         }
     }
@@ -147,125 +179,166 @@ export const getPatronType = () => {
 
 //Add borrow policy
 
-export const addBorrowPolicyStart =()=>{
-    return({
+export const addBorrowPolicyStart = () => {
+    return ({
         type: actionTypes.ADD_BORROW_POLICY_START
     })
-} 
-export const addBorrowPolicyFail =(error)=>{
-    return({
+}
+export const addBorrowPolicyFail = (error) => {
+    return ({
         type: actionTypes.ADD_BORROW_POLICY_FAILED,
-        error:error
+        error: error
     })
-} 
-export const addBorrowPolicySuccess =()=>{
-    return({
+}
+export const addBorrowPolicySuccess = () => {
+    return ({
         type: actionTypes.ADD_BORROW_POLICY_SUCCESS,
     })
-} 
+}
 
 export const addBorrowPolicy = (data) => {
     return dispatch => {
-        dispatch(addBorrowPolicyStart())    
-        let response=prototype.addBorrowPolicy(data)
-        if(response.status==true){
-            dispatch(addBorrowPolicySuccess())
-        }else{
-            dispatch(addBorrowPolicyFail(response.error))
-        }
+        dispatch(addBorrowPolicyStart())
+
+        let url='/borrowPolicy/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updateBorrowPolicySuccess())
+            })
+            .catch(error=> {
+                dispatch(updateBorrowPolicyFail(responseError(error)))
+            }); 
+
+        // let response = prototype.addBorrowPolicy(data)
+        // if (response.status == true) {
+        //     dispatch(addBorrowPolicySuccess())
+        // } else {
+        //     dispatch(addBorrowPolicyFail(response.error))
+        // }
     }
 }
 
 //Update borrow policy
 
-export const updateBorrowPolicyStart =()=>{
-    return({
+export const updateBorrowPolicyStart = () => {
+    return ({
         type: actionTypes.UPDATE_BORROW_POLICY_START
     })
-} 
-export const updateBorrowPolicyFail =(error)=>{
-    return({
+}
+export const updateBorrowPolicyFail = (error) => {
+    return ({
         type: actionTypes.UPDATE_BORROW_POLICY_FAILED,
-        error:error
+        error: error
     })
-} 
-export const updateBorrowPolicySuccess =()=>{
-    return({
+}
+export const updateBorrowPolicySuccess = () => {
+    return ({
         type: actionTypes.UPDATE_BORROW_POLICY_SUCCESS,
     })
-} 
+}
 
 export const updateBorrowPolicy = (data) => {
     return dispatch => {
-        dispatch(updateBorrowPolicyStart())    
-        let response=prototype.updateBorrowPolicy(data)
-        if(response.status==true){
-            dispatch(updateBorrowPolicySuccess())
-        }else{
-            dispatch(updateBorrowPolicyFail(response.error))
-        }
+        dispatch(updateBorrowPolicyStart())
+        console.log(data);
+
+        let url='/borrowPolicy/update'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updateBorrowPolicySuccess())
+            })
+            .catch(error=> {
+                dispatch(updateBorrowPolicyFail(responseError(error)))
+            }); 
+
+        // let response = prototype.updateBorrowPolicy(data)
+        // if (response.status == true) {
+        //     dispatch(updateBorrowPolicySuccess())
+        // } else {
+        //     dispatch(updateBorrowPolicyFail(response.error))
+        // }
     }
 }
 
 //Delete borrow policy
 
-export const deleteBorrowPolicyStart =()=>{
-    return({
+export const deleteBorrowPolicyStart = () => {
+    return ({
         type: actionTypes.DELETE_BORROW_POLICY_START
     })
-} 
-export const deleteBorrowPolicyFail =(error)=>{
-    return({
+}
+export const deleteBorrowPolicyFail = (error) => {
+    return ({
         type: actionTypes.DELETE_BORROW_POLICY_FAILED,
-        error:error
+        error: error
     })
-} 
-export const deleteBorrowPolicySuccess =()=>{
-    return({
+}
+export const deleteBorrowPolicySuccess = () => {
+    return ({
         type: actionTypes.DELETE_BORROW_POLICY_SUCCESS,
     })
-} 
+}
 
 export const deleteBorrowPolicy = (id) => {
     return dispatch => {
-        dispatch(deleteBorrowPolicyStart())    
-        let response=prototype.deleteBorrowPolicy(id)
-        if(response.status==true){
-            dispatch(deleteBorrowPolicySuccess())
-        }else{
-            dispatch(deleteBorrowPolicyFail(response.error))
-        }
+        dispatch(deleteBorrowPolicyStart())
+
+        let url='/borrowPolicy/delete?id='+id
+        axios.post(url,{}, { withCredentials: true })
+            .then(response => {
+                dispatch(deleteBorrowPolicySuccess())
+            })
+            .catch(error=> {
+                dispatch(deleteBorrowPolicySuccess(responseError(error)))
+            }); 
+
+        // let response = prototype.deleteBorrowPolicy(id)
+        // if (response.status == true) {
+        //     dispatch(deleteBorrowPolicySuccess())
+        // } else {
+        //     dispatch(deleteBorrowPolicyFail(response.error))
+        // }
     }
 }
 
 //Update patron policy
 
-export const updatePatronPolicyStart =()=>{
-    return({
+export const updatePatronPolicyStart = () => {
+    return ({
         type: actionTypes.UPDATE_PATRON_POLICY_START
     })
-} 
-export const updatePatronPolicyFail =(error)=>{
-    return({
+}
+export const updatePatronPolicyFail = (error) => {
+    return ({
         type: actionTypes.UPDATE_PATRON_POLICY_FAILED,
-        error:error
+        error: error
     })
-} 
-export const updatePatronPolicySuccess =()=>{
-    return({
+}
+export const updatePatronPolicySuccess = () => {
+    return ({
         type: actionTypes.UPDATE_PATRON_POLICY_SUCCESS,
     })
-} 
+}
 
 export const updatePatronPolicy = (data) => {
     return dispatch => {
-        dispatch(updatePatronPolicyStart())    
-        let response=prototype.updatePatronPolicy(data)
-        if(response.status==true){
-            dispatch(updatePatronPolicySuccess())
-        }else{
-            dispatch(updatePatronPolicyFail(response.error))
-        }
+        dispatch(updatePatronPolicyStart())
+
+        let url='/patronType/updatePolicy'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updatePatronPolicySuccess())
+            })
+            .catch(error=> {
+                dispatch(updatePatronPolicyFail(responseError(error)))
+            }); 
+
+        // let response = prototype.updatePatronPolicy(data)
+        // if (response.status == true) {
+        //     dispatch(updatePatronPolicySuccess())
+        // } else {
+        //     dispatch(updatePatronPolicyFail(response.error))
+        // }
     }
 }
 
@@ -273,10 +346,10 @@ export const updatePatronPolicy = (data) => {
 export const getFeePoliciesSuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.LIB_GET_FEE_POLICY_HISTORY_SUCCESS,
-        total:total,
+        total: total,
         data: data,
-        page:page,
-        sizePerPage:sizePerPage
+        page: page,
+        sizePerPage: sizePerPage
     }
 }
 
@@ -293,46 +366,66 @@ export const getFeePoliciesStart = () => {
     }
 }
 
-export const getFeePolicies = (page,size) => {
+export const getFeePolicies = (page, size) => {
     return dispatch => {
         dispatch(getFeePoliciesStart())
-        let response=prototype.getFeePolicies(page,size)
-        if(response.status){
-            dispatch(getFeePoliciesSuccess(response.data,response.total,page,size))
-        }else{
-            dispatch(getFeePoliciesFailed(response.err))
-        }
+
+        let url = '/feePolicy/find' + '?page=' + page + '&size=' + size
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getFeePoliciesSuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error => {
+                dispatch(getFeePoliciesFailed(responseError(error)))
+            });
+
+        // let response = prototype.getFeePolicies(page, size)
+        // if (response.status) {
+        //     dispatch(getFeePoliciesSuccess(response.data, response.total, page, size))
+        // } else {
+        //     dispatch(getFeePoliciesFailed(response.err))
+        // }
     }
 
 }
 
 //Update fee policy
 
-export const updateFeePolicyStart =()=>{
-    return({
+export const updateFeePolicyStart = () => {
+    return ({
         type: actionTypes.UPDATE_FEE_POLICY_START
     })
-} 
-export const updateFeePolicyFail =(error)=>{
-    return({
+}
+export const updateFeePolicyFail = (error) => {
+    return ({
         type: actionTypes.UPDATE_FEE_POLICY_FAILED,
-        error:error
+        error: error
     })
-} 
-export const updateFeePolicySuccess =()=>{
-    return({
+}
+export const updateFeePolicySuccess = () => {
+    return ({
         type: actionTypes.UPDATE_FEE_POLICY_SUCCESS,
     })
-} 
+}
 
 export const updateFeePolicy = (data) => {
     return dispatch => {
-        dispatch(updateFeePolicyStart())    
-        let response=prototype.updateFeePolicy(data)
-        if(response.status==true){
-            dispatch(updateFeePolicySuccess())
-        }else{
-            dispatch(updateFeePolicyFail(response.error))
-        }
+        dispatch(updateFeePolicyStart())
+
+        let url='/feePolicy/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(updateFeePolicySuccess())
+            })
+            .catch(error=> {
+                dispatch(updateFeePolicyFail(responseError(error)))
+            }); 
+
+        // let response = prototype.updateFeePolicy(data)
+        // if (response.status == true) {
+        //     dispatch(updateFeePolicySuccess())
+        // } else {
+        //     dispatch(updateFeePolicyFail(response.error))
+        // }
     }
 }

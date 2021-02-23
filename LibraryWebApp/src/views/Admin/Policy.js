@@ -20,6 +20,7 @@ import FeePolicyHistoryModal from "components/Modals/FeePolicyHistoryModal";
 import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import moment from 'moment';
 
 
 class Policy extends React.Component {
@@ -50,7 +51,10 @@ class Policy extends React.Component {
         this.handlePageChangeFee = this.handlePageChangeFee.bind(this);
         this.feeActionFormatter = this.feeActionFormatter.bind(this);
         this.borrowActionFormatter = this.borrowActionFormatter.bind(this);
+        this.bookCopyTypeFormatter = this.bookCopyTypeFormatter.bind(this);
+        this.protoTypeFormatter = this.protoTypeFormatter.bind(this);
         this.patronActionFormatter = this.patronActionFormatter.bind(this);
+        this.datetimeFormatter = this.datetimeFormatter.bind(this);
         this.afterSaveCell_fee = this.afterSaveCell_fee.bind(this);
     }
 
@@ -87,16 +91,16 @@ class Policy extends React.Component {
     }
 
     fetchDataBorrow(page = this.props.borrowPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        // this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
+        this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
 
-        const doFetchData = async () => {
-            await this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
-            await this.setState({
-                borrow: this.props.borrow,
-            })
-            return
-        }
-        return doFetchData()
+        // const doFetchData = async () => {
+        //     await this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
+        //     await this.setState({
+        //         borrow: this.props.borrow,
+        //     })
+        //     return
+        // }
+        // return doFetchData()
     }
 
     fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
@@ -189,9 +193,80 @@ class Policy extends React.Component {
         this.setState({ lastFeeChanged: row })
     }
 
+    beforeSaveCell(row, cellName, cellValue) {
+        // validation here
+        if (cellName == "dueDuration") {
+            if (MyConstant.MIN_DUE_DURATION > cellValue || cellValue > MyConstant.MAX_DUE_DURATION) {
+                row[cellName] = MyConstant.MIN_DUE_DURATION
+                return false
+            }
+        }
+        if (cellName == "extendDueDuration") {
+            if (MyConstant.MIN_EXTEND_DUE_DURATION > cellValue || cellValue > MyConstant.MAX_EXTEND_DUE_DURATION) {
+                row[cellName] = MyConstant.MIN_EXTEND_DUE_DURATION
+                return false
+            }
+        }
+        if (cellName == "maxBorrowNumber") {
+            if (MyConstant.MIN_NUMBER_BORROW > cellValue || cellValue > MyConstant.MAX_NUMBER_BORROW) {
+                row[cellName] = MyConstant.MIN_NUMBER_BORROW
+                return false
+            }
+        }
+        if (cellName == "maxNumberCopyBorrow") {
+            if (MyConstant.MIN_NUMBER_BORROW > cellValue || cellValue > MyConstant.MAX_NUMBER_BORROW) {
+                row[cellName] = MyConstant.MIN_NUMBER_BORROW
+                return false
+            }
+        }
+        if (cellName == "maxExtendTime") {
+            if (MyConstant.MIN_EXTEND_TIME > cellValue || cellValue > MyConstant.MAX_EXTEND_TIME) {
+                row[cellName] = MyConstant.MIN_EXTEND_TIME
+                return false
+            }
+        }
+        return true
+    }
+
     beforeSaveCell_fee(row, cellName, cellValue) {
         // validation here
-        return false;
+        if (cellName == "overdueFinePerDay") {
+            if (MyConstant.MIN_FINE_PER_DAY > cellValue || cellValue > MyConstant.MAX_FINE_PER_DAY) {
+                cellValue = MyConstant.MIN_FINE_PER_DAY
+                return false
+            }
+        }
+        if (cellName == "maxPercentageOverdueFine") {
+            if (MyConstant.MIN_PERCENTAGE_OVERDUE_FINE > cellValue || cellValue > MyConstant.MAX_PERCENTAGE_OVERDUE_FINE) {
+                cellValue = MyConstant.MIN_FINE_PER_DAY
+                return false
+            }
+        }
+        if (cellName == "documentProcessingFee") {
+            if (MyConstant.MIN_DOC_PROCESSING_FEE > cellValue || cellValue > MyConstant.MAX_DOC_PROCESSING_FEE) {
+                cellValue = MyConstant.MIN_FINE_PER_DAY
+                return false
+            }
+        }
+        if (cellName == "missingDocMultiplier") {
+            if (MyConstant.MIN_DOC_MULTIPLIER > cellValue || cellValue > MyConstant.MAX_DOC_MULTIPLIER) {
+                cellValue = MyConstant.MIN_FINE_PER_DAY
+                return false
+            }
+        }
+        return true
+    }
+
+    protoTypeFormatter(cell, row) {
+        return cell ? cell.name : null
+    }
+
+    bookCopyTypeFormatter(cell, row) {
+        return cell ? cell.name : null
+    }
+
+    datetimeFormatter(cell, row) {
+        return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
     }
 
     render() {
@@ -236,13 +311,14 @@ class Policy extends React.Component {
             mode: 'click',
             blurToSave: true,
             afterSaveCell: this.afterSaveCell,
+            beforeSaveCell: this.beforeSaveCell,
         };
 
         const cellEditProp_fee = {
             mode: 'click',
             blurToSave: true,
             afterSaveCell: this.afterSaveCell_fee,
-            // beforeSaveCell: this.beforeSaveCell_fee,
+            beforeSaveCell: this.beforeSaveCell_fee,
         };
 
         let borrow_policy = this.props.borrow ? (
@@ -259,7 +335,7 @@ class Policy extends React.Component {
 
                 <br />
                 <BootstrapTable
-                    data={this.state.borrow}
+                    data={this.props.borrow}
                     options={options_borrow}
                     fetchInfo={{ dataTotalSize: this.props.borrowTotalSize }}
                     remote
@@ -271,13 +347,13 @@ class Policy extends React.Component {
                     keyField="id"
                     cellEdit={cellEditProp}
                 >
-                    <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="bookCopyType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="patronType" dataAlign="center" dataFormat={this.protoTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxNumberCopyBorrow" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Extend Time</TableHeaderColumn>
                     <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration</TableHeaderColumn>
-                    <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.borrowActionFormatter} editable={false}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action' dataAlign="center" width="12%" dataFormat={this.borrowActionFormatter} editable={false} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -310,9 +386,9 @@ class Policy extends React.Component {
                     keyField="id"
                     cellEdit={cellEditProp}
                 >
-                    <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="name" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
-                    <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false} >Action</TableHeaderColumn>
                 </BootstrapTable>
 
                 {/* delete popup */}
@@ -349,9 +425,9 @@ class Policy extends React.Component {
                 >
                     <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField="documentProcessingFee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
+                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
-                    <TableHeaderColumn dataField="createdAt" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="createdAt"  dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.feeActionFormatter} editable={ false }>Action</TableHeaderColumn> */}
                 </BootstrapTable>
 
