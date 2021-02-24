@@ -33,6 +33,10 @@ import {
 import { storage } from '../../firebase'
 import { Link } from 'react-router-dom'
 import * as MyConstant from '../Util/Constant'
+import AddToWishlistLibModal from "components/Modals/AddToWishlistLibModal";
+import { FlareSharp } from "@material-ui/icons";
+import CommonErrorModal from "components/Modals/CommonErrorModal";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 
 class Book extends React.Component {
     constructor(props) {
@@ -51,7 +55,11 @@ class Book extends React.Component {
             confirmFormShow: false,
             imageLoading: false,
             price: null,
-            copyType: null
+            copyType: null,
+            showAddToWishlistForm: false,
+            addToWishlistId: false,
+            successShowOther: false,
+            errorShowOther: false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -59,7 +67,7 @@ class Book extends React.Component {
         this.getAuthorData = this.getAuthorData.bind(this);
         this.getGenreData = this.getGenreData.bind(this);
         this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this);
-        
+
     }
     componentDidMount() {
         this.fetchData();
@@ -90,7 +98,7 @@ class Book extends React.Component {
         if (this.props.bookCopyData != null && !this.state.confirmFormShow) {
             this.setState({ confirmFormShow: true })
         }
-        if(this.props.bookCopyData == null && this.state.confirmFormShow){
+        if (this.props.bookCopyData == null && this.state.confirmFormShow) {
             this.setState({ confirmFormShow: false })
         }
     }
@@ -158,7 +166,7 @@ class Book extends React.Component {
                         genreList.push(element["value"])
                     });
                     values.genreIds = genreList
-                    values["creatorId"]=this.props.userid
+                    values["creatorId"] = this.props.userid
                     this.props.onAddBook(values)
                 })
             }
@@ -166,7 +174,7 @@ class Book extends React.Component {
 
     }
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false })
+        this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false })
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
     }
     handleUpdateCancel = () => {
@@ -208,14 +216,14 @@ class Book extends React.Component {
                     storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
                         this.setState({ imageLoading: false })
                         values["img"] = url
-                        values["updateBy"]=this.props.userid
+                        values["updateBy"] = this.props.userid
                         this.props.onUpdateBook(values)
                     })
                 }
             )
         } else {
             this.setState({ updateFormShow: false })
-            values["updateBy"]=this.props.userid
+            values["updateBy"] = this.props.userid
             this.props.onUpdateBook(values)
         }
 
@@ -275,19 +283,23 @@ class Book extends React.Component {
         values.members.forEach(element => {
             barcodes.push(element.barcode)
         });
-        data["bookId"]=values.id
-        data["creatorId"]=this.props.userid
-        data["copyTypeId"]=this.state.copyType
-        data["price"]=this.state.price
-        data["barcodes"]=barcodes
-         this.props.onAddCopy(data)
-        this.setState({ 
+        data["bookId"] = values.id
+        data["creatorId"] = this.props.userid
+        data["copyTypeId"] = this.state.copyType
+        data["price"] = this.state.price
+        data["barcodes"] = barcodes
+        this.props.onAddCopy(data)
+        this.setState({
             confirmFormShow: false,
             copyType: null,
             price: null
         })
     }
     activeFormatter(cell, row) {
+        let addToWishlistButton = row.stock == 0 ? (<Button className="btn btn-primary" onClick={() => this.setState({
+            showAddToWishlistForm: true,
+            addToWishlistId: row.id
+        })}>Add to wishlist</Button>) : null
         return (
             <div>
                 <UpdateButton clicked={() => this.setState({
@@ -302,6 +314,7 @@ class Book extends React.Component {
                     copyShow: true,
                     copyData: row
                 })}>Make Copy</Button>
+                { addToWishlistButton}
             </div>
         )
     }
@@ -343,15 +356,15 @@ class Book extends React.Component {
                 <p>by {author.join(", ")}</p>
                 <p>Edition: {row.edition}</p>
                 <p>ISBN: {row.isbn}</p>
-                <p>Number of available copy: {row.stock?row.stock:0}/{row.numberOfCopy}</p>
+                <p>Number of available copy: {row.stock ? row.stock : 0}/{row.numberOfCopy}</p>
                 <p>Status: {MyConstant.BOOK_STATUS_ADD_LIST[row.status]}</p>
                 <p>Call number: {row.callNumber}</p>
             </>
         )
     }
-    getInitialAddStatus(){
-        return{
-            status:Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)[0]
+    getInitialAddStatus() {
+        return {
+            status: Object.keys(MyConstant.BOOK_STATUS_ADD_LIST)[0]
         }
     }
     getInitialValues = () => {
@@ -387,9 +400,21 @@ class Book extends React.Component {
             isbn: this.state.copyData ? this.state.copyData.isbn : '',
             title: this.state.copyData ? this.state.copyData.title : '',
             id: this.state.copyData ? this.state.copyData.id : '',
-            copyTypeId:this.props.copyTypes?this.props.copyTypes[0]["value"]:""
+            copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["value"] : ""
         };
     }
+
+    handleAddToWishlistSubmit(values) {
+        this.setState({ showAddToWishlistForm: false, successShowOther: true, errorShowOther: true })
+        this.props.onAddReminder(this.state.addToWishlistId, values.patronId)
+    }
+    handleAddToWishListCancel = () => {
+        this.setState({
+            showAddToWishlistForm: false,
+            addToWishlistId: null,
+        })
+    }
+
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -530,6 +555,14 @@ class Book extends React.Component {
                                 </Button>
                             </Modal.Footer>
                         </Modal>
+                        <AddToWishlistLibModal
+                            show={this.state.showAddToWishlistForm}
+                            hide={() => this.handleAddToWishListCancel()}
+                            title="Add to wishlist"
+                            submit={(values) => this.handleAddToWishlistSubmit(values)}
+                        />
+                        <CommonErrorModal show={this.props.errorInfo && this.state.errorShowOther} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
+                        <CommonSuccessModal show={this.props.successMsgInfo && this.state.successShowOther} hide={() => this.handleModalClose()} msg={this.props.successMsgInfo} />
                         {display}
                     </Card>
                 </Container>
@@ -554,7 +587,11 @@ const mapStateToProps = state => {
         authorData: state.book.authorData,
         genreData: state.book.genreData,
         copyTypes: state.book.copyTypes,
-        userid: state.Auth.userId
+        userid: state.Auth.userId,
+
+        successMsgInfo: state.info.successMsg,
+        errorInfo: state.info.error,
+
     }
 }
 
@@ -568,7 +605,8 @@ const mapDispatchToProps = dispatch => {
         onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data)),
         onGetAuthor: () => dispatch(actions.getAuthor()),
         onGetCopyType: () => dispatch(actions.getBookCopyType()),
-        onGetGenre: () => dispatch(actions.getGenre())
+        onGetGenre: () => dispatch(actions.getGenre()),
+        onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
     }
 }
 

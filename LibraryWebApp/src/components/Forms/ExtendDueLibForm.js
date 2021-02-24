@@ -45,10 +45,9 @@ const validate = values => {
     if (!values.reason) {
         errors.reason = 'Reason is required'
     } else if (values.reason.length > 500) {
-        console.log(values.reason);
         errors.reason = "Reason's max lenght is 500"
     }
-    
+
     return errors
 }
 

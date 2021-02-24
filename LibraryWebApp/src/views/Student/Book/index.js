@@ -146,9 +146,9 @@ class Book extends React.Component {
                 </div>
             )
     }
-    
-    imageFormatter(cell, row){
-        return (<img className="img-thumbnail" src={cell}/>)
+
+    imageFormatter(cell, row) {
+        return (<img className="img-thumbnail" src={cell} />)
     }
 
     handleAddReminder(bookId, patronId) {
@@ -159,7 +159,7 @@ class Book extends React.Component {
         this.props.onAddReminder(bookId, patronId);
     }
 
-    
+
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
@@ -273,7 +273,7 @@ class Book extends React.Component {
                                 </Button>
                             </Modal.Footer>
                         </Modal> */}
-                        
+
                         <CommonErrorModal show={this.props.errorInfo && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
                         <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
                         {display}
@@ -306,17 +306,17 @@ const mapStateToProps = state => {
         loading: state.bookStu.loading,
         errorBook: state.bookStu.error,
         errOnFetchBook: state.bookStu.error,
-        
+
         data: state.bookStu.data,
         totalSize: state.bookStu.total,
         page: state.bookStu.page,
         sizePerPage: state.bookStu.sizePerPage,
-        
+
         wishlistData: state.info.wishlistData,
         wishlistTotalSize: state.info.wishlistTotalSize,
         wishlistPage: state.info.wishlistPage,
         wishlistSizePerPage: state.info.wishlistSizePerPage,
-        
+
         successMsg: state.info.successMsg,
         errorInfo: state.info.error,
         errOnFetchInfo: state.info.errOnFetch,

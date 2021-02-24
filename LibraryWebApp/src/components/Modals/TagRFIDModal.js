@@ -11,7 +11,7 @@ const extendDueModal = props => {
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <TagRFIDForm handleCancel={props.hide} onSubmit={props.submit}/>
+                <TagRFIDForm handleCancel={props.hide} onSubmit={props.submit} />
             </Modal.Body>
         </Modal>
     );
