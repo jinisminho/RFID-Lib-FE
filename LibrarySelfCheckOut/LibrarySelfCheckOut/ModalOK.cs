@@ -21,7 +21,11 @@ namespace LibrarySelfCheckOut
                 this.lbMsg.Text = msg + "\nThe system will reset scaning for violate policy/error";
 
             }
-            this.lbMsg.Text = msg;
+            else
+            {
+                this.lbMsg.Text = msg;
+
+            }
             this.TopMost = true;
 
         }

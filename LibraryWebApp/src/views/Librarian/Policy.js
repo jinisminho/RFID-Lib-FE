@@ -20,6 +20,7 @@ import FeePolicyHistoryModal from "components/Modals/FeePolicyHistoryModal";
 import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import moment from 'moment';
 
 
 class Policy extends React.Component {
@@ -52,6 +53,9 @@ class Policy extends React.Component {
         // this.borrowActionFormatter = this.borrowActionFormatter.bind(this);
         // this.patronActionFormatter = this.patronActionFormatter.bind(this);
         // this.afterSaveCell_fee = this.afterSaveCell_fee.bind(this);
+        this.bookCopyTypeFormatter = this.bookCopyTypeFormatter.bind(this);
+        this.protoTypeFormatter = this.protoTypeFormatter.bind(this);
+        this.datetimeFormatter = this.datetimeFormatter.bind(this);
     }
 
     componentDidMount() {
@@ -87,16 +91,16 @@ class Policy extends React.Component {
     }
 
     fetchDataBorrow(page = this.props.borrowPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        // this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
+        this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
 
-        const doFetchData = async () => {
-            await this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
-            await this.setState({
-                borrow: this.props.borrow,
-            })
-            return
-        }
-        return doFetchData()
+        // const doFetchData = async () => {
+        //     await this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
+        //     await this.setState({
+        //         borrow: this.props.borrow,
+        //     })
+        //     return
+        // }
+        // return doFetchData()
     }
 
     fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
@@ -198,6 +202,19 @@ class Policy extends React.Component {
     //     return false;
     // }
 
+    protoTypeFormatter(cell, row) {
+        return cell ? cell.name : null
+    }
+
+    bookCopyTypeFormatter(cell, row) {
+        return cell ? cell.name : null
+    }
+
+    datetimeFormatter(cell, row) {
+        return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
+    }
+
+
     render() {
 
         const options_borrow = {
@@ -263,7 +280,7 @@ class Policy extends React.Component {
 
                 <br />
                 <BootstrapTable
-                    data={this.state.borrow}
+                    data={this.props.borrow}
                     options={options_borrow}
                     fetchInfo={{ dataTotalSize: this.props.borrowTotalSize }}
                     remote
@@ -275,12 +292,12 @@ class Policy extends React.Component {
                     keyField="id"
                     // cellEdit={cellEditProp}
                 >
-                    <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="bookCopyType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
+                    <TableHeaderColumn dataField="patronType" dataAlign="center" dataFormat={this.protoTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration (Days)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxNumberCopyBorrow" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Extend Time</TableHeaderColumn>
-                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration</TableHeaderColumn>
+                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration (Days)</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.borrowActionFormatter} editable={false}>Action</TableHeaderColumn> */}
                 </BootstrapTable>
 
@@ -314,7 +331,7 @@ class Policy extends React.Component {
                     keyField="id"
                     // cellEdit={cellEditProp}
                 >
-                    <TableHeaderColumn dataField="patronType" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="name" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false}>Action</TableHeaderColumn> */}
                 </BootstrapTable>
@@ -351,11 +368,11 @@ class Policy extends React.Component {
                     keyField="id"
                     // cellEdit={cellEditProp_fee}
                 >
-                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField="documentProcessingFee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
+                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine (%)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
-                    <TableHeaderColumn dataField="createdAt" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="createdAt"  dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.feeActionFormatter} editable={ false }>Action</TableHeaderColumn> */}
                 </BootstrapTable>
 
@@ -363,17 +380,17 @@ class Policy extends React.Component {
             </div>
         ) : null;
 
-        let errorMsg = null
-        let msg = null
-        if (this.props.errOnFetch && this.state.errorShow) {
-            errorMsg = <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.errOnFetch} />
-        }
-        if (this.props.error && this.state.errorShow) {
-            errorMsg = <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
-        }
-        if (this.props.successMsg && this.state.successShow) {
-            msg = <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
-        }
+        // let errorMsg = null
+        // let msg = null
+        // if (this.props.errOnFetch && this.state.errorShow) {
+        //     errorMsg = <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.errOnFetch} />
+        // }
+        // if (this.props.error && this.state.errorShow) {
+        //     errorMsg = <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+        // }
+        // if (this.props.successMsg && this.state.successShow) {
+        //     msg = <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
+        // }
 
         return (
             <>
@@ -387,8 +404,8 @@ class Policy extends React.Component {
                                 {/* <CardHeader className="border-0 ">
                                 <h3 className="mb-0">Student Infomation</h3>
                             </CardHeader> */}
-                                {errorMsg}
-                                {msg}
+                                {/* {errorMsg} */}
+                                {/* {msg} */}
                             </Card>
                         </Row>
                         <Row className="shadow mt-1 pb-auto w-100">
@@ -413,12 +430,12 @@ class Policy extends React.Component {
 
 
                     <Row className="justify-content-center">
-                        <AddBorrowPolicyModal title="Add new" show={this.state.addNewBorrowPolicyShow} hide={() => this.handleAddNewBorrowPolicyCancel()} submit={values => this.handleAddNewBorrowPolicySubmit(values)} />
+                        {/* <AddBorrowPolicyModal title="Add new" show={this.state.addNewBorrowPolicyShow} hide={() => this.handleAddNewBorrowPolicyCancel()} submit={values => this.handleAddNewBorrowPolicySubmit(values)} /> */}
                         <FeePolicyHistoryModal title="Fee policy history" onShow={() => this.props.getFeePolicyHistory(0, this.props.sizePerPage)} show={this.state.feeHistoryShow} hide={() => this.handleFeePolicyHistoryClose()} options={options_fees} data={this.props.feePolicies} totalSize={this.props.feeTotalSize} />
-                        <CommonConfirmModal title="Update borrow policy" show={this.state.updateBorrowShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updateBorrowPolicySubmit(this.state.borrowChanged)} msg="Do you want to update this policy?" />
-                        <CommonConfirmModal title="Delete borrow policy" show={this.state.deleteBorrowShow} hide={() => this.handleModalClose()} clickConfirm={() => this.deleteBorrowPolicySubmit(this.state.borrowToDel.id)} msg="Do you want to delete this policy?" />
-                        <CommonConfirmModal title="Update patron policy" show={this.state.updatePatronShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updatePatronPolicySubmit(this.state.patronChanged)} msg="Do you want to update this policy?" />
-                        <CommonConfirmModal title="Update fee policy" show={this.state.updateFeeShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updateFeePolicySubmit(this.state.lastFeeChanged)} msg="Do you want to update this policy?" />
+                        {/* <CommonConfirmModal title="Update borrow policy" show={this.state.updateBorrowShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updateBorrowPolicySubmit(this.state.borrowChanged)} msg="Do you want to update this policy?" /> */}
+                        {/* <CommonConfirmModal title="Delete borrow policy" show={this.state.deleteBorrowShow} hide={() => this.handleModalClose()} clickConfirm={() => this.deleteBorrowPolicySubmit(this.state.borrowToDel.id)} msg="Do you want to delete this policy?" /> */}
+                        {/* <CommonConfirmModal title="Update patron policy" show={this.state.updatePatronShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updatePatronPolicySubmit(this.state.patronChanged)} msg="Do you want to update this policy?" /> */}
+                        {/* <CommonConfirmModal title="Update fee policy" show={this.state.updateFeeShow} hide={() => this.handleModalClose()} clickConfirm={() => this.updateFeePolicySubmit(this.state.lastFeeChanged)} msg="Do you want to update this policy?" /> */}
                     </Row>
 
                 </Container>

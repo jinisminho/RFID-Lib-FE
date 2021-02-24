@@ -349,10 +349,10 @@ class Policy extends React.Component {
                 >
                     <TableHeaderColumn dataField="patronType" dataAlign="center" dataFormat={this.protoTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration (Days)</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxNumberCopyBorrow" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Extend Time</TableHeaderColumn>
-                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration</TableHeaderColumn>
+                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Extend Due Duration (Days)</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="12%" dataFormat={this.borrowActionFormatter} editable={false} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
 
@@ -423,9 +423,9 @@ class Policy extends React.Component {
                     keyField="id"
                     cellEdit={cellEditProp_fee}
                 >
-                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
+                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine (%)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
                     <TableHeaderColumn dataField="createdAt"  dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.feeActionFormatter} editable={ false }>Action</TableHeaderColumn> */}

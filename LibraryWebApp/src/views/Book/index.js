@@ -208,12 +208,14 @@ class Book extends React.Component {
                     storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
                         this.setState({ imageLoading: false })
                         values["img"] = url
+                        values["updateBy"]=this.props.userid
                         this.props.onUpdateBook(values)
                     })
                 }
             )
         } else {
             this.setState({ updateFormShow: false })
+            values["updateBy"]=this.props.userid
             this.props.onUpdateBook(values)
         }
 
