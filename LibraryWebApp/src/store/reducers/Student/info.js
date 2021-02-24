@@ -176,7 +176,7 @@ const extendDueSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: false,
-    successMsg: 'extended'
+    successMsg: 'Renewed successfully'
   })
 }
 const extendDueFail = (state, action) => {

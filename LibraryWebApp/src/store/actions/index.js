@@ -11,10 +11,9 @@ export {
 } from './guest'
 
 export {
-    getRentingInfo as getRentingInfoLibrarianSide,
-    getExtendedHistory as getExtendedHistoryLibrarianSide,
-    extendDue as extendDueLibrarianSide,
-    getStudent as getStudentLibInfo,
+    getExtendedHistory as getExtendedHistory_Lib,
+    extendDue as extendDue_Lib,
+    getStudent as getStudent_Lib,
     getStudentThenGetBorrowingHistories,
     getBorrowingInfo_Overdue as getBorrowingInfo_Overdue_Lib,
     getBorrowingInfo_Borrowing as getBorrowingInfo_Borrowing_Lib,
@@ -59,7 +58,6 @@ export {
 } from './Librarian/Checkout'
 
 export {
-    getBorrowingInfo,
     getBorrowingInfo_Overdue,
     getBorrowingInfo_Borrowing,
     getBorrowingInfo_Returned,

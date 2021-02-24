@@ -3,61 +3,6 @@ import * as prototype from '../../prototype/Info'
 import axios from '../../../axios'
 import { responseError } from '../../utility'
 
-//getBorrowingInfo
-export const getBorrowingInfoSuccess = (data, page, sizePerPage) => {
-    return {
-        type: actionTypes.PATRON_GET_BORROWINGINFO_SUCCESS,
-        totalOverdue: data.totalOverdue,
-        totalBorrowing: data.totalBorrowing,
-        totalReturned: data.totalReturned,
-        dataOverdue: data.dataOverdue,
-        dataBorrowing: data.dataBorrowing,
-        dataReturned: data.dataReturned,
-        page: page,
-        sizePerPage: sizePerPage
-    }
-}
-
-export const getBorrowingInfoFailed = (error) => {
-    return {
-        type: actionTypes.PATRON_GET_BORROWINGINFO_FAILED,
-        error: error
-    }
-}
-
-export const getBorrowingInfoStart = () => {
-    return {
-        type: actionTypes.PATRON_GET_BORROWINGINFO_START
-    }
-}
-
-export const getBorrowingInfo = (page, size, search) => {
-    return dispatch => {
-        dispatch(getBorrowingInfoStart())
-        let response = prototype.getRentingInfosSplit(search)
-        if (response.status) {
-            dispatch(getBorrowingInfoSuccess(response.data, page, size))
-        } else {
-            dispatch(getBorrowingInfoFailed(response.err))
-        }
-
-        // let stuId = localStorage.getItem('userId')
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getBookFail(error))
-        //     });
-    }
-}
-
 //getBorrowingInfoOverdue
 export const getBorrowingInfoOverdueSuccess = (data, total, page, sizePerPage) => {
     return {
@@ -86,13 +31,13 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoOverdueStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED&sort=dueAt%2Casc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoOverdueFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
                 });
         }
 
@@ -133,13 +78,13 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoBorrowingStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=BORROWING&sort=borrowing.borrowedAt%2Cdesc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
                 });
         }
 
@@ -180,13 +125,13 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoReturnedStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=RETURNED&sort=returnedAt%2Cdesc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoReturnedFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
                 });
         }
 
@@ -230,7 +175,7 @@ export const getExtendedHistory = (bookBorrowingId) => {
                 dispatch(getExtendedHistorySuccess(response.data.content, response.data.totalElements))
             })
             .catch(error => {
-                dispatch(getExtendedHistoryFailed(responseError(error.response.data.status, error.response.data)))
+                dispatch(getExtendedHistoryFailed(responseError(error)))
             });
 
         // let response = prototype.getExtendedHistory()
@@ -274,10 +219,10 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
         let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId=" + librarianId : "")
         axios.post(url, reason, { withCredentials: true, headers: { 'Content-Type': 'application/json' } })
             .then(response => {
-                dispatch(addReminderSuccess(true, "Renewed successfully"))
+                dispatch(extendDueSuccess())
             })
             .catch(error => {
-                dispatch(addReminderFailed(responseError(error)))
+                dispatch(extendDueSuccess(responseError(error)))
             });
 
         // let response
@@ -329,7 +274,7 @@ export const getStudentProfile = (patronId) => {
                 dispatch(getStudentProfileSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getStudentProfileFailed(responseError(error.response.data.status, error.response.data)))
+                dispatch(getStudentProfileFailed(responseError(error)))
             });
 
 
@@ -431,7 +376,7 @@ export const getWishlist = (search, page, size) => {
                 dispatch(getWishlistSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getWishlistFailed(responseError(error.response.data.status, error.response.data)))
+                dispatch(getWishlistFailed(responseError(error)))
             });
         // if (response.status) {
         //     dispatch(getWishlistSuccess(response.data, response.total, page, size))
@@ -525,7 +470,7 @@ export const checkPolicy = (bookBorrowingId) => {
                     dispatch(checkPolicySuccess(response.data))
                 })
                 .catch(error => {
-                    dispatch(checkPolicyFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(checkPolicyFailed(responseError(error)))
                 });
         }
 

@@ -40,7 +40,7 @@ export const getBook = (search,page,size) => {
                 dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error.response.data.status,error.response.data)))
+                dispatch(getBookFailed(responseError(error)))
             });
     }
 
