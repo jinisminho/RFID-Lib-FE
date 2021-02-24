@@ -32,55 +32,34 @@ import MyUtil from 'store/utility'
 import * as MyConstant from '../Util/Constant'
 import * as actions from 'store/actions/index'
 
-class BookDetail extends React.Component {
+class BookCopyDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            book: this.props.location.state.book,
-            studentId: this.props.location.state.studentId,
-            successNotice: '',
-            successShow: false,
-            errorShow: false,
+            copy: this.props.location.state.copy,
         }
     }
     componentDidMount() {
+        this.props.onFetchData(this.state.copy.id)
     }
     componentDidUpdate() {
     }
 
-    handleAddReminder(bookId, studentId) {
-        this.setState({
-            errorShow: true,
-            successShow: true
-        })
-        this.props.onAddReminder(bookId, studentId);
-    }
-
-    handleModalClose() {
-        this.setState({ successShow: false, errorShow: false })
+    fetchData(id) {
+        this.props.onFetchData(id)
     }
 
     render() {
-        const thisBook = this.state.book
-
-        let authors = thisBook.author ? (thisBook.author.length > 0 ? thisBook.author : []) : [];
-        let formatedAuthor = "";
-        let i = 0;
-        authors.forEach(element => {
-            i < authors.length - 1 ? formatedAuthor += " " + element["name"] + " , " : formatedAuthor += " " + element["name"] + " ";
-            i++;
-        });
-
-        let genres = thisBook.genres ? (thisBook.genres.length > 0 ? thisBook.genres : []) : [];
-        let formatedGenres = "";
-        i = 0;
-        genres.forEach(element => {
-            i < genres.length - 1 ? formatedGenres += " " + element["name"] + " , " : formatedGenres += " " + element["name"] + " ";
-            i++;
-        });
+        const thisCopy = this.props.copyDetail;
+        const thisBook = thisCopy ? thisCopy.book : [];
 
         let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
+
+        let statusFormatted = thisCopy ? thisCopy.status : null;
+        statusFormatted = (statusFormatted ==  "BORROWED") ?  "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "") 
+        + (thisCopy.borrower.profile.fullName ? thisCopy.borrower.profile.fullName : "") 
+        + (thisCopy.borrower.email ? " - " + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? " - " + thisCopy.borrower.profile.phone : "") : statusFormatted;
 
         let display = (
             <div className="content">
@@ -103,20 +82,24 @@ class BookDetail extends React.Component {
                                     <td>{thisBook.subtitle}</td>
                                 </tr>
                                 <tr>
-                                    <th className="pl-sm-4 pl-7">Total available:</th>
-                                    <td>{thisBook.stock + "/" + thisBook.numberOfCopy}</td>
+                                    <th className="pl-sm-4 pl-7">Barcode:</th>
+                                    <td>{thisCopy ? thisCopy.barcode : null}</td>
                                 </tr>
-                                {/* <tr>
-                                    <th className="pl-sm-4 pl-7">Location:</th>
-                                    <td>{thisBook.location}</td>
-                                </tr> */}
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Call number:</th>
                                     <td>{thisBook.callNumber}</td>
                                 </tr>
                                 <tr>
+                                    <th className="pl-sm-4 pl-7">Copy type:</th>
+                                    <td>{thisCopy ? thisCopy.copyType : null}</td>
+                                </tr>
+                                <tr>
+                                    <th className="pl-sm-4 pl-7">Price:</th>
+                                    <td>{thisCopy ? thisCopy.price : null}</td>
+                                </tr>
+                                <tr>
                                     <th className="pl-sm-4 pl-7">Status:</th>
-                                    <td>{thisBook.status + (thisBook.onlyInLibrary ? " - ONLY IN LIBRARY" : "")}</td>
+                                    <td>{statusFormatted}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -133,7 +116,7 @@ class BookDetail extends React.Component {
                             <tbody>
                                 <tr>
                                     <th className="pl-7" style={{ width: "20px" }}>Author(s):</th>
-                                    <td className="">{formatedAuthor}</td>
+                                    <td className="">{thisBook.authors}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">ISBN:</th>
@@ -157,7 +140,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">Genre(s):</th>
-                                    <td className="border-0">{formatedGenres}</td>
+                                    <td className="border-0">{thisBook.genres}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -166,9 +149,11 @@ class BookDetail extends React.Component {
                 </Row>
             </div>
         )
+
         if (this.props.loading) {
             display = <Spinner />
         }
+
         return (
             <>
                 <Header />
@@ -177,37 +162,6 @@ class BookDetail extends React.Component {
                         {display}
                     </Card>
                 </Container>
-
-
-
-                <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header className="bg-success" closeButton>
-                        <Modal.Title>Success</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                        <h2>{this.props.successMsg}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal show={this.props.errorInfo && this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-danger">
-                        <Modal.Title>Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                        <h2>{this.props.errorInfo}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
             </>
         );
     }
@@ -215,16 +169,17 @@ class BookDetail extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.info.loading,
-        error: state.info.error,
-        successMsg: state.info.successMsg,
+        loading: state.copy.loading,
+        error: state.copy.error,
+        successMsg: state.copy.successMsg,
+        copyDetail: state.copy.copyDetail,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddReminder: (bookId, studentId) => dispatch(actions.addReminder(bookId, studentId)),
+        onFetchData: (id) => dispatch(actions.getCopyById(id)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(BookCopyDetail)

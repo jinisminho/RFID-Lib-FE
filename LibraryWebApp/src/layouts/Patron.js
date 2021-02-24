@@ -52,9 +52,8 @@ class Patron extends React.Component {
   getBrandText = path => {
     for (let i = 0; i < routes.length; i++) {
       if (
-        this.props.location.pathname.indexOf(
+        this.props.location.pathname ==
           routes[i].layout + routes[i].path
-        ) !== -1
       ) {
         return routes[i].name;
       }
@@ -69,7 +68,7 @@ class Patron extends React.Component {
           routes={routes}
           logo={{
             innerLink: "/patron/index",
-            imgSrc: require("assets/img/brand/argon-react.png"),
+            imgSrc: require("assets/img/brand/logo_trans_2.png"),
             imgAlt: "..."
           }}
         />

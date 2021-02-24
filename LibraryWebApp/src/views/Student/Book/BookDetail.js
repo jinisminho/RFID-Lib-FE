@@ -112,7 +112,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Subtitle:</th>
-                                    <td>{thisBook.subtitle}</td>
+                                    <td>{thisBook.stock + "/" + thisBook.numberOfCopy}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Total available:</th>
@@ -125,6 +125,10 @@ class BookDetail extends React.Component {
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Call number:</th>
                                     <td>{thisBook.callNumber}</td>
+                                </tr>
+                                <tr>
+                                    <th className="pl-sm-4 pl-7">Status:</th>
+                                    <td>{thisBook.status + (thisBook.onlyInLibrary ? " - ONLY IN LIBRARY" : "")}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -224,7 +228,7 @@ class BookDetail extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.bookStu.loading,
+        loading: state.info.loading,
         errorInfo: state.info.error,
         successMsg: state.info.successMsg,
     }

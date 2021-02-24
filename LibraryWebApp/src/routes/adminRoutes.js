@@ -31,6 +31,7 @@ import Staff from "views/Admin/Staff/index.js";
 import Student from "views/Admin/Student/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Admin/Policy";
+import CopyDetail from "views/BookCopy/BookCopyDetail";
 
 var routes = [
   {
@@ -54,6 +55,14 @@ var routes = [
     icon: "ni ni-books text-primary",
     component: BookCopy,
     layout: "/admin"
+  },
+  {
+    path: "/copyDetail",
+    name: "Copy Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: CopyDetail,
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/checkout",
