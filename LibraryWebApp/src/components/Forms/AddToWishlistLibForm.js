@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
@@ -68,11 +51,8 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
 
 const validate = values => {
     const errors = {}
-    if (!values.barcode) {
-        errors.barcode = 'Barcode is required'
-    }
-    if (!values.rfid) {
-        errors.rfid = 'RFID is required';
+    if (!values.searchValue) {
+        errors.searchValue = 'RFID/Email is required'
     }
     return errors
 }
@@ -85,14 +65,17 @@ const renderFixedField = ({ meta, title, myValue }) => (
     </>
 )
 
-class TagRFIDForm extends React.Component {
+class AddToWishlistLibForm extends React.Component {
     constructor(props) {
         super(props);
         this.fetchData = this.fetchData.bind(this);
     }
 
     componentDidMount() {
-        // this.fetchData()
+    }
+
+    componentDidUpdate() {
+        if (this.props.myValues) this.props.change('patronId', this.props.myValues.accountId)
     }
 
     fetchData(event, newValue, previousValue, name) {
@@ -119,70 +102,53 @@ class TagRFIDForm extends React.Component {
                 <CardBody>
                     <Form onSubmit={handleSubmit} onKeyDown={this.onKeyPress}>
                         <Row>
-                            {myValues.img ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.img} /></Row></Col>) : null}
+                            {myValues.avatar ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.avatar} /></Row></Col>) : null}
                             <Col lg={{ size: 3, offset: 1 }}>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="isbn"
+                                        name="fullName"
                                         type="text"
-                                        placeholder="ISBN"
-                                        title="ISBN"
-                                        myValue={myValues.isbn}
+                                        placeholder="Full Name"
+                                        title="Full Name"
+                                        myValue={myValues.fullName}
                                         component={renderFixedField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="title"
+                                        name="email"
                                         type="text"
-                                        placeholder="Title"
-                                        title="Title"
-                                        myValue={myValues.title}
+                                        placeholder="Email"
+                                        title="Email"
+                                        myValue={myValues.email}
                                         component={renderFixedField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="subtitle"
+                                        name="phone"
                                         type="text"
-                                        placeholder="Subtitle"
-                                        title="Subtitle"
-                                        myValue={myValues.subtitle}
+                                        placeholder="Phone"
+                                        title="Phone"
+                                        myValue={myValues.phone}
                                         component={renderFixedField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="author"
+                                        name="gender"
                                         type="text"
-                                        placeholder="Author"
-                                        title="Author"
-                                        myValue={myValues.authors}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="edition"
-                                        type="text"
-                                        placeholder="Edition"
-                                        title="Edition"
-                                        myValue={myValues.edition}
+                                        placeholder="Gender"
+                                        title="Gender"
+                                        myValue={myValues.gender}
                                         component={renderFixedField} />
                                 </FormGroup>
                             </Col>
                             <Col lg="6" className="border-left">
                                 <FormGroup className="mb-3">
                                     <Field
-                                        name="barcode"
+                                        name="searchValue"
                                         type="text"
-                                        placeholder="Barcode"
-                                        title="Barcode"
+                                        placeholder="RFID or Email"
+                                        title="RFID/Email"
                                         onBlur={this.fetchData}
-                                        component={renderField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="rfid"
-                                        type="text"
-                                        placeholder="RFID"
-                                        title="RFID"
                                         component={renderField} />
                                 </FormGroup>
                             </Col>
@@ -211,25 +177,27 @@ class TagRFIDForm extends React.Component {
 }
 
 const mapStateToProps = state => {
+
     return {
         // initialValues: state.book.bookToTagData,
-        myValues: state.copy.bookToTagData,
+        myValues: state.infoLside.studentData ? state.infoLside.studentData : [],
+        // myValues: state.copy.bookToTagData,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (key) => dispatch(actions.getCopyByBarcode(key)),
+        onFetchData: (key) => dispatch(actions.getStudent_Lib(key)),
     }
 }
 
-TagRFIDForm = connect(
+AddToWishlistLibForm = connect(
     mapStateToProps,
     mapDispatchToProps
-)(TagRFIDForm)
+)(AddToWishlistLibForm)
 
 export default reduxForm({
-    form: 'tagRFIDForm',
+    form: 'addToWishlistLibForm',
     // enableReinitialize: true,
     validate
-})(TagRFIDForm)
+})(AddToWishlistLibForm)
