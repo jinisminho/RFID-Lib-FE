@@ -33,6 +33,7 @@ import {
     Card,
     Container
 } from "reactstrap";
+import { Link } from 'react-router-dom'
 class BookCopy extends React.Component {
     constructor(props) {
         super(props);
@@ -56,7 +57,7 @@ class BookCopy extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this)
-
+        this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this)
     }
     componentDidMount() {
         if (!this.state.copyStatus) {
@@ -230,7 +231,12 @@ class BookCopy extends React.Component {
         row.book.author.forEach(el => author.push(el.name))
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.book.title}: {row.book.subtitle}</h2></a>
+                <Link to={{
+                    pathname: this.props.location.pathname.includes('/admin') ? '/admin/copyDetail' : '/librarian/copyDetail',
+                    state: {
+                        copy: row,
+                    }
+                }}><h1 className="font-weight-bolder">{row.book.title}{row.book.subtitle ? " : " + row.book.subtitle : null}</h1></Link>
                 <p>by {author.join(", ")}</p>
                 <p>Edition: {row.book.edition}</p>
                 <p>Price: {row.price} VND</p>
@@ -253,7 +259,7 @@ class BookCopy extends React.Component {
             edition: this.state.updateData ? this.state.updateData.book.edition : '',
             id: this.state.updateData ? this.state.updateData.id : '',
             price: this.state.updateData ? this.state.updateData.price : '',
-            copyType: this.state.updateData ? (this.state.updateData.bookCopyTypeDto? this.state.updateData.bookCopyTypeDto.id : '') : '',
+            copyType: this.state.updateData ? (this.state.updateData.bookCopyTypeDto ? this.state.updateData.bookCopyTypeDto.id : '') : '',
             img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
             subtitle: this.state.updateData ? this.state.updateData.book.subtitle : '',
@@ -301,7 +307,7 @@ class BookCopy extends React.Component {
     }
     getInitialCopyValues() {
         return {
-            copyTypeId:this.props.copyTypes?this.props.copyTypes[0]["id"]:""
+            copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["id"] : ""
         };
     }
     render() {
@@ -425,7 +431,7 @@ class BookCopy extends React.Component {
                 {main}
             </div>
         )
-        
+
         return (
             <>
                 {/* <Header /> */}
@@ -493,7 +499,7 @@ const mapDispatchToProps = dispatch => {
         onDeleteCopy: (id) => dispatch(actions.deleteCopy(id)),
         onUpdateCopy: (data) => dispatch(actions.updateCopy(data)),
         onAddCopy: (data) => dispatch(actions.addCopy(data)),
-        onGetBook: () => dispatch(actions.getAllBook()),
+        // onGetBook: () => dispatch(actions.getAllBook()),
         onGetCopyType: () => dispatch(actions.getCopyType()),
         onGenerateBarcode: (data) => dispatch(actions.generateBarcode(data)),
         onTagRFID: (data) => dispatch(actions.tagRFID(data)),

@@ -24,6 +24,8 @@ import ReturnBook from "views/ReturnBook/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Librarian/Policy";
 import Student from "views/Librarian/Student";
+import CopyDetail from "views/BookCopy/BookCopyDetail";
+
 
 var routes = [
   // {
@@ -62,6 +64,14 @@ var routes = [
     icon: "ni ni-books text-primary",
     component: BookCopy,
     layout: "/librarian"
+  },
+  {
+    path: "/copyDetail",
+    name: "Copy Detail",
+    icon: "ni ni-book-bookmark text-primary",
+    component: CopyDetail,
+    layout: "/librarian",
+    invisible: true
   },
   {
     path: "/checkout",

@@ -51,9 +51,8 @@ class Librarian extends React.Component {
   getBrandText = path => {
     for (let i = 0; i < routes.length; i++) {
       if (
-        this.props.location.pathname.indexOf(
+        this.props.location.pathname ==
           routes[i].layout + routes[i].path
-        ) !== -1
       ) {
         return routes[i].name;
       }
