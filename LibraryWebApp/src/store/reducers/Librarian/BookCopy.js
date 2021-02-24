@@ -228,6 +228,28 @@ const getCopyByBarcodeFail = (state, action) => {
   })
 }
 
+const getCopyByIdStart = (state, action) => {
+  return updateObject(state, {
+    loading:true,
+    error:null,
+    copyDetail: null,
+  })
+}
+const getCopyByIdSuccess = (state, action) => {
+  return updateObject(state, {
+    loading:false,
+    copyDetail: action.data,
+  })
+}
+const getCopyByIdFail = (state, action) => {
+  return updateObject(state, {
+    loading:false,
+    error:action.error,
+    copyDetail: null,
+  })
+}
+
+
 
 export default function reducer(state = {
   data: null,
@@ -245,6 +267,7 @@ export default function reducer(state = {
   bookCopyStatus: null,
   copyTypes: null,
   bookToTagData: [],
+  copyDetail: null,
 }, action) {
   switch (action.type) {
     case actionTypes.GET_COPY_BOOK_START: return getCopyStart(state, action)
@@ -286,6 +309,10 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_BOOKS_BY_BARCODE_START: return getCopyByBarcodeStart(state, action)
     case actionTypes.LIB_GET_BOOKS_BY_BARCODE_SUCCESS: return getCopyByBarcodeSuccess(state, action)
     case actionTypes.LIB_GET_BOOKS_BY_BARCODE_FAILED: return getCopyByBarcodeFail(state, action)
+
+    case actionTypes.LIB_GET_BOOKS_BY_ID_START: return getCopyByIdStart(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_ID_SUCCESS: return getCopyByIdSuccess(state, action)
+    case actionTypes.LIB_GET_BOOKS_BY_ID_FAILED: return getCopyByIdFail(state, action)
 
   }
   return state

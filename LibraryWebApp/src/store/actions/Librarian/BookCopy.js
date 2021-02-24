@@ -369,3 +369,38 @@ export const getCopyByBarcode = (barcode) => {
     }
 
 }
+
+export const getCopyByIdSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_ID_SUCCESS,
+        data: data,
+    }
+}
+
+export const getCopyByIdFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_ID_FAILED,
+        error: error
+    }
+}
+
+export const getCopyByIdStart = () => {
+    return {
+        type: actionTypes.LIB_GET_BOOKS_BY_ID_START
+    }
+}
+
+export const getCopyById = (id) => {
+    return dispatch => {
+        dispatch(getCopyByIdStart())
+        let url = '/copy/get/id/'+id
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getCopyByIdSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(getCopyByIdFailed(responseError(error)))
+            });
+    }
+
+}
