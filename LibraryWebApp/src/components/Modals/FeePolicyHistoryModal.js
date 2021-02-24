@@ -36,9 +36,9 @@ const FeePolicyHistoryModal = (props) => {
                     className="ml-4 mr-4"
                 >
                     <TableHeaderColumn dataField="id" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} isKey={true}>ID</TableHeaderColumn>
-                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee</TableHeaderColumn>
+                    <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine (%)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
                     <TableHeaderColumn dataField="createdAt" dataFormat={datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Created At</TableHeaderColumn>
                 </BootstrapTable>
