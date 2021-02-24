@@ -16,7 +16,6 @@ const FeePolicyHistoryModal = (props) => {
     }
 
     return (
-
         <Modal dialogClassName="book-detail-modal" backdrop="static" aria-labelledby="contained-modal-title-vcenter" show={props.show} onHide={props.hide} onShow={props.onShow} centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">

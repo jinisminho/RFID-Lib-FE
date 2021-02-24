@@ -203,10 +203,10 @@ export const addBorrowPolicy = (data) => {
         let url='/borrowPolicy/add'
         axios.post(url,data, { withCredentials: true })
             .then(response => {
-                dispatch(updateBorrowPolicySuccess())
+                dispatch(addBorrowPolicySuccess())
             })
             .catch(error=> {
-                dispatch(updateBorrowPolicyFail(responseError(error)))
+                dispatch(addBorrowPolicyFail(responseError(error)))
             }); 
 
         // let response = prototype.addBorrowPolicy(data)

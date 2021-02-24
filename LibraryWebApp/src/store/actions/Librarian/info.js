@@ -4,59 +4,6 @@ import MyUtil from "store/utility"
 import axios from '../../../axios'
 import { responseError } from '../../utility'
 
-
-//getRentingInfo
-export const getRentingInfoSuccess = (data, total, page, sizePerPage) => {
-    return {
-        type: actionTypes.LIBRARIAN_GET_RENTINGINFO_SUCCESS,
-        total: total,
-        data: data,
-        page: page,
-        sizePerPage: sizePerPage
-    }
-}
-
-export const getRentingInfoFailed = (error) => {
-    return {
-        type: actionTypes.LIBRARIAN_GET_RENTINGINFO_FAILED,
-        error: error
-    }
-}
-
-export const getRentingInfoStart = () => {
-    return {
-        type: actionTypes.LIBRARIAN_GET_RENTINGINFO_START
-    }
-}
-
-export const getRentingInfo = (page, size, studentId) => {
-    return dispatch => {
-        dispatch(getRentingInfoStart())
-        let response = prototype.getRentingInfos(studentId)
-        if (!studentId) response.status = false
-        if (response.status) {
-            dispatch(getRentingInfoSuccess(response.data, response.total, page, size))
-        } else {
-            dispatch(getRentingInfoFailed(response.err))
-        }
-
-        // let stuId = localStorage.getItem('userId')
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
-        // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getBookFail(error))
-        //     });
-    }
-}
-
 //getBorrowingInfoOverdue
 export const getBorrowingInfoOverdueSuccess = (data, total, page, sizePerPage) => {
     return {
@@ -85,13 +32,13 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
     return dispatch => {
         dispatch(getBorrowingInfoOverdueStart())
         if (search) {
-            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED"
+            let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + search + '?page=' + page + '&size=' + size + "&status=OVERDUED&sort=dueAt%2Casc"
             axios.get(url, { withCredentials: true })
                 .then(response => {
                     dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoOverdueFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
                 });
         }
 
@@ -138,7 +85,7 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
                 });
         }
 
@@ -185,7 +132,7 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoReturnedFailed(responseError(error.response.data.status, error.response.data)))
+                    dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
                 });
         }
 
@@ -199,13 +146,11 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
 }
 
 //getExtendedHistory
-export const getExtendedHistorySuccess = (data, total, page, sizePerPage) => {
+export const getExtendedHistorySuccess = (data, total) => {
     return {
         type: actionTypes.LIBRARIAN_GET_DUEHISTORY_SUCCESS,
         total: total,
         data: data,
-        page: page,
-        sizePerPage: sizePerPage
     }
 }
 
@@ -222,31 +167,26 @@ export const getExtendedHistoryStart = () => {
     }
 }
 
-export const getExtendedHistory = (page, size, studentId, bookId) => {
+export const getExtendedHistory = (bookBorrowingId) => {
     return dispatch => {
         dispatch(getExtendedHistoryStart())
-        let response = prototype.getExtendedHistory()
-        if (!studentId && !bookId) response.status = false
-        if (response.status) {
-            dispatch(getExtendedHistorySuccess(response.data, response.total, page, size))
-        } else {
-            dispatch(getExtendedHistoryFailed(response.err))
-        }
+        let url = '/patron/extendHistory/getExtendHistories/' + bookBorrowingId + '?page=' + 0 + '&size=' + 100
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getExtendedHistorySuccess(response.data.content, response.data.totalElements))
+            })
+            .catch(error => {
+                dispatch(getExtendedHistoryFailed(responseError(error)))
+            });
 
-        // let stuId = localStorage.getItem('userId')
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
+        // let response = prototype.getExtendedHistory()
+        // if (!patronId && !bookId) response.status = false
+        // if (response.status) {
+        //     dispatch(getExtendedHistorySuccess(response.data, response.total))
+        // } else {
+        //     dispatch(getExtendedHistoryFailed(response.err))
         // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getBookFail(error))
-        //     });
+
     }
 }
 
@@ -270,41 +210,38 @@ export const extendDueStart = () => {
     }
 }
 
-export const extendDue = (studentId, bookId) => {
+export const extendDue = (bookBorrowingId, librarianId, form) => {
     return dispatch => {
+
         dispatch(extendDueStart())
 
-        let response
+        let reason = form ? (form.reason ? form.reason : null) : null
 
-        if (!studentId && !bookId) {
-            response = { "err": "Error: Extend due date Failed", "status": false }
-        } else {
-            prototype.addDueDate(studentId, bookId).status ? response = { "status": true } : response = { "err": "Error at extendDue", "status": false };
-            // response = { "status": true };
-        }
+        let url = '/renew/createExtendHistory/' + bookBorrowingId + (librarianId ? "?librarianId=" + librarianId : "")
+        axios.post(url, reason, { withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+            .then(response => {
+                dispatch(extendDueSuccess())
+            })
+            .catch(error => {
+                dispatch(extendDueFailed(responseError(error)))
+            });
 
-        if (response.status) {
-            dispatch(extendDueSuccess(response.status))
-        } else {
-            dispatch(extendDueFailed(response.err))
-        }
+        // let response
 
-        // let stuId = localStorage.getItem('userId')
-        // let url='/books'
-        // if(search){
-        //     url+='?page='+page+'&size='+size+"&name="+search
-        // }else {
-        //     url+='?page='+page+'&size='+size
+        // if (!patronId && !bookId) {
+        //     response = { "err": "Error at extendDue", "status": false }
+        // } else {
+        //     prototype.addDueDate(patronId, bookId).status ? response = { "status": true } : response = { "err": "Error at extendDue", "status": false };
         // }
-        // axios.get(url, { headers: {"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`} })
-        //     .then(response => {
-        //         dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
-        //     })
-        //     .catch(error => {
-        //         dispatch(getBookFail(error))
-        //     });
+
+        // if (response.status) {
+        //     dispatch(extendDueSuccess(response.status))
+        // } else {
+        //     dispatch(extendDueFailed(response.err))
+        // }
     }
 }
+
 
 //get student
 export const getStudentSuccess = (data) => {
@@ -337,7 +274,7 @@ export const getStudent = (search) => {
                 dispatch(getStudentSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getStudentFailed(responseError(error.response.data.status, error.response.data)))
+                dispatch(getStudentFailed(responseError(error)))
             });
 
         // let response=prototype.getStudent(search)
@@ -357,6 +294,8 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
         dispatch(getBorrowingInfoOverdueStart())
         dispatch(getBorrowingInfoBorrowingStart())
         dispatch(getBorrowingInfoReturnedStart())
+
+        
         let url = '/patron/profile/findProfile/?searchValue=' + search
         if(search)
         axios.get(url, { withCredentials: true })
@@ -370,7 +309,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                         dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                     })
                     .catch(error => {
-                        dispatch(getBorrowingInfoOverdueFailed(responseError(error.response.data.status, error.response.data)))
+                        dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
                     });
 
                 //Borrowing    
@@ -380,7 +319,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                         dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                     })
                     .catch(error => {
-                        dispatch(getBorrowingInfoBorrowingFailed(responseError(error.response.data.status, error.response.data)))
+                        dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
                     });
 
                 //Returned
@@ -390,14 +329,15 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                         dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                     })
                     .catch(error => {
-                        dispatch(getBorrowingInfoReturnedFailed(responseError(error.response.data.status, error.response.data)))
+                        dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
                     });
 
 
             })
             .catch(error => {
-                dispatch(getStudentFailed(responseError(error.response.data.status, error.response.data)))
+                dispatch(getStudentFailed(responseError(error)))
             });
+        else dispatch(getStudentFailed("Get student info failed - Empty seach value"))    
 
         // let response=prototype.getStudent(search)
         // if(response.status){
