@@ -200,14 +200,14 @@ export const addBorrowPolicy = (data) => {
     return dispatch => {
         dispatch(addBorrowPolicyStart())
 
-        let url='/borrowPolicy/add'
-        axios.post(url,data, { withCredentials: true })
+        let url = '/borrowPolicy/add'
+        axios.post(url, data, { withCredentials: true })
             .then(response => {
                 dispatch(addBorrowPolicySuccess())
             })
-            .catch(error=> {
+            .catch(error => {
                 dispatch(addBorrowPolicyFail(responseError(error)))
-            }); 
+            });
 
         // let response = prototype.addBorrowPolicy(data)
         // if (response.status == true) {
@@ -240,16 +240,15 @@ export const updateBorrowPolicySuccess = () => {
 export const updateBorrowPolicy = (data) => {
     return dispatch => {
         dispatch(updateBorrowPolicyStart())
-        console.log(data);
 
-        let url='/borrowPolicy/update'
-        axios.post(url,data, { withCredentials: true })
+        let url = '/borrowPolicy/update'
+        axios.post(url, data, { withCredentials: true })
             .then(response => {
                 dispatch(updateBorrowPolicySuccess())
             })
-            .catch(error=> {
+            .catch(error => {
                 dispatch(updateBorrowPolicyFail(responseError(error)))
-            }); 
+            });
 
         // let response = prototype.updateBorrowPolicy(data)
         // if (response.status == true) {
@@ -283,14 +282,14 @@ export const deleteBorrowPolicy = (id) => {
     return dispatch => {
         dispatch(deleteBorrowPolicyStart())
 
-        let url='/borrowPolicy/delete?id='+id
-        axios.post(url,{}, { withCredentials: true })
+        let url = '/borrowPolicy/delete?id=' + id
+        axios.post(url, {}, { withCredentials: true })
             .then(response => {
                 dispatch(deleteBorrowPolicySuccess())
             })
-            .catch(error=> {
+            .catch(error => {
                 dispatch(deleteBorrowPolicySuccess(responseError(error)))
-            }); 
+            });
 
         // let response = prototype.deleteBorrowPolicy(id)
         // if (response.status == true) {
@@ -324,14 +323,14 @@ export const updatePatronPolicy = (data) => {
     return dispatch => {
         dispatch(updatePatronPolicyStart())
 
-        let url='/patronType/updatePolicy'
-        axios.post(url,data, { withCredentials: true })
+        let url = '/patronType/updatePolicy'
+        axios.post(url, data, { withCredentials: true })
             .then(response => {
                 dispatch(updatePatronPolicySuccess())
             })
-            .catch(error=> {
+            .catch(error => {
                 dispatch(updatePatronPolicyFail(responseError(error)))
-            }); 
+            });
 
         // let response = prototype.updatePatronPolicy(data)
         // if (response.status == true) {
@@ -412,14 +411,14 @@ export const updateFeePolicy = (data) => {
     return dispatch => {
         dispatch(updateFeePolicyStart())
 
-        let url='/feePolicy/add'
-        axios.post(url,data, { withCredentials: true })
+        let url = '/feePolicy/add'
+        axios.post(url, data, { withCredentials: true })
             .then(response => {
                 dispatch(updateFeePolicySuccess())
             })
-            .catch(error=> {
+            .catch(error => {
                 dispatch(updateFeePolicyFail(responseError(error)))
-            }); 
+            });
 
         // let response = prototype.updateFeePolicy(data)
         // if (response.status == true) {
