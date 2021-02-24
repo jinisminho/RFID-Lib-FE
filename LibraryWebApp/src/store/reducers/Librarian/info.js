@@ -144,7 +144,7 @@ const getBorrowingInfoReturnedFail = (state, action) => {
 const getExtendedHistoryInfoStart = (state, action) => {
   return updateObject(state, {
     error: null,
-    loading: true,
+    // loading: true,
   })
 }
 const getExtendedHistoryInfoSuccess = (state, action) => {
@@ -179,7 +179,7 @@ const extendDueSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: false,
-    successMsg: 'extended'
+    successMsg: 'Renewed successfully'
   })
 }
 
@@ -195,6 +195,7 @@ const getStudentStart = (state, action) => {
   return updateObject(state, {
     error: null,
     studentLoading: true,
+    loading: true,
     studentData: null,
     page: 1
   })
@@ -204,6 +205,7 @@ const getStudentSuccess = (state, action) => {
     studentData: action.data,
     error: null,
     studentLoading: false,
+    loading: false,
     page: 1
   })
 }
@@ -211,6 +213,7 @@ const getStudentFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
     studentLoading: false,
+    loading: false,
     studentData: null,
     page: 1
   })

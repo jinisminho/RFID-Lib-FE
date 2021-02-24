@@ -21,16 +21,16 @@ export const BOOK_NOT_ALLOWED_TO_BORROWED = "NOT_ALLOWED_TO_BORROWED"
 
 //PolicyConstant
 export const MAX_NUMBER_BORROW = 100;
-export const MIN_NUMBER_BORROW = 100;
+export const MIN_NUMBER_BORROW = 0;
 
 export const MAX_EXTEND_TIME = 100;
-export const MIN_EXTEND_TIME = 100;
+export const MIN_EXTEND_TIME = 0;
 
 export const MAX_DUE_DURATION = 1000;
-export const MIN_DUE_DURATION = 1000;
+export const MIN_DUE_DURATION = 1;
 
 export const MAX_EXTEND_DUE_DURATION = 1000;
-export const MIN_EXTEND_DUE_DURATION = 1000;
+export const MIN_EXTEND_DUE_DURATION = 1;
 
 
 export const MAX_FINE_PER_DAY = 100000;
