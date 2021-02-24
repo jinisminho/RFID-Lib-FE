@@ -23,6 +23,7 @@ import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Librarian/Policy";
+import Student from "views/Librarian/Student";
 
 var routes = [
   // {
@@ -81,6 +82,13 @@ var routes = [
     name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: CheckoutInf,
+    layout: "/librarian"
+  },
+  {
+    path: "/student",
+    name: "Patron Management",
+    icon: "fa fa-book-reader text-red",
+    component: Student,
     layout: "/librarian"
   },
   {
