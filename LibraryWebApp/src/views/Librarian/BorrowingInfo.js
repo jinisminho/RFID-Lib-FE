@@ -21,7 +21,7 @@ import StudentInfoCard from './studentInfoCard'
 import SearchForm from '../../components/Forms/SearchForm'
 import CommonErrorModal from "components/Modals/CommonErrorModal";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal";
-
+import Spinner from '../../components/Spinner/Spinner'
 
 class BorrowingInfo extends React.Component {
     constructor(props) {
@@ -388,8 +388,52 @@ class BorrowingInfo extends React.Component {
         // }
 
         let errorMsg = null
-        if (!this.props.studentData && this.state.notFoundShow) {
-            errorMsg = <Alert className="w-100" key="danger" variant="danger" onClose={() => this.setState({ notFoundShow: false })}  dismissible>Patron not found</Alert>
+        if (!this.props.studentData && this.state.notFoundShow && !this.props.loading) {
+            errorMsg = <Alert className="w-100" key="danger" variant="danger" onClose={() => this.setState({ notFoundShow: false })} dismissible>Patron not found</Alert>
+        }
+
+        let display = (
+            <>
+                <Row className="justify-content-center">
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            {/* <CardHeader className="border-0 ">
+                                <h3 className="mb-0">Student Infomation</h3>
+                            </CardHeader> */}
+                            {studentInfo}
+                            {/* {errorMsg} */}
+                            {/* {msg} */}
+                        </Card>
+                    </Row>
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0">{MyConstant.OVERDUE_BOOKS}</h3>
+                            </CardHeader>
+                            {overdueBooks}
+                        </Card>
+                    </Row>
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0">{MyConstant.BORROWING_BOOKS}</h3>
+                            </CardHeader>
+                            {borrowingBooks}
+                        </Card>
+                    </Row>
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0">{MyConstant.RETURNED_BOOKS}</h3>
+                            </CardHeader>
+                            {returnedBooks}
+                        </Card>
+                    </Row>
+                </Row>
+            </>
+        )
+        if (this.props.loading) {
+            display = <Card className="shadow mt-1 pb-auto w-100"><Spinner /></Card>
         }
 
         return (
@@ -400,43 +444,7 @@ class BorrowingInfo extends React.Component {
                         {errorMsg}
                         {form}
                     </Row>
-                    <Row className="justify-content-center">
-                        <Row className="shadow mt-1 pb-auto w-100">
-                            <Card className="shadow mt-1 pb-auto w-100">
-                                {/* <CardHeader className="border-0 ">
-                                <h3 className="mb-0">Student Infomation</h3>
-                            </CardHeader> */}
-                                {studentInfo}
-                                {/* {errorMsg} */}
-                                {/* {msg} */}
-                            </Card>
-                        </Row>
-                        <Row className="shadow mt-1 pb-auto w-100">
-                            <Card className="shadow mt-1 pb-auto w-100">
-                                <CardHeader className="border-0">
-                                    <h3 className="mb-0">{MyConstant.OVERDUE_BOOKS}</h3>
-                                </CardHeader>
-                                {overdueBooks}
-                            </Card>
-                        </Row>
-                        <Row className="shadow mt-1 pb-auto w-100">
-                            <Card className="shadow mt-1 pb-auto w-100">
-                                <CardHeader className="border-0">
-                                    <h3 className="mb-0">{MyConstant.BORROWING_BOOKS}</h3>
-                                </CardHeader>
-                                {borrowingBooks}
-                            </Card>
-                        </Row>
-                        <Row className="shadow mt-1 pb-auto w-100">
-                            <Card className="shadow mt-1 pb-auto w-100">
-                                <CardHeader className="border-0">
-                                    <h3 className="mb-0">{MyConstant.RETURNED_BOOKS}</h3>
-                                </CardHeader>
-                                {returnedBooks}
-                            </Card>
-                        </Row>
-                    </Row>
-
+                    {display}
 
                     <Row className="justify-content-center">
                         <DueHistoryModal
@@ -472,10 +480,10 @@ class BorrowingInfo extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        successMsg: state.info.successMsg,
-        errOnFetch: state.info.errOnFetch,
-        error: state.info.error,
-        loading: state.info.loading,
+        successMsg: state.infoLside.successMsg,
+        errOnFetch: state.infoLside.errOnFetch,
+        error: state.infoLside.error,
+        loading: state.infoLside.loading,
         dataOverdue: state.infoLside.dataOverdue,
         dataBorrowing: state.infoLside.dataBorrowing,
         dataReturned: state.infoLside.dataReturned,
@@ -486,7 +494,7 @@ const mapStateToProps = state => {
         pageBorrowing: state.infoLside.pageBorrowing,
         pageReturned: state.infoLside.pageReturned,
         sizePerPage: state.infoLside.sizePerPage,
-        historyData: state.info.historyData,
+        historyData: state.infoLside.historyData,
         studentData: state.infoLside.studentData,
         currentUserId: state.Auth.userId,
         page: state.infoLside.page
@@ -506,8 +514,8 @@ const mapDispatchToProps = dispatch => {
         onFetchOverdue: (page, size, search) => dispatch(actions.getBorrowingInfo_Overdue_Lib(page, size, search)),
         onFetchBorrowing: (page, size, search) => dispatch(actions.getBorrowingInfo_Borrowing_Lib(page, size, search)),
         onFetchReturned: (page, size, search) => dispatch(actions.getBorrowingInfo_Returned_Lib(page, size, search)),
-        getExtendedHistoryInfo: (bookBorrowingId) => dispatch(actions.getExtendedHistory(bookBorrowingId)),
-        onExtdSubmit: (bookBorrowingId, librarianId, form) => dispatch(actions.extendDue(bookBorrowingId, librarianId, form)),
+        getExtendedHistoryInfo: (bookBorrowingId) => dispatch(actions.getExtendedHistory_Lib(bookBorrowingId)),
+        onExtdSubmit: (bookBorrowingId, librarianId, form) => dispatch(actions.extendDue_Lib(bookBorrowingId, librarianId, form)),
 
         getStudent: (page, sizePerPage, search) => dispatch(actions.getStudentThenGetBorrowingHistories(page, sizePerPage, search)),
     }

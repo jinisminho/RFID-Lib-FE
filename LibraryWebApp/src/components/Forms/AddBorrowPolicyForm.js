@@ -68,35 +68,35 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
 
 const validate = values => {
     const errors = {}
-    if (!values.copyType) {
-        errors.copyType = 'Copy type is required'
+    if (!values.bookCopyTypeId) {
+        errors.bookCopyTypeId = 'Copy type is required'
     }
-    if (!values.patronType) {
-        errors.patronType = 'Patron type is required';
+    if (!values.patronTypeId) {
+        errors.patronTypeId = 'Patron type is required';
     }
     if (!values.dueDuration) {
         errors.dueDuration = 'Due durarion is required'
     }
     if (!values.extendDueDuration) {
-        errors.extendDueDuration = 'Extend due duration is required';
+        errors.extendDueDuration = 'Renew due duration is required';
     }
     if (!values.maxBorrowNumber) {
         errors.maxBorrowNumber = 'Max borrow number is required'
     }
     if (!values.maxExtendTime) {
-        errors.maxExtendTime = 'Max extend time is required';
+        errors.maxExtendTime = 'Max renew time is required';
     }
     if (MyConstant.MIN_DUE_DURATION > values.dueDuration || values.dueDuration > MyConstant.MAX_DUE_DURATION) {
         errors.dueDuration = "Due duration must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
     }
     if (MyConstant.MIN_EXTEND_DUE_DURATION > values.extendDueDuration || values.extendDueDuration > MyConstant.MAX_EXTEND_DUE_DURATION) {
-        errors.extendDueDuration = "Extend due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
+        errors.extendDueDuration = "Renew due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
     }
     if (MyConstant.MIN_NUMBER_BORROW > values.maxNumberCopyBorrow || values.maxNumberCopyBorrow > MyConstant.MAX_NUMBER_BORROW) {
         errors.maxNumberCopyBorrow = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
     }
     if (MyConstant.MIN_EXTEND_TIME > values.maxExtendTime || values.maxExtendTime > MyConstant.MAX_EXTEND_TIME) {
-        errors.maxExtendTime = "Max extend time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
+        errors.maxExtendTime = "Max renew time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
     }
     return errors
 }
@@ -217,8 +217,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="maxExtendTime"
                                         type="number"
-                                        placeholder="Max Extend Time"
-                                        title="Max Extend Time"
+                                        placeholder="Max Renew Time"
+                                        title="Max Renew Time"
                                         normalize={validateNumber}
                                         component={renderField} />
                                 </FormGroup>
@@ -226,8 +226,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="extendDueDuration"
                                         type="number"
-                                        placeholder="Extend Due Duration"
-                                        title="Extend Due Duration"
+                                        placeholder="Renew Due Duration"
+                                        title="Renew Due Duration"
                                         normalize={validateNumber}
                                         component={renderField} />
                                 </FormGroup>
