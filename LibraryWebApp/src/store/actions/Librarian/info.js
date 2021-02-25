@@ -269,16 +269,16 @@ export const getStudent = (search) => {
         dispatch(getStudentStart())
 
         let url = '/patron/profile/findProfile/?searchValue=' + search
-        if(search)
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getStudentSuccess(response.data))
-            })
-            .catch(error => {
-                dispatch(getStudentFailed(responseError(error)))
-            });
+        if (search)
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getStudentSuccess(response.data))
+                })
+                .catch(error => {
+                    dispatch(getStudentFailed(responseError(error)))
+                });
         else
-        dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
+            dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
 
 
         // let response=prototype.getStudent(search)
@@ -299,49 +299,49 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
         dispatch(getBorrowingInfoBorrowingStart())
         dispatch(getBorrowingInfoReturnedStart())
 
-        
+
         let url = '/patron/profile/findProfile/?searchValue=' + search
-        if(search)
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getStudentSuccess(response.data))
+        if (search)
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getStudentSuccess(response.data))
 
-                //Overdued
-                let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=OVERDUED&sort=dueAt%2Casc"
-                axios.get(url, { withCredentials: true })
-                    .then(response => {
-                        dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
-                    })
-                    .catch(error => {
-                        dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
-                    });
+                    //Overdued
+                    let url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=OVERDUED&sort=dueAt%2Casc"
+                    axios.get(url, { withCredentials: true })
+                        .then(response => {
+                            dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
+                        })
+                        .catch(error => {
+                            dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
+                        });
 
-                //Borrowing    
-                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=BORROWING&sort=borrowing.borrowedAt%2Cdesc"
-                axios.get(url, { withCredentials: true })
-                    .then(response => {
-                        dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
-                    })
-                    .catch(error => {
-                        dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
-                    });
+                    //Borrowing    
+                    url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=BORROWING&sort=borrowing.borrowedAt%2Cdesc"
+                    axios.get(url, { withCredentials: true })
+                        .then(response => {
+                            dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
+                        })
+                        .catch(error => {
+                            dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
+                        });
 
-                //Returned
-                url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=RETURNED&sort=returnedAt%2Cdesc"
-                axios.get(url, { withCredentials: true })
-                    .then(response => {
-                        dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
-                    })
-                    .catch(error => {
-                        dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
-                    });
+                    //Returned
+                    url = '/patron/borrowingHistory/getBorrowingHistoriesWithStatus/' + response.data.accountId + '?page=' + page + '&size=' + size + "&status=RETURNED&sort=returnedAt%2Cdesc"
+                    axios.get(url, { withCredentials: true })
+                        .then(response => {
+                            dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
+                        })
+                        .catch(error => {
+                            dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
+                        });
 
 
-            })
-            .catch(error => {
-                dispatch(getStudentFailed(responseError(error)))
-            });
-        else dispatch(getStudentFailed("Get student info failed - Empty seach value"))    
+                })
+                .catch(error => {
+                    dispatch(getStudentFailed(responseError(error)))
+                });
+        else dispatch(getStudentFailed("Get student info failed - Empty seach value"))
 
         // let response=prototype.getStudent(search)
         // if(response.status){
@@ -349,6 +349,20 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
         // }else{
         //     dispatch(getStudentFailed(response.err))
         // }
+    }
+
+}
+
+//Reset INFO States
+
+export const resetStatesSuccess = () => {
+    return {
+        type: actionTypes.LIB_INFO_RESET,
+    }
+}
+export const resetStates = () => {
+    return dispatch => {
+        dispatch(resetStatesSuccess())
     }
 
 }

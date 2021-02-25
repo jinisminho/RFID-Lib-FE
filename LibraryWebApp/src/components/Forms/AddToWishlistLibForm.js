@@ -3,7 +3,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
 import { formValueSelector } from 'redux-form'
-
+import Spinner from '../../components/Spinner/Spinner'
 
 // reactstrap components
 import {
@@ -55,6 +55,9 @@ const validate = values => {
     if (!values.active) {
         errors.searchValue = 'This patron is inactive'
     }
+    if (values.err) {
+        errors.searchValue = values.err
+    }
     return errors
 }
 
@@ -75,16 +78,27 @@ class AddToWishlistLibForm extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData()
-        this.props.change('patronId', null);
-        this.props.change('active', true);
+        // this.fetchData()
+        this.resetForm()
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         if (!(Object.keys(this.props.myValues).length === 0)) {
             this.props.change('patronId', this.props.myValues.accountId);
             this.props.change('active', this.props.myValues.active);
         }
+        // if (this.props.myValues !== prevProps.myValues) {
+        //     this.props.change('patronId', this.props.myValues.accountId);
+        //     this.props.change('active', this.props.myValues.active);
+        // }
+        if(this.props.errorMsg !== prevProps.errorMsg) {
+            this.props.change('err', this.props.errorMsg);
+        }
+
+    }
+
+    componentWillUnmount() {
+        this.props.onReset();
     }
 
     // fetchData(event, newValue, previousValue, name) {
@@ -101,7 +115,12 @@ class AddToWishlistLibForm extends React.Component {
         }
     }
 
-
+    resetForm() {
+        this.props.onReset();
+        this.props.change('patronId', null);
+        this.props.change('active', true);
+        this.props.change('err', null);
+    }
 
     render() {
         const {
@@ -114,11 +133,10 @@ class AddToWishlistLibForm extends React.Component {
             invalid
         } = this.props
 
-
         let button = !(Object.keys(myValues).length === 0) ?
             (
                 <>
-                    <button onClick={() => { this.fetchData() }} type="button" className="btn btn-wd btn-secondary " disabled={submitting || pristine}>
+                    <button onClick={() => { this.resetForm() }} type="button" className="btn btn-wd btn-secondary " disabled={submitting || pristine}>
                         <span className="btn-label">
                         </span> Reset
         </button>
@@ -128,10 +146,65 @@ class AddToWishlistLibForm extends React.Component {
             </button>
                 </>
             )
-            : (<button onClick={() => { this.fetchData(this.props.searchValue) }} type="button" className="btn btn-wd btn-primary " disabled={submitting || pristine}>
+            : (<button onClick={() => { this.fetchData(this.props.searchValue); }} type="button" className="btn btn-wd btn-primary " disabled={submitting || pristine}>
                 <span className="btn-label">
                 </span> Search
             </button>)
+
+        let leftSide = (
+            <>
+                {myValues.avatar ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.avatar} /></Row></Col>) : null}
+                <Col lg={{ size: 3, offset: 1 }}>
+                    <FormGroup className="mb-3">
+                        <Field
+                            name="fullName"
+                            type="text"
+                            placeholder="Full Name"
+                            title="Full Name"
+                            myValue={myValues.fullName}
+                            component={renderFixedField} />
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                        <Field
+                            name="email"
+                            type="text"
+                            placeholder="Email"
+                            title="Email"
+                            myValue={myValues.email}
+                            component={renderFixedField} />
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                        <Field
+                            name="phone"
+                            type="text"
+                            placeholder="Phone"
+                            title="Phone"
+                            myValue={myValues.phone}
+                            component={renderFixedField} />
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                        <Field
+                            name="gender"
+                            type="text"
+                            placeholder="Gender"
+                            title="Gender"
+                            myValue={myValues.gender}
+                            component={renderFixedField} />
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                        <Field
+                            name="active"
+                            type="text"
+                            placeholder="Status"
+                            title="Status"
+                            myValue={myValues.active ? "Active" : (myValues.active == false ? "Inactive" : null)}
+                            component={renderFixedField} />
+                    </FormGroup>
+                </Col>
+            </>
+        )
+        if(this.props.studentLoading)
+        leftSide = (<Spinner/>)
 
         return (
 
@@ -139,54 +212,7 @@ class AddToWishlistLibForm extends React.Component {
                 <CardBody>
                     <Form onSubmit={handleSubmit} onKeyDown={this.onKeyPress}>
                         <Row>
-                            {myValues.avatar ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.avatar} /></Row></Col>) : null}
-                            <Col lg={{ size: 3, offset: 1 }}>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="fullName"
-                                        type="text"
-                                        placeholder="Full Name"
-                                        title="Full Name"
-                                        myValue={myValues.fullName}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="email"
-                                        type="text"
-                                        placeholder="Email"
-                                        title="Email"
-                                        myValue={myValues.email}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="phone"
-                                        type="text"
-                                        placeholder="Phone"
-                                        title="Phone"
-                                        myValue={myValues.phone}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="gender"
-                                        type="text"
-                                        placeholder="Gender"
-                                        title="Gender"
-                                        myValue={myValues.gender}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <Field
-                                        name="active"
-                                        type="text"
-                                        placeholder="Status"
-                                        title="Status"
-                                        myValue={myValues.active ? "Active" : (myValues.active == false ? "Inactive" : null)}
-                                        component={renderFixedField} />
-                                </FormGroup>
-                            </Col>
+                            {leftSide}
                             <Col lg="6" className="border-left">
                                 <FormGroup className="mb-3">
                                     <Field
@@ -223,9 +249,9 @@ class AddToWishlistLibForm extends React.Component {
 const mapStateToProps = state => {
 
     return {
-        // initialValues: state.book.bookToTagData,
         myValues: state.infoLside.studentData ? state.infoLside.studentData : {},
-        // myValues: state.copy.bookToTagData,
+        studentLoading: state.infoLside.studentLoading,
+        errorMsg: state.infoLside.error, 
         searchValue: selector(state, 'searchValue'),
     }
 }
@@ -233,6 +259,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (key) => dispatch(actions.getStudent_Lib(key)),
+        onReset: () => dispatch(actions.resetStatesInfo_Lib()),
     }
 }
 
