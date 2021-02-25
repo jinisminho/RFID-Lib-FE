@@ -2,7 +2,7 @@ import React from "react";
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
-
+import { formValueSelector } from 'redux-form'
 
 
 // reactstrap components
@@ -13,8 +13,6 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
     Label
 } from "reactstrap";
@@ -28,7 +26,7 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
-                    <Input {...input} placeholder={placeholder} type={type} />
+                    <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
                     {touched && ((error && <OverlayTrigger
                         trigger={['hover', 'focus']}
                         placement="right"
@@ -54,6 +52,9 @@ const validate = values => {
     if (!values.searchValue) {
         errors.searchValue = 'RFID/Email is required'
     }
+    if (!values.active) {
+        errors.searchValue = 'This patron is inactive'
+    }
     return errors
 }
 
@@ -65,6 +66,8 @@ const renderFixedField = ({ meta, title, myValue }) => (
     </>
 )
 
+const selector = formValueSelector('addToWishlistLibForm')
+
 class AddToWishlistLibForm extends React.Component {
     constructor(props) {
         super(props);
@@ -72,20 +75,34 @@ class AddToWishlistLibForm extends React.Component {
     }
 
     componentDidMount() {
+        this.fetchData()
+        this.props.change('patronId', null);
+        this.props.change('active', true);
     }
 
     componentDidUpdate() {
-        if (this.props.myValues) this.props.change('patronId', this.props.myValues.accountId)
+        if (!(Object.keys(this.props.myValues).length === 0)) {
+            this.props.change('patronId', this.props.myValues.accountId);
+            this.props.change('active', this.props.myValues.active);
+        }
     }
 
-    fetchData(event, newValue, previousValue, name) {
-        this.props.onFetchData(newValue);
+    // fetchData(event, newValue, previousValue, name) {
+    //     this.props.onFetchData(newValue);
+    // }
+
+    fetchData(value) {
+        this.props.onFetchData(value);
     }
+
     onKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault(); //<===== This stops the form from being submitted
         }
     }
+
+
+
     render() {
         const {
             handleSubmit,
@@ -93,8 +110,28 @@ class AddToWishlistLibForm extends React.Component {
             // initialValues,
             myValues,
             submitting,
-            pristine
+            pristine,
+            invalid
         } = this.props
+
+
+        let button = !(Object.keys(myValues).length === 0) ?
+            (
+                <>
+                    <button onClick={() => { this.fetchData() }} type="button" className="btn btn-wd btn-secondary " disabled={submitting || pristine}>
+                        <span className="btn-label">
+                        </span> Reset
+        </button>
+                    <button type="submit" className="btn btn-wd btn-success " disabled={(myValues ? (Object.keys(myValues).length === 0) : true) || submitting || pristine || invalid}>
+                        <span className="btn-label">
+                        </span> Confirm
+            </button>
+                </>
+            )
+            : (<button onClick={() => { this.fetchData(this.props.searchValue) }} type="button" className="btn btn-wd btn-primary " disabled={submitting || pristine}>
+                <span className="btn-label">
+                </span> Search
+            </button>)
 
         return (
 
@@ -140,6 +177,15 @@ class AddToWishlistLibForm extends React.Component {
                                         myValue={myValues.gender}
                                         component={renderFixedField} />
                                 </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <Field
+                                        name="active"
+                                        type="text"
+                                        placeholder="Status"
+                                        title="Status"
+                                        myValue={myValues.active ? "Active" : (myValues.active == false ? "Inactive" : null)}
+                                        component={renderFixedField} />
+                                </FormGroup>
                             </Col>
                             <Col lg="6" className="border-left">
                                 <FormGroup className="mb-3">
@@ -148,7 +194,8 @@ class AddToWishlistLibForm extends React.Component {
                                         type="text"
                                         placeholder="RFID or Email"
                                         title="RFID/Email"
-                                        onBlur={this.fetchData}
+                                        disabled={!(Object.keys(myValues).length === 0)}
+                                        // onBlur={this.fetchData}
                                         component={renderField} />
                                 </FormGroup>
                             </Col>
@@ -160,10 +207,7 @@ class AddToWishlistLibForm extends React.Component {
                                         <span className="btn-label">
                                         </span> Cancel
                 </button>
-                                    <button type="submit" className="btn btn-wd btn-success " disabled={myValues ? myValues.length == 0 : true || submitting || pristine}>
-                                        <span className="btn-label">
-                                        </span> Confirm
-                </button>
+                                    {button}
                                 </div>
                             </Col>
                         </Row>
@@ -180,8 +224,9 @@ const mapStateToProps = state => {
 
     return {
         // initialValues: state.book.bookToTagData,
-        myValues: state.infoLside.studentData ? state.infoLside.studentData : [],
+        myValues: state.infoLside.studentData ? state.infoLside.studentData : {},
         // myValues: state.copy.bookToTagData,
+        searchValue: selector(state, 'searchValue'),
     }
 }
 

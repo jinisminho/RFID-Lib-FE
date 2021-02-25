@@ -416,7 +416,7 @@ export const addReminder = (bookId, patronId) => {
         let url = '/wishlist/addWishlist' + '?bookID=' + bookId + "&patronID=" + patronId
 
         if (!bookId || !patronId) {
-            dispatch(addReminderFailed(responseError(false, "Error at addReminder")))
+            dispatch(addReminderFailed("Error at [addReminder]"))
         } else {
             // prototype.addWishlist(bookId).status ? response = { "msg": "Added reminder successfully", "status": true } : response = { "err": "Added reminder successfully", "status": false }
             axios.post(url, {}, { withCredentials: true })
