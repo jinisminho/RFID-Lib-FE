@@ -33,7 +33,7 @@ export const getBook = (search,page,size) => {
     return dispatch => {
         search=search?search:""
         dispatch(getBookStart())
-        let url='/book/search'+'?page='+page+'&size='+size+"&searchValue="+search
+        let url='/book/search'+'?page='+page+'&size='+size+"&searchValue="+search+"&status=IN_CIRCULATION,LIB_USE_ONLY"
         // let url='/book/all'
         axios.get(url, {withCredentials: true})
             .then(response => {
