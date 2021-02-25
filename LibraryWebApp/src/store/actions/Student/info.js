@@ -437,9 +437,10 @@ export const addReminder = (bookId, patronId) => {
 export const checkPolicySuccess = (data) => {
     return {
         type: actionTypes.PATRON_CHECK_POLICY_RENEW_SUCCESS,
-        ableToRenew: data.ableToRenew,
+        isRenewable: data.ableToRenew,
         policyViolation: data.reasons,
         newDueDate: data.newDueDate,
+        isViolated: data.violatePolicy
     }
 }
 

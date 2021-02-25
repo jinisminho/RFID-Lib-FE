@@ -219,6 +219,32 @@ const getStudentFail = (state, action) => {
   })
 }
 
+const resetStates = (state) => {
+  return updateObject(state, {
+    data: null,
+  total: 0,
+  error: null,
+  errOnFetch: null,
+  loading: false,
+  page: 1,
+  sizePerPage: 5,
+  historyData: null,
+  successMsg: null,
+  studentLoading: false,
+  studentData: null,
+
+  dataOverdue: null,
+  dataBorrowing: null,
+  dataReturned: null,
+  totalOverdue: 0,
+  totalBorrowing: 0,
+  totalReturned: 0,
+  pageOverdue: 1,
+  pageBorrowing: 1,
+  pageReturned: 1,
+  })
+}
+
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -271,6 +297,8 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_START: return getBorrowingInfoReturnedStart(state, action)
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_SUCCESS: return getBorrowingInfoReturnedSuccess(state, action)
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_FAILED: return getBorrowingInfoReturnedFail(state, action)
+
+    case actionTypes.LIB_INFO_RESET: return resetStates(state)
 
   }
   return state
