@@ -269,6 +269,7 @@ export const getStudent = (search) => {
         dispatch(getStudentStart())
 
         let url = '/patron/profile/findProfile/?searchValue=' + search
+        if(search)
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getStudentSuccess(response.data))
@@ -276,6 +277,9 @@ export const getStudent = (search) => {
             .catch(error => {
                 dispatch(getStudentFailed(responseError(error)))
             });
+        else
+        dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
+
 
         // let response=prototype.getStudent(search)
         // if(response.status){
