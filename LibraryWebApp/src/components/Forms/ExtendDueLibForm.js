@@ -84,19 +84,26 @@ class ExtendDueForm extends React.Component {
             <p key={reason}>{reason}</p>
         )
 
+        let policyViolation_sub = this.props.isRenewable ? (
+            <FormGroup className="mb-3 w-100">
+                <Field
+                    name="reason"
+                    type="textarea"
+                    placeholder="Reason"
+                    title="If you want to renew, please enter reason:"
+                    component={renderField} />
+            </FormGroup>
+        ) : (
+                <p className="font-weight-bold">This borrowing is not able to renew.</p>
+            )
+
+
         let policyViolation = this.props.policyViolation && this.props.policyViolation.length != 0 ? (
             <>
                 <p className="font-weight-bold">{"Policy violations: "}</p>
                 {/* {this.props.policyViolation ? this.props.policyViolation.forEach(element => <p className="font-weight-bold">{element}</p>) : null} */}
                 {this.props.policyViolation ? this.props.policyViolation.map(reasons) : null}
-                <FormGroup className="mb-3 w-100">
-                    <Field
-                        name="reason"
-                        type="textarea"
-                        placeholder="Reason"
-                        title="If you want to renew, please enter reason:"
-                        component={renderField} />
-                </FormGroup>
+                {policyViolation_sub}
             </>
         ) : null
 
@@ -113,7 +120,7 @@ class ExtendDueForm extends React.Component {
                             </span> Back
                         </button>
                         &nbsp;&nbsp;
-                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || (this.props.policyViolation && this.props.policyViolation.length != 0 ? pristine : false) || !this.props.libraianId}>
+                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || (this.props.isViolated ? pristine : false) || !this.props.libraianId || !this.props.isRenewable}>
                             <span className="btn-label">
                             </span> Confirm
                         </button>
@@ -128,7 +135,8 @@ const mapStateToProps = state => {
     return {
         newDueDate: state.info.newDueDate,
         policyViolation: state.info.policyViolation,
-        ableToRenew: state.info.ableToRenew,
+        isRenewable: state.info.isRenewable,
+        isViolated: state.info.isViolated,
     }
 }
 

@@ -298,7 +298,8 @@ const checkPolicySuccess = (state, action) => {
     loading: false,
     newDueDate: action.newDueDate,
     policyViolation: action.policyViolation,
-    ableToRenew: action.ableToRenew
+    isRenewable: action.isRenewable,
+    isViolated: action.isViolated,
   })
 }
 const checkPolicyFail = (state, action) => {
