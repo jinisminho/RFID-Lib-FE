@@ -49,9 +49,7 @@ class BookDetail extends React.Component {
     }
 
     floorShelfFormatter(cell, row) {
-        let res = row.floor ? "Floor: " + row.floor : ""
-        res += row.floor ? (row.shelf ? " - Shelt: " + row.shelf : "") : (row.shelf ? row.shelf : "")
-        return res
+        return (row.floor ? "Floor: " + row.floor : "") + (row.shelf ? (row.floor ? " - " : "") + "Shelf: " + row.shelf : "")
     }
 
     render() {
@@ -73,11 +71,10 @@ class BookDetail extends React.Component {
             i++;
         });
 
-        let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
-        publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
+        let publisherPublishYearStr = (thisBook.publisher ? thisBook.publisher : "") + (thisBook.publishYear ? (thisBook.publisher ? " - " : "") + thisBook.publishYear : "");
 
-
-        let addToWishlistButton = thisBook.stock <= 0 || thisBook.status !== MyConstant.BOOK_IN_CIRCULATION ? (<Button className="btn btn-sm btn-primary btn-block text-truncate my-2" onClick={() => this.handleAddReminder(thisBook.id, this.state.patronId)}>Add to Wishlist</Button>) : null;
+        const statusToShow = [MyConstant.BOOK_IN_CIRCULATION, MyConstant.BOOK_LIB_USE_ONLY]
+        let addToWishlistButton = (thisBook.stock == 0) && statusToShow.includes(thisBook.status) ? (<Button className="btn btn-sm btn-primary btn-block text-truncate my-2" onClick={() => this.handleAddReminder(thisBook.id, this.state.patronId)}>Add to Wishlist</Button>) : null;
 
         const options = {
             // onPageChange: this.handlePageChange,
@@ -148,7 +145,7 @@ class BookDetail extends React.Component {
                         <Table>
                             <tbody>
                                 <tr>
-                                <th className="pl-7 pt-5" style={{ width: "20px" }}>Author(s):</th>
+                                    <th className="pl-7 pt-5" style={{ width: "20px" }}>Author(s):</th>
                                     <td className="pt-5">{formatedAuthor}</td>
                                 </tr>
                                 <tr>
@@ -185,7 +182,7 @@ class BookDetail extends React.Component {
                     <Col lg="1"></Col>
                     <Col>
                         <div className="d-flex my-3">
-                            <hr className="my-auto" width="5%"/>
+                            <hr className="my-auto" width="5%" />
                             <div className="px-6"><p className="h2">LOCATIONS</p></div>
                             <hr className="my-auto flex-grow-1" />
                         </div>
@@ -260,7 +257,7 @@ class BookDetail extends React.Component {
 
 const mapStateToProps = state => {
     let i = 0;
-    let bookLocFormatted = state.bookStu.bookLocation ? state.bookStu.bookLocation.map(el => {el.index = ++i; return el}) : state.bookStu.bookLocation;
+    let bookLocFormatted = state.bookStu.bookLocation ? state.bookStu.bookLocation.map(el => { el.index = ++i; return el }) : state.bookStu.bookLocation;
 
     return {
         loading: state.info.loading,
