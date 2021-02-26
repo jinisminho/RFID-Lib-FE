@@ -404,3 +404,40 @@ export const getCopyById = (id) => {
     }
 
 }
+
+//get location
+export const getLocationSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_SUCCESS,
+        data: data,
+    }
+}
+
+export const getLocationFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_FAILED,
+        error: error
+    }
+}
+
+export const getLocationStart = () => {
+    return {
+        type: actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_START
+    }
+}
+
+export const getLocation = (search) => {
+    return dispatch => {
+        search=search?search:""
+        dispatch(getLocationStart())
+        let url='position/copy?bookCopyId='+search
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getLocationSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getLocationFailed(responseError(error)))
+            });
+    }
+
+}

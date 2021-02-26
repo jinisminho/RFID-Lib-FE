@@ -29,18 +29,45 @@ const getBookFail = (state, action) =>{
   })
 }
 
+const getLocationStart = (state, action) => {
+  return updateObject(state, {
+    bookLocation: null,
+    error: null,
+    loading: true,
+  })
+}
+const getLocationSuccess = (state, action) => {
+  return updateObject(state, {
+    bookLocation: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getLocationFail = (state, action) => {
+  return updateObject(state, {
+    bookLocation: null,
+    error: action.error,
+    loading: false,
+  })
+}
+
 export default function reducer(state = {
     data: null,
     total:0,
     error:null,
     loading:false,
     page:1,
-    sizePerPage:10
+    sizePerPage:10,
+    bookLocation: null,
 }, action) {
   switch(action.type){
     case actionTypes.PATRON_GET_BOOKS_START: return getBookStart(state, action)
     case actionTypes.PATRON_GET_BOOKS_SUCCESS: return getBookSuccess(state, action)
     case actionTypes.PATRON_GET_BOOKS_FAILED: return getBookFail(state, action)
+
+    case actionTypes.PAT_GET_BOOK_LOCATIONS_START: return getLocationStart(state, action)
+    case actionTypes.PAT_GET_BOOK_LOCATIONS_FAILED: return getLocationFail(state, action)
+    case actionTypes.PAT_GET_BOOK_LOCATIONS_SUCCESS: return getLocationSuccess(state, action)
 }
 return state
 }
