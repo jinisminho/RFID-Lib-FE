@@ -1,23 +1,7 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import Header from "components/Headers/Header.js";
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { connect } from 'react-redux'
 import Spinner from 'components/Spinner/Spinner'
 import {
@@ -42,8 +26,10 @@ class BookDetail extends React.Component {
             successShow: false,
             errorShow: false,
         }
+        this.floorShelfFormatter = this.floorShelfFormatter.bind(this);
     }
     componentDidMount() {
+        this.props.onFetchData(this.state.book.id)
     }
     componentDidUpdate() {
     }
@@ -58,6 +44,22 @@ class BookDetail extends React.Component {
 
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
+    }
+
+    // handlePageChange(page, sizePerPage) {
+    //     // this.fetchData(page, sizePerPage, this.state.searchValue);
+    // }
+
+    // handleSizePerPageChange(sizePerPage) {
+    //     // When changing the size per page always navigating to the first page
+    //     // this.fetchData(1, sizePerPage, this.state.searchValue);
+
+    // }
+
+    floorShelfFormatter(cell, row) {
+        let res = row.floor ? "Floor: " + row.floor : ""
+        res += row.floor ? (row.shelf ? " - Shelt: " + row.shelf : "") : (row.shelf ? row.shelf : "")
+        return res
     }
 
     render() {
@@ -81,6 +83,18 @@ class BookDetail extends React.Component {
 
         let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
+
+        const options = {
+            // onPageChange: this.handlePageChange,
+            // onSizePerPageList: this.handleSizePerPageChange,
+            // page: this.props.page,
+            // sizePerPage: this.props.sizePerPage,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: true,
+        };
 
         let display = (
             <div className="content">
@@ -132,8 +146,8 @@ class BookDetail extends React.Component {
                         <Table>
                             <tbody>
                                 <tr>
-                                    <th className="pl-7" style={{ width: "20px" }}>Author(s):</th>
-                                    <td className="">{formatedAuthor}</td>
+                                    <th className="pl-7 pt-5" style={{ width: "20px" }}>Author(s):</th>
+                                    <td className="pt-5">{formatedAuthor}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">ISBN:</th>
@@ -164,6 +178,33 @@ class BookDetail extends React.Component {
                     </Col>
                     <Col lg="1"></Col>
                 </Row>
+                <Row>
+                    <Col lg="1"></Col>
+                    <Col>
+                        <div className="d-flex my-3">
+                            <hr className="my-auto" width="5%" />
+                            <div className="px-6"><p className="h2">LOCATIONS</p></div>
+                            <hr className="my-auto flex-grow-1" />
+                        </div>
+                        <BootstrapTable
+                            data={this.props.data}
+                            options={options}
+                            // fetchInfo={{ dataTotalSize: this.props.totalSize }}
+                            remote
+                            striped
+                            hover
+                            condensed
+                            className="ml-4 mr-4 mb-4"
+                            keyField="index"
+                        >
+                            <TableHeaderColumn dataField="bookCopyType" dataAlign="center" width="20%" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Group</TableHeaderColumn>
+                            <TableHeaderColumn dataFormat={this.floorShelfFormatter} dataField="floor/shelf" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Floor / Shelf</TableHeaderColumn>
+                            {/* <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn> */}
+                            {/* <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn> */}
+                        </BootstrapTable>
+                    </Col>
+                    <Col lg="1"></Col>
+                </Row>
             </div>
         )
         if (this.props.loading) {
@@ -171,14 +212,11 @@ class BookDetail extends React.Component {
         }
         return (
             <>
-                <Header />
-                <Container className="mt-3" fluid>
+                <Container className="my-3" fluid>
                     <Card className="shadow">
                         {display}
                     </Card>
                 </Container>
-
-
 
                 <Modal show={this.props.successMsg && this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
                     <Modal.Header className="bg-success" closeButton>
@@ -214,16 +252,23 @@ class BookDetail extends React.Component {
 }
 
 const mapStateToProps = state => {
+    let i = 0;
+    let bookLocFormatted = state.book.bookLocation ? state.book.bookLocation.map(el => { el.index = ++i; return el }) : state.book.bookLocation;
+
     return {
         loading: state.info.loading,
         error: state.info.error,
         successMsg: state.info.successMsg,
+
+        // data: state.book.data,
+        data: bookLocFormatted,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onAddReminder: (bookId, studentId) => dispatch(actions.addReminder(bookId, studentId)),
+        onFetchData: (bookId) => dispatch(actions.getLocation_Book_Lib(bookId)),
     }
 }
 

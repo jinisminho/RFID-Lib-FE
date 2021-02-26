@@ -46,3 +46,39 @@ export const getBook = (search,page,size) => {
 
 }
 
+//get location
+export const getLocationSuccess = (data) => {
+    return {
+        type: actionTypes.PAT_GET_BOOK_LOCATIONS_SUCCESS,
+        data: data,
+    }
+}
+
+export const getLocationFailed = (error) => {
+    return {
+        type: actionTypes.PAT_GET_BOOK_LOCATIONS_FAILED,
+        error: error
+    }
+}
+
+export const getLocationStart = () => {
+    return {
+        type: actionTypes.PAT_GET_BOOK_LOCATIONS_START
+    }
+}
+
+export const getLocation = (search) => {
+    return dispatch => {
+        search=search?search:""
+        dispatch(getLocationStart())
+        let url='/position/book?bookId='+search
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getLocationSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(getLocationFailed(responseError(error)))
+            });
+    }
+
+}

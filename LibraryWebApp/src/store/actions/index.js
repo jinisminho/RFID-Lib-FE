@@ -30,7 +30,8 @@ export {
     generateCopyBarcode,
     getAuthor,
     getGenre,
-    getBookCopyType
+    getBookCopyType,
+    getLocation as getLocation_Book_Lib
 } from './Librarian/Book'
 
 export {
@@ -102,7 +103,7 @@ export{
 
 export {
     getBook as getBookStudentSide,
-    
+    getLocation as getLocation_Book_Pat
 } from './Student/Book'
 
 export {
