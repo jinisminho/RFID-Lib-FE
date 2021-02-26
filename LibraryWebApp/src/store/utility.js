@@ -164,7 +164,6 @@ export function bookDescriptionFormat(cell, row, extraData) {
                     patronId: extraData.patronId ? extraData.patronId : null
                 }
             }}>
-                <h1 className="font-weight-bolder">
                     {title}
                     {author}
                     {publisherPublishYear}
@@ -177,7 +176,6 @@ export function bookDescriptionFormat(cell, row, extraData) {
                     {totalAvailableCopies}
                     {pos}
                     {warn}
-                </h1>
             </Link>
 
         </>
