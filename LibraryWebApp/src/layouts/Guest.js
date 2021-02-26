@@ -113,7 +113,7 @@ class Guest extends React.Component {
                             <div className="header-body text-center mb-7">
                                 <Row className="justify-content-center">
                                     <Col lg="5" md="6">
-                                        <h1 className="text-white">FPT University Library</h1>
+                                        <h1 className="text-white">Smart University Library</h1>
                                     </Col>
                                 </Row>
                             </div>

@@ -76,10 +76,21 @@ class BorrowingInfo extends React.Component {
     }
 
     handleSearch(value) {
-        this.getStudentAndHistories(1, this.props.sizePerPage, value.search)
-        this.setState({
-            notFoundShow: true,
-        })
+
+        //IF SCAN PATRON ID CARD
+        if (value.search.trim().toUpperCase().includes("PAT#")) {
+            this.getStudentAndHistories(1, this.props.sizePerPage, value.search.trim().toUpperCase().split("PAT#")[1])
+            this.setState({
+                notFoundShow: true,
+            })
+        }
+        else { //DEFAULT
+            this.getStudentAndHistories(1, this.props.sizePerPage, value.search.trim().toUpperCase())
+            this.setState({
+                notFoundShow: true,
+            })
+        }
+
     }
 
     fetchData() {
@@ -372,7 +383,7 @@ class BorrowingInfo extends React.Component {
             )
         }
 
-        let form = <SearchForm placeholder="Get checkout Informations by a student's RFID or Email. e.g. 130111, example@fpt.edu.vn" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.handleSearch(value)} />
+        let form = <SearchForm placeholder="Get checkout Informations by a student's RFID or Email. e.g. 130111, example@smart.edu.vn" editClassName="shadow mw-100 p-0" onSubmit={(value) => this.handleSearch(value)} />
 
 
         // let errorMsg = null
