@@ -200,13 +200,13 @@ class Student extends React.Component {
             confirmDisableStatus: true,
             statusId: row.id
         })}>
-                        <i className="fa fa-trash"></i> Disable
+                        Disable
                     </button>
                     if (!row.active){
                         status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-primary btn-simple btn-icon" onClick={() => this.setState({
                             confirmActiveStatus: true,
                             statusId: row.id
-                        })}> <i className="fa fa-check"></i> Enable
+                        })}> Enable
                         </button>
                     }
         return (
@@ -259,7 +259,7 @@ class Student extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Student
+                            </span> <i className="fa fa-plus"></i> Add Patron
                         </button>
                     </Col>
                 </Row>
