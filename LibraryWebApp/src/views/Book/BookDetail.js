@@ -116,7 +116,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Status:</th>
-                                    <td>{thisBook.status + (thisBook.onlyInLibrary ? " - ONLY IN LIBRARY" : "")}</td>
+                                    <td>{thisBook.status}</td>
                                 </tr>
                             </tbody>
                         </Table>

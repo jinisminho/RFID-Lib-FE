@@ -133,13 +133,14 @@ class Book extends React.Component {
     }
 
     actionFormatter(cell, row) {
-        if (row.stock <= 0 || row.status !== MyConstant.BOOK_IN_CIRCULATION)
+        const statusToShow = [MyConstant.BOOK_IN_CIRCULATION, MyConstant.BOOK_LIB_USE_ONLY]
+        if ((row.stock == 0) && statusToShow.includes(row.status))
             return (
                 <div>
                     <Row className="align-items-center">
                         <Col></Col>
                         <Col>
-                            <Button className="btn btn-sm btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.patronId)}>Add to Wishlist</Button>
+                            <Button className="btn btn-primary btn-block text-truncate" onClick={() => this.handleAddReminder(row.id, this.state.patronId)}>Add to Wishlist</Button>
                         </Col>
                         <Col></Col>
                     </Row>

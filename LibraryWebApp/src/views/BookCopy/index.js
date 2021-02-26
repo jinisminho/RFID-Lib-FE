@@ -262,7 +262,7 @@ class BookCopy extends React.Component {
             copyType: this.state.updateData ? (this.state.updateData.bookCopyTypeDto ? this.state.updateData.bookCopyTypeDto.id : '') : '',
             img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
-            subtitle: this.state.updateData ? this.state.updateData.book.subtitle : '',
+            subtitle: this.state.updateData ?  (this.state.updateData.book ? (this.state.updateData.book.subtitle ? this.state.updateData.book.subtitle : '') : '') : '',
             authors: author.join(", "),
         };
     }

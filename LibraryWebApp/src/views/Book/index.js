@@ -296,7 +296,8 @@ class Book extends React.Component {
         })
     }
     activeFormatter(cell, row) {
-        let addToWishlistButton = row.stock == 0 ? (<Button className="btn btn-primary" onClick={() => this.setState({
+        const statusToShow = [MyConstant.BOOK_IN_CIRCULATION, MyConstant.BOOK_LIB_USE_ONLY]
+        let addToWishlistButton = (row.stock == 0) && statusToShow.includes(row.status) ? (<Button className="btn btn-primary" onClick={() => this.setState({
             showAddToWishlistForm: true,
             addToWishlistId: row.id
         })}>Add to wishlist</Button>) : null
