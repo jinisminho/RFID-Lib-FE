@@ -220,6 +220,29 @@ const getBookCopyTypeFail = (state, action) => {
     loading: false,
   })
 }
+
+const getLocationStart = (state, action) => {
+  return updateObject(state, {
+    bookLocation: null,
+    error: null,
+    loading: true,
+  })
+}
+const getLocationSuccess = (state, action) => {
+  return updateObject(state, {
+    bookLocation: action.data,
+    error: null,
+    loading: false,
+  })
+}
+const getLocationFail = (state, action) => {
+  return updateObject(state, {
+    bookLocation: null,
+    error: action.error,
+    loading: false,
+  })
+}
+
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -235,6 +258,7 @@ export default function reducer(state = {
   authorData: [],
   genreData: [],
   copyTypes: null,
+  bookLocation: null,
 }, action) {
   switch (action.type) {
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
@@ -272,6 +296,10 @@ export default function reducer(state = {
     case actionTypes.GET_BOOK_COPY_TYPE_START: return getBookCopyTypeStart(state, action)
     case actionTypes.GET_BOOK_COPY_TYPE_FAILED: return getBookCopyTypeFail(state, action)
     case actionTypes.GET_BOOK_COPY_TYPE_SUCCESS: return getBookCopyTypeSuccess(state, action)
+
+    case actionTypes.LIB_GET_BOOK_LOCATIONS_START: return getLocationStart(state, action)
+    case actionTypes.LIB_GET_BOOK_LOCATIONS_FAILED: return getLocationFail(state, action)
+    case actionTypes.LIB_GET_BOOK_LOCATIONS_SUCCESS: return getLocationSuccess(state, action)
   }
   return state
 }

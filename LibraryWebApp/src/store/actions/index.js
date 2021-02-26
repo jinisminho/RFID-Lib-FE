@@ -30,7 +30,8 @@ export {
     generateCopyBarcode,
     getAuthor,
     getGenre,
-    getBookCopyType
+    getBookCopyType,
+    getLocation as getLocation_Book_Lib
 } from './Librarian/Book'
 
 export {
@@ -45,6 +46,7 @@ export {
     tagRFID,
     getCopyByBarcode,
     getCopyById,
+    getLocation as getLocation_BookCopy_Pat,
 } from './Librarian/BookCopy'
 
 export {
@@ -102,7 +104,7 @@ export{
 
 export {
     getBook as getBookStudentSide,
-    
+    getLocation as getLocation_Book_Pat
 } from './Student/Book'
 
 export {

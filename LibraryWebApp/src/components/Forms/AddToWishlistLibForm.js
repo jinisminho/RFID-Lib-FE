@@ -106,7 +106,12 @@ class AddToWishlistLibForm extends React.Component {
     // }
 
     fetchData(value) {
-        this.props.onFetchData(value);
+        if (value.trim().toUpperCase().includes("PAT#")) {
+            this.props.onFetchData(value.trim().toUpperCase().split("PAT#")[1]);
+        }
+        else { //DEFAULT
+            this.props.onFetchData(value.trim().toUpperCase());
+        }
     }
 
     onKeyPress = (event) => {
