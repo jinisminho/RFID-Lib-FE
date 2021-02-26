@@ -57,9 +57,7 @@ class BookDetail extends React.Component {
     // }
 
     floorShelfFormatter(cell, row) {
-        let res = row.floor ? "Floor: " + row.floor : ""
-        res += row.floor ? (row.shelf ? " - Shelt: " + row.shelf : "") : (row.shelf ? row.shelf : "")
-        return res
+        return (row.floor ? "Floor: " + row.floor : "") + (row.shelf ? (row.floor ? " - " : "") + "Shelf: " + row.shelf : "")
     }
 
     render() {
@@ -81,8 +79,7 @@ class BookDetail extends React.Component {
             i++;
         });
 
-        let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
-        publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
+        let publisherPublishYearStr = (thisBook.publisher ? thisBook.publisher : "") + (thisBook.publishYear ? (thisBook.publisher ? " - " : "") + thisBook.publishYear : "");
 
         const options = {
             // onPageChange: this.handlePageChange,

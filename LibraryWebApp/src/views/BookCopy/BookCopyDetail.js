@@ -37,15 +37,14 @@ class BookCopyDetail extends React.Component {
         const thisBook = thisCopy ? thisCopy.book : [];
         const thisLoc = this.props.copyLocation
 
-        let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
-        publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
+        let publisherPublishYearStr = (thisBook.publisher ? thisBook.publisher : "") + (thisBook.publishYear ? (thisBook.publisher ? " - " : "") + thisBook.publishYear : "");
 
         let statusFormatted = thisCopy ? thisCopy.status : null;
         statusFormatted = (statusFormatted == MyConstant.BOOK_COPY_BORROWED) ? "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "")
             + (thisCopy.borrower.profile.fullName ? thisCopy.borrower.profile.fullName : "")
-            + (thisCopy.borrower.email ? " - " + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? " - " + thisCopy.borrower.profile.phone : "") : statusFormatted;
+            + (thisCopy.borrower.email ? (thisCopy.borrower.profile.fullName ? " - " : "") + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? (thisCopy.borrower.email || thisCopy.borrower.profile.fullName ? " - " : "") + thisCopy.borrower.profile.phone : "") : statusFormatted;
 
-        let locationFormatted = thisLoc ? ((thisLoc.floor && thisLoc.shelf) ? ("Floor: " + thisLoc.floor + " - Shelf: " + thisLoc.shelf) : (thisLoc.floor ? ("Floor: " + thisLoc.floor) : (thisLoc.shelf ? ("Shelf: " + thisLoc.shelf) : null))) : null
+        let locationFormatted = thisLoc ? ((thisLoc.floor ? "Floor: " + thisLoc.floor : "") + (thisLoc.shelf ? (thisLoc.floor ? " - " : "") + "Shelf: " + thisLoc.shelf : "")) : null
 
         let display = (
             <div className="content">
@@ -85,7 +84,7 @@ class BookCopyDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Price:</th>
-                                    <td>{thisCopy ? thisCopy.price : null}</td>
+                                    <td>{thisCopy ? thisCopy.price + " " + MyConstant.CURRENCY : null}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Status:</th>
