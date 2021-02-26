@@ -33,7 +33,7 @@ class ExtendDueForm extends React.Component {
         } = this.props
 
 
-        let dueDate = this.props.newDueDate && this.props.ableToRenew ? (
+        let dueDate = this.props.newDueDate && (this.props.isRenewable && !this.props.isViolated) ? (
             <>
             <p className="font-weight-bold">{"Please return before: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
             </>
@@ -64,7 +64,7 @@ class ExtendDueForm extends React.Component {
                             </span> Back
                         </button>
                         &nbsp;&nbsp;
-                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || !this.props.ableToRenew}>
+                    <button type="submit" className="btn btn-wd btn-success " disabled={submitting || !(this.props.isRenewable && !this.props.isViolated)}>
                             <span className="btn-label">
                             </span> Confirm
                         </button>
@@ -79,7 +79,8 @@ const mapStateToProps = state => {
     return {
         newDueDate: state.info.newDueDate,
         policyViolation: state.info.policyViolation,
-        ableToRenew: state.info.ableToRenew,
+        isRenewable: state.info.isRenewable,
+        isViolated: state.info.isViolated,
     }
 }
 
