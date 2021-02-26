@@ -12,11 +12,18 @@ export const DATETIME = "DD-MM-YYYY, HH:mm:ss"
 export const DATE = "DD-MM-YYYY"
 
 //Status
+
+export const BOOK_COPY_IN_PROCESS = "IN_PROCESS"
 export const BOOK_COPY_AVAILABLE = "AVAILABLE"
+export const BOOK_COPY_BORROWED = "BORROWED"
+export const BOOK_COPY_OUT_OF_CIRCULATION = "OUT_OF_CIRCULATION"
+export const BOOK_COPY_LOST = "LOST"
+export const BOOK_COPY_LIB_USE_ONLY = "LIB_USE_ONLY"
+export const BOOK_COPY_DISCARD = "DISCARD"
 
 export const BOOK_OUT_OF_CIRCULATION = "OUT_OF_CIRCULATION"
 export const BOOK_IN_CIRCULATION = "IN_CIRCULATION"
-export const LIB_USE_ONLY = "LIB_USE_ONLY"
+export const BOOK_LIB_USE_ONLY = "LIB_USE_ONLY"
 export const BOOK_NOT_ALLOWED_TO_BORROWED = "NOT_ALLOWED_TO_BORROWED"
 
 //PolicyConstant

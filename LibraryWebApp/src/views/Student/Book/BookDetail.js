@@ -112,11 +112,11 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Subtitle:</th>
-                                    <td>{thisBook.stock + "/" + thisBook.numberOfCopy}</td>
+                                    <td>{thisBook.subtitle}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Total available:</th>
-                                    <td>{thisBook.stock}</td>
+                                    <td>{thisBook.stock + "/" + thisBook.numberOfCopy}</td>
                                 </tr>
                                 {/* <tr>
                                     <th className="pl-sm-4 pl-7">Location:</th>
@@ -128,7 +128,7 @@ class BookDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Status:</th>
-                                    <td>{thisBook.status + (thisBook.onlyInLibrary ? " - ONLY IN LIBRARY" : "")}</td>
+                                    <td>{thisBook.onlyInLibrary || (thisBook.status == MyConstant.BOOK_LIB_USE_ONLY) ? "Library Use Only" : ((thisBook.stock > 0) && (thisBook.status == MyConstant.BOOK_IN_CIRCULATION) ? "Available" : "Not available")}</td>
                                 </tr>
                             </tbody>
                         </Table>
