@@ -3,7 +3,7 @@ import * as prototype from '../../prototype/bookStudent'
 import { $CombinedState } from 'redux'
 import axios from '../../../axios'
 import {responseError} from '../../utility'
-
+import * as MyConstant from 'views/Util/Constant'
 
 
 export const getBookSuccess = (data, total, page, sizePerPage) => {
@@ -33,7 +33,7 @@ export const getBook = (search,page,size) => {
     return dispatch => {
         search=search?search:""
         dispatch(getBookStart())
-        let url='/book/search'+'?page='+page+'&size='+size+"&searchValue="+search
+        let url='/book/search'+'?page='+page+'&size='+size+"&searchValue="+search+"&status="+MyConstant.BOOK_IN_CIRCULATION+","+MyConstant.BOOK_LIB_USE_ONLY
         // let url='/book/all'
         axios.get(url, {withCredentials: true})
             .then(response => {

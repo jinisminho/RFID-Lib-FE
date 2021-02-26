@@ -57,7 +57,7 @@ class BookCopyDetail extends React.Component {
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
 
         let statusFormatted = thisCopy ? thisCopy.status : null;
-        statusFormatted = (statusFormatted ==  "BORROWED") ?  "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "") 
+        statusFormatted = (statusFormatted ==  MyConstant.BOOK_COPY_BORROWED) ?  "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "") 
         + (thisCopy.borrower.profile.fullName ? thisCopy.borrower.profile.fullName : "") 
         + (thisCopy.borrower.email ? " - " + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? " - " + thisCopy.borrower.profile.phone : "") : statusFormatted;
 

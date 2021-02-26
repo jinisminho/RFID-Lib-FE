@@ -74,7 +74,7 @@ const validate = values => {
 const renderFixedField = ({ meta, title }) => (
     <>
         <Row>
-            <Label>{title + ": " + (meta.initial ? meta.initial : null)}</Label>
+            <Label>{title + ": " + (meta.initial ? meta.initial : "")}</Label>
         </Row>
     </>
 )

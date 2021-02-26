@@ -22,7 +22,7 @@ export function convertToDate(d) {
     return (
         d.constructor === Date ? d :
             // d.constructor === Array ? new Date(d[0], d[1], d[2]) :
-            d.constructor === Array ? new Date(d[0], d[1]-1, d[2]) :
+            d.constructor === Array ? new Date(d[0], d[1] - 1, d[2]) :
                 d.constructor === Number ? new Date(d) :
                     d.constructor === String ? new Date(d) :
                         typeof d === "object" ? new Date(d.year, d.month, d.date) :
@@ -31,15 +31,15 @@ export function convertToDate(d) {
 }
 
 function checkIfZero(inValue) {
-    return inValue ? inValue  : 0; 
+    return inValue ? inValue : 0;
 }
 
 export function convertToDateTime(d) {
-    
+
 
     return (
         d.constructor === Date ? d :
-            d.constructor === Array ? new Date(d[0], d[1]-1, d[2], checkIfZero(d[3]), checkIfZero(d[4]), checkIfZero(d[5])) :
+            d.constructor === Array ? new Date(d[0], d[1] - 1, d[2], checkIfZero(d[3]), checkIfZero(d[4]), checkIfZero(d[5])) :
                 d.constructor === Number ? new Date(d) :
                     d.constructor === String ? new Date(d) :
                         typeof d === "object" ? new Date(d.year, d.month, d.date, d.hour, d.minute, d.second) :
@@ -96,14 +96,18 @@ export function bookDescriptionFormat(cell, row, extraData) {
         <p className={detailsTextClassName}>Edition: {row.edition}</p>
     ) : null;
 
+    let warn = row.onlyInLibrary && !hide.warn ? (
+        <p className={"text-danger " + detailsTextClassName}>Only in library</p>
+    ) : null;
+
     let position = row.callNumber ? "Available at " + row.callNumber : null;
     let position_class = "text-success"
     if (row.status != MyConstant.BOOK_IN_CIRCULATION || row.stock <= 0) {
         position = "Not available"
         position_class = "text-danger"
     }
-    let pos = position && !hide.position ? (
-        <p className={position_class+" "+detailsTextClassName}>{position}</p>
+    let pos = position && !hide.position && !warn ? (
+        <p className={position_class + " " + detailsTextClassName}>{position}</p>
     ) : null;
 
     let publisherPublishYearStr = row.publisher && !hide.publisher ? row.publisher : "";
@@ -120,16 +124,12 @@ export function bookDescriptionFormat(cell, row, extraData) {
         <p className={detailsTextClassName}>Number of pages: {row.nop} Pages</p>
     ) : null;
 
-    let warn = row.onlyInLibrary && !hide.warn ? (
-        <p className={"text-danger "+ detailsTextClassName}>ONLY IN LIBRARY</p>
-    ) : null;
-
     let totalCopies = row.numberOfCopy && !hide.totalCopies ? (
         <p className={detailsTextClassName}> Total copies: {row.numberOfCopy}</p>
     ) : null;
 
     let totalAvailableCopies = row.stock && !hide.totalAvailableCopies ? (
-        <p className={detailsTextClassName}> Total available copies: {row.stock}{row.numberOfCopy ? " of "+row.numberOfCopy : null}</p>
+        <p className={detailsTextClassName}> Total available copies: {row.stock}{row.numberOfCopy ? " of " + row.numberOfCopy : null}</p>
     ) : null;
 
     let isbn = row.isbn && !hide.isbn ? (
@@ -169,35 +169,35 @@ export function bookDescriptionFormat(cell, row, extraData) {
     )
 }
 
-export function imageFormatter(cell, row){
-    return (<img className="img-thumbnail" src={cell}/>)
+export function imageFormatter(cell, row) {
+    return (<img className="img-thumbnail" src={cell} />)
 }
 
-export function responseError(err){
-    let msg=""
-    if(err.response){
-        if(err.response.data){
+export function responseError(err) {
+    let msg = ""
+    if (err.response) {
+        if (err.response.data) {
             switch (err.response.data.status) {
                 case 500:
-                    msg=Constant.INTERNAL_SERVER_ERROR
+                    msg = Constant.INTERNAL_SERVER_ERROR
                     break;
                 default:
-                    msg=err.response.data.message
+                    msg = err.response.data.message
                     break;
             }
-        }else{
-            msg=err.message
+        } else {
+            msg = err.message
         }
-    }else{
-        msg=err.message
+    } else {
+        msg = err.message
     }
-    
+
     return msg
 }
 
-export function responseErrorwithCustomMsg(err, msg){
+export function responseErrorwithCustomMsg(err, msg) {
     return responseError(err);
-    
+
     return msg
 }
 
