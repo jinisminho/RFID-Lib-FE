@@ -70,14 +70,18 @@ export function bookDescriptionFormat(cell, row, extraData) {
     let thisBook = [];
     thisBook.push(row)
 
+    // let title = row.title && !hide.title ? (
+    //     <Link to={{
+    //         pathname: '/patron/book/detail',
+    //         state: {
+    //             book: thisBook,
+    //             patronId: extraData.patronId ? extraData.patronId : null
+    //         }
+    //     }}><h1 className="font-weight-bolder">{row.title}{row.subtitle ? " : " + row.subtitle : null}</h1></Link>
+    // ) : null;
+
     let title = row.title && !hide.title ? (
-        <Link to={{
-            pathname: '/patron/book/detail',
-            state: {
-                book: thisBook,
-                patronId: extraData.patronId ? extraData.patronId : null
-            }
-        }}><h1 className="font-weight-bolder">{row.title}{row.subtitle ? " : " + row.subtitle : null}</h1></Link>
+        <h1 className="font-weight-bolder">{row.title}{row.subtitle ? " : " + row.subtitle : null}</h1>
     ) : null;
 
     let authors = row.author && !hide.author ? (row.author.length > 0 ? row.author : []) : [];
@@ -153,18 +157,29 @@ export function bookDescriptionFormat(cell, row, extraData) {
 
     return (
         <>
-            {title}
-            {author}
-            {publisherPublishYear}
-            {edition}
-            {language}
-            {isbn}
-            {nop}
-            {genre}
-            {totalCopies}
-            {totalAvailableCopies}
-            {pos}
-            {warn}
+            <Link to={{
+                pathname: '/patron/book/detail',
+                state: {
+                    book: thisBook,
+                    patronId: extraData.patronId ? extraData.patronId : null
+                }
+            }}>
+                <h1 className="font-weight-bolder">
+                    {title}
+                    {author}
+                    {publisherPublishYear}
+                    {edition}
+                    {language}
+                    {isbn}
+                    {nop}
+                    {genre}
+                    {totalCopies}
+                    {totalAvailableCopies}
+                    {pos}
+                    {warn}
+                </h1>
+            </Link>
+
         </>
     )
 }
