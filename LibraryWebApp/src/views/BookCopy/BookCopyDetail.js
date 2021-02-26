@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import Header from "components/Headers/Header.js";
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
@@ -52,14 +35,17 @@ class BookCopyDetail extends React.Component {
     render() {
         const thisCopy = this.props.copyDetail;
         const thisBook = thisCopy ? thisCopy.book : [];
+        const thisLoc = this.props.copyLocation
 
         let publisherPublishYearStr = thisBook.publisher ? thisBook.publisher : "";
         publisherPublishYearStr += thisBook.publishYear ? " - " + thisBook.publishYear : "";
 
         let statusFormatted = thisCopy ? thisCopy.status : null;
-        statusFormatted = (statusFormatted ==  MyConstant.BOOK_COPY_BORROWED) ?  "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "") 
-        + (thisCopy.borrower.profile.fullName ? thisCopy.borrower.profile.fullName : "") 
-        + (thisCopy.borrower.email ? " - " + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? " - " + thisCopy.borrower.profile.phone : "") : statusFormatted;
+        statusFormatted = (statusFormatted == MyConstant.BOOK_COPY_BORROWED) ? "Borrowed by " + (thisCopy.borrower.patronTypeName ? thisCopy.borrower.patronTypeName + " : " : "")
+            + (thisCopy.borrower.profile.fullName ? thisCopy.borrower.profile.fullName : "")
+            + (thisCopy.borrower.email ? " - " + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? " - " + thisCopy.borrower.profile.phone : "") : statusFormatted;
+
+        let locationFormatted = thisLoc ? ((thisLoc.floor && thisLoc.shelf) ? ("Floor: " + thisLoc.floor + " - Shelf: " + thisLoc.shelf) : (thisLoc.floor ? ("Floor: " + thisLoc.floor) : (thisLoc.shelf ? ("Shelf: " + thisLoc.shelf) : null))) : null
 
         let display = (
             <div className="content">
@@ -94,6 +80,10 @@ class BookCopyDetail extends React.Component {
                                     <td>{thisCopy ? thisCopy.copyType : null}</td>
                                 </tr>
                                 <tr>
+                                    <th className="pl-sm-4 pl-7">Location:</th>
+                                    <td>{locationFormatted}</td>
+                                </tr>
+                                <tr>
                                     <th className="pl-sm-4 pl-7">Price:</th>
                                     <td>{thisCopy ? thisCopy.price : null}</td>
                                 </tr>
@@ -115,8 +105,8 @@ class BookCopyDetail extends React.Component {
                         <Table>
                             <tbody>
                                 <tr>
-                                    <th className="pl-7" style={{ width: "20px" }}>Author(s):</th>
-                                    <td className="">{thisBook.authors}</td>
+                                    <th className="pl-7 pt-5" style={{ width: "20px" }}>Author(s):</th>
+                                    <td className="pt-5">{thisBook.authors}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-7 border-0">ISBN:</th>
@@ -157,7 +147,7 @@ class BookCopyDetail extends React.Component {
         return (
             <>
                 <Header />
-                <Container className="mt-3" fluid>
+                <Container className="my-3" fluid>
                     <Card className="shadow">
                         {display}
                     </Card>
@@ -173,12 +163,14 @@ const mapStateToProps = state => {
         error: state.copy.error,
         successMsg: state.copy.successMsg,
         copyDetail: state.copy.copyDetail,
+
+        copyLocation: state.copy.copyLocation,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (id) => dispatch(actions.getCopyById(id)),
+        onFetchData: (id) => { dispatch(actions.getCopyById(id)); dispatch(actions.getLocation_BookCopy_Pat(id)) },
     }
 }
 

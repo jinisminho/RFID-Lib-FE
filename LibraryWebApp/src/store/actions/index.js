@@ -46,6 +46,7 @@ export {
     tagRFID,
     getCopyByBarcode,
     getCopyById,
+    getLocation as getLocation_BookCopy_Pat,
 } from './Librarian/BookCopy'
 
 export {
