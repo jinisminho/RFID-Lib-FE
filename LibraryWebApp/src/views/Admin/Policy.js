@@ -195,48 +195,6 @@ class Policy extends React.Component {
         this.setState({ lastFeeChanged: row })
     }
 
-    beforeSaveCell(row, cellName, cellValue) {
-        // validation here
-        // if (cellName == "dueDuration") {
-        //     if (MyConstant.MIN_DUE_DURATION > cellValue || cellValue > MyConstant.MAX_DUE_DURATION) {
-        //         // row[cellName] = MyConstant.MIN_DUE_DURATION
-        //         return false
-        //     }
-        // }
-        // if (cellName == "extendDueDuration") {
-        //     if (MyConstant.MIN_EXTEND_DUE_DURATION > cellValue || cellValue > MyConstant.MAX_EXTEND_DUE_DURATION) {
-        //         // row[cellName] = MyConstant.MIN_EXTEND_DUE_DURATION
-        //         return false
-        //     }
-        // }
-        // if (cellName == "maxBorrowNumber") {
-        //     if (MyConstant.MIN_NUMBER_BORROW > cellValue || cellValue > MyConstant.MAX_NUMBER_BORROW) {
-        //         // row[cellName] = MyConstant.MIN_NUMBER_BORROW
-        //         return false
-        //     }
-        // }
-        // if (cellName == "maxNumberCopyBorrow") {
-        //     if (MyConstant.MIN_NUMBER_BORROW > cellValue || cellValue > MyConstant.MAX_NUMBER_BORROW) {
-        //         // row[cellName] = MyConstant.MIN_NUMBER_BORROW
-        //         return false
-        //     }
-        // }
-        // if (cellName == "maxExtendTime") {
-        //     if (MyConstant.MIN_EXTEND_TIME > cellValue || cellValue > MyConstant.MAX_EXTEND_TIME) {
-        //         // row[cellName] = MyConstant.MIN_EXTEND_TIME
-        //         return false
-        //     }
-        // }
-        row[cellName] = Number(cellValue)
-        return true
-    }
-
-    beforeSaveCell_fee(row, cellName, cellValue) {
-        // validation here
-
-        return true
-    }
-
     protoTypeFormatter(cell, row) {
         return cell ? cell.name : null
     }
