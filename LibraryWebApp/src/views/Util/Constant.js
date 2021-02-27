@@ -8,8 +8,8 @@ export const PATRON_POLICY = "Patron Policy"
 export const FINE_POLICY = "Fine Policy"
 
 //Format
-export const DATETIME = "DD-MM-YYYY, HH:mm:ss"
-export const DATE = "DD-MM-YYYY"
+export const DATETIME = "YYYY-MM-DD, HH:mm:ss"
+export const DATE = "YYYY-MM-DD"
 
 //Status
 
