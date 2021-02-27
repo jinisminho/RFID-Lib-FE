@@ -116,3 +116,6 @@ export {
     getFeePolicies,
     updateFeePolicy,
 } from './Librarian/Policy'
+export {
+    getBookLost,
+} from './Librarian/BookLost'
