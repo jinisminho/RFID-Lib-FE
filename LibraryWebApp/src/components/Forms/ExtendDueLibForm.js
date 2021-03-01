@@ -74,7 +74,7 @@ class ExtendDueForm extends React.Component {
         } = this.props
 
 
-        let dueDate = this.props.newDueDate ? (
+        let dueDate = this.props.newDueDate && this.props.isRenewable ? (
             <>
                 <p className="font-weight-bold">{"New Due Date: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
             </>
