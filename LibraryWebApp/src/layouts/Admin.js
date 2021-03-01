@@ -76,6 +76,7 @@ class Admin extends React.Component {
           <AdminNavbar
             {...this.props}
             logout={()=>this.props.onLogout()}
+            profilePath = "/admin/profile"
             username={this.props.username}
             avatar={this.props.avatar}
             brandText={this.getBrandText(this.props.location.pathname)}

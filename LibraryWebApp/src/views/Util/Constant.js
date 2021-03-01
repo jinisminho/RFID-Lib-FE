@@ -8,8 +8,8 @@ export const PATRON_POLICY = "Patron Policy"
 export const FINE_POLICY = "Fine Policy"
 
 //Format
-export const DATETIME = "DD-MM-YYYY, HH:mm:ss"
-export const DATE = "DD-MM-YYYY"
+export const DATETIME = "YYYY-MM-DD, HH:mm:ss"
+export const DATE = "YYYY-MM-DD"
 
 //Status
 
@@ -58,8 +58,8 @@ export const CURRENCY = "VND"
 
 
 //Book status
-export const BOOK_STATUS_ADD_LIST = { OUT_OF_CIRCULATION: "Out of circulation", IN_CIRCULATION: "In circulation", LIB_USE_ONLY: "Library use only" }
-export const BOOK_STATUS_LIST = { OUT_OF_CIRCULATION: "Out of circulation", IN_CIRCULATION: "In circulation", LIB_USE_ONLY: "Library use only", DISCARD: "Discard" }
+export const BOOK_STATUS_ADD_LIST = { IN_CIRCULATION: "In circulation", OUT_OF_CIRCULATION: "Out of circulation", LIB_USE_ONLY: "Library use only" }
+export const BOOK_STATUS_LIST = { IN_CIRCULATION: "In circulation", OUT_OF_CIRCULATION: "Out of circulation", LIB_USE_ONLY: "Library use only", DISCARD: "Discard" }
 
 export const BOOK_COPY_STATUS_LIST = { AVAILABLE: "Available", IN_PROCESS: "In process", BORROWED: "Borrowed", OUT_OF_CIRCULATION: "Out of circulation", LOST: "Lost", LIB_USE_ONLY: "Library use only", DISCARD: "Discard" }
 

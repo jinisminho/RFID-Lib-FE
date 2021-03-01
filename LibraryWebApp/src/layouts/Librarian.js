@@ -75,6 +75,7 @@ class Librarian extends React.Component {
           <AdminNavbar
             {...this.props}
             logout={()=>this.props.onLogout()}
+            profilePath = "/librarian/profile"
             brandText={this.getBrandText(this.props.location.pathname)}
             username={this.props.username}
             avatar={this.props.avatar}

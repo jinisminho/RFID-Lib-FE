@@ -193,13 +193,13 @@ class Staff extends React.Component {
             confirmDisableStatus: true,
             statusId: row.id
         })}>
-                        <i className="fa fa-trash"></i> Disable
+                     Disable
                     </button>
                     if (!row.active){
                         status=<button type="button" rel="tooltip" data-placement="left" className="btn btn-primary btn-simple btn-icon" onClick={() => this.setState({
                             confirmActiveStatus: true,
                             statusId: row.id
-                        })}> <i className="fa fa-check"></i> Enable
+                        })}>Enable
                         </button>
                     }
         return (

@@ -76,6 +76,7 @@ class Patron extends React.Component {
           <AdminNavbar
             {...this.props}
             logout={()=>this.props.onLogout()}
+            profilePath = "/patron/profile"
             username={this.props.username}
             avatar={this.props.avatar}
             brandText={this.getBrandText(this.props.location.pathname)}

@@ -15,7 +15,6 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
 import CheckoutInf from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
@@ -25,7 +24,8 @@ import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Librarian/Policy";
 import Student from "views/Librarian/Student";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
-
+import BookLost from "views/BookLost/index.js";
+import Profile from "views/Student/Profile.js"
 
 var routes = [
   // {
@@ -107,6 +107,21 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-red",
     component: Policy,
     layout: "/librarian"
+  },
+  {
+    path: "/lost",
+    name: "Book Lost Report",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: BookLost,
+    layout: "/librarian"
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
+    layout: "/librarian",
+    invisible: true
   },
 ];
 export default routes;
