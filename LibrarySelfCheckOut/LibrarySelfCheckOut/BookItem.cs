@@ -24,8 +24,15 @@ namespace LibrarySelfCheckOut
                 fullTitle : fullTitle.Substring(0, UIMessage.MAX_STRING_LENGTH - 3) + "...";
             lbEdition.Text = "Edition: " + book.edition;
             lbAuthors.Text = "Author(s): " + 
-                (book.authors.Length <= 50 ? book.authors : book.authors.Substring(0, 47) + "...");
-            picBook.Load(book.img);
+                (book.authors.Length <= UIMessage.MAX_STRING_LENGTH ? book.authors : book.authors.Substring(0, UIMessage.MAX_STRING_LENGTH - 3) + "...");
+            try
+            {
+                picBook.Load(book.img);
+            }
+            catch (Exception)
+            {
+                picBook.Image = Properties.Resources._130304;
+            }
             lbGroup.Text = "Group: " + book.group;
             if (book.ableToBorrow)
             {

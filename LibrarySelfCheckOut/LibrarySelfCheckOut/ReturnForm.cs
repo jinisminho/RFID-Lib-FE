@@ -66,7 +66,8 @@ namespace LibrarySelfCheckOut
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.bookRFID = this.txtBookCode.Text.Trim();
+                this.txtBookCode.Enabled = false;
+                this.bookRFID = this.txtBookCode.Text.Trim().ToUpper() ;
                 if (!this.bookRFID.StartsWith(Constant.PATRON_CARD_PREFIX) 
                     && this.bookRFID.Length == Constant.TID_LENGTH)
                 {
@@ -104,6 +105,7 @@ namespace LibrarySelfCheckOut
 
                 }
                 this.txtBookCode.Text = "";
+                this.txtBookCode.Enabled = true;
                 this.txtBookCode.Focus();
             }
         }

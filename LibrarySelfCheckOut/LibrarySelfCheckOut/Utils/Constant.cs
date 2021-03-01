@@ -10,7 +10,7 @@ namespace LibrarySelfCheckOut.Utils
     {
         public static readonly string PATRON_CARD_PREFIX = "PAT#";
 
-        public static readonly int TID_LENGTH = 2;
+        public static readonly int TID_LENGTH = 24;
 
         public static readonly int LOGIN_SESSION_TIME_OUT = 120;
 

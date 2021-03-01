@@ -35,6 +35,7 @@
             this.txtBookRFID = new System.Windows.Forms.TextBox();
             this.panelHead = new System.Windows.Forms.Panel();
             this.pnNav = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.spiner = new System.Windows.Forms.PictureBox();
             this.lbDate = new System.Windows.Forms.Label();
             this.panelCenter = new System.Windows.Forms.Panel();
@@ -44,7 +45,6 @@
             this.lbSession = new System.Windows.Forms.Label();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.panelHead.SuspendLayout();
             this.pnNav.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -105,6 +105,17 @@
             this.pnNav.Size = new System.Drawing.Size(1775, 49);
             this.pnNav.TabIndex = 6;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(32, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(253, 35);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "CHECK-OUT SERVICE";
+            // 
             // spiner
             // 
             this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -160,6 +171,7 @@
             this.btDone.Name = "btDone";
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 2;
+            this.btDone.TabStop = false;
             this.btDone.Text = "CHECK OUT";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
@@ -177,6 +189,7 @@
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(199, 47);
             this.btCancel.TabIndex = 7;
+            this.btCancel.TabStop = false;
             this.btCancel.Text = "CANCEL";
             this.btCancel.UseMnemonic = false;
             this.btCancel.UseVisualStyleBackColor = false;
@@ -208,17 +221,6 @@
             this.timerSession.Enabled = true;
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(32, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(253, 35);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "CHECK-OUT SERVICE";
             // 
             // CheckOutForm
             // 
