@@ -25,7 +25,7 @@ import Policy from "views/Librarian/Policy";
 import Student from "views/Librarian/Student";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import BookLost from "views/BookLost/index.js";
-
+import Profile from "views/Student/Profile.js"
 
 var routes = [
   // {
@@ -114,6 +114,14 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-red",
     component: BookLost,
     layout: "/librarian"
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
+    layout: "/librarian",
+    invisible: true
   },
 ];
 export default routes;

@@ -72,7 +72,8 @@ var routes = [
     name: "Profile",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: "/patron"
+    layout: "/patron",
+    invisible: true
   },
   // {
   //   path: "/icons",
