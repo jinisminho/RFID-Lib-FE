@@ -13,7 +13,8 @@ import {
 } from "reactstrap";
 import BarcodeReader from 'react-barcode-reader'
 import DeleteButton from '../../components/Button/DeleteButton'
-
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 
 class ReturnBook extends React.Component {
     constructor(props) {
@@ -189,20 +190,8 @@ class ReturnBook extends React.Component {
                     </Card>
                     {display}
                 </Container>
-                <Modal show={this.state.errorShow} onHide={() => this.clearReturnBookError()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-danger">
-                        <Modal.Title>Book Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                        <h2>{this.state.errMsg}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.clearReturnBookError()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
+                <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
                 <Modal show={this.state.confirmShow} onHide={() => this.setState({ confirmShow: false })} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton className="bg-success">
                         <Modal.Title>Confirm Return</Modal.Title>
@@ -221,20 +210,6 @@ class ReturnBook extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header className="bg-success" closeButton>
-                                <Modal.Title>Success</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                                <h2>{this.state.successNotice}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
             </>
         )
     }

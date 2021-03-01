@@ -94,7 +94,7 @@ var routes = [
   },
   {
     path: "/staff",
-    name: "Staff Management",
+    name: "Librarian Management",
     icon: "fa fa-users text-red",
     component: Staff,
     layout: "/admin"

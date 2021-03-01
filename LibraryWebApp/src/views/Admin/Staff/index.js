@@ -27,7 +27,9 @@ import StaffForm from './staffForm'
 import StaffUpdateForm from './staffUpdateForm'
 import moment from 'moment'
 import { storage } from '../../../firebase'
-
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 import {
     Card,
     Container
@@ -57,13 +59,13 @@ class Staff extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add staff successfully"
+            msg = "Add librarian successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update staff successfully"
+            msg = "Update librarian successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Change staff status successfully"
+            msg = "Change librarian status successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -114,6 +116,11 @@ class Staff extends React.Component {
                     this.setState({ imageLoading: false })
                     values["avatar"] = url
                     values["creatorId"]=this.props.userid
+                    if(values["rfid"].trim().toUpperCase().includes("PAT#")){
+                        values["rfid"]=values["rfid"].trim().toUpperCase().split("PAT#")[1]
+                    }else { //DEFAULT
+                        values["rfid"]=values["rfid"].trim().toUpperCase()
+                    }
                     this.props.onAddStaff(values)
                 })
             }
@@ -146,6 +153,11 @@ class Staff extends React.Component {
                         this.setState({ imageLoading: false })
                         values["avatar"] = url
                         values["updaterId"] = this.props.userid
+                        if(values["rfid"].trim().toUpperCase().includes("PAT#")){
+                            values["rfid"]=values["rfid"].trim().toUpperCase().split("PAT#")[1]
+                        }else { //DEFAULT
+                            values["rfid"]=values["rfid"].trim().toUpperCase()
+                        }
                         this.props.onUpdateStaff(values)
                     })
                 }
@@ -153,6 +165,11 @@ class Staff extends React.Component {
         } else {
             this.setState({ updateFormShow: false })
             values["updaterId"] = this.props.userid
+            if(values["rfid"].trim().toUpperCase().includes("PAT#")){
+                values["rfid"]=values["rfid"].trim().toUpperCase().split("PAT#")[1]
+            }else { //DEFAULT
+                values["rfid"]=values["rfid"].trim().toUpperCase()
+            }
             this.props.onUpdateStaff(values)
         }
 
@@ -241,7 +258,7 @@ class Staff extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Type to search" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by email" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -251,7 +268,7 @@ class Staff extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Staff
+                            </span> <i className="fa fa-plus"></i> Add Librarian
                         </button>
                     </Col>
                 </Row>
@@ -313,7 +330,7 @@ class Staff extends React.Component {
                 {/* delete popup */}
                 <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Staff</Modal.Title>
+                        <Modal.Title>Add Librarian</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <StaffForm initialValues={{
@@ -326,46 +343,15 @@ class Staff extends React.Component {
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Staff</Modal.Title>
+                        <Modal.Title>Update Librarian</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <StaffUpdateForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
-                    <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Disable Staff</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1>Are you sure?</h1>
-                        <h1 className="text-danger display-1"><i className="fas fa-trash-alt"></i></h1>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleChangeStatusCancel()}>
-                            Close
-                    </Button>
-                        <Button variant="danger" onClick={() => this.handleChangeStatusSubmit(false)}>
-                            OK
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal backdrop="static" show={this.state.confirmActiveStatus} onHide={() => this.handleChangeStatusCancel()}>
-                    <Modal.Header className="bg-primary" closeButton>
-                        <Modal.Title>Activate Staff</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1>Are you sure?</h1>
-                        <h1 className="text-primary display-1"><i className="fas fa-check"></i></h1>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleChangeStatusCancel()}>
-                            Close
-                    </Button>
-                        <Button variant="success" onClick={() => this.handleChangeStatusSubmit(true)}>
-                            OK
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
+                <CommonConfirmModal title="Disable Student" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this librarian?" />
+                <CommonConfirmModal title="Activate Student" show={this.state.confirmActiveStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(true)} msg="Do you want to activate this librarian?" />
+                
             </div>
         )
         if (this.props.loading || this.state.imageLoading) {
@@ -375,34 +361,8 @@ class Staff extends React.Component {
             <>
                 <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header className="bg-success" closeButton>
-                                <Modal.Title>Success</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                                <h2>{this.state.successNotice}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-                        <Modal show={this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header closeButton className="bg-danger">
-                                <Modal.Title>Error</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                                <h2>{this.props.error}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                    <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                    <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                         {display}
                     </Card>
                 </Container>

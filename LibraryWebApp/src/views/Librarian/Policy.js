@@ -1,25 +1,18 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Alert, Tab, Tabs } from 'react-bootstrap'
+import {Tab, Tabs } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import {
     Card,
-    CardHeader,
     Container,
     Row,
     Col
 } from "reactstrap";
 import MyUtil from "store/utility"
 import * as MyConstant from '../Util/Constant'
-import UpdateButton from '../../components/Button/UpdateButton'
-import DeleteButton from '../../components/Button/DeleteButton'
-import AddBorrowPolicyModal from "components/Modals/AddBorrowPolicyModal";
 import FeePolicyHistoryModal from "components/Modals/FeePolicyHistoryModal";
-import CommonConfirmModal from "components/Modals/CommonConfirmModal"
-import CommonSuccessModal from "components/Modals/CommonSuccessModal"
-import CommonErrorModal from "components/Modals/CommonErrorModal"
 import moment from 'moment';
 
 
