@@ -52,7 +52,7 @@ const validate = values => {
     if (!values.searchValue) {
         errors.searchValue = 'RFID/Email is required'
     }
-    if (!values.active) {
+    if (values.active == false) {
         errors.searchValue = 'This patron is inactive'
     }
     if (values.err) {
@@ -78,8 +78,7 @@ class AddToWishlistLibForm extends React.Component {
     }
 
     componentDidMount() {
-        // this.fetchData()
-        this.resetForm()
+        this.props.onReset();
     }
 
     componentDidUpdate(prevProps) {
@@ -87,25 +86,17 @@ class AddToWishlistLibForm extends React.Component {
             this.props.change('patronId', this.props.myValues.accountId);
             this.props.change('active', this.props.myValues.active);
         }
-        // if (this.props.myValues !== prevProps.myValues) {
-        //     this.props.change('patronId', this.props.myValues.accountId);
-        //     this.props.change('active', this.props.myValues.active);
-        // }
         if(this.props.errorMsg !== prevProps.errorMsg) {
             this.props.change('err', this.props.errorMsg);
         }
-
     }
 
     componentWillUnmount() {
         this.props.onReset();
     }
 
-    // fetchData(event, newValue, previousValue, name) {
-    //     this.props.onFetchData(newValue);
-    // }
-
     fetchData(value) {
+        value = value ? value : ""
         if (value.trim().toUpperCase().includes("PAT#")) {
             this.props.onFetchData(value.trim().toUpperCase().split("PAT#")[1]);
         }
@@ -123,7 +114,7 @@ class AddToWishlistLibForm extends React.Component {
     resetForm() {
         this.props.onReset();
         this.props.change('patronId', null);
-        this.props.change('active', true);
+        this.props.change('active', null);
         this.props.change('err', null);
     }
 
@@ -131,7 +122,6 @@ class AddToWishlistLibForm extends React.Component {
         const {
             handleSubmit,
             handleCancel,
-            // initialValues,
             myValues,
             submitting,
             pristine,
@@ -275,6 +265,5 @@ AddToWishlistLibForm = connect(
 
 export default reduxForm({
     form: 'addToWishlistLibForm',
-    // enableReinitialize: true,
     validate
 })(AddToWishlistLibForm)
