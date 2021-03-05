@@ -4,6 +4,7 @@ export {
     setAuthRedirectPath,
     authCheckState,
     changePassword,
+    closeChangePassword
 } from './auth'
 
 export {

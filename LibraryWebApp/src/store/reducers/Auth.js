@@ -3,7 +3,7 @@ import {updateObject} from '../utility'
 
 
 const authStart = (state, action) =>{
-  return updateObject(state,{error:null, loading:true})
+  return updateObject(state,{error:null, loading:true,changePasswordSuccess:false})
 }
 const authSuccess = (state, action)=>{
   return updateObject(state,{
@@ -13,7 +13,8 @@ const authSuccess = (state, action)=>{
       error:null,
       loading:false,
       role:action.role,
-      avatar:action.avatar
+      avatar:action.avatar,
+      changePasswordSuccess:false
   })
 }
 
@@ -21,7 +22,8 @@ const authSuccess = (state, action)=>{
 const authFail = (state, action) =>{
   return updateObject(state,{
       error:action.error,
-      loading:false
+      loading:false,
+      changePasswordSuccess:false
   })
 }
 
@@ -34,26 +36,34 @@ const authLogout = (state, action) =>{
     avatar:null,
     error: null,
     loading: false,
+    changePasswordSuccess:false
   })
 }
 
 const changePasswordStart = (state, action) =>{
-  return updateObject(state,{error:null, loading:true})
+  return updateObject(state,{error:null, loading:true,changePasswordSuccess:false})
 }
 const changePasswordSuccess = (state, action)=>{
   return updateObject(state,{
-      token: action.idToken,
-      userId: action.userId,
       error:null,
-      loading:false
+      loading:false,
+      changePasswordSuccess:true
   })
 }
 const changePasswordFail = (state, action) =>{
   return updateObject(state,{
       error:action.error,
-      loading:false
+      loading:false,
+      changePasswordSuccess:false
   })
 }
+const closeChangePasswordFail = (state, action) =>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+  })
+}
+
 
 const setRedirectPath = (state,action) =>{
   return updateObject(state, {authRedirectPath: action.path})
@@ -68,6 +78,7 @@ export default function reducer(state = {
   avatar:null,
   error: null,
   loading: false,
+  changePasswordSuccess:false,
   authRedirectPath: '/'
 }, action) {
   switch(action.type){
@@ -78,6 +89,7 @@ export default function reducer(state = {
     case actionTypes.CHANGE_PASSWORD_START: return changePasswordStart(state, action)
     case actionTypes.CHANGE_PASSWORD_FAILED: return changePasswordFail(state, action)
     case actionTypes.CHANGE_PASSWORD_SUCCESS: return changePasswordSuccess(state,action)
+    case actionTypes.CLOSE_CHANGE_PASSWORD_FAILED: return closeChangePasswordFail(state,action)
     case actionTypes.SET_AUTH_REDIRECT_PATH: return setRedirectPath(state,action)
    
 }

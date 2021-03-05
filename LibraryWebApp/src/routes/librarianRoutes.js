@@ -25,6 +25,7 @@ import Policy from "views/Librarian/Policy";
 import Student from "views/Librarian/Student";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import BookLost from "views/BookLost/index.js";
+import ChangePassword from "views/ChangePassword/index";
 
 
 var routes = [
@@ -115,5 +116,13 @@ var routes = [
     component: BookLost,
     layout: "/librarian"
   },
+  {
+    path: "/changepw",
+    name: "Change Password",
+    icon: "fa fa-book-reader text-red",
+    component: ChangePassword,
+    layout: "/admin",
+    invisible: true
+  }
 ];
 export default routes;
