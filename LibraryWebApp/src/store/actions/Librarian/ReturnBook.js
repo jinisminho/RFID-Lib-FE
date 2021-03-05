@@ -33,7 +33,7 @@ export const getReturningBook = (rfid) => {
                 dispatch(getReturningBookSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getReturningBookFail(responseError(error)))
+                dispatch(responseError(getReturningBookFail,error))
             });
     }
 
@@ -85,7 +85,7 @@ export const returnBook = (data,libid) => {
 
             })
             .catch(error=> {
-                dispatch(returnBookFail(responseError(error)))
+                dispatch(responseError(returnBookFail,error))
             });
     }
 

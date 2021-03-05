@@ -37,7 +37,7 @@ export const getBorrowPolicy = (page, size) => {
                 dispatch(getBorrowPolicySuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getBorrowPolicyFailed(responseError(error)))
+                dispatch(responseError(getBorrowPolicyFailed,error))
             });
 
         // let response=prototype.getBorrowPolicy(page,size)
@@ -83,7 +83,7 @@ export const getPatronPolicy = (page, size) => {
                 dispatch(getPatronPolicySuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getPatronPolicyFailed(responseError(error)))
+                dispatch(responseError(getPatronPolicyFailed,error))
             });
 
         // let response=prototype.getPatronPolicy(page,size)
@@ -129,7 +129,7 @@ export const getFeePolicy = () => {
                 dispatch(getFeePolicySuccess(arr))
             })
             .catch(error => {
-                dispatch(getFeePolicyFailed(responseError(error)))
+                dispatch(responseError(getFeePolicyFailed,error))
             });
 
         // let response = prototype.getFeePolicy()
@@ -206,7 +206,7 @@ export const addBorrowPolicy = (data) => {
                 dispatch(addBorrowPolicySuccess())
             })
             .catch(error => {
-                dispatch(addBorrowPolicyFail(responseError(error)))
+                dispatch(responseError(addBorrowPolicyFail,error))
             });
 
         // let response = prototype.addBorrowPolicy(data)
@@ -247,7 +247,7 @@ export const updateBorrowPolicy = (data) => {
                 dispatch(updateBorrowPolicySuccess())
             })
             .catch(error => {
-                dispatch(updateBorrowPolicyFail(responseError(error)))
+                dispatch(responseError(updateBorrowPolicyFail,error))
             });
 
         // let response = prototype.updateBorrowPolicy(data)
@@ -288,15 +288,8 @@ export const deleteBorrowPolicy = (id) => {
                 dispatch(deleteBorrowPolicySuccess())
             })
             .catch(error => {
-                dispatch(deleteBorrowPolicySuccess(responseError(error)))
+                dispatch(responseError(deleteBorrowPolicyFail,error))
             });
-
-        // let response = prototype.deleteBorrowPolicy(id)
-        // if (response.status == true) {
-        //     dispatch(deleteBorrowPolicySuccess())
-        // } else {
-        //     dispatch(deleteBorrowPolicyFail(response.error))
-        // }
     }
 }
 
@@ -329,7 +322,7 @@ export const updatePatronPolicy = (data) => {
                 dispatch(updatePatronPolicySuccess())
             })
             .catch(error => {
-                dispatch(updatePatronPolicyFail(responseError(error)))
+                dispatch(responseError(updatePatronPolicyFail,error))
             });
 
         // let response = prototype.updatePatronPolicy(data)
@@ -375,7 +368,7 @@ export const getFeePolicies = (page, size) => {
                 dispatch(getFeePoliciesSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getFeePoliciesFailed(responseError(error)))
+                dispatch(responseError(getFeePoliciesFailed,error))
             });
 
         // let response = prototype.getFeePolicies(page, size)
@@ -417,7 +410,7 @@ export const updateFeePolicy = (data) => {
                 dispatch(updateFeePolicySuccess())
             })
             .catch(error => {
-                dispatch(updateFeePolicyFail(responseError(error)))
+                dispatch(responseError(updateFeePolicyFail,error))
             });
 
         // let response = prototype.updateFeePolicy(data)

@@ -37,7 +37,7 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
                     dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoOverdueFailed,error))
                 });
         }
 
@@ -84,7 +84,7 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoBorrowingFailed,error))
                 });
         }
 
@@ -131,7 +131,7 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoReturnedFailed,error))
                 });
         }
 
@@ -175,7 +175,7 @@ export const getExtendedHistory = (bookBorrowingId) => {
                 dispatch(getExtendedHistorySuccess(response.data.content, response.data.totalElements))
             })
             .catch(error => {
-                dispatch(getExtendedHistoryFailed(responseError(error)))
+                dispatch(responseError(getExtendedHistoryFailed,error))
             });
 
         // let response = prototype.getExtendedHistory()
@@ -222,7 +222,7 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
                 dispatch(extendDueSuccess())
             })
             .catch(error => {
-                dispatch(extendDueSuccess(responseError(error)))
+                dispatch(responseError(extendDueFailed,error))
             });
 
         // let response
@@ -274,7 +274,7 @@ export const getStudentProfile = (patronId) => {
                 dispatch(getStudentProfileSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getStudentProfileFailed(responseError(error)))
+                dispatch(responseError(getStudentProfileFailed,error))
             });
 
 
@@ -325,7 +325,7 @@ export const updateStudentProfile = (patronId, form) => {
                 dispatch(updateStudentProfileSuccess(true))
             })
             .catch(error => {
-                dispatch(updateStudentProfileFailed(responseError(error)))
+                dispatch(responseError(updateStudentProfileFailed,error))
             });
 
         // let response = prototype.updateStudentProfile(form);
@@ -376,7 +376,7 @@ export const getWishlist = (search, page, size) => {
                 dispatch(getWishlistSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getWishlistFailed(responseError(error)))
+                dispatch(responseError(getWishlistFailed,error))
             });
         // if (response.status) {
         //     dispatch(getWishlistSuccess(response.data, response.total, page, size))
@@ -424,7 +424,7 @@ export const addReminder = (bookId, patronId) => {
                     dispatch(addReminderSuccess(true, "Added to wishlist successfully"))
                 })
                 .catch(error => {
-                    dispatch(addReminderFailed(responseError(error)))
+                    dispatch(responseError(addReminderFailed,error))
                 });
         }
 
@@ -471,7 +471,7 @@ export const checkPolicy = (bookBorrowingId) => {
                     dispatch(checkPolicySuccess(response.data))
                 })
                 .catch(error => {
-                    dispatch(checkPolicyFailed(responseError(error)))
+                    dispatch(responseError(checkPolicyFailed,error))
                 });
         }
 

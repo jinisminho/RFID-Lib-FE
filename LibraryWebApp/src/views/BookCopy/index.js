@@ -33,6 +33,8 @@ import {
     Card,
     Container
 } from "reactstrap";
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 import { Link } from 'react-router-dom'
 class BookCopy extends React.Component {
     constructor(props) {
@@ -206,20 +208,16 @@ class BookCopy extends React.Component {
         })
     }
     activeFormatter(cell, row) {
+        let btn=null
+        if(!MyConstant.BOOK_COPY_NOT_UPDATE_STATUS.includes(row.status)){
+            btn=(<UpdateButton clicked={() => this.setState({
+                updateFormShow: true,
+                updateData: row
+            })} />)
+        }
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({
-                    updateFormShow: true,
-                    updateData: row
-                })} />
-                {/* <Button className="btn btn-sm btn-primary" onClick={() => this.setState({
-                     updateFormShow: true,
-                     updateData: row
-                })}>Edit</Button>         */}
-                {/* <DeleteButton clicked={() => this.setState({
-                    confirmDelete: true,
-                    deleteId: row.id
-                })} /> */}
+                {btn}
             </div>
         )
     }
@@ -396,7 +394,7 @@ class BookCopy extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Type to search" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by ISBN, barcode or title" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -437,34 +435,8 @@ class BookCopy extends React.Component {
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
-                        <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header className="bg-success" closeButton>
-                                <Modal.Title>Success</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                                <h2>{this.state.successNotice}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-                        <Modal show={this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header closeButton className="bg-danger">
-                                <Modal.Title>Error</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                                <h2>{this.state.errMsg}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                    <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                    <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
                         {display}
                     </Card>
                 </Container>

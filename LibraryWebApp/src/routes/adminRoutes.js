@@ -15,13 +15,6 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
-import Profil from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import Login from "views/Login/Login.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
 import BorrowingInfo from "views/Librarian/BorrowingInfo";
 import Book from "views/Book/index.js";
 import BookCopy from "views/BookCopy/index.js";
@@ -33,7 +26,7 @@ import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Admin/Policy";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import Profile from "views/Student/Profile.js"
-
+import ChangePassword from "views/ChangePassword/index";
 var routes = [
   {
     path: "/index",
@@ -95,7 +88,7 @@ var routes = [
   },
   {
     path: "/staff",
-    name: "Staff Management",
+    name: "Librarian Management",
     icon: "fa fa-users text-red",
     component: Staff,
     layout: "/admin"
@@ -115,5 +108,14 @@ var routes = [
     layout: "/admin",
     invisible: true
   },
+  },
+  {
+    path: "/changepw",
+    name: "Change Password",
+    icon: "fa fa-book-reader text-red",
+    component: ChangePassword,
+    layout: "/admin",
+    invisible: true
+  }
 ];
 export default routes;

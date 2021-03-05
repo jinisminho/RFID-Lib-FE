@@ -40,7 +40,7 @@ export const getBook = (search,page,size) => {
                 dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error)))
+                dispatch(responseError(getBookFailed,error))
             });
     }
 
@@ -77,7 +77,7 @@ export const getLocation = (search) => {
                 dispatch(getLocationSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getLocationFailed(responseError(error)))
+                dispatch(responseError(getLocationFailed,error))
             });
     }
 

@@ -1,6 +1,7 @@
 import * as actionTypes from '../actionTypes'
 import axios from '../../../axios'
 import {responseError} from '../../utility'
+import {logout} from '../auth'
 export const getBookSuccess = (data, total, page, sizePerPage) => {
     return {
         type: actionTypes.ADMIN_GET_BOOKS_SUCCESS,
@@ -35,7 +36,7 @@ export const getBook = (page,size,search) => {
                 dispatch(getBookSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error)))
+                dispatch(responseError(getBookFailed,error))
             });
     }
 
@@ -77,7 +78,7 @@ export const getAuthor = () => {
                 dispatch(getAuthorSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getBookFailed(responseError(error)))
+                dispatch(responseError(getAuthorFailed,error))
             });
     }
 
@@ -118,7 +119,7 @@ export const getGenre = () => {
                 dispatch(getGenreSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getGenreFailed(responseError(error)))
+                dispatch(responseError(getGenreFailed,error))
             });
     }
 
@@ -152,7 +153,7 @@ export const addBook = (data) => {
                 dispatch(addBookSuccess())
             })
             .catch(error=> {
-                dispatch(addBookFail(responseError(error)))
+                dispatch(responseError(addBookFail,error))
             });   
         
     }
@@ -183,7 +184,7 @@ export const addBookCopy = (data) => {
                 dispatch(addCopySuccess())
             })
             .catch(error=> {
-                dispatch(addCopyFail(responseError(error)))
+                dispatch(responseError(addCopyFail,error))
             });  
     }
 }
@@ -214,7 +215,7 @@ export const updateBook = (data) => {
                 dispatch(updateBookSuccess())
             })
             .catch(error=> {
-                dispatch(updateBookFail(responseError(error)))
+                dispatch(responseError(updateBookFail,error))
             });   
         
     }
@@ -245,7 +246,7 @@ export const deleteBook = (id) => {
                 dispatch(deleteBookSuccess())
             })
             .catch(error=> {
-                dispatch(deleteBookFail(responseError(error)))
+                dispatch(responseError(deleteBookFail,error))
             });   
         
     }
@@ -279,7 +280,7 @@ export const generateCopyBarcode = (data) => {
                 dispatch(generateCopyBarcodeSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(generateCopyBarcodeFailed(responseError(error)))
+                dispatch(responseError(generateCopyBarcodeFailed,error))
             });   
     }
 }
@@ -319,7 +320,7 @@ export const getBookCopyType = () => {
                 dispatch(getBookCopyTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getBookCopyTypeFailed(responseError(error)))
+                dispatch(responseError(getBookCopyTypeFailed,error))
             });
     }
 
@@ -355,7 +356,7 @@ export const getLocation = (search) => {
                 dispatch(getLocationSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getLocationFailed(responseError(error)))
+                dispatch(responseError(getLocationFailed,error))
             });
     }
 

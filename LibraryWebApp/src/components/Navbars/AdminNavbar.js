@@ -65,6 +65,10 @@ class AdminNavbar extends React.Component {
                     <i className="ni ni-single-02" />
                     <span>My profile</span>
                   </DropdownItem>
+                  <DropdownItem to="/admin/changepw" tag={Link}>
+                    <i className="fa fa-lock"/>
+                    <span>Change password</span>
+                  </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem href="#pablo" onClick={this.props.logout}>
                     <i className="ni ni-user-run" />
