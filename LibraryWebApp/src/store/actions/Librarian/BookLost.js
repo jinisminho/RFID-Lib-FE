@@ -33,7 +33,7 @@ export const getBookLost = (page,size,start,end) => {
                 dispatch(getBookLostSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getBookLostFailed(responseError(error)))
+                dispatch(responseError(getBookLostFailed,error))
             });
     }
 

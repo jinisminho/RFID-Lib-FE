@@ -36,7 +36,7 @@ export const getAdminStudent = (page,size,search) => {
                 dispatch(getAdminStudentSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getAdminStudentFailed(responseError(error)))
+                dispatch(responseError(getAdminStudentFailed,error))
             });
     }
 
@@ -68,7 +68,7 @@ export const addStudent = (data) => {
                 dispatch(addStudentSuccess())
             })
             .catch(error=> {
-                dispatch(addStudentFail(responseError(error)))
+                dispatch(responseError(addStudentFail,error))
             });   
     }
 }
@@ -98,7 +98,7 @@ export const updateStudent = (data) => {
                 dispatch(updateStudentSuccess())
             })
             .catch(error=> {
-                dispatch(updateStudentFail(responseError(error)))
+                dispatch(responseError(updateStudentFail,error))
             });   
     }
 }
@@ -133,7 +133,7 @@ export const changeStatusStudent = (id,status,updater) => {
                 dispatch(changeStatusStudentSuccess())
             })
             .catch(error=> {
-                dispatch(changeStatusStudentFail(responseError(error)))
+                dispatch(responseError(changeStatusStudentFail,error))
             });   
     }
 }
@@ -167,7 +167,7 @@ export const getAllPatronType = () => {
                 dispatch(getAllPatronTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getAllPatronTypeFailed(responseError(error)))
+                dispatch(responseError(getAllPatronTypeFailed,error))
             });
     }
 

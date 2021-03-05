@@ -52,7 +52,7 @@ export const auth = (username, password) =>{
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
         })
         .catch(error =>{
-            dispatch(authFail(responseError(error)))
+            dispatch(responseError(authFail,error))
         })
     }
 }
@@ -113,7 +113,7 @@ export const changePassword = (id, current,newPassword) =>{
 
         })
         .catch(error =>{
-            dispatch(changePasswordFailed(responseError(error)))
+            dispatch(responseError(changePasswordFailed,error))
         })
     }
 }

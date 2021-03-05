@@ -38,7 +38,7 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
                     dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoOverdueFailed,error))
                 });
         }
 
@@ -85,7 +85,7 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoBorrowingFailed,error))
                 });
         }
 
@@ -132,7 +132,7 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
+                    dispatch(responseError(getBorrowingInfoReturnedFailed,error))
                 });
         }
 
@@ -176,7 +176,7 @@ export const getExtendedHistory = (bookBorrowingId) => {
                 dispatch(getExtendedHistorySuccess(response.data.content, response.data.totalElements))
             })
             .catch(error => {
-                dispatch(getExtendedHistoryFailed(responseError(error)))
+                dispatch(responseError(getExtendedHistoryFailed,error))
             });
 
         // let response = prototype.getExtendedHistory()
@@ -223,7 +223,7 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
                 dispatch(extendDueSuccess())
             })
             .catch(error => {
-                dispatch(extendDueFailed(responseError(error)))
+                dispatch(responseError(extendDueFailed,error))
             });
 
         // let response
@@ -275,7 +275,7 @@ export const getStudent = (search) => {
                     dispatch(getStudentSuccess(response.data))
                 })
                 .catch(error => {
-                    dispatch(getStudentFailed(responseError(error)))
+                    dispatch(responseError(getStudentFailed,error))
                 });
         else
             dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
@@ -313,7 +313,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(getBorrowingInfoOverdueFailed(responseError(error)))
+                            dispatch(responseError(getBorrowingInfoOverdueFailed,error))
                         });
 
                     //Borrowing    
@@ -323,7 +323,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(getBorrowingInfoBorrowingFailed(responseError(error)))
+                            dispatch(responseError(getBorrowingInfoBorrowingFailed,error))
                         });
 
                     //Returned
@@ -333,13 +333,13 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(getBorrowingInfoReturnedFailed(responseError(error)))
+                            dispatch(responseError(getBorrowingInfoReturnedFailed,error))
                         });
 
 
                 })
                 .catch(error => {
-                    dispatch(getStudentFailed(responseError(error)))
+                    dispatch(responseError(getStudentFailed,error))
                 });
         else dispatch(getStudentFailed("Get student info failed - Empty seach value"))
 

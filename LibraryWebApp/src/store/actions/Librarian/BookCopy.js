@@ -37,7 +37,7 @@ export const getCopy = (page, size, search, select) => {
                 dispatch(getCopySuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getCopyFailed(responseError(error)))
+                dispatch(responseError(getCopyFailed,error))
             });
     }
 
@@ -125,7 +125,7 @@ export const getCopyType = () => {
                 dispatch(getCopyTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getCopyTypeFailed(responseError(error)))
+                dispatch(responseError(getCopyTypeFailed,error))
             });
     }
 
@@ -156,7 +156,7 @@ export const addCopy = (data) => {
                 dispatch(addCopySuccess())
             })
             .catch(error=> {
-                dispatch(addCopyFail(responseError(error)))
+                dispatch(responseError(addCopyFail,error))
             });   
     }
 }
@@ -186,7 +186,7 @@ export const updateCopy = (data) => {
                 dispatch(updateCopySuccess())
             })
             .catch(error=> {
-                dispatch(updateCopyFail(responseError(error)))
+                dispatch(responseError(updateCopyFail,error))
             });   
     }
 }
@@ -291,7 +291,7 @@ export const generateBarcode = (data) => {
                 dispatch(generateBarcodeSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(generateBarcodeFailed(responseError(error)))
+                dispatch(responseError(generateBarcodeFailed,error))
             });   
     }
 }
@@ -327,7 +327,7 @@ export const tagRFID = (data) => {
                 dispatch(tagRFIDSuccess(response.data))
             })
             .catch(error => {
-                dispatch(tagRFIDFailed(responseError(error)))
+                dispatch(responseError(tagRFIDFailed,error))
             });
     }
 }
@@ -364,7 +364,7 @@ export const getCopyByBarcode = (barcode) => {
                 dispatch(getCopyByBarcodeSuccess(response.data.book))
             })
             .catch(error => {
-                dispatch(getCopyByBarcodeFailed(responseError(error)))
+                dispatch(responseError(getCopyByBarcodeFailed,error))
             });
     }
 
@@ -399,7 +399,7 @@ export const getCopyById = (id) => {
                 dispatch(getCopyByIdSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getCopyByIdFailed(responseError(error)))
+                dispatch(responseError(getCopyByIdFailed,error))
             });
     }
 
@@ -436,7 +436,7 @@ export const getLocation = (search) => {
                 dispatch(getLocationSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getLocationFailed(responseError(error)))
+                dispatch(responseError(getLocationFailed,error))
             });
     }
 

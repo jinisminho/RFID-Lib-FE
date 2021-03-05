@@ -35,7 +35,7 @@ export const getStaff = (page,size,search) => {
                 dispatch(getStaffSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error=> {
-                dispatch(getStaffFailed(responseError(error)))
+                dispatch(responseError(getStaffFailed,error))
             });
     }
 
@@ -67,7 +67,7 @@ export const addStaff = (data) => {
                 dispatch(addStaffSuccess())
             })
             .catch(error=> {
-                dispatch(addStaffFail(responseError(error)))
+                dispatch(responseError(addStaffFail,error))
             });   
     }
 }
@@ -97,7 +97,7 @@ export const updateStaff = (data) => {
                 dispatch(updateStaffSuccess())
             })
             .catch(error=> {
-                dispatch(updateStaffFail(responseError(error)))
+                dispatch(responseError(updateStaffFail,error))
             });   
     }
 }
@@ -132,7 +132,7 @@ export const changeStatusStaff = (id,status,updater) => {
                 dispatch(changeStatusStaffSuccess())
             })
             .catch(error=> {
-                dispatch(changeStatusStaffFail(responseError(error)))
+                dispatch(responseError(changeStatusStaffFail,error))
             });   
     }
 }
