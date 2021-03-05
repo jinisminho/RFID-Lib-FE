@@ -66,7 +66,7 @@ class AdminNavbar extends React.Component {
                     <span>My profile</span>
                   </DropdownItem>
                   <DropdownItem to="/admin/changepw" tag={Link}>
-                    <i class="fa fa-lock"/>
+                    <i className="fa fa-lock"/>
                     <span>Change password</span>
                   </DropdownItem>
                   <DropdownItem divider />

@@ -41,7 +41,7 @@ class ChangePassword extends React.Component {
     componentDidUpdate() {
         let msg= null
         if (this.props.changePasswordSuccess) {
-            msg = "Change password successfully. Please login again"
+            msg = "Change password successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -52,12 +52,8 @@ class ChangePassword extends React.Component {
         
     }
     handleModalClose() {
-        if(this.props.changePasswordSuccess){
-            this.props.onLogout()
-        }else{
-            this.props.onCloseChangePassword()
-        }
-        this.setState({ successShow: false, errorShow: false})
+        this.props.onCloseChangePassword()
+        this.setState({ successShow: false, errorShow: false,successNotice:""})
 
     }
     render() {
@@ -106,7 +102,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangePassword: (id,current, newPw) => dispatch(actions.changePassword(id,current,newPw)),
         onCloseChangePassword: () =>{dispatch(actions.closeChangePassword()); dispatch(reset('changePasswordForm'));},
-        onLogout: () => dispatch(actions.logout())
     }
 }
 

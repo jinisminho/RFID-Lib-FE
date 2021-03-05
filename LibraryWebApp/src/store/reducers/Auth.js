@@ -47,7 +47,8 @@ const changePasswordSuccess = (state, action)=>{
   return updateObject(state,{
       error:null,
       loading:false,
-      changePasswordSuccess:true
+      changePasswordSuccess:true,
+      token:action.token
   })
 }
 const changePasswordFail = (state, action) =>{
@@ -61,6 +62,7 @@ const closeChangePasswordFail = (state, action) =>{
   return updateObject(state,{
       error:null,
       loading:false,
+      changePasswordSuccess:false
   })
 }
 

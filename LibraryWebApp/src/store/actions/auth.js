@@ -28,20 +28,12 @@ export const authFail =(error) =>{
 }
 
 export const logout =()=>{
-    localStorage.removeItem('expiryDate')
     deleteAllCookies()
     return{
         type: actionTypes.AUTH_LOGOUT
     }
 }
 
-export const checkAuthTimeOut = (expirationTime) =>{
-    return dispatch =>{
-        setTimeout(()=>{
-            dispatch(logout())
-        },expirationTime)
-    }
-}
 
 export const auth = (username, password) =>{
     return dispatch => {
@@ -51,16 +43,13 @@ export const auth = (username, password) =>{
             password:password,
             }
         let url='/auth/login'
-        axios.post(url,authData,{withCredentials:true,credentials:"include"})
+        axios.post(url,authData,{withCredentials:true})
         .then(response =>{
-            const expiryDate= new Date(response.data.expiryDate)
-            localStorage.setItem('expiryDate', expiryDate)
             setCookie("Userid",response.data.userId)
             setCookie("Role",response.data.role)
             setCookie("Avatar",response.data.avatar)
             setCookie("Username",response.data.email)
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
-            dispatch(checkAuthTimeOut(response.data.expiryDate- (new Date().getTime())))
         })
         .catch(error =>{
             dispatch(authFail(responseError(error)))
@@ -80,17 +69,11 @@ export const authCheckState = ()=>{
         if(!token){
             dispatch(logout())
         }else{
-            const expiryDate = new Date(localStorage.getItem('expiryDate'))
-            if(expiryDate <= new Date()){
-                dispatch(logout())
-            }else{
                 const userId = getCookie("Userid")
                 const role= getCookie("Role")
                 const avt= getCookie("Avatar")
                 const username= getCookie("Username")
                 dispatch(authSuccess(token, userId,role,avt,username))
-                dispatch(checkAuthTimeOut(expiryDate.getTime()- (new Date().getTime())))
-            }
         }
     }
 }
@@ -108,39 +91,36 @@ export const changePasswordFailed =(error) =>{
         error: error
     }
 }
-export const changePasswordSuccess = (token, userId)=>{
+export const changePasswordSuccess = (token)=>{
     return{
         type: actionTypes.CHANGE_PASSWORD_SUCCESS,
-        idToken: token,
-        userId: userId
+        token:token
     };
 }
-export const changePassword = (id, newPass) =>{
+export const changePassword = (id, current,newPassword) =>{
     return dispatch => {
         dispatch(changePasswordStart());
         const changeData ={
-            idToken:id,
-            password:newPass,
-            returnSecureToken :true
+            accountId:id,
+            currentPassword:current,
+            newPassword :newPassword
         }
-        let url='https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDlIksbOmIbctM2LrIvzxQJznoKcyIUEJI'
-        // if(!isSignup){
-        ///       url= 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDlIksbOmIbctM2LrIvzxQJznoKcyIUEJI'
-        //     
-        // }
-        axios.post(url,changeData)
+        let url='/account/password/change'
+        axios.post(url,changeData,{withCredentials:true})
         .then(response =>{
-            const expiryDate= new Date(new Date().getTime() + response.data.expiryDate*1000)
-            localStorage.setItem('accessToken',response.data.accessToken)
-            localStorage.setItem('expiryDate', expiryDate)
-            localStorage.setItem('userId', response.data.userId)
-            dispatch(changePasswordSuccess(response.data.accessToken, response.data.userId))
-            dispatch(checkAuthTimeOut(response.data.expiresIn))
+            setCookie("Authorization",response.data)
+            dispatch(changePasswordSuccess(response.data))
+
         })
         .catch(error =>{
             dispatch(changePasswordFailed(responseError(error)))
         })
     }
+}
+export const closeChangePassword = () =>{
+        return{
+            type: actionTypes.CLOSE_CHANGE_PASSWORD_FAILED,
+        };
 }
 
 function getCookie(cname) {
