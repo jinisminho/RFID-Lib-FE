@@ -27,6 +27,7 @@ import Policy from "views/Admin/Policy";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import Profile from "views/Student/Profile.js"
 import ChangePassword from "views/ChangePassword/index";
+import Types from "views/Admin/Types.js"
 var routes = [
   {
     path: "/index",
@@ -84,6 +85,13 @@ var routes = [
     name: "Policy",
     icon: "ni ni-bullet-list-67 text-red",
     component: Policy,
+    layout: "/admin"
+  },
+  {
+    path: "/types",
+    name: "Types",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Types,
     layout: "/admin"
   },
   {

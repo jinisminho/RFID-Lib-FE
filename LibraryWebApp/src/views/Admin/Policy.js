@@ -444,7 +444,7 @@ class Policy extends React.Component {
                                 {/* <CardHeader className="border-0">
                                     <h3 className="mb-0">{MyConstant.BORROW_POLICY}</h3>
                                 </CardHeader> */}
-                                <Tabs defaultActiveKey="borrow" id="my-uncontrolled-tab" >
+                                <Tabs defaultActiveKey="borrow" onSelect={() => this.fetchData()} id="my-uncontrolled-tab" >
                                     <Tab eventKey="borrow" title="Borrow">
                                         {borrow_policy}
                                     </Tab>

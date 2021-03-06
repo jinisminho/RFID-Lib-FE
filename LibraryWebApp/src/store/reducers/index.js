@@ -13,6 +13,7 @@ import requestNewBook from './Student/requestNewBook';
 import bookStu from './Student/book'
 import policy from './Librarian/Policy'
 import lost from './Librarian/BookLost'
+import types from './Common/Types'
 export default {
   Auth,
   guest,
@@ -28,5 +29,6 @@ export default {
   student,
   policy,
   lost,
+  types,
   form: formReducer,
 };

@@ -276,6 +276,6 @@ AddBorrowPolicyForm = connect(
 )(AddBorrowPolicyForm)
 
 export default reduxForm({
-    form: 'tagRFIDForm',
+    form: 'addBorrowPolicyForm',
     validate
 })(AddBorrowPolicyForm)
