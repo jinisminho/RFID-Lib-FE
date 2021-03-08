@@ -36,7 +36,7 @@ export const getPatronTypes = (page, size) => {
                 dispatch(getPatronTypesSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getPatronTypesFailed(responseError(error)))
+                dispatch(responseError(getPatronTypesFailed,error))
             });
     }
 
@@ -71,7 +71,7 @@ export const updatePatronType = (data) => {
                 dispatch(updatePatronTypeSuccess())
             })
             .catch(error => {
-                dispatch(updatePatronTypeFail(responseError(error)))
+                dispatch(responseError(updatePatronTypeFail,error))
             });
     }
 }
@@ -105,7 +105,7 @@ export const addPatronType = (data) => {
                 dispatch(addPatronTypeSuccess())
             })
             .catch(error => {
-                dispatch(addPatronTypeFail(responseError(error)))
+                dispatch(responseError(addPatronTypeFail,error))
             });
     }
 }
@@ -139,7 +139,7 @@ export const deletePatronType = (id) => {
                 dispatch(deletePatronTypeSuccess())
             })
             .catch(error => {
-                dispatch(deletePatronTypeFail(responseError(error)))
+                dispatch(responseError(deletePatronTypeFail,error))
             });
     }
 }
@@ -179,7 +179,7 @@ export const getBookCopyTypes = (page, size) => {
                 dispatch(getBookCopyTypesSuccess(response.data.content, response.data.totalElements, page, size))
             })
             .catch(error => {
-                dispatch(getBookCopyTypesFailed(responseError(error)))
+                dispatch(responseError(getBookCopyTypesFailed,error))
             });
     }
 
@@ -214,7 +214,7 @@ export const updateBookCopyType = (data) => {
                 dispatch(updateBookCopyTypeSuccess())
             })
             .catch(error => {
-                dispatch(updateBookCopyTypeFail(responseError(error)))
+                dispatch(responseError(updateBookCopyTypeFail,error))
             });
     }
 }
@@ -248,7 +248,7 @@ export const addBookCopyType = (data) => {
                 dispatch(addBookCopyTypeSuccess())
             })
             .catch(error => {
-                dispatch(addBookCopyTypeFail(responseError(error)))
+                dispatch(responseError(addBookCopyTypeFail,error))
             });
     }
 }
@@ -282,7 +282,7 @@ export const deleteBookCopyType = (id) => {
                 dispatch(deleteBookCopyTypeSuccess())
             })
             .catch(error => {
-                dispatch(deleteBookCopyTypeFail(responseError(error)))
+                dispatch(responseError(deleteBookCopyTypeFail,error))
             });
     }
 }
