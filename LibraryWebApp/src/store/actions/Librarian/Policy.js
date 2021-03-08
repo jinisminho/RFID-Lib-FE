@@ -167,12 +167,21 @@ export const getPatronTypeStart = () => {
 export const getPatronType = () => {
     return dispatch => {
         dispatch(getPatronTypeStart())
-        let response = prototype.getPatronTypes()
-        if (response.status) {
-            dispatch(getPatronTypeSuccess(response.data))
-        } else {
-            dispatch(getPatronTypeFailed(response.err))
-        }
+
+        let url = '/patronType/getAll'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getPatronTypeSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(getPatronTypeFailed(responseError(error)))
+            });
+
+        // if (response.status) {
+        //     dispatch(getPatronTypeSuccess(response.data))
+        // } else {
+        //     dispatch(getPatronTypeFailed(response.err))
+        // }
     }
 
 }
