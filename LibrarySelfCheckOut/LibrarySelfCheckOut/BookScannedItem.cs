@@ -17,7 +17,7 @@ namespace LibrarySelfCheckOut
         public BookScannedItem(BookScannedModel book)
         {
             InitializeComponent();
-            String fullTitle = book.subtitle == "" ? book.title : book.title + ": " + book.subtitle;
+            String fullTitle = book.subtitle == null ? book.title : book.title + ": " + book.subtitle;
             lbTitle.Text = fullTitle.Length <= UIMessage.MAX_STRING_LENGTH ?
                 fullTitle : fullTitle.Substring(0, UIMessage.MAX_STRING_LENGTH - 3) + "...";
             lbEdition.Text = "Edition: " + book.edition;
