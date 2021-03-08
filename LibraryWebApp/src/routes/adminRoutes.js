@@ -108,7 +108,6 @@ var routes = [
     layout: "/admin",
     invisible: true
   },
-  },
   {
     path: "/changepw",
     name: "Change Password",

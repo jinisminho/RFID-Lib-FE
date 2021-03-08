@@ -27,7 +27,7 @@ class ReturnBook extends React.Component {
             errMsg: '',
             bookList: [],
             bookCodeList: [],
-            confirmShow: false
+            confirmShow: false,
         }
         this.handleScan = this.handleScan.bind(this)
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -159,7 +159,6 @@ class ReturnBook extends React.Component {
         if (this.props.bookLoading) {
             display = <Spinner />
         }
-
         return (
             <>
                 <StudentHeader title="SCAN BOOK TO RETURN" />
@@ -170,8 +169,11 @@ class ReturnBook extends React.Component {
                 <Container className="mt-3" fluid>
                     <Card className="shadow w-100">
                         <Row className="w-100 mt-3 p-0">
-                            <Col className="col-8 mb-3 pl-4">
+                            <Col className="col-4 mb-3 pl-4">
                                 <p><span className="font-weight-bold">Retuned book(s):</span> {this.props.bookData.length}</p>
+                            </Col>
+                            <Col className="col-4 mb-3 pl-4">
+                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
                             </Col>
                             <Col className="col-4 mb-3 pr-4 pull-right">
                                 <button disabled={!this.props.bookData.length > 0} onClick={() => this.setState({ confirmShow: true })}
