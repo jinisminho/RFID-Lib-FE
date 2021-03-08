@@ -26,6 +26,7 @@ import Student from "views/Librarian/Student";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import BookLost from "views/BookLost/index.js";
 import Profile from "views/Student/Profile.js"
+import ChangePassword from "views/ChangePassword/index";
 
 var routes = [
   // {
@@ -123,5 +124,13 @@ var routes = [
     layout: "/librarian",
     invisible: true
   },
+  {
+    path: "/changepw",
+    name: "Change Password",
+    icon: "fa fa-book-reader text-red",
+    component: ChangePassword,
+    layout: "/admin",
+    invisible: true
+  }
 ];
 export default routes;

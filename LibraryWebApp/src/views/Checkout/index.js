@@ -35,7 +35,8 @@ import {
 } from "reactstrap";
 import StudentInfoCard from "./studentInfoCard";
 import { submit } from 'redux-form'
-
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 class Checkout extends React.Component {
     
     constructor(props) {
@@ -318,62 +319,9 @@ class Checkout extends React.Component {
                 {studentDisplay}
                 {overdueDisplay}
                 {bookDisplay}
-                <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header className="bg-success" closeButton>
-                        <Modal.Title>Success</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                        <h2>{this.state.successNotice}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header className="bg-success" closeButton>
-                        <Modal.Title>Success</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                        <h2>{this.state.successNotice}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal show={this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-danger">
-                        <Modal.Title>Student Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                        <h2>{this.state.errMsg}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal show={this.state.bookErrorShow} onHide={() => this.clearBookError()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-danger">
-                        <Modal.Title>Book Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                        <h2>{this.state.bookErrMsg}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.clearBookError()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
+                <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg}/>
+                <CommonErrorModal show={this.state.bookErrorShow} hide={() => this.clearBookError()} msg={this.state.bookErrMsg}/>
                 <Modal size="lg" show={this.props.confirmSuccess} onHide={() => this.handleConfirmCancel()} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm checkout</Modal.Title>

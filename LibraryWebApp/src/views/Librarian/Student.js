@@ -22,15 +22,12 @@ import { FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstra
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
-// import UpdateButton from '../../../components/Button/UpdateButton'
-// import StudentForm from './studentForm'
-// import StudentUpdateForm from './studentUpdateForm'
-// import moment from 'moment'
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 import {
     Card,
     Container
 } from "reactstrap";
-// import { storage } from '../../firebase'
 
 class Student extends React.Component {
     constructor(props) {
@@ -249,7 +246,7 @@ class Student extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Type to search" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by email" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -388,34 +385,8 @@ class Student extends React.Component {
             <>
                 <Container className="mt-md-3" fluid>
                     <Card className="shadow">
-                        <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header className="bg-success" closeButton>
-                                <Modal.Title>Success</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                                <h2>{this.state.successNotice}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-                        <Modal show={this.state.errorShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header closeButton className="bg-danger">
-                                <Modal.Title>Error</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                                <h2>{this.props.error}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                    <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                    <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                         {display}
                     </Card>
                 </Container>

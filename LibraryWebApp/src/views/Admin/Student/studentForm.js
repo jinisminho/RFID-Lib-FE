@@ -18,10 +18,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from 'redux-form';
 import DropZoneField from "../../../components/Dropzone/Dropzone";
-import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import * as MyConstant from '../../Util/Constant'
-import moment from 'moment'
 // reactstrap components
 import {
     Button,

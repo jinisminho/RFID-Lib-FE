@@ -63,7 +63,7 @@ const validate = values => {
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
-  }else if(!values.callNumber.length>50){
+  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[0-9A-Z]+$/i.test(values.callNumber)){
     errors.callNumber = 'Call number is not valid'
   }
   if (!values.edition) {

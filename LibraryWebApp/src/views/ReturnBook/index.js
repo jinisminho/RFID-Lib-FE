@@ -13,7 +13,8 @@ import {
 } from "reactstrap";
 import BarcodeReader from 'react-barcode-reader'
 import DeleteButton from '../../components/Button/DeleteButton'
-
+import CommonSuccessModal from "components/Modals/CommonSuccessModal"
+import CommonErrorModal from "components/Modals/CommonErrorModal"
 
 class ReturnBook extends React.Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class ReturnBook extends React.Component {
             errMsg: '',
             bookList: [],
             bookCodeList: [],
-            confirmShow: false
+            confirmShow: false,
         }
         this.handleScan = this.handleScan.bind(this)
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -158,7 +159,6 @@ class ReturnBook extends React.Component {
         if (this.props.bookLoading) {
             display = <Spinner />
         }
-
         return (
             <>
                 <StudentHeader title="SCAN BOOK TO RETURN" />
@@ -169,8 +169,11 @@ class ReturnBook extends React.Component {
                 <Container className="mt-3" fluid>
                     <Card className="shadow w-100">
                         <Row className="w-100 mt-3 p-0">
-                            <Col className="col-8 mb-3 pl-4">
+                            <Col className="col-4 mb-3 pl-4">
                                 <p><span className="font-weight-bold">Retuned book(s):</span> {this.props.bookData.length}</p>
+                            </Col>
+                            <Col className="col-4 mb-3 pl-4">
+                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
                             </Col>
                             <Col className="col-4 mb-3 pr-4 pull-right">
                                 <button disabled={!this.props.bookData.length > 0} onClick={() => this.setState({ confirmShow: true })}
@@ -189,20 +192,8 @@ class ReturnBook extends React.Component {
                     </Card>
                     {display}
                 </Container>
-                <Modal show={this.state.errorShow} onHide={() => this.clearReturnBookError()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-danger">
-                        <Modal.Title>Book Error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-danger display-1"><i className="fas fa-times-circle"></i></h1>
-                        <h2>{this.state.errMsg}</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.clearReturnBookError()}>
-                            Close
-                                </Button>
-                    </Modal.Footer>
-                </Modal>
+                <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
                 <Modal show={this.state.confirmShow} onHide={() => this.setState({ confirmShow: false })} backdrop="static" keyboard={false}>
                     <Modal.Header closeButton className="bg-success">
                         <Modal.Title>Confirm Return</Modal.Title>
@@ -221,20 +212,6 @@ class ReturnBook extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.successShow} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                            <Modal.Header className="bg-success" closeButton>
-                                <Modal.Title>Success</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                                <h1 className="text-success display-1"><i className="fas fa-check-circle"></i></h1>
-                                <h2>{this.state.successNotice}</h2>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                                    Close
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
             </>
         )
     }

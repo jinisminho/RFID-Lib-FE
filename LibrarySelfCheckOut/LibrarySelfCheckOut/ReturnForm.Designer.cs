@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbInstruction = new System.Windows.Forms.Label();
             this.txtBookCode = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -43,7 +44,6 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -70,6 +70,17 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1775, 49);
             this.panel4.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(40, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(213, 35);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "RETURN SERVICE";
             // 
             // lbInstruction
             // 
@@ -154,6 +165,7 @@
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(199, 47);
             this.btCancel.TabIndex = 8;
+            this.btCancel.TabStop = false;
             this.btCancel.Text = "CANCEL";
             this.btCancel.UseMnemonic = false;
             this.btCancel.UseVisualStyleBackColor = false;
@@ -171,6 +183,7 @@
             this.btDone.Name = "btDone";
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 7;
+            this.btDone.TabStop = false;
             this.btDone.Text = "RETURN";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
@@ -193,17 +206,6 @@
             this.timerSessionTimeOut.Enabled = true;
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(40, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 35);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "RETURN SERVICE";
             // 
             // ReturnForm
             // 

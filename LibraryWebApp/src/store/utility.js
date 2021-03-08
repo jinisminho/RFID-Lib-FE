@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 import * as MyConstant from '../views/Util/Constant'
 import * as Constant from './constant'
+import { logout } from './actions'
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -186,13 +187,17 @@ export function imageFormatter(cell, row) {
     return (<img className="img-thumbnail" src={cell} />)
 }
 
-export function responseError(err) {
+export function responseError(func,err) {
     let msg = ""
     if (err.response) {
         if (err.response.data) {
             switch (err.response.data.status) {
                 case 500:
                     msg = Constant.INTERNAL_SERVER_ERROR
+                    break;
+                case 401:
+                    console.log("bbbbbb")
+                    return logout()
                     break;
                 default:
                     msg = err.response.data.message
@@ -204,8 +209,7 @@ export function responseError(err) {
     } else {
         msg = err.message
     }
-
-    return msg
+    return func(msg)
 }
 
 export function responseErrorwithCustomMsg(err, msg) {

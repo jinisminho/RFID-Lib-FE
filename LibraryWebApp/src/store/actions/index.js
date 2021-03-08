@@ -4,6 +4,7 @@ export {
     setAuthRedirectPath,
     authCheckState,
     changePassword,
+    closeChangePassword
 } from './auth'
 
 export {
@@ -122,3 +123,15 @@ export {
 export {
     getBookLost,
 } from './Librarian/BookLost'
+
+export {
+    getPatronTypes,
+    updatePatronType,
+    addPatronType,
+    deletePatronType,
+
+    getBookCopyTypes,
+    updateBookCopyType,
+    addBookCopyType,
+    deleteBookCopyType
+} from './Common/Types'

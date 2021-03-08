@@ -128,6 +128,7 @@
             // 
             // picBook
             // 
+            this.picBook.Image = global::LibrarySelfCheckOut.Properties.Resources._130304;
             this.picBook.Location = new System.Drawing.Point(15, 5);
             this.picBook.Name = "picBook";
             this.picBook.Size = new System.Drawing.Size(120, 160);

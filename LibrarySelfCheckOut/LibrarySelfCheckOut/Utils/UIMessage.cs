@@ -8,7 +8,7 @@ namespace LibrarySelfCheckOut.Utils
 {
     public class UIMessage
     {
-        public static int MAX_STRING_LENGTH = 50;
+        public static int MAX_STRING_LENGTH = 100;
 
 
     }

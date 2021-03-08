@@ -31,7 +31,7 @@ export const getStudent = (search) => {
                 dispatch(getStudentSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getStudentFailed(responseError(error)))
+                dispatch(responseError(getStudentFailed,error))
             });
     }
 }
@@ -66,7 +66,7 @@ export const getStudentBook = (code,id) => {
                 dispatch(getStudentBookSuccess(response.data))
             })
             .catch(error=> {
-                dispatch(getStudentBookFail(responseError(error)))
+                dispatch(responseError(getStudentBookFail,error))
             });
     }
 
@@ -115,7 +115,7 @@ export const checkout = (studentid,booklist,reason,libid,mail) => {
                 })
             })
             .catch(error=> {
-                dispatch(checkoutFailed(responseError(error)))
+                dispatch(responseError(checkoutFailed,error))
             });
     }
 
@@ -222,7 +222,7 @@ export const checkPolicy = (data,patronid,libid) => {
                 dispatch(checkPolicySuccess(warning))
             })
             .catch(error=> {
-                dispatch(checkPolicyFailed(responseError(error)))
+                dispatch(responseError(checkPolicyFailed,error))
             });
     }
 

@@ -64,3 +64,6 @@ export const BOOK_STATUS_LIST = { IN_CIRCULATION: "In circulation", OUT_OF_CIRCU
 export const BOOK_COPY_STATUS_LIST = { AVAILABLE: "Available", IN_PROCESS: "In process", BORROWED: "Borrowed", OUT_OF_CIRCULATION: "Out of circulation", LOST: "Lost", LIB_USE_ONLY: "Library use only", DISCARD: "Discard" }
 
 export const GENDER_LIST = { M: "Male", F: "Female" }
+
+export const BOOK_COPY_NOT_UPDATE_STATUS = ["BORROWED","LOST","DISCARD"]
+export const BOOK_NOT_UPDATE_STATUS = ["DISCARD"]
