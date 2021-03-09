@@ -271,7 +271,7 @@ namespace rfid_security_controller
             CheckCooldown();
             string tmp = uhfPort.ReadLine();
             Console.WriteLine(tmp);
-            if (books.Contains(tmp))
+            if (!books.Contains(tmp))
             {
                 arduinoUnoPort.Write("#ALRT\n");
                 //AppendTextPlus(txtMessage, GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n", Color.Red);
