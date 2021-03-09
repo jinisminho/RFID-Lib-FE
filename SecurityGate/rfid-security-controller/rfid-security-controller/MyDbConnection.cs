@@ -51,9 +51,9 @@ namespace rfid_security_controller
             List<string> books = new List<string>();
             MyDbConnection conn = new MyDbConnection();
             conn.Server = "localhost";
-            conn.DatabaseName = "testdb";
+            conn.DatabaseName = "library_rfid";
             conn.Username = "root";
-            conn.Password = "4123";
+            conn.Password = "12345678";
             if (conn.IsConnect())
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
