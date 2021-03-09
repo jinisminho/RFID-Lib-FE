@@ -72,7 +72,7 @@ var routes = [
     name: "Change Password",
     icon: "fa fa-book-reader text-red",
     component: ChangePassword,
-    layout: "/admin",
+    layout: "/patron",
     invisible: true
   }
 ];

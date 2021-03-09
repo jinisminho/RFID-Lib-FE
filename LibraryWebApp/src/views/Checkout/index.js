@@ -346,6 +346,7 @@ class Checkout extends React.Component {
                        {reasonConfirm}
                     </Modal.Body>
                     <Modal.Footer>
+                    <span className="text-danger">* Required field</span>
                         <Button variant="secondary" onClick={() => this.handleConfirmCancel()}>
                             Close
                                 </Button>

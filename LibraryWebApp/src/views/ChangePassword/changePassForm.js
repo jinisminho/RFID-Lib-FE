@@ -32,10 +32,10 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input,isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
-            <Label>{title}</Label>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
         </Row>
         <Row>
             <InputGroup className="input-group-alternative">
@@ -88,6 +88,7 @@ class ChangePasswordForm extends Component {
                             component={renderField}
                             type="password"
                             placeholder="Current password"
+                            isRequired={true}
                             title="Current password"
                         />
                     </FormGroup>
@@ -97,6 +98,7 @@ class ChangePasswordForm extends Component {
                             component={renderField}
                             type="password"
                             placeholder="New password"
+                            isRequired={true}
                             title="New password"
                         />
                     </FormGroup>
@@ -106,14 +108,20 @@ class ChangePasswordForm extends Component {
                             component={renderField}
                             type="password"
                             placeholder="Confirm password"
+                            isRequired={true}
                             title="Confirm password"
                         />
                     </FormGroup>
-                    <div className="text-right">
+                    <div className="row mt-2">
+                            <div className="col-6 text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
+                            <div className="col-6 text-right">
                         <button type="submit" className="btn btn-wd btn-success ">
                             <span className="btn-label">
                             </span> Save
                 </button>
+                    </div>
                     </div>
                 </Form>
             </CardBody>

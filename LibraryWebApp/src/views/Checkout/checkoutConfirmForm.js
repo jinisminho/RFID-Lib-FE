@@ -34,11 +34,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -86,6 +86,7 @@ const CheckoutConfirmForm = ({
                         type="textarea"
                         placeholder="Reason"
                         title="Reason"
+                        isRequired={true}
                         component={renderField} />
                     </FormGroup>
             </Row>

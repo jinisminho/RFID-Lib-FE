@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 // reactstrap components
 import {
@@ -26,8 +26,6 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
     Label,
     Row,
@@ -35,11 +33,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -69,11 +67,11 @@ const renderSelectOptions = (option) => (
     <option key={option.id} value={option.id}>{option.name}</option>
 )
 
-const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -147,12 +145,14 @@ const CopyAddForm = ({
                         type="text"
                         placeholder="ISBN"
                         title="ISBN"
+                        isRequired={true}
                         component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
                         name="copyTypeId"
                         title="Copy Type"
+                        isRequired={true}
                         options={options}
                         component={renderSelectField}>
                     </Field>
@@ -163,6 +163,7 @@ const CopyAddForm = ({
                         type="number"
                         placeholder="Price"
                         title="Price"
+                        isRequired={true}
                         normalize={validateNumber}
                         component={renderField} />
                 </FormGroup>
@@ -173,9 +174,14 @@ const CopyAddForm = ({
                         normalize={validateNumber}
                         title="Number of copy"
                         placeholder="Number of copy"
+                        isRequired={true}
                         component={renderField} />
                 </FormGroup>
-                <div className="text-right">
+                <div className="row">
+                    <div className="col-6 text-left">
+                        <span className="text-danger">* Required field</span>
+                    </div>
+                    <div className="col-6 text-right">
                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                         <span className="btn-label">
                         </span> Cancel
@@ -184,6 +190,7 @@ const CopyAddForm = ({
                         <span className="btn-label">
                         </span> Next
                 </button>
+                </div>
                 </div>
             </Form>
         </CardBody>

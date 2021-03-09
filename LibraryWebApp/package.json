@@ -58,6 +58,7 @@
     "nouislider": "14.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
+    "react-barcode": "^1.4.0",
     "react-barcode-reader": "0.0.2",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-table": "^4.3.1",

@@ -70,7 +70,7 @@ export const getAuthor = () => {
             .then(response => {
                 response.data.forEach(element => {
                     element["value"]=element["id"]
-                    element["label"]=element["name"]
+                    element["label"]=element["name"]+"-"+element["birthYear"]+"-"+element["country"]
                     delete element["id"]
                     delete element["name"]
                 });

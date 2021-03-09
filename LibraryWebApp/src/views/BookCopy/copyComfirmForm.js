@@ -16,8 +16,9 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
-
+import { Field, reduxForm } from 'redux-form';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Barcode from 'react-barcode'
 // reactstrap components
 import {
     Button,
@@ -31,36 +32,9 @@ import {
     InputGroup,
     Row,
     Col,
-    Container,
     Label
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
-    <>
-        <Row>
-            <Label>{title}</Label>
-        </Row>
-        <Row>
-            <InputGroup className="input-group-alternative">
-                <Input {...input} placeholder={placeholder} type={type} disabled={disabled} />
-                {touched && ((error && <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement="right"
-                    overlay={
-                        <Popover>
-                            <Popover.Content>
-                                <span className="text-danger">{error}</span>
-                            </Popover.Content>
-                        </Popover>
-                    }
-                >
-                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                </OverlayTrigger>))}
-            </InputGroup>
-        </Row>
-    </>
-)
 
 const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched, error } }) => (
     <>
@@ -81,26 +55,6 @@ const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched,
     </>
 )
 
-// const renderCode = ({ fields, meta: { error, submitFailed } }) => (
-//     <>
-//         {fields.map((member, index) =>
-//             <InputGroup className="mb-3" key={index}>
-//                 <InputGroupAddon addonType="prepend">
-//                     <InputGroupText>
-//                         {index + 1}
-//                     </InputGroupText>
-//                 </InputGroupAddon>
-//                 <Field
-//                     name={`${member}.barcode`}
-//                     type="text"
-//                     placeholder="Book's barcode"
-//                     component={renderField}
-//                     disabled
-//                     label="Book's barcode" />
-//             </InputGroup>
-//         )}
-//     </>
-// )
 
 const renderCode = ({ fields, meta: { error, submitFailed } }) => (
     <>
@@ -140,7 +94,11 @@ const renderFixedField = ({ meta, title }) => (
         </Row>
     </>
 )
-
+const barcodeFormat = (cell, row)=> {
+    return (
+            <Barcode value={cell} format="CODE39" width={1} flat={true}/>
+        )
+}
 const ConfirmCopyForm = ({
     handleSubmit,
     handleCancel,
@@ -208,7 +166,26 @@ const ConfirmCopyForm = ({
                         </FormGroup>
                     </Col>
                     <Col lg="6" className="border-left">
-                        <FieldArray name="members" component={renderCode} />
+                    <BootstrapTable
+                        data={initialValues.members}
+                        options={{
+                            sizePerPage: 3,
+                            prePage: '<',
+                            nextPage: '>',
+                            firstPage: '<<',
+                            lastPage: '>>',
+                            hideSizePerPage: true,
+                        }}
+                        pagination
+                        striped
+                        hover
+                        condensed
+                        className="ml-4 mr-4"
+                        bordered={false}
+                        tableHeaderClass={"col-hidden"}
+                >
+                    <TableHeaderColumn dataField="barcode" isKey dataFormat={barcodeFormat}>Barcode</TableHeaderColumn>
+                </BootstrapTable>
                     </Col>
                 </Row>
                 <Row>

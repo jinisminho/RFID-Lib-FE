@@ -10,17 +10,15 @@ import { connect } from 'react-redux'
 import {
     Button,
     FormGroup,
-    Form,
     Input,
     InputGroup,
-    Label
 } from "reactstrap";
-import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
+import { Popover, OverlayTrigger} from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         {/* <Label>{title}</Label> */}
-        <p className="font-weight-bold">{title}</p>
+        <p className="font-weight-bold">{title}{isRequired ? <span className="text-danger">*</span> : null}</p>
         <InputGroup className="input-group-alternative">
             <Input {...input} placeholder={placeholder} type={type} />
             {touched && ((error && <OverlayTrigger
@@ -91,6 +89,7 @@ class ExtendDueForm extends React.Component {
                     type="textarea"
                     placeholder="Reason"
                     title="If you want to renew, please enter reason:"
+                    isRequired={true}
                     component={renderField} />
             </FormGroup>
         ) : (
@@ -115,6 +114,7 @@ class ExtendDueForm extends React.Component {
                             {dueDate}
                             {policyViolation}
                         </div>
+                        <span className="text-danger">* Required field</span>
                         <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                             <span className="btn-label">
                             </span> Back
