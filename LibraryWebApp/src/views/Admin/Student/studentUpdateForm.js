@@ -130,12 +130,12 @@ const validate = values => {
     if (!values.fullName) {
         errors.fullName = 'Staff name is required';
     } else if (values.fullName.length > 100) {
-        errors.fullName = 'Staff name length is less than 100';
+        errors.fullName = 'Staff name length is less than or equal 100';
     }
     if (!values.phone) {
         errors.phone = 'Phone number is required';
     } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
-        errors.phone = 'Invalid phone';
+        errors.phone = 'Invalid phone (ex: 0123456789)';
     }
     if (!values.rfid) {
         errors.rfid = 'RFID is required';

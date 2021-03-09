@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 // reactstrap components
 import {
@@ -26,18 +26,16 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
     Label
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -83,11 +81,11 @@ const renderSelectOptions = (option) => (
     <option key={option.id} value={option.id}>{option.name}</option>
 )
 
-const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -114,9 +112,9 @@ const renderSelectField = ({ input, meta: { touched, error }, title, options }) 
 )
 const onKeyPress = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); //<===== This stops the form from being submitted
-    } 
-  }
+        event.preventDefault(); //<===== This stops the form from being submitted
+    }
+}
 const validateNumber = value => {
     if (value < 1) {
         return 1
@@ -135,9 +133,9 @@ const CopyForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit} onKeyDown={onKeyPress}>
                 <Row>
-                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img}/></Row></Col>
+                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img} /></Row></Col>
                     <Col lg={{ size: 3, offset: 1 }}>
-                        
+
                         <FormGroup className="mb-3">
                             <Field
                                 name="barcode"
@@ -202,6 +200,7 @@ const CopyForm = ({
                                 type="number"
                                 placeholder="Price"
                                 title="Price"
+                                isRequired={true}
                                 normalize={validateNumber}
                                 component={renderField} />
                         </FormGroup>
@@ -210,6 +209,7 @@ const CopyForm = ({
                                 name="copyType"
                                 title="Copy Type"
                                 options={options}
+                                isRequired={true}
                                 component={renderSelectField}>
                             </Field>
                         </FormGroup>
@@ -219,26 +219,26 @@ const CopyForm = ({
                                 type="text"
                                 placeholder="RFID Code"
                                 title="RFID Code"
+                                isRequired={true}
                                 component={renderField} />
                         </FormGroup>
                     </Col>
                 </Row>
-                <Row>
-                    <Col sm={{ size: 'auto', offset: 9 }}>
-                        <div className="text-right mt-2">
-                            <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                                <span className="btn-label">
-                                </span> Cancel
+                        <div className="row mt-2">
+                            <div className="col-6 text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
+                            <div className="col-6 text-right">
+                                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                                    <span className="btn-label">
+                                    </span> Cancel
                 </button>
-                            <button type="submit" className="btn btn-wd btn-success ">
-                                <span className="btn-label">
-                                </span> Save
+                                <button type="submit" className="btn btn-wd btn-success ">
+                                    <span className="btn-label">
+                                    </span> Save
                 </button>
+                            </div>
                         </div>
-                    </Col>
-                </Row>
-
-
             </Form>
         </CardBody>
     </Card>

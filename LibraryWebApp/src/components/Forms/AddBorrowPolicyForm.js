@@ -30,18 +30,16 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
     InputGroup,
     Label
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -113,11 +111,11 @@ const renderSelectOptions = (option) => (
     <option key={option.id} value={option.id}>{option.name}</option>
 )
 
-const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input, isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -165,8 +163,6 @@ class AddBorrowPolicyForm extends React.Component {
             handleCancel,
             patronTypes,
             copyTypes,
-            submitting,
-            pristine
         } = this.props
 
         return (
@@ -180,6 +176,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         name="patronTypeId"
                                         title="Patron Type"
                                         options={patronTypes}
+                                        isRequired={true}
                                         component={renderSelectField}>
                                     </Field>
                                 </FormGroup>
@@ -189,6 +186,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         name="bookCopyTypeId"
                                         title="Copy Type"
                                         options={copyTypes}
+                                        isRequired={true}
                                         component={renderSelectField}>
                                     </Field>
                                 </FormGroup>
@@ -202,6 +200,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         placeholder="Due Duration"
                                         title="Due Duration"
                                         normalize={validateNumber}
+                                        isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -211,6 +210,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         placeholder="Max Borrow Number"
                                         title="Max Borrow Number"
                                         normalize={validateNumber}
+                                        isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -220,6 +220,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         placeholder="Max Renew Time"
                                         title="Max Renew Time"
                                         normalize={validateNumber}
+                                        isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -229,24 +230,26 @@ class AddBorrowPolicyForm extends React.Component {
                                         placeholder="Renew Due Duration"
                                         title="Renew Due Duration"
                                         normalize={validateNumber}
+                                        isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col sm={{ size: 'auto', offset: 9 }}>
-                                <div className="text-right mt-2">
-                                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                                        <span className="btn-label">
-                                        </span> Cancel
+                        <div className="row mt-2">
+                            <div className="col-6 text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
+                            <div className="col-6 text-right">
+                                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                                    <span className="btn-label">
+                                    </span> Cancel
                 </button>
-                                    <button type="submit" className="btn btn-wd btn-success ">
-                                        <span className="btn-label">
-                                        </span> Confirm
+                                <button type="submit" className="btn btn-wd btn-success ">
+                                    <span className="btn-label">
+                                    </span> Confirm
                 </button>
-                                </div>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
 
 
                     </Form>

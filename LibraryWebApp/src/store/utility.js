@@ -188,6 +188,7 @@ export function imageFormatter(cell, row) {
 }
 
 export function responseError(func,err) {
+    console.log(err.response.data.status)
     let msg = ""
     if (err.response) {
         if (err.response.data) {
@@ -195,10 +196,8 @@ export function responseError(func,err) {
                 case 500:
                     msg = Constant.INTERNAL_SERVER_ERROR
                     break;
-                case 401:
-                    console.log("bbbbbb")
+                case 402:
                     return logout()
-                    break;
                 default:
                     msg = err.response.data.message
                     break;

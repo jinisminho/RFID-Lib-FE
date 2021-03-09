@@ -32,10 +32,10 @@ import {
     Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
-            <Label>{title}</Label>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
         </Row>
         <Row>
             <InputGroup className="input-group-alternative">
@@ -61,30 +61,30 @@ const renderField = ({ input, disabled, placeholder, type, meta: { touched, erro
 const renderSelectOptions = (option) => (
     <option key={option.label} value={option.value}>{option.label}</option>
 )
-const renderSelectField = ({ input, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input, isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
-            <Label>{title}</Label>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
         </Row>
         <Row>
-                <InputGroup className="input-group-alternative">
-                    <select {...input} className="form-control">
-                        {options ? options.map(renderSelectOptions) : null}
-                    </select>
-                    {touched && ((error && <OverlayTrigger
-                        trigger={['hover', 'focus']}
-                        placement="right"
-                        overlay={
-                            <Popover>
-                                <Popover.Content>
-                                    <span className="text-danger">{error}</span>
-                                </Popover.Content>
-                            </Popover>
-                        }
-                    >
-                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                    </OverlayTrigger>))}
-                </InputGroup>
+            <InputGroup className="input-group-alternative">
+                <select {...input} className="form-control">
+                    {options ? options.map(renderSelectOptions) : null}
+                </select>
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
         </Row>
     </>
 )
@@ -105,18 +105,18 @@ const validate = values => {
         errors.price = 'Price is required'
     } else if (!/^[0-9]+$/i.test(values.price)) {
         errors.price = 'Price is not valid'
-    }else if(parseInt(values.price)<1000 || parseInt(values.price)>1000000000){
-        errors.price = 'Price is not valid'
+    } else if (parseInt(values.price) < 1000 || parseInt(values.price) > 1000000000) {
+        errors.price = 'Price is between 1000 VND and 1000000000 VND'
     }
 
     if (!values.numberOfCopies) {
         errors.numberOfCopies = 'Number of copy is required'
     } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
         errors.numberOfCopies = 'Number of copy is not valid'
-    }else if(parseInt(values.numberOfCopies)>50){
-        errors.numberOfCopies = 'Number of copy is not valid'
+    } else if (parseInt(values.numberOfCopies) > 50) {
+        errors.numberOfCopies = 'Number of copy is less than or equal 50'
     }
-    if (!(values.copyTypeId && values.copyTypeId !=="")) {
+    if (!(values.copyTypeId && values.copyTypeId !== "")) {
         errors.copyTypeId = 'Copy type is required'
     }
     return errors
@@ -151,6 +151,7 @@ const CopyForm = ({
                     <Field
                         name="copyTypeId"
                         title="Copy Type"
+                        isRequired={true}
                         options={options}
                         component={renderSelectField}>
                     </Field>
@@ -160,6 +161,7 @@ const CopyForm = ({
                         name="price"
                         type="number"
                         placeholder="Price"
+                        isRequired={true}
                         title="Price"
                         normalize={validateNumber}
                         component={renderField} />
@@ -169,19 +171,25 @@ const CopyForm = ({
                         name="numberOfCopies"
                         type="number"
                         title="Number of copy"
+                        isRequired={true}
                         normalize={validateNumber}
                         placeholder="Number of copy"
                         component={renderField} />
                 </FormGroup>
-                <div className="text-right">
-                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                        <span className="btn-label">
-                        </span> Cancel
+                <div className="row">
+                    <div className="col-6 text-left">
+                        <span className="text-danger">* Required field</span>
+                    </div>
+                    <div className="col-6 text-right">
+                        <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                            <span className="btn-label">
+                            </span> Cancel
                 </button>
-                    <button type="submit" className="btn btn-wd btn-success ">
-                        <span className="btn-label">
-                        </span> Save
+                        <button type="submit" className="btn btn-wd btn-success ">
+                            <span className="btn-label">
+                            </span> Save
                 </button>
+                    </div>
                 </div>
             </Form>
         </CardBody>
