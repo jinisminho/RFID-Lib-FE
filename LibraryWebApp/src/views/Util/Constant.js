@@ -10,6 +10,8 @@ export const FINE_POLICY = "Fine Policy"
 //Format
 export const DATETIME = "YYYY-MM-DD, HH:mm:ss"
 export const DATE = "YYYY-MM-DD"
+export const DATETIME_REQ = "YYYY-MM-DD, HH:mm:ss"
+export const DATE_REQ = "YYYY-MM-DD"
 
 //Status
 

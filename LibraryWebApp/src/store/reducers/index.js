@@ -14,6 +14,7 @@ import bookStu from './Student/book'
 import policy from './Librarian/Policy'
 import lost from './Librarian/BookLost'
 import types from './Common/Types'
+import logs from './Admin/Log'
 export default {
   Auth,
   guest,
@@ -30,5 +31,6 @@ export default {
   policy,
   lost,
   types,
+  logs,
   form: formReducer,
 };
