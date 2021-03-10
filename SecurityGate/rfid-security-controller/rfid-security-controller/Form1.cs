@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SimpleHttp;
 
 namespace rfid_security_controller
 {
@@ -18,19 +19,21 @@ namespace rfid_security_controller
         bool isConnected = false;
         bool isConnectedUhf = false;
         bool isCooldown = false;
+        List<String> loggedCopyList = new List<string>();
+
         string[] ports;
 
         private void AppendTextPlus(RichTextBox txtBox, string text, Color color)
         {
             try
             {
-            txtBox.SelectionStart = txtBox.TextLength;
-            txtBox.SelectionLength = 0;
+                txtBox.SelectionStart = txtBox.TextLength;
+                txtBox.SelectionLength = 0;
 
-            txtBox.SelectionColor = color;
-            txtBox.AppendText(text);
-            txtBox.SelectionColor = txtBox.ForeColor;
-            txtBox.ScrollToCaret();
+                txtBox.SelectionColor = color;
+                txtBox.AppendText(text);
+                txtBox.SelectionColor = txtBox.ForeColor;
+                txtBox.ScrollToCaret();
 
             }
             catch (Exception)
@@ -68,11 +71,15 @@ namespace rfid_security_controller
             //    }
             //}).Start();
 
+            
             InitializeComponent();
             disableControls();
             getAvailableComPorts();
+            RefreshLoggedList();
+            ListenForHttpRequests();
             cbPorts.DropDownStyle = ComboBoxStyle.DropDownList;
             cbUhfPorts.DropDownStyle = ComboBoxStyle.DropDownList;
+
             foreach (string port in ports)
             {
                 cbPorts.Items.Add(port);
@@ -117,7 +124,7 @@ namespace rfid_security_controller
 
         private void connectToArduino()
         {
-            
+
             string selectedPort = cbPorts.GetItemText(cbPorts.SelectedItem);
             arduinoUnoPort.PortName = selectedPort;
             arduinoUnoPort.BaudRate = 9600;
@@ -143,15 +150,15 @@ namespace rfid_security_controller
                 txtMessage.ScrollToCaret();
                 lblNotConnectAlarm.Hide();
             }
-            
+
         }
         private void disconnectFromArduino()
         {
             try
             {
-            arduinoUnoPort.Write("#DISC\n");
-            arduinoUnoPort.Close();
-            isConnected = false;
+                arduinoUnoPort.Write("#DISC\n");
+                arduinoUnoPort.Close();
+                isConnected = false;
 
             }
             catch (Exception e)
@@ -218,9 +225,9 @@ namespace rfid_security_controller
         {
             try
             {
-            uhfPort.Write("#Goodbye Uhf\n");
-            uhfPort.Close();
-            isConnectedUhf = false;
+                uhfPort.Write("#Goodbye Uhf\n");
+                uhfPort.Close();
+                isConnectedUhf = false;
             }
             catch (Exception e)
             {
@@ -228,9 +235,9 @@ namespace rfid_security_controller
             }
             if (!isConnectedUhf)
             {
-            btnConnectUhf.Text = "Connect";
-            AppendTextPlus(txtMessage, GetCurrentTime() + "Disconnected from scanner\n", Color.Red);
-            lblNotConnectScanner.Show();
+                btnConnectUhf.Text = "Connect";
+                AppendTextPlus(txtMessage, GetCurrentTime() + "Disconnected from scanner\n", Color.Red);
+                lblNotConnectScanner.Show();
             }
         }
 
@@ -254,15 +261,30 @@ namespace rfid_security_controller
             }
             if (isConnectedUhf)
             {
-            btnConnectUhf.Text = "Disconnect";
-            AppendTextPlus(txtMessage, GetCurrentTime() + "Connected to scanner\n");
-            lblNotConnectScanner.Hide();
+                btnConnectUhf.Text = "Disconnect";
+                AppendTextPlus(txtMessage, GetCurrentTime() + "Connected to scanner\n");
+                lblNotConnectScanner.Hide();
             }
         }
 
         // Ring the alarm when a not checked out book is detected
         private void uhfPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            //if (!isCooldown)
+            //{
+            //    GetBorrowedBooks();
+            //    isCooldown = true;
+            //}
+            //CheckCooldown();
+            //string tmp = uhfPort.ReadLine();
+            //Console.WriteLine(tmp);
+            //if (!books.Contains(tmp))
+            //{
+            //    arduinoUnoPort.Write("#ALRT\n");
+            //    //AppendTextPlus(txtMessage, GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n", Color.Red);
+            //    Console.WriteLine(GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n");
+            //}
+
             if (!isCooldown)
             {
                 GetBorrowedBooks();
@@ -270,11 +292,17 @@ namespace rfid_security_controller
             }
             CheckCooldown();
             string tmp = uhfPort.ReadLine();
-            Console.WriteLine(tmp);
+            Console.WriteLine("Demo UID: " + tmp);
             if (!books.Contains(tmp))
             {
-                arduinoUnoPort.Write("#ALRT\n");
-                //AppendTextPlus(txtMessage, GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n", Color.Red);
+                Console.WriteLine(GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n");
+                int id = GetCopyIdByRfid(tmp);
+                Console.WriteLine("Book copy id: " + id);
+                if (!loggedCopyList.Contains(tmp))
+                {
+                    SaveLog(id);
+                    loggedCopyList.Add(tmp);
+                }
             }
         }
 
@@ -285,11 +313,35 @@ namespace rfid_security_controller
 
         private async Task CountCooldown()
         {
-            await Task.Delay(3000);
+            await Task.Delay(10000000);
             if (isCooldown)
             {
                 isCooldown = false;
             }
+        }
+
+        private async Task RefreshLoggedList()
+        {
+            while (true)
+            {
+                await Task.Delay(30000);
+                loggedCopyList = new List<string>();
+            }
+        }
+
+        private void ListenForHttpRequests()
+        {
+            Route.Add("/", (req, res, props) =>
+            {
+                res.AsText("Hello");
+            });
+
+            HttpServer.ListenAsync(
+           6969,
+           CancellationToken.None,
+           Route.OnHttpRequestAsync
+           ).Wait();
+
         }
 
         List<string> books = new List<string>();
@@ -298,6 +350,24 @@ namespace rfid_security_controller
             Console.WriteLine("============================ Getting from DB");
             MyDbConnection myDb = new MyDbConnection();
             books = myDb.GetBorrowedBooks();
+            foreach (string rfid in books)
+            {
+                Console.WriteLine(rfid);
+            }
+        }
+
+        private int GetCopyIdByRfid(string rfid)
+        {
+            Console.WriteLine("============================ Getting from DB");
+            MyDbConnection myDb = new MyDbConnection();
+            return myDb.GetCopyIdByRfid(rfid);
+        }
+
+        private void SaveLog(int id)
+        {
+            Console.WriteLine("============================ Saving to DB");
+            MyDbConnection myDb = new MyDbConnection();
+            myDb.SaveLog(id);
         }
 
         private String GetCurrentTime()
@@ -305,5 +375,64 @@ namespace rfid_security_controller
             return DateTime.Parse(DateTime.Now.ToString()).ToString("HH:mm:ss") + ": ";
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (!isCooldown)
+            {
+                GetBorrowedBooks();
+                isCooldown = true;
+            }
+            CheckCooldown();
+            string tmp = "01123400000007";
+            Console.WriteLine("Demo UID: " + tmp);
+            if (!books.Contains(tmp))
+            {
+                Console.WriteLine(GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n");
+                int id = GetCopyIdByRfid(tmp);
+                Console.WriteLine("Book copy id: " + id);
+                if (!loggedCopyList.Contains(tmp))
+                {
+                    SaveLog(id);
+                    loggedCopyList.Add(tmp);
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (!isCooldown)
+            {
+                GetBorrowedBooks();
+                isCooldown = true;
+            }
+            CheckCooldown();
+            string tmp = "01123400000006";
+            Console.WriteLine("Demo UID: " + tmp);
+            if (!books.Contains(tmp))
+            {
+                Console.WriteLine(GetCurrentTime() + "Alert: Not checked out book detected! (TID:" + tmp + ")\n");
+                int id = GetCopyIdByRfid(tmp);
+                Console.WriteLine("Book copy id: " + id);
+                if (!loggedCopyList.Contains(tmp))
+                {
+                    SaveLog(id);
+                    loggedCopyList.Add(tmp);
+                }
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Route.Add("/", (req, res, props) =>
+            // {
+            //     res.AsText("Hello");
+            // });
+
+            // HttpServer.ListenAsync(
+            //6969,
+            //CancellationToken.None,
+            //Route.OnHttpRequestAsync
+            //).Wait();
+        }
     }
 }

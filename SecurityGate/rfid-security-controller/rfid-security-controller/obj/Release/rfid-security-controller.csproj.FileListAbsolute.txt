@@ -68,3 +68,8 @@ F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-secu
 F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\obj\Release\rfid-security-controller.csproj.CopyComplete
 F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\obj\Release\rfid-security-controller.exe
 F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\obj\Release\rfid-security-controller.pdb
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\bin\Release\MimeTypesMap.dll
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\bin\Release\Newtonsoft.Json.dll
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\bin\Release\SimpleHTTP.dll
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\bin\Release\Newtonsoft.Json.xml
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\rfid-security-controller\rfid-security-controller\bin\Release\SimpleHTTP.xml

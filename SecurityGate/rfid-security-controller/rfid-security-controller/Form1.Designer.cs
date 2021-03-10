@@ -46,6 +46,9 @@ namespace rfid_security_controller
             this.lblNotConnectAlarm = new System.Windows.Forms.Label();
             this.lblNotConnectScanner = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -194,22 +197,44 @@ namespace rfid_security_controller
             this.lblNotConnectAlarm.TabIndex = 18;
             this.lblNotConnectAlarm.Text = "- You are not connected to the alarm!";
             // 
-            // lblNotConnectToScanner
+            // lblNotConnectScanner
             // 
             this.lblNotConnectScanner.AutoSize = true;
             this.lblNotConnectScanner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNotConnectScanner.ForeColor = System.Drawing.Color.Red;
             this.lblNotConnectScanner.Location = new System.Drawing.Point(12, 196);
-            this.lblNotConnectScanner.Name = "lblNotConnectToScanner";
+            this.lblNotConnectScanner.Name = "lblNotConnectScanner";
             this.lblNotConnectScanner.Size = new System.Drawing.Size(329, 20);
             this.lblNotConnectScanner.TabIndex = 19;
             this.lblNotConnectScanner.Text = "- You are not connected to the scanner!";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(350, 34);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(423, 74);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(509, 328);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblNotConnectScanner);
             this.Controls.Add(this.lblNotConnectAlarm);
             this.Controls.Add(this.txtMessage);
@@ -244,6 +269,9 @@ namespace rfid_security_controller
         private System.Windows.Forms.Label lblNotConnectAlarm;
         private System.Windows.Forms.Label lblNotConnectScanner;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
