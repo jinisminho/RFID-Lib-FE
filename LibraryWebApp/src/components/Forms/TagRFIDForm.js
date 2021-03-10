@@ -85,6 +85,10 @@ const renderFixedField = ({ meta, title, myValue }) => (
     </>
 )
 
+const RfidNormalizer = value => {
+    return value.trim().toUpperCase()
+}
+
 class TagRFIDForm extends React.Component {
     constructor(props) {
         super(props);
@@ -185,6 +189,7 @@ class TagRFIDForm extends React.Component {
                                         placeholder="RFID"
                                         title="RFID"
                                         isRequired={true}
+                                        normalize={RfidNormalizer}
                                         component={renderField} />
                                 </FormGroup>
                             </Col>

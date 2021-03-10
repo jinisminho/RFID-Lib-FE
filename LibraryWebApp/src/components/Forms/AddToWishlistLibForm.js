@@ -71,6 +71,13 @@ const renderFixedField = ({ meta, title, myValue }) => (
 
 const selector = formValueSelector('addToWishlistLibForm')
 
+const RfidNormalizer = value => {
+    if (value.trim().toUpperCase().includes("PAT#")) {
+        return value.trim().toUpperCase().split("PAT#")[1];
+    }
+    return value.trim()
+}
+
 class AddToWishlistLibForm extends React.Component {
     constructor(props) {
         super(props);
@@ -86,7 +93,7 @@ class AddToWishlistLibForm extends React.Component {
             this.props.change('patronId', this.props.myValues.accountId);
             this.props.change('active', this.props.myValues.active);
         }
-        if(this.props.errorMsg !== prevProps.errorMsg) {
+        if (this.props.errorMsg !== prevProps.errorMsg) {
             this.props.change('err', this.props.errorMsg);
         }
     }
@@ -198,8 +205,8 @@ class AddToWishlistLibForm extends React.Component {
                 </Col>
             </>
         )
-        if(this.props.studentLoading)
-        leftSide = (<Spinner/>)
+        if (this.props.studentLoading)
+            leftSide = (<Spinner />)
 
         return (
 
@@ -217,6 +224,7 @@ class AddToWishlistLibForm extends React.Component {
                                         title="RFID/Email"
                                         disabled={!(Object.keys(myValues).length === 0)}
                                         isRequired={true}
+                                        normalize={RfidNormalizer}
                                         // onBlur={this.fetchData}
                                         component={renderField} />
                                 </FormGroup>
@@ -248,7 +256,7 @@ const mapStateToProps = state => {
     return {
         myValues: state.infoLside.studentData ? state.infoLside.studentData : {},
         studentLoading: state.infoLside.studentLoading,
-        errorMsg: state.infoLside.error, 
+        errorMsg: state.infoLside.error,
         searchValue: selector(state, 'searchValue'),
     }
 }

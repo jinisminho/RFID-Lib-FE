@@ -135,3 +135,7 @@ export {
     addBookCopyType,
     deleteBookCopyType
 } from './Common/Types'
+
+export {
+    getAlarmLogIn1Date
+} from './Admin/Log'
