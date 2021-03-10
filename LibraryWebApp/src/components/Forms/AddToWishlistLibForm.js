@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
 import { formValueSelector } from 'redux-form'
@@ -18,11 +18,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, disabled,isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -71,6 +71,13 @@ const renderFixedField = ({ meta, title, myValue }) => (
 
 const selector = formValueSelector('addToWishlistLibForm')
 
+const RfidNormalizer = value => {
+    if (value.trim().toUpperCase().includes("PAT#")) {
+        return value.trim().toUpperCase().split("PAT#")[1];
+    }
+    return value.trim()
+}
+
 class AddToWishlistLibForm extends React.Component {
     constructor(props) {
         super(props);
@@ -86,7 +93,7 @@ class AddToWishlistLibForm extends React.Component {
             this.props.change('patronId', this.props.myValues.accountId);
             this.props.change('active', this.props.myValues.active);
         }
-        if(this.props.errorMsg !== prevProps.errorMsg) {
+        if (this.props.errorMsg !== prevProps.errorMsg) {
             this.props.change('err', this.props.errorMsg);
         }
     }
@@ -198,8 +205,8 @@ class AddToWishlistLibForm extends React.Component {
                 </Col>
             </>
         )
-        if(this.props.studentLoading)
-        leftSide = (<Spinner/>)
+        if (this.props.studentLoading)
+            leftSide = (<Spinner />)
 
         return (
 
@@ -216,22 +223,25 @@ class AddToWishlistLibForm extends React.Component {
                                         placeholder="RFID or Email"
                                         title="RFID/Email"
                                         disabled={!(Object.keys(myValues).length === 0)}
+                                        isRequired={true}
+                                        normalize={RfidNormalizer}
                                         // onBlur={this.fetchData}
                                         component={renderField} />
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col sm={{ size: 'auto', offset: 7 }}>
-                                <div className="text-right mt-2">
+                        <div className="row mt-2">
+                            <div className="col-6 text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
+                            <div className="col-6 text-right">
                                     <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                                         <span className="btn-label">
                                         </span> Cancel
                 </button>
                                     {button}
                                 </div>
-                            </Col>
-                        </Row>
+                            </div>
 
 
                     </Form>
@@ -246,7 +256,7 @@ const mapStateToProps = state => {
     return {
         myValues: state.infoLside.studentData ? state.infoLside.studentData : {},
         studentLoading: state.infoLside.studentLoading,
-        errorMsg: state.infoLside.error, 
+        errorMsg: state.infoLside.error,
         searchValue: selector(state, 'searchValue'),
     }
 }

@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 import * as actions from 'store/actions/index'
 
@@ -37,11 +37,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -84,6 +84,10 @@ const renderFixedField = ({ meta, title, myValue }) => (
         </Row>
     </>
 )
+
+const RfidNormalizer = value => {
+    return value.trim().toUpperCase()
+}
 
 class TagRFIDForm extends React.Component {
     constructor(props) {
@@ -175,6 +179,7 @@ class TagRFIDForm extends React.Component {
                                         placeholder="Barcode"
                                         title="Barcode"
                                         onBlur={this.fetchData}
+                                        isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
                                 <FormGroup className="mb-3">
@@ -183,24 +188,27 @@ class TagRFIDForm extends React.Component {
                                         type="text"
                                         placeholder="RFID"
                                         title="RFID"
+                                        isRequired={true}
+                                        normalize={RfidNormalizer}
                                         component={renderField} />
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col sm={{ size: 'auto', offset: 7 }}>
-                                <div className="text-right mt-2">
-                                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                                        <span className="btn-label">
-                                        </span> Cancel
+                        <div className="row mt-2">
+                            <div className="col-6 text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
+                            <div className="col-6 text-right">
+                                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                                    <span className="btn-label">
+                                    </span> Cancel
                 </button>
-                                    <button type="submit" className="btn btn-wd btn-success " disabled={myValues ? myValues.length == 0 : true || submitting || pristine}>
-                                        <span className="btn-label">
-                                        </span> Confirm
+                                <button type="submit" className="btn btn-wd btn-success " disabled={myValues ? myValues.length == 0 : true || submitting || pristine}>
+                                    <span className="btn-label">
+                                    </span> Confirm
                 </button>
-                                </div>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
 
 
                     </Form>

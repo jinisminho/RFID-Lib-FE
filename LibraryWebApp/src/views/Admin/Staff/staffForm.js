@@ -18,10 +18,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from 'redux-form';
 import DropZoneField from "../../../components/Dropzone/Dropzone";
-import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import * as MyConstant from '../../Util/Constant'
-import moment from 'moment'
 // reactstrap components
 import {
     Button,
@@ -99,17 +97,17 @@ const validate = values => {
     if (!values.fullName) {
         errors.fullName = 'Staff name is required';
     } else if (values.fullName.length > 100) {
-        errors.fullName = 'Staff name length is less than 100';
+        errors.fullName = 'Staff name length is less than or equal 100';
     }
     if (!values.phone) {
         errors.phone = 'Phone number is required';
     } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
-        errors.phone = 'Invalid phone';
+        errors.phone = 'Invalid phone (ex: 0123456789)';
     }
     if (!values.email) {
         errors.email = 'Email is required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
+        errors.email = 'Invalid email address (ex: rfidlib@gmail.com)'
     }
     if (!values.rfid) {
         errors.rfid = 'RFID is required';

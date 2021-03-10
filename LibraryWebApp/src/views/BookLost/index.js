@@ -19,7 +19,7 @@ import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { Row, Col, Modal, Button } from 'react-bootstrap'
-import DatePicker from '../../components/DateRangePicker/DatePicker'
+import DatePicker from '../../components/DateRangePicker/DateRange'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'

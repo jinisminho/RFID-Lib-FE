@@ -7,9 +7,6 @@ import moment from 'moment';
 import * as actions from 'store/actions/index'
 import { connect } from 'react-redux'
 
-function toDateTime(date) {
-    return moment(MyUtil.convertToDate(date)).format(MyConstant.DATE)
-}
 
 class ExtendDueForm extends React.Component {
     constructor(props) {

@@ -128,24 +128,24 @@ const validateImage = value => !value ? "Required" : undefined
 const validate = values => {
     const errors = {};
     if (!values.address) {
-        errors.address = 'Address  is required';
+        errors.address = 'Address is required';
     } else if (values.address.length < 3) {
         errors.address = 'Must be 3 characters or more';
     }
     if (!values.fullName) {
         errors.fullName = 'Staff name is required';
     } else if (values.fullName.length > 100) {
-        errors.fullName = 'Staff name length is less than 100';
+        errors.fullName = 'Staff name length is less than or equal 100';
     }
     if (!values.phone) {
         errors.phone = 'Phone number is required';
     } else if (!/^(0)[0-9]{9}$/i.test(values.phone)) {
-        errors.phone = 'Invalid phone';
+        errors.phone = 'Invalid phone (ex: 0123456789)';
     }
     if (!values.email) {
         errors.email = 'Email is required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
+        errors.email = 'Invalid email address (ex: rfidlib@gmail.com)'
     }
     if (!values.rfid) {
         errors.rfid = 'RFID is required';

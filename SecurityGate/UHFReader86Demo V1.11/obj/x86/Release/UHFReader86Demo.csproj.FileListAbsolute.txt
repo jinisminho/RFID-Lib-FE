@@ -33,3 +33,16 @@ F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-e
 F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.CopyComplete
 F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.exe
 F:\Download\GEE-UR-2100 UHF RFID reader sdk-en\GEE-UR-2100 UHF RFID reader sdk-en\DEMO\C#\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.pdb
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.exe
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\bin\x86\Release\UHFReader86Demo.pdb
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\bin\x86\Release\CustomControl.dll
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csprojAssemblyReference.cache
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.ConfigForm.resources
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Form1.resources
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.LoginForm.resources
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.Properties.Resources.resources
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.GenerateResource.cache
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.CoreCompileInputs.cache
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.csproj.CopyComplete
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.exe
+F:\ProgramData\Coding\Capstone\source-code\fe\RFID-Lib-FE\SecurityGate\UHFReader86Demo V1.11\obj\x86\Release\UHFReader86Demo.pdb

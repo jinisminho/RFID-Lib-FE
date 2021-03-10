@@ -37,6 +37,14 @@ import {
 const renderField = ({ input, placeholder, type }) => (
   <Input {...input} placeholder={placeholder} type={type} />
 )
+
+const RfidNormalizer = value => {
+  if (value.trim().toUpperCase().includes("PAT#")) {
+      return value.trim().toUpperCase().split("PAT#")[1];
+  }
+  return value.trim()
+}
+
 const Search = ({
   submitting,
   handleSubmit,
@@ -68,6 +76,7 @@ const Search = ({
                       name="search"
                       type="text"
                       placeholder={placeholder}
+                      normalize={RfidNormalizer}
                       component={renderField} />
                   </InputGroup>
                 </FormGroup>
