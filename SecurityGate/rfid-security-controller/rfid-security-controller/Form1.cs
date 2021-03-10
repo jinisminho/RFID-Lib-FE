@@ -331,16 +331,16 @@ namespace rfid_security_controller
 
         private void ListenForHttpRequests()
         {
-            Route.Add("/", (req, res, props) =>
-            {
-                res.AsText("Hello");
-            });
+           // Route.Add("/", (req, res, props) =>
+           // {
+           //     res.AsText("Hello");
+           // });
 
-            HttpServer.ListenAsync(
-           6969,
-           CancellationToken.None,
-           Route.OnHttpRequestAsync
-           ).Wait();
+           // HttpServer.ListenAsync(
+           //6969,
+           //CancellationToken.None,
+           //Route.OnHttpRequestAsync
+           //).Wait();
 
         }
 
