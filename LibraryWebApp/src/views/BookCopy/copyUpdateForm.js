@@ -81,6 +81,10 @@ const renderSelectOptions = (option) => (
     <option key={option.id} value={option.id}>{option.name}</option>
 )
 
+const RfidNormalizer = value => {
+    return value.trim().toUpperCase()
+}
+
 const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
@@ -220,6 +224,7 @@ const CopyForm = ({
                                 placeholder="RFID Code"
                                 title="RFID Code"
                                 isRequired={true}
+                                normalize={RfidNormalizer}
                                 component={renderField} />
                         </FormGroup>
                     </Col>
