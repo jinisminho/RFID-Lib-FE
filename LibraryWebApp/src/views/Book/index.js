@@ -34,7 +34,6 @@ import { storage } from '../../firebase'
 import { Link } from 'react-router-dom'
 import * as MyConstant from '../Util/Constant'
 import AddToWishlistLibModal from "components/Modals/AddToWishlistLibModal";
-import { FlareSharp } from "@material-ui/icons";
 import CommonErrorModal from "components/Modals/CommonErrorModal";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 
