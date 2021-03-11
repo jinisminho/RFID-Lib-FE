@@ -1,4 +1,5 @@
-﻿using System;
+﻿using rfid_security_controller.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace rfid_security_controller
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            APIHelper.initializeClient();
             Application.Run(new Form1());
         }
     }

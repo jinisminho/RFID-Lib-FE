@@ -21,6 +21,10 @@ namespace UHFReader86Demo
 {
     public partial class Form1 : Form
     {
+        //Tram
+        private int scanTimeCount = 0;
+
+
         private byte fComAdr = 0xff; //当前操作的ComAdr
         private int ferrorcode;
         private byte fBaud;
@@ -473,7 +477,6 @@ namespace UHFReader86Demo
 
         private void btIventoryG2_Click(object sender, EventArgs e)
         {
-
             timer_answer.Enabled = !timer_answer.Enabled;
             if (timer_answer.Enabled)
             {
@@ -563,9 +566,10 @@ namespace UHFReader86Demo
                         return;
                     }
                     // ========================= Hoàng đã đái ở đây ===================================
-                    if (comPort.IsOpen) { 
-                    Console.WriteLine(sEPC);
-                    comPort.WriteLine(sEPC);
+                    if (comPort.IsOpen)
+                    {
+                        Console.WriteLine(sEPC);
+                        comPort.WriteLine(sEPC);
                     }
                     // ================================================================================
                     bool isonlistview = false;
@@ -3848,21 +3852,130 @@ namespace UHFReader86Demo
 
         private void connectToController()
         {
-            isConnected = true;
-            string selectedPort = cbPorts.GetItemText(cbPorts.SelectedItem);
-            comPort.PortName = selectedPort;
-            comPort.BaudRate = 9600;
-            comPort.Parity = Parity.None;
-            comPort.DataBits = 8;
-            comPort.StopBits = StopBits.One;
-            comPort.Open();
-            btnConnectSerialPort.Text = "Disconnect";
-            isConnectedToController = true;
+            try
+            {
+                isConnected = true;
+                string selectedPort = cbPorts.GetItemText(cbPorts.SelectedItem);
+                comPort.PortName = selectedPort;
+                comPort.BaudRate = 9600;
+                comPort.Parity = Parity.None;
+                comPort.DataBits = 8;
+                comPort.StopBits = StopBits.One;
+                comPort.Open();
+                btnConnectSerialPort.Text = "Disconnect";
+                isConnectedToController = true;
+
+                while (isConnectedToController)
+                {
+                    String myCmd = comPort.ReadLine();
+                    Console.WriteLine("===========" + myCmd);
+
+                    if (myCmd.Equals("#SCAN"))
+                    {
+                      
+
+                    }
+                    Thread.Sleep(1000);
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            MessageBox.Show(comPort.ReadLine());
+            //string myCmd = comPort.ReadLine();
+            //MessageBox.Show(myCmd);
+            //if (myCmd.Equals("#SCAN"))
+            //{
+            //    timer_answer.Enabled = !timer_answer.Enabled;
+            //    if (timer_answer.Enabled)
+            //    {
+            //        //lxLedControl1.Text = "0";
+            //        //lxLedControl2.Text = "0";
+            //        //lxLedControl3.Text = "0";
+            //        //lxLedControl4.Text = "0";
+            //        //lxLedControl5.Text = "0";
+            //        dataGridView1.Rows.Clear();
+            //        comboBox_EPC.Items.Clear();
+            //        AA_times = 0;
+            //        //Scantime = Convert.ToByte(com_scantime.SelectedIndex + 3);
+            //        //Qvalue = Convert.ToByte(com_Q.SelectedIndex);
+            //        //Session = Convert.ToByte(com_S.SelectedIndex);
+            //        if (rb_epc.Checked)
+            //            TIDFlag = 0;
+            //        else
+            //            TIDFlag = 1;
+            //        total_turns = 0;
+            //        total_tagnum = 0;
+            //        targettimes = Convert.ToInt32(text_target.Text);
+            //        total_time = System.Environment.TickCount;
+            //        fIsInventoryScan = false;
+            //        Target = 0;
+            //        //btIventoryG2.BackColor = Color.Indigo;
+            //        //btIventoryG2.Text = "Stop";
+            //    }
+            //    else
+            //    {
+            //        //btIventoryG2.BackColor = Color.Transparent;
+            //        //btIventoryG2.Text = "Start";
+            //    }
+            //}
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            timer_answer.Enabled = !timer_answer.Enabled;
+            if (timer_answer.Enabled)
+            {
+                //lxLedControl1.Text = "0";
+                //lxLedControl2.Text = "0";
+                //lxLedControl3.Text = "0";
+                //lxLedControl4.Text = "0";
+                //lxLedControl5.Text = "0";
+                dataGridView1.Rows.Clear();
+                comboBox_EPC.Items.Clear();
+                AA_times = 0;
+                //Scantime = Convert.ToByte(com_scantime.SelectedIndex + 3);
+                //Qvalue = Convert.ToByte(com_Q.SelectedIndex);
+                //Session = Convert.ToByte(com_S.SelectedIndex);
+                if (rb_epc.Checked)
+                    TIDFlag = 0;
+                else
+                    TIDFlag = 1;
+                total_turns = 0;
+                total_tagnum = 0;
+                targettimes = Convert.ToInt32(text_target.Text);
+                total_time = System.Environment.TickCount;
+                fIsInventoryScan = false;
+                Target = 0;
+                //btIventoryG2.BackColor = Color.Indigo;
+                //btIventoryG2.Text = "Stop";
+            }
+            else
+            {
+                //btIventoryG2.BackColor = Color.Transparent;
+                //btIventoryG2.Text = "Start";
+            }
+        }
+
+
+        /*Tran: scan inventory */
+        private void start_scan_timer_Tick(object sender, EventArgs e)
+        {
+
+            inventory();
+            scanTimeCount++;
+            if(scanTimeCount == 20)
+            {
+                start_scan_timer.Enabled = false;
+                scanTimeCount = 0;
+            }
+
         }
 
         // ===================================================================================
