@@ -188,7 +188,6 @@ export function imageFormatter(cell, row) {
 }
 
 export function responseError(func,err) {
-    console.log(err.response.data.status)
     let msg = ""
     if (err.response) {
         if (err.response.data) {
