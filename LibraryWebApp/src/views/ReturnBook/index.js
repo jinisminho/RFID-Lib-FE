@@ -2,7 +2,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Row, Col, Modal, Button } from 'react-bootstrap'
+import { Row, Col, Modal, Button,InputGroup,FormControl } from 'react-bootstrap'
 import StudentHeader from '../../components/Headers/StudentHeader.js';
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
@@ -28,6 +28,7 @@ class ReturnBook extends React.Component {
             bookList: [],
             bookCodeList: [],
             confirmShow: false,
+            bookSearchValue:""
         }
         this.handleScan = this.handleScan.bind(this)
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -48,7 +49,9 @@ class ReturnBook extends React.Component {
         }
     }
 
-
+    inputBookChangedHandler = (event) => {
+        this.setState({ bookSearchValue: event.target.value })
+    }
     clearBookData() {
         this.props.onClearBook()
         this.setState({
@@ -98,6 +101,9 @@ class ReturnBook extends React.Component {
             })
             this.props.onGetBook(data.trim())
         }
+    }
+    handleSearch(){
+        this.props.onGetBook(this.state.bookSearchValue.trim())
     }
     clearReturnBookError() {
         this.props.onClearReturnBookError()
@@ -171,9 +177,15 @@ class ReturnBook extends React.Component {
                         <Row className="w-100 mt-3 p-0">
                             <Col className="col-4 mb-3 pl-4">
                                 <p><span className="font-weight-bold">Retuned book(s):</span> {this.props.bookData.length}</p>
+                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
                             </Col>
                             <Col className="col-4 mb-3 pl-4">
-                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
+                            <InputGroup className="mb-3">
+                                <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Search book by barcode" />
+                                <InputGroup.Append>
+                                    <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
+                                </InputGroup.Append>
+                            </InputGroup>
                             </Col>
                             <Col className="col-4 mb-3 pr-4 pull-right">
                                 <button disabled={!this.props.bookData.length > 0} onClick={() => this.setState({ confirmShow: true })}

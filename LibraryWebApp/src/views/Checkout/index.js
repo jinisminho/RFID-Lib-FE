@@ -18,7 +18,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import {Row, Col, Modal, Button } from 'react-bootstrap'
+import {Row, Col, Modal, Button,FormControl,InputGroup} from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -27,7 +27,6 @@ import DeleteButton from '../../components/Button/DeleteButton'
 import BarcodeReader from 'react-barcode-reader'
 import OverdueModal from '../../components/Modals/overdueModal'
 import CheckoutConfirmForm from './checkoutConfirmForm'
-
 import {
     Card,
     CardHeader,
@@ -53,7 +52,9 @@ class Checkout extends React.Component {
             errMsg: "",
             bookErrMsg: "",
             title: "SCAN PATRON'S CARD",
-            checkoutAllow:true
+            checkoutAllow:true,
+            searchValue:"",
+            searchBtn:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -100,25 +101,16 @@ class Checkout extends React.Component {
         this.setState({ bookSearchValue: event.target.value })
     }
     handleSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
         this.fetchData()
     }
     handleBookSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
         this.fetchBookData()
     }
     fetchBookData() {
-        this.props.onGetBook(this.state.bookSearchValue)
+        this.props.onGetBook(this.state.bookSearchValue.trim(),this.props.studentData.id)
     }
     fetchData() {
-        this.props.onFetchData(this.state.searchValue)
-        this.props.onGetOverdue(this.state.searchValue)
+        this.props.onFetchData(this.state.searchValue.trim())
     }
     handleDeleteBook(id, rfidcode) {
         let tmp = [...this.state.bookCodeList]
@@ -140,6 +132,7 @@ class Checkout extends React.Component {
             bookShow: false,
             errMsg: "",
             bookErrMsg: "",
+            searchBtn:false,
             title: "SCAN PATRON'S CARD"
         })
         this.props.onClearData()
@@ -239,8 +232,27 @@ class Checkout extends React.Component {
         if (this.props.studentLoading) {
             studentDisplay = <Spinner />
         }
-        if (this.props.studentData != null && this.props.overdueData != null) {
+        let form = null
+        if(this.props.studentData == null){
+            if(this.state.searchBtn){
+                form=<InputGroup className="mb-3">
+                <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by patron's email" />
+                <InputGroup.Append>
+                    <button onClick={() => this.handleSearch()} className="btn btn-primary"><span><i className="fa fa-search"></i></span></button>
+                </InputGroup.Append>
+                <InputGroup.Append>
+                    <button onClick={()=>this.setState({searchBtn:!this.state.searchBtn})} className="btn btn-simple"><span><i className="fa fa-times"></i></span></button>
+                </InputGroup.Append>
+            </InputGroup>
+            }else{
+                form=<div className="w-100">
+                <Button className="btn-primary w-100" onClick={()=>this.setState({searchBtn:!this.state.searchBtn})}>Search Patron By Email</Button>
+                </div>
+            }
+        }
 
+        if (this.props.studentData != null && this.props.overdueData != null) {
+            form=null
             studentDisplay = <Container className="mt-7 mt-md-3" fluid>
                 <Card className="shadow w-100">
                     <Row>
@@ -268,7 +280,15 @@ class Checkout extends React.Component {
                             <h3 className="mb-0">Checking out book(s)</h3>
                         </CardHeader>
                         <Row>
-                            <Col className="col-12 mb-3 pr-4 pull-right">
+                            <Col className="col-4 pl-4">
+                            <InputGroup className="mb-3">
+                                <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Search book by barcode" />
+                                <InputGroup.Append>
+                                    <button onClick={() => this.handleBookSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                            <Col className="col-8 mb-3 pr-4 pull-right">
                                 <button disabled={!(this.state.checkoutAllow && this.props.bookData.length>0)} onClick={() => this.props.onCheckPolicy(this.props.bookData,this.props.studentData.id,this.props.userid)}
                                     type="button" className="btn btn-info btn-fill float-right" >
                                     <span className="btn-label">
@@ -312,6 +332,7 @@ class Checkout extends React.Component {
         return (
             <>
                 <StudentHeader title={this.state.title} />
+                {form}
                 <BarcodeReader
                     onScan={this.handleScan}
                     onError={(e) => console.log(e)}

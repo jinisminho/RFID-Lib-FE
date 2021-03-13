@@ -18,7 +18,7 @@
 import React from "react";
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Container, Button} from "reactstrap";
 
 class StudentHeader extends React.Component {
   render() {
