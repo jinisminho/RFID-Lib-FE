@@ -139,3 +139,8 @@ export {
 export {
     getAlarmLogIn1Date
 } from './Admin/Log'
+
+export {
+    addLostReport,
+    getLostReports
+} from './Common/LostBook'
