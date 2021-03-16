@@ -19,7 +19,8 @@ export {
     getBorrowingInfo_Overdue as getBorrowingInfo_Overdue_Lib,
     getBorrowingInfo_Borrowing as getBorrowingInfo_Borrowing_Lib,
     getBorrowingInfo_Returned as getBorrowingInfo_Returned_Lib,
-    resetStates as resetStatesInfo_Lib
+    resetStates as resetStatesInfo_Lib,
+    getLostReports as getLostReports_Lib,
 } from './Librarian/info'
 
 export {

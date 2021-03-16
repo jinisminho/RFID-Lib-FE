@@ -22,6 +22,7 @@ import SearchForm from '../../components/Forms/SearchForm'
 import CommonErrorModal from "components/Modals/CommonErrorModal";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal";
 import Spinner from '../../components/Spinner/Spinner'
+import CommonConfirmModal from "components/Modals/CommonConfirmModal";
 
 class BorrowingInfo extends React.Component {
     constructor(props) {
@@ -43,9 +44,11 @@ class BorrowingInfo extends React.Component {
         this.fetchDataOverdue = this.fetchDataOverdue.bind(this);
         this.fetchDataBorrowing = this.fetchDataBorrowing.bind(this);
         this.fetchDataReturned = this.fetchDataReturned.bind(this);
+        this.fetchDataLost = this.fetchDataLost.bind(this);
         this.handlePageChangeOverdue = this.handlePageChangeOverdue.bind(this);
         this.handlePageChangeBorrowing = this.handlePageChangeBorrowing.bind(this);
         this.handlePageChangeReturned = this.handlePageChangeReturned.bind(this);
+        this.handlePageChangeLost = this.handlePageChangeLost.bind(this);
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
         this.otherFormatter2 = this.otherFormatter2.bind(this);
@@ -67,6 +70,9 @@ class BorrowingInfo extends React.Component {
     }
     handlePageChangeReturned(page, sizePerPage) {
         this.fetchDataReturned(page, sizePerPage, this.props.studentData.accountId);
+    }
+    handlePageChangeLost(page, sizePerPage) {
+        this.fetchDataLost(page, sizePerPage, this.state.searchValue);
     }
 
     handleSizePerPageChange(sizePerPage) {
@@ -97,6 +103,7 @@ class BorrowingInfo extends React.Component {
         this.fetchDataOverdue()
         this.fetchDataBorrowing()
         this.fetchDataReturned()
+        this.fetchDataLost();
     }
 
     getStudentAndHistories(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
@@ -118,6 +125,10 @@ class BorrowingInfo extends React.Component {
         return this.props.onFetchReturned(page - 1, sizePerPage, searchValue)
     }
 
+    fetchDataLost(page = this.props.pageLost, sizePerPage = this.props.sizePerPage, patronId = this.state.searchValue) {
+        return this.props.onFetchLost(page - 1, sizePerPage, patronId)
+    }
+
     titleFormatter(cell, row) {
         if (row.bookCopy) {
             let res = row.bookCopy.book.title;
@@ -126,6 +137,7 @@ class BorrowingInfo extends React.Component {
 
             return res;
         }
+        return (row.title ? row.title : "") + (row.subtitle ? (" : " + row.subtitle) : "") + (row.edition ? " - Edition[" + row.edition + "]" : "")
     }
 
     isbnFormatter(cell, row) {
@@ -133,7 +145,6 @@ class BorrowingInfo extends React.Component {
     }
 
     otherFormatter(cell, row) {
-
         var borrowerId = row.borrowing ? row.borrowing.borrower.accountId : null
         var bokCpy = row.bookCopy ? row.bookCopy : null
         var bokBorrowing = row ? row : null
@@ -161,13 +172,11 @@ class BorrowingInfo extends React.Component {
                     <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => { this.handleExtdFormShow(borrowerId, bokCpy); this.setState({ bookBorrowing: bokBorrowing }) }} >Renew</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showHistory: true,
-                        // patronId: borrowerId,
+                        patronId: borrowerId,
                         bookCopy: bokCpy,
                         bookBorrowing: bokBorrowing
                     })} ><i className="ni ni-collection" /></button></Col>
                 </Row>
-
-
             </div>
         )
     }
@@ -218,7 +227,7 @@ class BorrowingInfo extends React.Component {
     }
 
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false })
+        this.setState({ successShow: false, errorShow: false, lostSuccessShow: false, lostErrorShow: false })
         // this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
         this.fetchData();
     }
@@ -229,6 +238,22 @@ class BorrowingInfo extends React.Component {
             img: this.props.studentData ? this.props.studentData.avatar : '',
             email: this.props.studentData ? this.props.studentData.email : '',
         };
+    }
+
+    handleLostFormClose = () => {
+        this.setState({
+            showLostForm: false,
+        })
+    }
+
+    handleLostSubmit() {
+        this.props.onLostSubmit(this.state.lostBorrowing ? this.state.lostBorrowing.id : null);
+        this.setState({ showLostForm: false, lostBook: null, lostBorrowing: null, lostSuccessShow: true, lostErrorShow: true });
+    }
+
+    titleForModalFormatter() {
+        let bok = this.state.lostBook ? this.state.lostBook.book : null
+        return (bok ? bok.title : '') + (bok ? (bok.subtitle ? " : " + bok.subtitle : "") : '')
     }
 
     render() {
@@ -276,6 +301,18 @@ class BorrowingInfo extends React.Component {
             hideSizePerPage: true,
             page: this.props.pageReturned,
             onPageChange: this.handlePageChangeReturned,
+        };
+
+        const options_lost = {
+            onSizePerPageList: this.handleSizePerPageChange,
+            sizePerPage: this.props.sizePerPage,
+            prePage: '<',
+            nextPage: '>',
+            firstPage: '<<',
+            lastPage: '>>',
+            hideSizePerPage: true,
+            page: this.props.pageLost,
+            onPageChange: this.handlePageChangeLost,
         };
 
         let overdueBooks = this.props.dataOverdue && this.props.dataOverdue.length != 0 ? (
@@ -376,6 +413,38 @@ class BorrowingInfo extends React.Component {
             </div>
         ) : null;
 
+        let lostBooks = this.props.dataLost && this.props.dataLost.length != 0 ? (
+            <div className="content">
+                <div className="row">
+                    <div className="col-md-4 col-lg-4 puul-left">
+                    </div>
+                </div>
+
+                <br />
+
+                <BootstrapTable
+                    data={this.props.dataLost}
+                    options={options_lost}
+                    fetchInfo={{ dataTotalSize: this.props.totalSizeLost }}
+                    remote
+                    pagination
+                    striped
+                    hover
+                    condensed
+                    className="ml-4 mr-4"
+                    keyField="id"
+                >
+                    <TableHeaderColumn dataField="book" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Book</TableHeaderColumn>
+                    <TableHeaderColumn dataField="borrowedAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrowed At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="lostAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Lost At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="fine" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine - {MyConstant.CURRENCY}</TableHeaderColumn>
+                    <TableHeaderColumn dataField="status" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Status</TableHeaderColumn>
+                </BootstrapTable>
+
+                {/* delete popup */}
+            </div>
+        ) : null;
+
         let studentInfo
         if (this.props.studentData) {
             studentInfo = (
@@ -440,6 +509,14 @@ class BorrowingInfo extends React.Component {
                             {returnedBooks}
                         </Card>
                     </Row>
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100">
+                            <CardHeader className="border-0">
+                                <h3 className="mb-0">{MyConstant.LOST_BOOKS}</h3>
+                            </CardHeader>
+                            {lostBooks}
+                        </Card>
+                    </Row>
                 </Row>
             </>
         )
@@ -478,8 +555,12 @@ class BorrowingInfo extends React.Component {
                             libraianId={this.props.currentUserId}
                         />
 
+                        <CommonConfirmModal title="Report book lost" show={this.state.showLostForm} hide={() => this.handleLostFormClose()} clickConfirm={() => this.handleLostSubmit()} msg={"Do you want to report lost this book [" + this.titleForModalFormatter() + "] ?"} />
+
                         <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+                        {/* <CommonErrorModal show={this.props.lostError && this.state.lostErrorShow} hide={() => this.handleModalClose()} msg={this.props.lostError} /> */}
                         <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
+                        {/* <CommonSuccessModal show={this.props.lostSuccessMsg && this.state.lostSuccessShow} hide={() => this.handleModalClose()} msg={this.props.lostSuccessMsg} /> */}
 
                     </Row>
 
@@ -508,8 +589,12 @@ const mapStateToProps = state => {
         historyData: state.infoLside.historyData,
         studentData: state.infoLside.studentData,
         currentUserId: state.Auth.userId,
-        page: state.infoLside.page
-
+        page: state.infoLside.page,
+        // lostSuccessMsg: state.lostBook.successMsg,
+        // lostError: state.lostBook.error,
+        pageLost: state.infoLside.pageLost,
+        totalSizeLost: state.infoLside.totalLost,
+        dataLost: state.infoLside.dataLost,
     }
 }
 
@@ -529,6 +614,10 @@ const mapDispatchToProps = dispatch => {
         onExtdSubmit: (bookBorrowingId, librarianId, form) => dispatch(actions.extendDue_Lib(bookBorrowingId, librarianId, form)),
 
         getStudent: (page, sizePerPage, search) => dispatch(actions.getStudentThenGetBorrowingHistories(page, sizePerPage, search)),
+
+        // onLostSubmit: (bookBorrowingId) => dispatch(actions.addLostReport(bookBorrowingId)),
+        onFetchLost: (page, size, patronId, startDate, endDate) => dispatch(actions.getLostReports(page, size, patronId, startDate, endDate)),
+
     }
 }
 

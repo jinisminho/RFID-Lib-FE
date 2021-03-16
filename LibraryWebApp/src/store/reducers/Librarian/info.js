@@ -57,13 +57,16 @@ const getBorrowingInfoOverdueFail = (state, action) => {
     totalOverdue: 0,
     totalBorrowing: 0,
     totalReturned: 0,
+    totalLost: 0,
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
+    pageLost: 1,
     sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
-    dataReturned: null
+    dataReturned: null,
+    datalost: null,
   })
 }
 //Borrowing
@@ -94,13 +97,16 @@ const getBorrowingInfoBorrowingFail = (state, action) => {
     totalOverdue: 0,
     totalBorrowing: 0,
     totalReturned: 0,
+    totalLost: 0,
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
+    pageLost: 1,
     sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
-    dataReturned: null
+    dataReturned: null,
+    datalost: null,
   })
 }
 //Returned
@@ -131,13 +137,16 @@ const getBorrowingInfoReturnedFail = (state, action) => {
     totalOverdue: 0,
     totalBorrowing: 0,
     totalReturned: 0,
+    totalLost: 0,
     pageOverdue: 1,
     pageBorrowing: 1,
     pageReturned: 1,
+    pageLost: 1,
     sizePerPage: 5,
     dataOverdue: null,
     dataBorrowing: null,
-    dataReturned: null
+    dataReturned: null,
+    datalost: null,
   })
 }
 //ExtendedHistories
@@ -219,29 +228,72 @@ const getStudentFail = (state, action) => {
   })
 }
 
+//lost reports
+const getLostReportsStart = (state, action) => {
+  return updateObject(state, {
+    errOnFetch: null,
+    loading: true,
+    totalLost: 0,
+    pageLost: 1,
+    sizePerPage: 5,
+    dataLost: null
+  })
+}
+const getLostReportsSuccess = (state, action) => {
+  return updateObject(state, {
+    dataLost: action.data,
+    totalLost: action.total,
+    pageLost: action.page + 1,
+    error: null,
+    loading: false,
+  })
+}
+const getLostReportsFail = (state, action) => {
+  return updateObject(state, {
+    errOnFetch: action.error,
+    loading: false,
+    totalOverdue: 0,
+    totalBorrowing: 0,
+    totalReturned: 0,
+    totalLost: 0,
+    pageOverdue: 1,
+    pageBorrowing: 1,
+    pageReturned: 1,
+    pageLost: 1,
+    sizePerPage: 5,
+    dataOverdue: null,
+    dataBorrowing: null,
+    dataReturned: null,
+    datalost: null,
+  })
+}
+
 const resetStates = (state) => {
   return updateObject(state, {
     data: null,
-  total: 0,
-  error: null,
-  errOnFetch: null,
-  loading: false,
-  page: 1,
-  sizePerPage: 5,
-  historyData: null,
-  successMsg: null,
-  studentLoading: false,
-  studentData: null,
+    total: 0,
+    error: null,
+    errOnFetch: null,
+    loading: false,
+    page: 1,
+    sizePerPage: 5,
+    historyData: null,
+    successMsg: null,
+    studentLoading: false,
+    studentData: null,
 
-  dataOverdue: null,
-  dataBorrowing: null,
-  dataReturned: null,
-  totalOverdue: 0,
-  totalBorrowing: 0,
-  totalReturned: 0,
-  pageOverdue: 1,
-  pageBorrowing: 1,
-  pageReturned: 1,
+    dataOverdue: null,
+    dataBorrowing: null,
+    dataReturned: null,
+    dataLost: null,
+    totalOverdue: 0,
+    totalBorrowing: 0,
+    totalReturned: 0,
+    totalLost: 0,
+    pageOverdue: 1,
+    pageBorrowing: 1,
+    pageReturned: 1,
+    pageLost: 1,
   })
 }
 
@@ -261,12 +313,15 @@ export default function reducer(state = {
   dataOverdue: null,
   dataBorrowing: null,
   dataReturned: null,
+  dataLost: null,
   totalOverdue: 0,
   totalBorrowing: 0,
   totalReturned: 0,
+  totalLost: 0,
   pageOverdue: 1,
   pageBorrowing: 1,
   pageReturned: 1,
+  pageLost: 1,
 
 }, action) {
   switch (action.type) {
@@ -297,6 +352,10 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_START: return getBorrowingInfoReturnedStart(state, action)
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_SUCCESS: return getBorrowingInfoReturnedSuccess(state, action)
     case actionTypes.LIB_GET_BORROWINGINFO_RETURNED_FAILED: return getBorrowingInfoReturnedFail(state, action)
+
+    case actionTypes.LIB_GET_LOST_REPORTS_PAGE_START: return getLostReportsStart(state, action)
+    case actionTypes.LIB_GET_LOST_REPORTS_PAGE_SUCCESS: return getLostReportsSuccess(state, action)
+    case actionTypes.LIB_GET_LOST_REPORTS_PAGE_FAILED: return getLostReportsFail(state, action)
 
     case actionTypes.LIB_INFO_RESET: return resetStates(state)
 
