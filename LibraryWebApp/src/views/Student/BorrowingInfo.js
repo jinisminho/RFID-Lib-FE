@@ -43,6 +43,7 @@ class BorrowingInfo extends React.Component {
         this.handlePageChangeOverdue = this.handlePageChangeOverdue.bind(this);
         this.handlePageChangeBorrowing = this.handlePageChangeBorrowing.bind(this);
         this.handlePageChangeReturned = this.handlePageChangeReturned.bind(this);
+        this.handlePageChangeLost = this.handlePageChangeLost.bind(this);
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
         this.otherFormatter2 = this.otherFormatter2.bind(this);
@@ -520,8 +521,6 @@ class BorrowingInfo extends React.Component {
                             // dueDate={this.state.dueDate}
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
                         />
-
-
 
                         <CommonConfirmModal title="Report book lost" show={this.state.showLostForm} hide={() => this.handleLostFormClose()} clickConfirm={() =>  this.handleLostSubmit()} msg={"Do you want to report lost this book ["+ this.titleForModalFormatter() +"] ?"} />
 
