@@ -69,3 +69,5 @@ export const GENDER_LIST = { M: "Male", F: "Female" }
 
 export const BOOK_COPY_NOT_UPDATE_STATUS = ["BORROWED","LOST","DISCARD"]
 export const BOOK_NOT_UPDATE_STATUS = ["DISCARD"]
+
+export const BOOK_LOST_STATUS = {CONFIRMED:"Confirmed",PENDING:"Pending"}

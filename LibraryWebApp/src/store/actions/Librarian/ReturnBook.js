@@ -27,7 +27,7 @@ export const getReturningBookStart = () => {
 export const getReturningBook = (rfid) => {
     return dispatch => {
         dispatch(getReturningBookStart())
-        let url='/librarian/return/validate?rfid='+rfid
+        let url='/librarian/return/validate?rfidOrBarcode='+rfid
         axios.get(url, {withCredentials: true})
             .then(response => {
                 dispatch(getReturningBookSuccess(response.data))
