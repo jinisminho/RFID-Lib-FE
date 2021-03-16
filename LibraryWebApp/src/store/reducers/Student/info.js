@@ -222,7 +222,7 @@ const updateStudentProfileSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: false,
-    successMsg: 'update profile success'
+    successMsg: 'Update profile success'
   })
 }
 const updateStudentProfileFail = (state, action) => {

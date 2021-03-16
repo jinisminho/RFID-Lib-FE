@@ -207,7 +207,7 @@ class ReturnBook extends React.Component {
                 <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
                 <Modal show={this.state.confirmShow} onHide={() => this.setState({ confirmShow: false })} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-success">
+                    <Modal.Header closeButton className="bg-primary">
                         <Modal.Title>Confirm Return</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
@@ -219,7 +219,7 @@ class ReturnBook extends React.Component {
                         <Button variant="secondary" onClick={() => this.setState({ confirmShow: false })}>
                             Close
                                 </Button>
-                        <Button variant="success" onClick={() => this.handleReturnConfirm()}>
+                        <Button variant="primary" onClick={() => this.handleReturnConfirm()}>
                             Confirm
                         </Button>
                     </Modal.Footer>

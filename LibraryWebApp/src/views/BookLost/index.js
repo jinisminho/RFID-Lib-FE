@@ -29,19 +29,31 @@ import {
 } from "reactstrap";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import * as MyConstant from '../Util/Constant'
+import Select from 'react-select';
 
 class BookLost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchValue: '',
             errorShow: false,
+            bookLostStatus:null,
+            selectValue:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],
+            startDate:this.formatDate(new Date())+" 00:00:00",
+            endDate:this.formatDate(new Date())+" 23:59:59"
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
 
     }
     componentDidMount() {
+        if (!this.state.bookLostStatus) {
+            let bookLostStatus = []
+            Object.keys(MyConstant.BOOK_LOST_STATUS).forEach(el => {
+                bookLostStatus.push({ "value": el, "label": MyConstant.BOOK_LOST_STATUS[el] })
+            })
+            this.setState({ bookLostStatus: bookLostStatus })
+        }
         this.fetchData();
     }
     componentDidUpdate() {
@@ -51,27 +63,19 @@ class BookLost extends React.Component {
         }
         
     }
-    inputChangedHandler = (event) => {
-        this.setState({ searchValue: event.target.value })
-    }
-    handleSearch() {
-        this.setState({
-            successShow: false,
-            errorShow: false
-        })
-        this.fetchData(1, 10, this.state.searchValue)
-    }
+   
     handlePageChange(page, sizePerPage) {
-        this.fetchData(page, sizePerPage, this.state.searchValue);
+        this.fetchData(page, sizePerPage, this.state.startDate, this.state.endDate, this.state.selectValue);
     }
 
     handleSizePerPageChange(sizePerPage) {
         // When changing the size per page always navigating to the first page
-        this.fetchData(1, sizePerPage, this.state.searchValue);
+        this.fetchData(1, sizePerPage, this.state.startDate, this.state.endDate, this.state.selectValue);
 
     }
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, start=this.formatDate(new Date())+" 00:00:00",end=this.formatDate(new Date())+" 23:59:59") {
-        this.props.onFetchData(page - 1, sizePerPage, start,end)
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, start=this.formatDate(new Date())+" 00:00:00",end=this.formatDate(new Date())+" 23:59:59",selectValue = this.state.selectValue) {
+        console.log(page - 1, sizePerPage, start,end,selectValue)
+        this.props.onFetchData(page - 1, sizePerPage, start,end,selectValue)
     }
     formatDate(date) {
         var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
@@ -82,7 +86,12 @@ class BookLost extends React.Component {
       }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false })
-        this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
+        this.fetchData(1, this.props.sizePerPage, this.state.startDate, this.state.endDate, this.state.selectValue);
+    } 
+    handleSelectChange(value) {
+        this.setState({ selectValue: value.value }, () => {
+            this.fetchData(1, 10, this.state.startDate, this.state.endDate, this.state.selectValue)
+        })
     }
     render() {
         const options = {
@@ -122,11 +131,22 @@ class BookLost extends React.Component {
         let display = (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
-                    <Col className="col-4 pl-4">
+                    <Col className="col-8 pl-4">
                     <DatePicker onChange={(startDate, endDate) => {
+                        this.setState({
+                            startDate:this.formatDate(startDate)+" 00:00:00",
+                            endDate:this.formatDate(endDate)+" 00:00:00"
+                        })
                         this.fetchData(1,10,this.formatDate(startDate)+" 00:00:00",this.formatDate(endDate)+" 23:59:59")}} 
                         startDateId="lost_start"
                         endDateId="lost_end"/>
+                    </Col>
+                    <Col className="col-4">
+                    <Select className=""
+                            defaultValue={{value:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],label:MyConstant.BOOK_LOST_STATUS[Object.keys(MyConstant.BOOK_LOST_STATUS)[0]]}}
+                            options={this.state.bookLostStatus}
+                            onChange={(e) => this.handleSelectChange(e)}
+                        />
                     </Col>
                 </Row>
 
@@ -166,7 +186,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchData: (page, size, start,end) => dispatch(actions.getBookLost(page, size, start,end)),
+        onFetchData: (page, size, start,end,status) => dispatch(actions.getBookLost(page, size, start,end,status)),
     }
 }
 
