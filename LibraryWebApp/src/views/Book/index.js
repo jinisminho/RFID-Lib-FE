@@ -64,14 +64,14 @@ class Book extends React.Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this);
         this.getAuthorData = this.getAuthorData.bind(this);
-        this.getGenreData = this.getGenreData.bind(this);
+        // this.getGenreData = this.getGenreData.bind(this);
         this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this);
 
     }
     componentDidMount() {
         this.fetchData();
         this.getAuthorData();
-        this.getGenreData()
+        // this.getGenreData()
         this.getCopyTypes()
     }
     componentDidUpdate() {
@@ -104,9 +104,9 @@ class Book extends React.Component {
     getAuthorData() {
         this.props.onGetAuthor()
     }
-    getGenreData() {
-        this.props.onGetGenre()
-    }
+    // getGenreData() {
+    //     this.props.onGetGenre()
+    // }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
     }
@@ -150,7 +150,6 @@ class Book extends React.Component {
             },
             () => {
                 storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
-                    console.log(url)
                     this.setState({ imageLoading: false })
                     values["img"] = url
                     values.publishYear = values.publishYear.getFullYear()
@@ -160,11 +159,11 @@ class Book extends React.Component {
                     });
                     values.authorIds = authorList
 
-                    let genreList = []
-                    values.genreIds.forEach(element => {
-                        genreList.push(element["value"])
-                    });
-                    values.genreIds = genreList
+                    // let genreList = []
+                    // values.genreIds.forEach(element => {
+                    //     genreList.push(element["value"])
+                    // });
+                    // values.genreIds = genreList
                     values["creatorId"] = this.props.userid
                     this.props.onAddBook(values)
                 })
@@ -196,11 +195,11 @@ class Book extends React.Component {
         });
         values.authorIds = authorList
 
-        let genreList = []
-        values.genreIds.forEach(element => {
-            genreList.push(element["value"])
-        });
-        values.genreIds = genreList
+        // let genreList = []
+        // values.genreIds.forEach(element => {
+        //     genreList.push(element["value"])
+        // });
+        // values.genreIds = genreList
         if (Array.isArray(values.img)) {
             const uploadTask = storage.ref(`images/book/${values.img[0].name}`).put(values.img[0])
             uploadTask.on('state_changed',
@@ -369,28 +368,31 @@ class Book extends React.Component {
     }
     getInitialValues = () => {
         let author = []
-        let genre = []
+        // let genre = []
+        let ddc=""
         if (this.state.updateData) {
             this.state.updateData.author.forEach(el => {
                 author.push({ "value": el.id, "label": el.name })
             })
-            this.state.updateData.genres.forEach(el => {
-                genre.push({ "value": el.id, "label": el.name })
-            })
+            // this.state.updateData.genres.forEach(el => {
+            //     genre.push({ "value": el.id, "label": el.name })
+            // })
+            ddc= this.state.updateData.callNumber.split(" ")[0]
         }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
             subtitle: this.state.updateData ? this.state.updateData.subtitle : '',
-            callNumber: this.state.updateData ? this.state.updateData.callNumber : '',
+            // callNumber: this.state.updateData ? this.state.updateData.callNumber : '',
             publisher: this.state.updateData ? this.state.updateData.publisher : '',
             publishYear: this.state.updateData ? new Date(this.state.updateData.publishYear.toString()) : '',
             language: this.state.updateData ? this.state.updateData.language : '',
             pageNumber: this.state.updateData ? this.state.updateData.pageNumber : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
             status: this.state.updateData ? this.state.updateData.status : '',
+            ddc: ddc,
             authorIds: author,
-            genreIds: genre,
+            // genreIds: genre,
             img: this.state.updateData ? this.state.updateData.img : '',
             id: this.state.updateData ? this.state.updateData.id : ''
         };
@@ -472,7 +474,12 @@ class Book extends React.Component {
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg initialValues={this.getInitialAddStatus()} authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg 
+                        initialValues={this.getInitialAddStatus()} 
+                        authorList={this.props.authorData} 
+                        // genreList={this.props.genreData} 
+                        handleCancel={() => this.handleAddCancel()} 
+                        onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
@@ -480,7 +487,12 @@ class Book extends React.Component {
                         <Modal.Title>Update Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <BookFormImg 
+                        authorList={this.props.authorData} 
+                        // genreList={this.props.genreData} 
+                        initialValues={this.getInitialValues()} 
+                        handleCancel={() => this.handleUpdateCancel()} 
+                        onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.copyShow} onHide={() => this.handleCopyCancel()}>
@@ -585,7 +597,7 @@ const mapStateToProps = state => {
         addSuccess: state.book.addSuccess,
         bookCopyData: state.book.bookCopyData,
         authorData: state.book.authorData,
-        genreData: state.book.genreData,
+        // genreData: state.book.genreData,
         copyTypes: state.book.copyTypes,
         userid: state.Auth.userId,
 
@@ -605,7 +617,7 @@ const mapDispatchToProps = dispatch => {
         onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data)),
         onGetAuthor: () => dispatch(actions.getAuthor()),
         onGetCopyType: () => dispatch(actions.getBookCopyType()),
-        onGetGenre: () => dispatch(actions.getGenre()),
+        // onGetGenre: () => dispatch(actions.getGenre()),
         onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
     }
 }
