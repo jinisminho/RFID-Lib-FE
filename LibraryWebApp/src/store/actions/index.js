@@ -123,6 +123,8 @@ export {
 } from './Librarian/Policy'
 export {
     getBookLost,
+    cancelConfirmBookLost,
+    getLostBookFine
 } from './Librarian/BookLost'
 
 export {

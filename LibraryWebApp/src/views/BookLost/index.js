@@ -18,7 +18,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Row, Col, Modal, Button } from 'react-bootstrap'
+import { Row, Col,Button,Modal} from 'react-bootstrap'
 import DatePicker from '../../components/DateRangePicker/DateRange'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
@@ -29,9 +29,10 @@ import {
 } from "reactstrap";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
-import * as MyConstant from '../Util/Constant'
 import Select from 'react-select';
-
+import MyUtil from "store/utility"
+import * as MyConstant from '../Util/Constant'
+import moment from 'moment';
 class BookLost extends React.Component {
     constructor(props) {
         super(props);
@@ -44,7 +45,7 @@ class BookLost extends React.Component {
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
-
+        this.handleGetBookLostFine = this.handleGetBookLostFine.bind(this);
     }
     componentDidMount() {
         if (!this.state.bookLostStatus) {
@@ -74,7 +75,6 @@ class BookLost extends React.Component {
 
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, start=this.formatDate(new Date())+" 00:00:00",end=this.formatDate(new Date())+" 23:59:59",selectValue = this.state.selectValue) {
-        console.log(page - 1, sizePerPage, start,end,selectValue)
         this.props.onFetchData(page - 1, sizePerPage, start,end,selectValue)
     }
     formatDate(date) {
@@ -92,6 +92,25 @@ class BookLost extends React.Component {
         this.setState({ selectValue: value.value }, () => {
             this.fetchData(1, 10, this.state.startDate, this.state.endDate, this.state.selectValue)
         })
+    }
+    datetimeFormatter(cell, row) {
+        return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
+    }
+    titleFormatter(cell, row) {
+        let tmp= row.subtitle?": "+row.subtitle:""
+        return row.title + tmp
+    }
+    ifNullFormatter(cell, row) {
+        return cell ? cell : " - "
+    }
+    handleGetBookLostFine= id => {
+        this.props.onGetLostBookFine(id)
+    }
+    actionFormatter=(cell, row) => {
+        return row.status=="PENDING"?<div>
+        <Button className="btn btn-primary" onClick={()=>this.handleGetBookLostFine(row.id)}>Confirm</Button>
+    </div>:null
+      
     }
     render() {
         const options = {
@@ -119,13 +138,14 @@ class BookLost extends React.Component {
                     bordered={false}
                     keyField="id"
                 >
-                    <TableHeaderColumn dataField="barcode" width="15%">Barcode</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="15%">ISBN</TableHeaderColumn>
-                    <TableHeaderColumn dataField='title'width="15%">Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField='borrowerEmail'width="15%">Patron Email</TableHeaderColumn>
-                    <TableHeaderColumn dataField='lostAt'width="15%">Lost At</TableHeaderColumn>
-                    <TableHeaderColumn dataField='fine'width="10%">Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField='reason'width="15%">Reason</TableHeaderColumn>
+                    <TableHeaderColumn dataField="barcode" width="10%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Barcode</TableHeaderColumn>
+                    <TableHeaderColumn dataField="isbn" width="10%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
+                    <TableHeaderColumn dataField='title'width="25%" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField='borrowerEmail'width="15%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Patron Email</TableHeaderColumn>
+                    <TableHeaderColumn dataField='lostAt' width="10%" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Lost At</TableHeaderColumn>
+                    <TableHeaderColumn dataField='fine'width="5%" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine</TableHeaderColumn>
+                    <TableHeaderColumn dataField='reason'width="10%" dataAlign="center" dataFormat={this.ifNullFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Reason</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action'width="15%" dataFormat={this.actionFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
         )
         let display = (
@@ -153,6 +173,7 @@ class BookLost extends React.Component {
                 <br />
                 {main}
             </div>
+            
         )
         if (this.props.loading) {
             main = <Spinner />
@@ -166,6 +187,13 @@ class BookLost extends React.Component {
                     <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                         {display}
                     </Card>
+                    <Modal size="lg" backdrop="static" show={this.props.bookLost!=null} onHide={() => this.props.onCancelConfirm()}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm lost book</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    </Modal.Body>
+                </Modal>
                 </Container>
             </>
         );
@@ -180,6 +208,7 @@ const mapStateToProps = state => {
         totalSize: state.lost.total,
         page: state.lost.page,
         sizePerPage: state.lost.sizePerPage,
+        bookLost:state.lost.bookLost,
 
     }
 }
@@ -187,6 +216,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, start,end,status) => dispatch(actions.getBookLost(page, size, start,end,status)),
+        onGetLostBookFine: (id) => dispatch(actions.getLostBookFine(id)),
+        onCancelConfirm: () => dispatch(actions.cancelConfirmBookLost())
     }
 }
 

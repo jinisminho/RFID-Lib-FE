@@ -13,6 +13,7 @@ export const DATETIME = "YYYY-MM-DD, HH:mm:ss"
 export const DATE = "YYYY-MM-DD"
 export const DATETIME_REQ = "YYYY-MM-DD, HH:mm:ss"
 export const DATE_REQ = "YYYY-MM-DD"
+export const DATE_PICKER_FORMAT = "yyyy-MM-dd"
 
 //Status
 
