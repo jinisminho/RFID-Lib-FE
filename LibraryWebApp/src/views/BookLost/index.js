@@ -33,6 +33,7 @@ import Select from 'react-select';
 import MyUtil from "store/utility"
 import * as MyConstant from '../Util/Constant'
 import moment from 'moment';
+import BookLostConfirmForm from './confirmBookLostForm'
 class BookLost extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +42,9 @@ class BookLost extends React.Component {
             bookLostStatus:null,
             selectValue:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],
             startDate:this.formatDate(new Date())+" 00:00:00",
-            endDate:this.formatDate(new Date())+" 23:59:59"
+            endDate:this.formatDate(new Date())+" 23:59:59",
+            successShow:false,
+            successNotice:""
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -58,7 +61,13 @@ class BookLost extends React.Component {
         this.fetchData();
     }
     componentDidUpdate() {
-       
+        let msg = null
+        if (this.props.confirmSuccess) {
+            msg = "Confirm lost book successfully"
+        }
+        if (msg != null && !this.state.successShow) {
+            this.setState({ successShow: true, successNotice: msg })
+        }
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue: '' })
         }
@@ -110,7 +119,29 @@ class BookLost extends React.Component {
         return row.status=="PENDING"?<div>
         <Button className="btn btn-primary" onClick={()=>this.handleGetBookLostFine(row.id)}>Confirm</Button>
     </div>:null
-      
+    }
+    handleConfirmSubmit(value){
+        let tmp={
+            auditorId: this.props.userid,
+            bookLostReportId:value.id,
+            fine:parseInt(value.fine)+value.overdueFee,
+            reason:value.note
+        }
+        this.props.onConfirmBookLost(tmp)
+    }
+    getConfirmInitialValues = () => {
+        return {
+            isbn: this.props.bookLost ? this.props.bookLost.bookBorrowingInfo.bookCopy.book.isbn : '',
+            author: this.props.bookLost ? this.props.bookLost.bookBorrowingInfo.bookCopy.book.authors : '',
+            title: this.props.bookLost ? this.props.bookLost.bookBorrowingInfo.bookCopy.book.title : '',
+            edition: this.props.bookLost ? this.props.bookLost.bookBorrowingInfo.bookCopy.book.edition : '',
+            img: this.props.bookLost ? this.props.bookLost.bookBorrowingInfo.bookCopy.book.img : '',
+            lostBookFineInMarket: this.props.bookLost ? this.props.bookLost.lostBookFineInMarket : '',
+            lostBookFineNotInMarket: this.props.bookLost ? this.props.bookLost.lostBookFineNotInMarket : '',
+            overdueDays: this.props.bookLost ? this.props.bookLost.overdueDays+"" : '',
+            overdueFee: this.props.bookLost ? this.props.bookLost.overdueFee +"": '',
+            id: this.props.bookLost ? this.props.bookLost.id : ''
+        };
     }
     render() {
         const options = {
@@ -192,6 +223,10 @@ class BookLost extends React.Component {
                         <Modal.Title>Confirm lost book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <BookLostConfirmForm initialValues={this.getConfirmInitialValues()} 
+                        handleCancel={() => this.props.onCancelConfirm()} 
+                        onSubmit={(value) => this.handleConfirmSubmit(value)}
+                        />
                     </Modal.Body>
                 </Modal>
                 </Container>
@@ -209,7 +244,8 @@ const mapStateToProps = state => {
         page: state.lost.page,
         sizePerPage: state.lost.sizePerPage,
         bookLost:state.lost.bookLost,
-
+        userid: state.Auth.userId,
+        confirmSuccess:state.lost.confirmSuccess
     }
 }
 
@@ -217,7 +253,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchData: (page, size, start,end,status) => dispatch(actions.getBookLost(page, size, start,end,status)),
         onGetLostBookFine: (id) => dispatch(actions.getLostBookFine(id)),
-        onCancelConfirm: () => dispatch(actions.cancelConfirmBookLost())
+        onCancelConfirm: () => dispatch(actions.cancelConfirmBookLost()),
+        onConfirmBookLost: (data) => dispatch(actions.confirmBookLost(data))
     }
 }
 

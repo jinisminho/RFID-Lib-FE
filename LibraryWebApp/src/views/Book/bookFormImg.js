@@ -74,16 +74,17 @@ const validate = values => {
       errors.subtitle = 'Subtitle is less than 255 charaters'
     }
   }
-  // if (!values.callNumber) {
-  //   errors.callNumber = 'Call number is required'
-  // }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
+  if (!values.callNumber) {
+    errors.callNumber = 'Call number is required'
+  }
+  // else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
   //   errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
   // }
-  if (!values.ddc) {
-    errors.ddc = 'DDC is required'
-  }else if(!/^-?\d{3}(\.\d+)?$/.test(values.ddc)){
-    errors.ddc = 'DDC is not valid (ex: 123.123)'
-  }
+  // if (!values.ddc) {
+  //   errors.ddc = 'DDC is required'
+  // }else if(!/^-?\d{3}(\.\d+)?$/.test(values.ddc)){
+  //   errors.ddc = 'DDC is not valid (ex: 123.123)'
+  // }
   if (!values.edition) {
     errors.edition = 'Edition is required'
   } else if (!/^[0-9]+$/i.test(values.edition)) {
@@ -323,11 +324,11 @@ class BookFormImg extends Component {
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                   <FormGroup className="mb-3">
                     <Field
-                      name="ddc"
+                      name="callNumber"
                       type="text"
                       isRequired={true}
-                      placeholder="DDC"
-                      title="DDC"
+                      placeholder="Call number"
+                      title="Call number"
                       component={renderField} />
                   </FormGroup>
                 </Col>

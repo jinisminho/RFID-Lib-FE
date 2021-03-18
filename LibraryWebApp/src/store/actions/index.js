@@ -33,7 +33,8 @@ export {
     getAuthor,
     getGenre,
     getBookCopyType,
-    getLocation as getLocation_Book_Lib
+    getLocation as getLocation_Book_Lib,
+    addBookSearchList
 } from './Librarian/Book'
 
 export {
@@ -124,7 +125,8 @@ export {
 export {
     getBookLost,
     cancelConfirmBookLost,
-    getLostBookFine
+    getLostBookFine,
+    confirmBookLost
 } from './Librarian/BookLost'
 
 export {
@@ -147,3 +149,6 @@ export {
     addLostReport,
     getLostReports
 } from './Common/LostBook'
+export {
+    getSearchList
+} from './searchBook'

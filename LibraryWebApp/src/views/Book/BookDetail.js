@@ -12,8 +12,6 @@ import {
     Table
 } from "reactstrap";
 import { Button, Modal } from 'react-bootstrap'
-import MyUtil from 'store/utility'
-import * as MyConstant from '../Util/Constant'
 import * as actions from 'store/actions/index'
 
 class BookDetail extends React.Component {
