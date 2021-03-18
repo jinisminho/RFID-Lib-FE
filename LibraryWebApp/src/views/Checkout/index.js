@@ -166,7 +166,7 @@ class Checkout extends React.Component {
         return (
             <div>
                 {msg!="" &&<h3 className="text-danger">{msg.toUpperCase()}</h3>}
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.copy.title}{row.copy.subtitle?":" +" "+row.copy.subtitle:""}</h2></a>
+                <h2 className="font-weight-bolder">{row.copy.title}{row.copy.subtitle?":" +" "+row.copy.subtitle:""}</h2>
                 <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.copy.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.copy.barcode}</p>

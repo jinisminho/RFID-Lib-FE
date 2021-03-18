@@ -30,6 +30,7 @@ import ChangePassword from "views/ChangePassword/index";
 import Types from "views/Admin/Types.js"
 import Logs from "views/Admin/Logs.js"
 import BookLost from "views/BookLost/index.js";
+import SearchBook from "views/SearchBook/index.js";
 
 var routes = [
   {
@@ -81,6 +82,13 @@ var routes = [
     name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInfo,
+    layout: "/admin"
+  },
+  {
+    path: "/searchbook",
+    name: "Search Book",
+    icon: "ni ni-book-bookmark text-primary",
+    component: SearchBook,
     layout: "/admin"
   },
   {

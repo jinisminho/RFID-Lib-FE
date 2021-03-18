@@ -75,6 +75,41 @@ export const getLostBookFine = (id) => {
 
 }
 
+export const confirmBookLostSuccess = (data) => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_SUCCESS,
+        data: data,
+    }
+}
+
+export const confirmBookLostFailed = (error) => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_FAILED,
+        error: error
+    }
+}
+
+export const confirmBookLostStart = () => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_START
+    }
+}
+
+export const confirmBookLost = (data) => {
+    return dispatch => {
+        dispatch(confirmBookLostStart())
+        let url='/lost/confirm'
+        axios.post(url,data, {withCredentials: true})
+            .then(response => {
+                dispatch(confirmBookLostSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(responseError(confirmBookLostFailed,error))
+            });
+    }
+
+}
+
 export const cancelConfirmBookLost = () => {
     return {
         type: actionTypes.CANCEL_CONFIRM_BOOK_LOST

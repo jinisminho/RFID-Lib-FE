@@ -16,6 +16,8 @@ import lost from './Librarian/BookLost'
 import types from './Common/Types'
 import logs from './Admin/Log'
 import lostBook from './Common/LostBook'
+import search from './searchBook'
+
 export default {
   Auth,
   guest,
@@ -34,5 +36,6 @@ export default {
   types,
   logs,
   lostBook,
+  search,
   form: formReducer,
 };

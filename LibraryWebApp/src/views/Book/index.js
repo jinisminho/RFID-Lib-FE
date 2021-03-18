@@ -36,6 +36,7 @@ import * as MyConstant from '../Util/Constant'
 import AddToWishlistLibModal from "components/Modals/AddToWishlistLibModal";
 import CommonErrorModal from "components/Modals/CommonErrorModal";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal";
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 
 class Book extends React.Component {
     constructor(props) {
@@ -58,7 +59,9 @@ class Book extends React.Component {
             showAddToWishlistForm: false,
             addToWishlistId: false,
             successShowOther: false,
-            errorShowOther: false
+            errorShowOther: false,
+            searchList:[],
+            searchListConfirmShow:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -66,7 +69,8 @@ class Book extends React.Component {
         this.getAuthorData = this.getAuthorData.bind(this);
         // this.getGenreData = this.getGenreData.bind(this);
         this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this);
-
+        this.handleSelectBook = this.handleSelectBook.bind(this)
+        this.handleAddToSearchList = this.handleAddToSearchList.bind(this)
     }
     componentDidMount() {
         this.fetchData();
@@ -87,6 +91,9 @@ class Book extends React.Component {
         }
         if (this.props.copySuccess) {
             msg = "Add book copy successfully"
+        }
+        if (this.props.addSearchListSuccess) {
+            msg = "Add book to search list successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -172,7 +179,7 @@ class Book extends React.Component {
 
     }
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false })
+        this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false, searchListConfirmShow:false })
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
     }
     handleUpdateCancel = () => {
@@ -377,20 +384,20 @@ class Book extends React.Component {
             // this.state.updateData.genres.forEach(el => {
             //     genre.push({ "value": el.id, "label": el.name })
             // })
-            ddc= this.state.updateData.callNumber.split(" ")[0]
+            // ddc= this.state.updateData.callNumber.split(" ")[0]
         }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
             title: this.state.updateData ? this.state.updateData.title : '',
             subtitle: this.state.updateData ? this.state.updateData.subtitle : '',
-            // callNumber: this.state.updateData ? this.state.updateData.callNumber : '',
+            callNumber: this.state.updateData ? this.state.updateData.callNumber : '',
             publisher: this.state.updateData ? this.state.updateData.publisher : '',
             publishYear: this.state.updateData ? new Date(this.state.updateData.publishYear.toString()) : '',
             language: this.state.updateData ? this.state.updateData.language : '',
             pageNumber: this.state.updateData ? this.state.updateData.pageNumber : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
             status: this.state.updateData ? this.state.updateData.status : '',
-            ddc: ddc,
+            // ddc: ddc,
             authorIds: author,
             // genreIds: genre,
             img: this.state.updateData ? this.state.updateData.img : '',
@@ -416,7 +423,30 @@ class Book extends React.Component {
             addToWishlistId: null,
         })
     }
-
+    handleSelectBook(row, isSelect, rowIndex, e){
+        if(isSelect){
+            if(!(this.state.searchList.includes(row.id))){
+                this.setState({
+                    searchList:[...this.state.searchList,row.id]
+                })
+            }
+        }else{
+            var array = [...this.state.searchList]; 
+            var index = array.indexOf(row.id)
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({searchList: array});
+            }
+        }
+    }
+    handleAddToSearchList = () => {
+        this.setState({ searchListConfirmShow:false })
+        let data={
+            bookIdList:this.state.searchList,
+            patronId:this.props.userid
+        }
+        this.props.onAddSearchList(data)
+    }
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -429,6 +459,11 @@ class Book extends React.Component {
             lastPage: '>>',
             hideSizePerPage: true,
         };
+        const selectRow = {
+            mode: 'checkbox',
+            onSelect:this.handleSelectBook,
+            selected: this.state.searchList
+          };
         let display = (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
@@ -442,16 +477,23 @@ class Book extends React.Component {
                     </Col>
                     <Col className="col-8 pr-4 pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-info btn-fill float-right ml-2" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book
                         </button>
+                        <button disabled={this.state.searchList.length==0} onClick={() => this.setState({ searchListConfirmShow: true })}
+                            type="button" className="btn btn-info btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> <i className="fa fa-plus"></i> Add Book Search List
+                        </button>
                     </Col>
+                    
                 </Row>
 
                 <br />
                 <BootstrapTable
                     data={this.props.data}
+                    selectRow={ selectRow }
                     options={options}
                     fetchInfo={{ dataTotalSize: this.props.totalSize }}
                     remote
@@ -464,9 +506,9 @@ class Book extends React.Component {
                     tableHeaderClass={"col-hidden"}
                     keyField="id"
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter}  width="13%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="45%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
@@ -575,6 +617,8 @@ class Book extends React.Component {
                         />
                         <CommonErrorModal show={this.props.errorInfo && this.state.errorShowOther} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
                         <CommonSuccessModal show={this.props.successMsgInfo && this.state.successShowOther} hide={() => this.handleModalClose()} msg={this.props.successMsgInfo} />
+                        <CommonConfirmModal title="Add books to search list" show={this.state.searchListConfirmShow} hide={() => this.setState({searchListConfirmShow:false})} clickConfirm={() => this.handleAddToSearchList(this.state.borrowChanged)} msg="Do you want to add selected books to search list?" />
+
                         {display}
                     </Card>
                 </Container>
@@ -590,7 +634,7 @@ const mapStateToProps = state => {
         error: state.book.error,
         totalSize: state.book.total,
         page: state.book.page,
-        sizePerPage: state.book.sizePerPage,
+        sizePerPage: 2,
         deleteSuccess: state.book.deleteSuccess,
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
@@ -600,10 +644,9 @@ const mapStateToProps = state => {
         // genreData: state.book.genreData,
         copyTypes: state.book.copyTypes,
         userid: state.Auth.userId,
-
         successMsgInfo: state.info.successMsg,
         errorInfo: state.info.error,
-
+        addSearchListSuccess:state.book.addSearchListSuccess
     }
 }
 
@@ -619,6 +662,7 @@ const mapDispatchToProps = dispatch => {
         onGetCopyType: () => dispatch(actions.getBookCopyType()),
         // onGetGenre: () => dispatch(actions.getGenre()),
         onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
+        onAddSearchList: (data) => dispatch(actions.addBookSearchList(data)),
     }
 }
 
