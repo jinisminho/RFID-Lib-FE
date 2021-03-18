@@ -168,9 +168,13 @@ class BookDetail extends React.Component {
                                     <th className="pl-7 border-0">Language:</th>
                                     <td className="border-0">{thisBook.language}</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <th className="pl-7 border-0">Genre(s):</th>
                                     <td className="border-0">{formatedGenre}</td>
+                                </tr> */}
+                                <tr>
+                                    <th className="pl-7 border-0">Genre:</th>
+                                    <td className="border-0">{thisBook.genre}</td>
                                 </tr>
                             </tbody>
                         </Table>

@@ -141,19 +141,19 @@ export function bookDescriptionFormat(cell, row, extraData) {
         <p className={detailsTextClassName}> ISBN: {row.isbn}</p>
     ) : null;
 
-    // let genre = row.genres && !hide.genre ? (
-    //     <p className={detailsTextClassName}> Genre(s): {row.genres}</p>
+    // let genres = row.genres && !hide.genre ? (row.genres.length > 0 ? row.genres : []) : [];
+    // let genreStr = "";
+    // i = 0;
+    // genres.forEach(element => {
+    //     i < genres.length - 1 ? genreStr += " " + element["name"] + " , " : genreStr += " " + element["name"] + " ";
+    //     i++;
+    // });
+    // let genre = genreStr !== null && genreStr !== '' ? (
+    //     <p className={detailsTextClassName}>Genre(s): {genreStr}</p>
     // ) : null;
 
-    let genres = row.genres && !hide.genre ? (row.genres.length > 0 ? row.genres : []) : [];
-    let genreStr = "";
-    i = 0;
-    genres.forEach(element => {
-        i < genres.length - 1 ? genreStr += " " + element["name"] + " , " : genreStr += " " + element["name"] + " ";
-        i++;
-    });
-    let genre = genreStr !== null && genreStr !== '' ? (
-        <p className={detailsTextClassName}>Genre(s): {genreStr}</p>
+    let genre = row.genre && !hide.genre ? (
+        <p className={detailsTextClassName}> Genre: {row.genre}</p>
     ) : null;
 
     return (
