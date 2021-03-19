@@ -66,12 +66,19 @@ class SearchBook extends React.Component {
     bookDescriptionFormat(cell, row) {
         let position=""
         position=row.positionList.map(el=>"Shelf: "+el.shelf+"-Line: "+el.line).join(", ")
+        if(position == ""){
+            position = "No longer available"
+        }else if (position == "Shelf: N/A-Line: N/A"){
+            position = "N/A"
+        }
+    
         return (
             <div>
                 <h2 className="font-weight-bolder">{row.title}{row.subtitle?":" +" "+row.subtitle:""}</h2>
                 <p>by <span className="font-weight-bold">{row.authorNames}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.edition}</p>
-                <p><span className="font-weight-bold">Position:</span> {position}</p>
+                <p><span className="font-weight-bold">Locations:</span> {position}</p>
+                <p><span className="font-weight-bold">Call Number:</span> {row.callNumber}</p>
                 <p><span className="font-weight-bold">ISBN:</span> {row.isbn}</p>
             </div>
             )
@@ -174,8 +181,8 @@ class SearchBook extends React.Component {
                     keyField="id"
                     selectRow={ selectRow }
                 >
-                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="30%">Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="60%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                 </BootstrapTable>
                 </Container>)
                 if(this.props.loading){
