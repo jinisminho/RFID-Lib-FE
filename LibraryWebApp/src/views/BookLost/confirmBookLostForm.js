@@ -43,6 +43,11 @@ const validate = values => {
     } else if (parseInt(values.fine) < 1000 || parseInt(values.fine) > 1000000000) {
         errors.fine = 'Book lost fine is between 1000 VND and 1000000000 VND'
     }
+    if(values.note){
+        if(values.note.length > 500){
+            errors.note = 'Max length is 500 characters'
+        }
+    }
 
     return errors
 }
@@ -171,7 +176,7 @@ const BookLostConfirmForm = ({
                         </FormGroup>
                         <FormGroup className="mb-3 px-2">
                             <Field
-                                name="reason"
+                                name="note"
                                 type="textarea"
                                 placeholder="Note"
                                 title="Note"
