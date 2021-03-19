@@ -150,5 +150,7 @@ export {
     getLostReports
 } from './Common/LostBook'
 export {
-    getSearchList
+    getSearchList,
+    finishSearchBook,
+    clearFinish
 } from './searchBook'
