@@ -104,7 +104,14 @@ class Checkout extends React.Component {
         this.fetchData()
     }
     handleBookSearch() {
-        this.fetchBookData()
+        if (!(this.state.bookCodeList.includes(this.state.bookSearchValue.trim()))) {
+            this.setState({
+                successShow: false,
+                errorShow: false,
+                bookCodeList: [...this.state.bookCodeList, this.state.bookSearchValue.trim()]
+            })
+            this.fetchBookData()
+        }
     }
     fetchBookData() {
         this.props.onGetBook(this.state.bookSearchValue.trim(),this.props.studentData.id)
@@ -112,13 +119,17 @@ class Checkout extends React.Component {
     fetchData() {
         this.props.onFetchData(this.state.searchValue.trim())
     }
-    handleDeleteBook(id, rfidcode) {
+    handleDeleteBook(id, rfidcode,barcode) {
         let tmp = [...this.state.bookCodeList]
-        var index = tmp.indexOf(rfidcode)
-        if (index != -1) {
-            tmp.splice(index, 1);
-            this.setState({ bookCodeList: tmp });
+        var indexRfid = tmp.indexOf(rfidcode)
+        if (indexRfid != -1) {
+            tmp.splice(indexRfid, 1);
         }
+        var indexBarcode = tmp.indexOf(barcode)
+        if (indexBarcode != -1) {
+            tmp.splice(indexBarcode, 1);
+        }
+        this.setState({ bookCodeList: tmp });
         this.props.onDeleteBook(id)
     }
     handleModalClose() {
@@ -213,7 +224,7 @@ class Checkout extends React.Component {
     activeFormatter(cell, row) {
         return (
             <div>
-                <DeleteButton clicked={() => this.handleDeleteBook(row.copy.id, row.copy.rfid)} />
+                <DeleteButton clicked={() => this.handleDeleteBook(row.copy.id, row.copy.rfid,row.copy.barcode)} />
             </div>
         )
     }

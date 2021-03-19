@@ -67,19 +67,23 @@ class ReturnBook extends React.Component {
         this.setState({ confirmShow: false, errorShow: false })
         this.props.onReturnBook(this.props.bookData,this.props.userid)
     }
-    handleDeleteBook(id, rfidcode) {
+    handleDeleteBook(id, rfidcode,barcode) {
         let tmp = [...this.state.bookCodeList]
-        var index = tmp.indexOf(rfidcode)
-        if (index != -1) {
-            tmp.splice(index, 1);
-            this.setState({ bookCodeList: tmp });
+        var indexRfid = tmp.indexOf(rfidcode)
+        if (indexRfid != -1) {
+            tmp.splice(indexRfid, 1);
         }
+        var indexBarcode = tmp.indexOf(barcode)
+        if (indexBarcode != -1) {
+            tmp.splice(indexBarcode, 1);
+        }
+        this.setState({ bookCodeList: tmp });
         this.props.onDeleteBook(id)
     }
     activeFormatter(cell, row) {
         return (
             <div>
-                <DeleteButton clicked={() => this.handleDeleteBook(row.id, row.rfid)} />
+                <DeleteButton clicked={() => this.handleDeleteBook(row.id, row.rfid,row.barcode)} />
             </div>
         )
     }
@@ -103,7 +107,14 @@ class ReturnBook extends React.Component {
         }
     }
     handleSearch(){
-        this.props.onGetBook(this.state.bookSearchValue.trim())
+        if (!this.state.bookCodeList.includes(this.state.bookSearchValue.trim())) {
+            this.setState({
+                successShow: false,
+                errorShow: false,
+                bookCodeList: [...this.state.bookCodeList, this.state.bookSearchValue.trim()]
+            })
+            this.props.onGetBook(this.state.bookSearchValue.trim())
+        }
     }
     clearReturnBookError() {
         this.props.onClearReturnBookError()

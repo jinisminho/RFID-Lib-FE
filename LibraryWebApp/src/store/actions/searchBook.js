@@ -36,3 +36,46 @@ export const getSearchList = (id) => {
     }
 
 }
+
+export const finishSearchBookSuccess = (data) => {
+    return {
+        type: actionTypes.FINISH_SEARCH_BOOK_SUCCESS,
+        data: data
+    }
+}
+
+export const finishSearchBookFailed = (error) => {
+    return {
+        type: actionTypes.FINISH_SEARCH_BOOK_FAILED,
+        error: error
+    }
+}
+
+export const finishSearchBookStart = () => {
+    return {
+        type: actionTypes.FINISH_SEARCH_BOOK_START
+    }
+}
+
+export const finishSearchBook = (id) => {
+    return dispatch => {
+        dispatch(finishSearchBookStart())
+        let url='/portableSearch/delete/'+id
+        // let url='/book/all'
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(finishSearchBookSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(responseError(finishSearchBookFailed,error))
+            });
+    }
+
+}
+
+export const clearFinish = (id) => {
+    return {
+        type: actionTypes.CLEAR_FINISH_SEARCH_BOOK
+    }
+
+}
