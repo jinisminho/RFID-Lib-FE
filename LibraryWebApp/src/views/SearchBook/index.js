@@ -215,7 +215,7 @@ class SearchBook extends React.Component {
                 {barcodeReader}
                 {bookDisplay}
                 <audio className="audio-element">
-                    <source src={require("assets/sound/beep.mp3")}></source>
+                    <source src={require("assets/sound/bell.wav")}></source>
                 </audio>
                 <CommonSuccessModal show={this.state.successShow} hide={() => {
                     this.props.onClearFinish()

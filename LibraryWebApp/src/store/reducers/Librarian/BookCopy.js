@@ -10,7 +10,8 @@ const getCopyStart = (state, action) => {
     deleteSuccess: false,
     updateSuccess: false,
     addSuccess: false,
-    bookCopyData: null
+    bookCopyData: null,
+    printBarcodeSuccess:false
   })
 }
 const getCopySuccess = (state, action) => {
@@ -271,7 +272,26 @@ const getLocationFail = (state, action) => {
   })
 }
 
-
+const printBarcodeStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    printBarcodeSuccess:false
+  })
+}
+const printBarcodeSuccess = (state, action) => {
+  return updateObject(state, {
+    printBarcodeSuccess: true,
+    error: null,
+    loading: false,
+  })
+}
+const printBarcodeFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -284,6 +304,7 @@ export default function reducer(state = {
   deleteSuccess: false,
   updateSuccess: false,
   addSuccess: false,
+  printBarcodeSuccess:false,
   bookCopyData: null,
   bookCopyStatus: null,
   copyTypes: null,
@@ -339,6 +360,10 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_START: return getLocationStart(state, action)
     case actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_FAILED: return getLocationFail(state, action)
     case actionTypes.LIB_GET_BOOKCOPY_LOCATIONS_SUCCESS: return getLocationSuccess(state, action)
+
+    case actionTypes.PRINT_BARCODE_START: return printBarcodeStart(state, action)
+    case actionTypes.PRINT_BARCODE_SUCCESS: return printBarcodeSuccess(state, action)
+    case actionTypes.PRINT_BARCODE_FAILED: return printBarcodeFail(state, action)
   }
   return state
 }
