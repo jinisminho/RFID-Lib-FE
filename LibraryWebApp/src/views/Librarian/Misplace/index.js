@@ -296,11 +296,6 @@ class Misplace extends React.Component {
             hideSizePerPage: true,
         };
 
-        if (this.props.bookLoading && this.props.loading) {
-            sampling = <Spinner />
-            checking = <Spinner />
-        }
-
         let barcode1 = this.state.isSampleScanning ? <BarcodeReader
             onScan={this.handleSampleScan}
             onError={(e) => console.log(e)}
@@ -480,6 +475,10 @@ class Misplace extends React.Component {
             </>
         ) : null
 
+        if (this.props.bookLoading && this.props.loading) {
+            sampling = <Spinner />
+            checking = <Spinner />
+        }
 
         return (
             <>
