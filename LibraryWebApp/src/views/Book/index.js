@@ -484,7 +484,7 @@ class Book extends React.Component {
                         <button disabled={this.state.searchList.length==0} onClick={() => this.setState({ searchListConfirmShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Book Search List
+                            </span> <i className="fa fa-plus"></i> Add To Search List
                         </button>
                     </Col>
                     
