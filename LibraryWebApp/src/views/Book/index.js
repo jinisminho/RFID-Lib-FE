@@ -462,7 +462,8 @@ class Book extends React.Component {
         const selectRow = {
             mode: 'checkbox',
             onSelect:this.handleSelectBook,
-            selected: this.state.searchList
+            selected: this.state.searchList,
+            unselectable:(this.props.data?this.props.data.filter(el => el.status==MyConstant.BOOK_DISCARD || el.status == MyConstant.BOOK_OUT_OF_CIRCULATION):[]).map(el=>el.id)
           };
         let display = (
             <div className="content mt-7 mt-md-3">
@@ -634,14 +635,13 @@ const mapStateToProps = state => {
         error: state.book.error,
         totalSize: state.book.total,
         page: state.book.page,
-        sizePerPage: 2,
+        sizePerPage: state.book.sizePerPage,
         deleteSuccess: state.book.deleteSuccess,
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
         addSuccess: state.book.addSuccess,
         bookCopyData: state.book.bookCopyData,
         authorData: state.book.authorData,
-        // genreData: state.book.genreData,
         copyTypes: state.book.copyTypes,
         userid: state.Auth.userId,
         successMsgInfo: state.info.successMsg,

@@ -27,9 +27,6 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
     Row,
     Col,
     Label
@@ -52,38 +49,6 @@ const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched,
         >
             <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
         </OverlayTrigger>))}
-    </>
-)
-
-
-const renderCode = ({ fields, meta: { error, submitFailed } }) => (
-    <>
-        <Row className="ml-0 ml-sm-2">
-            <Label>Generated Barcode(s) - Total: {fields.length}</Label>
-        </Row>
-        <Row className="ml-0 ml-sm-2">
-            <div style={{ maxHeight: "400px", overflowY: "scroll", boxSizing: "border-box", width: "100%", paddingRight: "5px" }}>
-                {fields.map((member, index) =>
-                    // <Row key={index}>
-                    <InputGroup className="mb-3 input-group-alternative" key={index}>
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                {index + 1}
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name={`${member}.barcode`}
-                            type="text"
-                            placeholder="Book's barcode"
-                            component={renderFieldAlter}
-                            disabled
-                            label="Book's barcode" />
-                    </InputGroup>
-                    // </Row>
-
-                )}
-            </div>
-        </Row>
     </>
 )
 
