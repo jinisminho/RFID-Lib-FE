@@ -2,3 +2,7 @@
     background-color: crimson;
     color: white;
   }
+
+  .alert-row:hover {
+    color: orangered;
+  }
