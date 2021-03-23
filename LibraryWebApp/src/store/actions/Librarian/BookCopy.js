@@ -374,15 +374,16 @@ export const getCopyByBarcode = (barcode) => {
     return dispatch => {
         dispatch(getCopyByBarcodeStart())
         let url = '/copy/get/barcode/'+barcode
-        axios.get(url, { withCredentials: true })
+        if(barcode) {
+            axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getCopyByBarcodeSuccess(response.data.book))
             })
             .catch(error => {
                 dispatch(responseError(getCopyByBarcodeFailed,error))
             });
+        }
     }
-
 }
 
 export const getCopyByIdSuccess = (data) => {

@@ -96,7 +96,7 @@ class TagRFIDForm extends React.Component {
     }
 
     componentDidMount() {
-        // this.fetchData()
+        this.fetchData()
     }
 
     fetchData(event, newValue, previousValue, name) {
