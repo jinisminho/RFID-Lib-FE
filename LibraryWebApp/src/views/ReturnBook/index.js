@@ -126,7 +126,7 @@ class ReturnBook extends React.Component {
     bookDescriptionFormat(cell, row) {
         return (
             <>
-                <a href="https://www.google.com"><h2 className="font-weight-bolder">{row.book.title}{row.book.subtitle ? ":" + " " + row.book.subtitle : ""}</h2></a>
+                <a><h2 className="font-weight-bolder">{row.book.title}{row.book.subtitle ? ":" + " " + row.book.subtitle : ""}</h2></a>
                 <p>by <span className="font-weight-bold">{row.book.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.book.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p>

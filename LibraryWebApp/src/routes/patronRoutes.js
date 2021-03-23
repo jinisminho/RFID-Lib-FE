@@ -20,6 +20,7 @@ import Book from "views/Student/Book/index"
 import Profile from "views/Student/Profile.js"
 import BookDetail from "views/Student/Book/BookDetail";
 import ChangePassword from "views/ChangePassword/index";
+import SearchBook from "views/SearchBook/index.js";
 
 var routes = [
   // {
@@ -57,6 +58,13 @@ var routes = [
     name: "Checkout Information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInf,
+    layout: "/patron"
+  },
+  {
+    path: "/searchbook",
+    name: "Search Book",
+    icon: "ni ni-book-bookmark text-primary",
+    component: SearchBook,
     layout: "/patron"
   },
   {

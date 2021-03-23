@@ -1,6 +1,4 @@
 import * as actionTypes from '../actionTypes'
-import * as prototype from '../../prototype/bookStudent'
-import { $CombinedState } from 'redux'
 import axios from '../../../axios'
 import {responseError} from '../../utility'
 import * as MyConstant from 'views/Util/Constant'

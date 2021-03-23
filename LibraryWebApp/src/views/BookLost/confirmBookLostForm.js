@@ -29,9 +29,9 @@ import {
     Row,
     Col,
     Label,
-    InputGroup
+    
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
+import { Popover, OverlayTrigger,InputGroup } from 'react-bootstrap'
 
 const validate = values => {
     const errors = {}
@@ -59,6 +59,10 @@ const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { t
         <Row>
             <InputGroup className="input-group-alternative">
                 <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+                {isPrice && <InputGroup.Append>
+                               <button className="btn btn-simple"><span className="font-weight-bold">VND</span></button> 
+                </InputGroup.Append>}
+                
                 {touched && ((error && <OverlayTrigger
                     trigger={['hover', 'focus']}
                     placement="right"
