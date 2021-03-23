@@ -42,9 +42,10 @@ namespace LibrarySelfCheckOut
             this.studentId = studentId;
             this.spiner.Hide();
 
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            this.txtBookRFID.Hide();
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.txtBookRFID.Focus();
 
@@ -98,7 +99,13 @@ namespace LibrarySelfCheckOut
                             item.Width = this.flowLayoutPanelBookList.Width - 10;
                             flowLayoutPanelBookList.Controls.Add(item);
                             bookCodeList.Add(new BookCheckOutRequestModel(rs.book.rfid, rs.book.group, rs.book.groupId, rs.book.bookId, rs.book.title));
-                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            try
+                            {
+                                bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                         else
                         {

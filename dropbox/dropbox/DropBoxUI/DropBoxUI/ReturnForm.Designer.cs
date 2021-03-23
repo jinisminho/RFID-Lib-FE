@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.picTitle = new System.Windows.Forms.PictureBox();
             this.lbNumber = new System.Windows.Forms.Label();
             this.txtBookRfid = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -38,6 +40,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.spiner = new System.Windows.Forms.PictureBox();
             this.pnFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.pbBottom = new System.Windows.Forms.Panel();
             this.btStart = new System.Windows.Forms.Button();
@@ -48,17 +51,14 @@
             this.timerCountBook = new System.Windows.Forms.Timer(this.components);
             this.timerWaitCloseDoor = new System.Windows.Forms.Timer(this.components);
             this.timerResetSuccess = new System.Windows.Forms.Timer(this.components);
-            this.spiner = new System.Windows.Forms.PictureBox();
-            this.picTitle = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).BeginInit();
             this.panel2.SuspendLayout();
             this.pnMessage.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.pbBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pbBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -72,6 +72,27 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1778, 208);
             this.panel1.TabIndex = 9;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DropBoxUI.Properties.Resources.logo_dark_bcg;
+            this.pictureBox1.Location = new System.Drawing.Point(21, 41);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(237, 111);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
+            // 
+            // picTitle
+            // 
+            this.picTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.picTitle.Image = global::DropBoxUI.Properties.Resources.book_drop_station;
+            this.picTitle.Location = new System.Drawing.Point(0, 66);
+            this.picTitle.Name = "picTitle";
+            this.picTitle.Size = new System.Drawing.Size(1775, 69);
+            this.picTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picTitle.TabIndex = 9;
+            this.picTitle.TabStop = false;
             // 
             // lbNumber
             // 
@@ -151,6 +172,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Message:";
             // 
+            // spiner
+            // 
+            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.spiner.Image = global::DropBoxUI.Properties.Resources.Spinner_trans__1_;
+            this.spiner.Location = new System.Drawing.Point(842, 324);
+            this.spiner.Name = "spiner";
+            this.spiner.Size = new System.Drawing.Size(101, 71);
+            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.spiner.TabIndex = 6;
+            this.spiner.TabStop = false;
+            // 
             // pnFlow
             // 
             this.pnFlow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -218,38 +250,6 @@
             this.timerResetSuccess.Interval = 10000;
             this.timerResetSuccess.Tick += new System.EventHandler(this.timerResetSuccess_Tick);
             // 
-            // spiner
-            // 
-            this.spiner.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.spiner.Image = global::DropBoxUI.Properties.Resources.Spinner_trans__1_;
-            this.spiner.Location = new System.Drawing.Point(842, 324);
-            this.spiner.Name = "spiner";
-            this.spiner.Size = new System.Drawing.Size(101, 71);
-            this.spiner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.spiner.TabIndex = 6;
-            this.spiner.TabStop = false;
-            // 
-            // picTitle
-            // 
-            this.picTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.picTitle.Image = global::DropBoxUI.Properties.Resources.book_drop_station;
-            this.picTitle.Location = new System.Drawing.Point(0, 66);
-            this.picTitle.Name = "picTitle";
-            this.picTitle.Size = new System.Drawing.Size(1775, 69);
-            this.picTitle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picTitle.TabIndex = 9;
-            this.picTitle.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::DropBoxUI.Properties.Resources.logo_dark_bcg;
-            this.pictureBox1.Location = new System.Drawing.Point(21, 41);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(237, 111);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
-            // 
             // ReturnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -265,16 +265,16 @@
             this.Load += new System.EventHandler(this.ReturnForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.pnMessage.ResumeLayout(false);
             this.pnMessage.PerformLayout();
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
             this.pbBottom.ResumeLayout(false);
             this.pbBottom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spiner)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picTitle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
