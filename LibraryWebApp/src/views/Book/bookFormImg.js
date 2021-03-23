@@ -76,9 +76,15 @@ const validate = values => {
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
-  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
-    errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
   }
+  // else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
+  //   errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
+  // }
+  // if (!values.ddc) {
+  //   errors.ddc = 'DDC is required'
+  // }else if(!/^-?\d{3}(\.\d+)?$/.test(values.ddc)){
+  //   errors.ddc = 'DDC is not valid (ex: 123.123)'
+  // }
   if (!values.edition) {
     errors.edition = 'Edition is required'
   } else if (!/^[0-9]+$/i.test(values.edition)) {
@@ -89,9 +95,9 @@ const validate = values => {
   if (!values.publishYear) {
     errors.publishYear = 'Publish year is required'
   } 
-  if (!values.genreIds || values.genreIds.length==0) {
-    errors.genreIds = 'Genre is required'
-  } 
+  // if (!values.genreIds || values.genreIds.length==0) {
+  //   errors.genreIds = 'Genre is required'
+  // } 
   if (!values.authorIds || values.authorIds.length==0) {
     errors.authorIds = 'Author is required'
   } 
@@ -290,7 +296,7 @@ class BookFormImg extends Component {
                       component={renderField} />
                   </FormGroup>
                 </Col>
-                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                {/* <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <FormGroup className="mb-3">
                     <Field
                       name="callNumber"
@@ -300,7 +306,8 @@ class BookFormImg extends Component {
                       title="Call Number"
                       component={renderField} />
                   </FormGroup>
-                </Col>
+                </Col> */}
+                
               </Row>
             </Col>
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
@@ -314,6 +321,17 @@ class BookFormImg extends Component {
                   component={renderField} />
               </FormGroup>
             </Col>
+            <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+                  <FormGroup className="mb-3">
+                    <Field
+                      name="callNumber"
+                      type="text"
+                      isRequired={true}
+                      placeholder="Call number"
+                      title="Call number"
+                      component={renderField} />
+                  </FormGroup>
+                </Col>
             <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
               <FormGroup className="mb-3">
                 <Field
@@ -384,7 +402,7 @@ class BookFormImg extends Component {
                   component={renderSelect} />
               </FormGroup>
             </Col>
-            <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
+            {/* <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                 <Field
                   name="genreIds"
                   type="select"
@@ -393,7 +411,7 @@ class BookFormImg extends Component {
                   title="Genre"
                   data={this.props.genreList}
                   component={renderSelect} />
-            </Col>
+            </Col> */}
           </Row>
           <div className="row">
           <div className="col-6 text-left">

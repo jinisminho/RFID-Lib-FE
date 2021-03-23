@@ -38,7 +38,7 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
                     dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(responseError(getBorrowingInfoOverdueFailed,error))
+                    dispatch(responseError(getBorrowingInfoOverdueFailed, error))
                 });
         }
 
@@ -85,7 +85,7 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
                     dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(responseError(getBorrowingInfoBorrowingFailed,error))
+                    dispatch(responseError(getBorrowingInfoBorrowingFailed, error))
                 });
         }
 
@@ -132,7 +132,7 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
                     dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                 })
                 .catch(error => {
-                    dispatch(responseError(getBorrowingInfoReturnedFailed,error))
+                    dispatch(responseError(getBorrowingInfoReturnedFailed, error))
                 });
         }
 
@@ -176,7 +176,7 @@ export const getExtendedHistory = (bookBorrowingId) => {
                 dispatch(getExtendedHistorySuccess(response.data.content, response.data.totalElements))
             })
             .catch(error => {
-                dispatch(responseError(getExtendedHistoryFailed,error))
+                dispatch(responseError(getExtendedHistoryFailed, error))
             });
 
         // let response = prototype.getExtendedHistory()
@@ -223,7 +223,7 @@ export const extendDue = (bookBorrowingId, librarianId, form) => {
                 dispatch(extendDueSuccess())
             })
             .catch(error => {
-                dispatch(responseError(extendDueFailed,error))
+                dispatch(responseError(extendDueFailed, error))
             });
 
         // let response
@@ -275,7 +275,7 @@ export const getStudent = (search) => {
                     dispatch(getStudentSuccess(response.data))
                 })
                 .catch(error => {
-                    dispatch(responseError(getStudentFailed,error))
+                    dispatch(responseError(getStudentFailed, error))
                 });
         else
             dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
@@ -291,6 +291,46 @@ export const getStudent = (search) => {
 
 }
 
+//Get lost reports
+export const getLostReportsSuccess = (data, total, page, sizePerPage) => {
+    return {
+        type: actionTypes.LIB_GET_LOST_REPORTS_PAGE_SUCCESS,
+        total: total,
+        data: data,
+        page: page,
+        sizePerPage: sizePerPage
+    }
+}
+
+export const getLostReportsFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_LOST_REPORTS_PAGE_FAILED,
+        error: error
+    }
+}
+
+export const getLostReportsStart = () => {
+    return {
+        type: actionTypes.LIB_GET_LOST_REPORTS_PAGE_START
+    }
+}
+
+export const getLostReports = (page, size, patronId, startDate, endDate) => {
+    return dispatch => {
+        dispatch(getLostReportsStart())
+
+        let url = '/lost/find/' + patronId + '?page=' + page + '&size=' + size + (startDate ? '&startDate=' + startDate : '') + (endDate ? '&endDate=' + endDate : '')
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getLostReportsSuccess(response.data.content, response.data.totalElements, page, size))
+            })
+            .catch(error => {
+                dispatch(responseError(getLostReportsFailed, error))
+            });
+    }
+
+}
+
 //Get Student Then Get Borrowing Histories
 export const getStudentThenGetBorrowingHistories = (page, size, search) => {
     return dispatch => {
@@ -298,6 +338,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
         dispatch(getBorrowingInfoOverdueStart())
         dispatch(getBorrowingInfoBorrowingStart())
         dispatch(getBorrowingInfoReturnedStart())
+        dispatch(getLostReportsStart())
 
 
         let url = '/patron/profile/findProfile/?searchValue=' + search
@@ -313,7 +354,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoOverdueSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(responseError(getBorrowingInfoOverdueFailed,error))
+                            dispatch(responseError(getBorrowingInfoOverdueFailed, error))
                         });
 
                     //Borrowing    
@@ -323,7 +364,7 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoBorrowingSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(responseError(getBorrowingInfoBorrowingFailed,error))
+                            dispatch(responseError(getBorrowingInfoBorrowingFailed, error))
                         });
 
                     //Returned
@@ -333,13 +374,23 @@ export const getStudentThenGetBorrowingHistories = (page, size, search) => {
                             dispatch(getBorrowingInfoReturnedSuccess(response.data.content, response.data.totalElements, page, size))
                         })
                         .catch(error => {
-                            dispatch(responseError(getBorrowingInfoReturnedFailed,error))
+                            dispatch(responseError(getBorrowingInfoReturnedFailed, error))
+                        });
+
+                    //Lost report
+                    url = '/lost/find/' + response.data.accountId + '?page=' + page + '&size=' + size
+                    axios.get(url, { withCredentials: true })
+                        .then(response => {
+                            dispatch(getLostReportsSuccess(response.data.content, response.data.totalElements, page, size))
+                        })
+                        .catch(error => {
+                            dispatch(responseError(getLostReportsFailed, error))
                         });
 
 
                 })
                 .catch(error => {
-                    dispatch(responseError(getStudentFailed,error))
+                    dispatch(responseError(getStudentFailed, error))
                 });
         else dispatch(getStudentFailed("Get student info failed - Empty seach value"))
 

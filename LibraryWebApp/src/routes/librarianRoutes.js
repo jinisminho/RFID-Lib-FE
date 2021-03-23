@@ -27,6 +27,7 @@ import CopyDetail from "views/BookCopy/BookCopyDetail";
 import BookLost from "views/BookLost/index.js";
 import Profile from "views/Student/Profile.js"
 import ChangePassword from "views/ChangePassword/index";
+import Misplace from "views/Librarian/Misplace/index.js";
 
 var routes = [
   // {
@@ -114,6 +115,13 @@ var routes = [
     name: "Book Lost Report",
     icon: "ni ni-bullet-list-67 text-red",
     component: BookLost,
+    layout: "/librarian"
+  },
+  {
+    path: "/misplace",
+    name: "Check misplaced books",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Misplace,
     layout: "/librarian"
   },
   {

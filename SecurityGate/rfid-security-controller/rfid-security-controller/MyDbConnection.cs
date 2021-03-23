@@ -8,6 +8,10 @@ namespace rfid_security_controller
     {
         public MyDbConnection()
         {
+            Server = "localhost";
+            DatabaseName = "library_rfid";
+            Username = "root";
+            Password = "4123";
         }
 
         public string Server { get; set; }
@@ -27,13 +31,20 @@ namespace rfid_security_controller
 
         public bool IsConnect()
         {
-            if (Connection == null)
+            try
             {
-                if (String.IsNullOrEmpty(DatabaseName))
-                    return false;
-                string connstring = string.Format("Server={0}; database={1}; UID={2}; password={3}", Server, DatabaseName, Username, Password);
-                Connection = new MySqlConnection(connstring);
-                Connection.Open();
+                if (Connection == null)
+                {
+                    if (String.IsNullOrEmpty(DatabaseName))
+                        return false;
+                    string connstring = string.Format("Server={0}; database={1}; UID={2}; password={3}", Server, DatabaseName, Username, Password);
+                    Connection = new MySqlConnection(connstring);
+                    Connection.Open();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
             return true;
@@ -45,19 +56,13 @@ namespace rfid_security_controller
         {
             Connection.Close();
         }
-
         public List<string> GetBorrowedBooks()
         {
             List<string> books = new List<string>();
             MyDbConnection conn = new MyDbConnection();
-            conn.Server = "localhost";
-            conn.DatabaseName = "library_rfid";
-            conn.Username = "root";
-            conn.Password = "12345678";
             if (conn.IsConnect())
             {
-                //suppose col0 and col1 are defined as VARCHAR in the DB
-                string query = "SELECT tid FROM tbl_borrowed_books";
+                string query = "SELECT rfid FROM security_deactivated_copy";
                 var cmd = new MySqlCommand(query, conn.Connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -68,6 +73,57 @@ namespace rfid_security_controller
                 conn.Close();
             }
             return books;
+        }
+
+        public int SaveLog(int id)
+        {
+            int executeStt = -1;
+            if (id != -1)
+            {
+                MyDbConnection conn = new MyDbConnection();
+                if (conn.IsConnect())
+                {
+                    try
+                    {
+                        string query = "INSERT INTO security_gate_log (logged_at, book_copy_id) values (@now, @id)";
+                        var cmd = new MySqlCommand(query, conn.Connection);
+                        cmd.Parameters.AddWithValue("@now", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        executeStt = cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+                }
+            }
+            return executeStt;
+        }
+
+        public int GetCopyIdByRfid(string rfid)
+        {
+            int id = -1;
+            MyDbConnection conn = new MyDbConnection();
+            if (conn.IsConnect())
+            {
+                Console.WriteLine("HELLo " + rfid);
+                string query = "SELECT id FROM book_copy WHERE rfid = @rfid";
+                var cmd = new MySqlCommand(query, conn.Connection);
+                cmd.Parameters.AddWithValue("@rfid", rfid);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("HELLo " + reader.GetInt32(0));
+                    id = reader.GetInt32(0);
+                }
+                conn.Close();
+            }
+            return id;
         }
 
     }

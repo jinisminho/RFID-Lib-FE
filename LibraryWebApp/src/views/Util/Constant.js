@@ -3,6 +3,7 @@ export const BOOKS = "Search Books"
 export const OVERDUE_BOOKS = "Overdue Books"
 export const BORROWING_BOOKS = "Borrowing Books"
 export const RETURNED_BOOKS = "Returned Books"
+export const LOST_BOOKS = "Lost Books"
 export const BORROW_POLICY = "Borrow Policy"
 export const PATRON_POLICY = "Patron Policy"
 export const FINE_POLICY = "Fine Policy"
@@ -12,6 +13,7 @@ export const DATETIME = "YYYY-MM-DD, HH:mm:ss"
 export const DATE = "YYYY-MM-DD"
 export const DATETIME_REQ = "YYYY-MM-DD, HH:mm:ss"
 export const DATE_REQ = "YYYY-MM-DD"
+export const DATE_PICKER_FORMAT = "yyyy-MM-dd"
 
 //Status
 
@@ -69,3 +71,5 @@ export const GENDER_LIST = { M: "Male", F: "Female" }
 
 export const BOOK_COPY_NOT_UPDATE_STATUS = ["BORROWED","LOST","DISCARD"]
 export const BOOK_NOT_UPDATE_STATUS = ["DISCARD"]
+
+export const BOOK_LOST_STATUS = {CONFIRMED:"Confirmed",PENDING:"Pending"}

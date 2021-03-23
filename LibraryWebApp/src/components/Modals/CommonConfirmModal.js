@@ -6,7 +6,7 @@ const CommonConfirmModal = props => {
 
     return (
         <Modal backdrop="static" show={props.show} onHide={props.hide} centered>
-                    <Modal.Header className="bg-warning" closeButton>
+                    <Modal.Header className="bg-primary" closeButton>
                         <Modal.Title className="text-white">{props.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
@@ -18,7 +18,7 @@ const CommonConfirmModal = props => {
                         <Button variant="secondary" onClick={props.hide}>
                             Close
                     </Button>
-                        <Button variant="warning" onClick={props.clickConfirm}>
+                        <Button variant="primary" onClick={props.clickConfirm}>
                             OK
                     </Button>
                     </Modal.Footer>

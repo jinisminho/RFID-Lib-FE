@@ -24,10 +24,11 @@ export const getBookLostStart = () => {
     }
 }
 
-export const getBookLost = (page,size,start,end) => {
+export const getBookLost = (page,size,start,end,status) => {
     return dispatch => {
         dispatch(getBookLostStart())
-        let url='/lost/find'+'?page='+page+'&size='+size+"&endDate="+end+"&startDate="+start
+        console.log(start,end)
+        let url='/lost/find'+'?page='+page+'&size='+size+"&endDate="+end+"&startDate="+start+"&status="+status
         axios.get(url, {withCredentials: true})
             .then(response => {
                 dispatch(getBookLostSuccess(response.data.content, response.data.totalElements, page, size))
@@ -37,4 +38,80 @@ export const getBookLost = (page,size,start,end) => {
             });
     }
 
+}
+
+export const getLostBookFineSuccess = (data) => {
+    return {
+        type: actionTypes.GET_BOOK_LOST_FINE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getLostBookFineFailed = (error) => {
+    return {
+        type: actionTypes.GET_BOOK_LOST_FINE_FAILED,
+        error: error
+    }
+}
+
+export const getLostBookFineStart = () => {
+    return {
+        type: actionTypes.GET_BOOK_LOST_FINE_START
+    }
+}
+
+export const getLostBookFine = (id) => {
+    return dispatch => {
+        dispatch(getLostBookFineStart())
+        let url='/lost/getLostBookFine/'+id
+        axios.get(url, {withCredentials: true})
+            .then(response => {
+                dispatch(getLostBookFineSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(responseError(getLostBookFineFailed,error))
+            });
+    }
+
+}
+
+export const confirmBookLostSuccess = (data) => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_SUCCESS,
+        data: data,
+    }
+}
+
+export const confirmBookLostFailed = (error) => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_FAILED,
+        error: error
+    }
+}
+
+export const confirmBookLostStart = () => {
+    return {
+        type: actionTypes.CONFIRM_BOOK_LOST_START
+    }
+}
+
+export const confirmBookLost = (data) => {
+    return dispatch => {
+        dispatch(confirmBookLostStart())
+        let url='/lost/confirm'
+        axios.post(url,data, {withCredentials: true})
+            .then(response => {
+                dispatch(confirmBookLostSuccess(response.data))
+            })
+            .catch(error=> {
+                dispatch(responseError(confirmBookLostFailed,error))
+            });
+    }
+
+}
+
+export const cancelConfirmBookLost = () => {
+    return {
+        type: actionTypes.CANCEL_CONFIRM_BOOK_LOST
+    }
 }

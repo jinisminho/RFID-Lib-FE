@@ -92,7 +92,7 @@ class Logs extends React.Component {
     }
 
     handleSelect(date) {
-        this.setState({ date: date })
+        this.setState({ date: date, formValue: null })
         this.fetchData(this.props.logPage, this.props.sizePerPage, date)
     }
 

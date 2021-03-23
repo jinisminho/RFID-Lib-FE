@@ -29,6 +29,10 @@ import Profile from "views/Student/Profile.js"
 import ChangePassword from "views/ChangePassword/index";
 import Types from "views/Admin/Types.js"
 import Logs from "views/Admin/Logs.js"
+import BookLost from "views/BookLost/index.js";
+import SearchBook from "views/SearchBook/index.js";
+import Misplace from "views/Librarian/Misplace/index.js";
+
 var routes = [
   {
     path: "/index",
@@ -82,10 +86,24 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/searchbook",
+    name: "Search Book",
+    icon: "ni ni-book-bookmark text-primary",
+    component: SearchBook,
+    layout: "/admin"
+  },
+  {
     path: "/policy",
     name: "Policy",
     icon: "ni ni-bullet-list-67 text-red",
     component: Policy,
+    layout: "/admin"
+  },
+  {
+    path: "/lost",
+    name: "Book Lost Report",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: BookLost,
     layout: "/admin"
   },
   {
@@ -114,6 +132,13 @@ var routes = [
     name: "Patron Management",
     icon: "fa fa-book-reader text-red",
     component: Student,
+    layout: "/admin"
+  },
+  {
+    path: "/misplace",
+    name: "Check misplaced books",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Misplace,
     layout: "/admin"
   },
   {

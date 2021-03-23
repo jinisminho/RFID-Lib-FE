@@ -19,7 +19,8 @@ export {
     getBorrowingInfo_Overdue as getBorrowingInfo_Overdue_Lib,
     getBorrowingInfo_Borrowing as getBorrowingInfo_Borrowing_Lib,
     getBorrowingInfo_Returned as getBorrowingInfo_Returned_Lib,
-    resetStates as resetStatesInfo_Lib
+    resetStates as resetStatesInfo_Lib,
+    getLostReports as getLostReports_Lib,
 } from './Librarian/info'
 
 export {
@@ -32,7 +33,8 @@ export {
     getAuthor,
     getGenre,
     getBookCopyType,
-    getLocation as getLocation_Book_Lib
+    getLocation as getLocation_Book_Lib,
+    addBookSearchList
 } from './Librarian/Book'
 
 export {
@@ -122,6 +124,9 @@ export {
 } from './Librarian/Policy'
 export {
     getBookLost,
+    cancelConfirmBookLost,
+    getLostBookFine,
+    confirmBookLost
 } from './Librarian/BookLost'
 
 export {
@@ -139,3 +144,22 @@ export {
 export {
     getAlarmLogIn1Date
 } from './Admin/Log'
+
+export {
+    addLostReport,
+    getLostReports
+} from './Common/LostBook'
+export {
+    getSearchList,
+    finishSearchBook,
+    clearFinish
+} from './searchBook'
+
+export {
+    getShelves,
+    getLines,
+    saveSampledPosition,
+    getInitialPositions,
+    getScannedBook,
+    clearBook as clearScannedBook,
+} from './Common/Position'

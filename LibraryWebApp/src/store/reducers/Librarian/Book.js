@@ -10,7 +10,8 @@ const getBookStart = (state, action) => {
     updateSuccess: false,
     addSuccess: false,
     copySuccess: false,
-    bookCopyData: null
+    bookCopyData: null,
+    addSearchListSuccess:false
   })
 }
 const getBookSuccess = (state, action) => {
@@ -242,7 +243,26 @@ const getLocationFail = (state, action) => {
     loading: false,
   })
 }
-
+const addBookSearchListStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    addSearchListSuccess: false,
+  })
+}
+const addBookSearchListSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    addSearchListSuccess: true
+  })
+}
+const addBookSearchListFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -259,6 +279,7 @@ export default function reducer(state = {
   genreData: [],
   copyTypes: null,
   bookLocation: null,
+  addSearchListSuccess:true
 }, action) {
   switch (action.type) {
     case actionTypes.ADMIN_GET_BOOKS_START: return getBookStart(state, action)
@@ -300,6 +321,10 @@ export default function reducer(state = {
     case actionTypes.LIB_GET_BOOK_LOCATIONS_START: return getLocationStart(state, action)
     case actionTypes.LIB_GET_BOOK_LOCATIONS_FAILED: return getLocationFail(state, action)
     case actionTypes.LIB_GET_BOOK_LOCATIONS_SUCCESS: return getLocationSuccess(state, action)
+
+    case actionTypes.ADD_BOOK_SEARCH_LIST_START: return addBookSearchListStart(state, action)
+    case actionTypes.ADD_BOOK_SEARCH_LIST_FAILED: return addBookSearchListFail(state, action)
+    case actionTypes.ADD_BOOK_SEARCH_LIST_SUCCESS: return addBookSearchListSuccess(state, action)
   }
   return state
 }

@@ -2,7 +2,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Row, Col, Modal, Button } from 'react-bootstrap'
+import { Row, Col, Modal, Button,InputGroup,FormControl } from 'react-bootstrap'
 import StudentHeader from '../../components/Headers/StudentHeader.js';
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
@@ -28,6 +28,7 @@ class ReturnBook extends React.Component {
             bookList: [],
             bookCodeList: [],
             confirmShow: false,
+            bookSearchValue:""
         }
         this.handleScan = this.handleScan.bind(this)
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -48,7 +49,9 @@ class ReturnBook extends React.Component {
         }
     }
 
-
+    inputBookChangedHandler = (event) => {
+        this.setState({ bookSearchValue: event.target.value })
+    }
     clearBookData() {
         this.props.onClearBook()
         this.setState({
@@ -64,19 +67,23 @@ class ReturnBook extends React.Component {
         this.setState({ confirmShow: false, errorShow: false })
         this.props.onReturnBook(this.props.bookData,this.props.userid)
     }
-    handleDeleteBook(id, rfidcode) {
+    handleDeleteBook(id, rfidcode,barcode) {
         let tmp = [...this.state.bookCodeList]
-        var index = tmp.indexOf(rfidcode)
-        if (index != -1) {
-            tmp.splice(index, 1);
-            this.setState({ bookCodeList: tmp });
+        var indexRfid = tmp.indexOf(rfidcode)
+        if (indexRfid != -1) {
+            tmp.splice(indexRfid, 1);
         }
+        var indexBarcode = tmp.indexOf(barcode)
+        if (indexBarcode != -1) {
+            tmp.splice(indexBarcode, 1);
+        }
+        this.setState({ bookCodeList: tmp });
         this.props.onDeleteBook(id)
     }
     activeFormatter(cell, row) {
         return (
             <div>
-                <DeleteButton clicked={() => this.handleDeleteBook(row.id, row.rfid)} />
+                <DeleteButton clicked={() => this.handleDeleteBook(row.id, row.rfid,row.barcode)} />
             </div>
         )
     }
@@ -97,6 +104,16 @@ class ReturnBook extends React.Component {
                 bookCodeList: [...this.state.bookCodeList, data.trim()]
             })
             this.props.onGetBook(data.trim())
+        }
+    }
+    handleSearch(){
+        if (!this.state.bookCodeList.includes(this.state.bookSearchValue.trim())) {
+            this.setState({
+                successShow: false,
+                errorShow: false,
+                bookCodeList: [...this.state.bookCodeList, this.state.bookSearchValue.trim()]
+            })
+            this.props.onGetBook(this.state.bookSearchValue.trim())
         }
     }
     clearReturnBookError() {
@@ -171,9 +188,15 @@ class ReturnBook extends React.Component {
                         <Row className="w-100 mt-3 p-0">
                             <Col className="col-4 mb-3 pl-4">
                                 <p><span className="font-weight-bold">Retuned book(s):</span> {this.props.bookData.length}</p>
+                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
                             </Col>
                             <Col className="col-4 mb-3 pl-4">
-                                <p><span className="font-weight-bold">Total fine:</span> {this.props.bookData.reduce((total,el) => total+el.fine,0)}</p>
+                            <InputGroup className="mb-3">
+                                <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Search book by barcode" />
+                                <InputGroup.Append>
+                                    <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
+                                </InputGroup.Append>
+                            </InputGroup>
                             </Col>
                             <Col className="col-4 mb-3 pr-4 pull-right">
                                 <button disabled={!this.props.bookData.length > 0} onClick={() => this.setState({ confirmShow: true })}
@@ -195,7 +218,7 @@ class ReturnBook extends React.Component {
                 <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
                 <Modal show={this.state.confirmShow} onHide={() => this.setState({ confirmShow: false })} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-success">
+                    <Modal.Header closeButton className="bg-primary">
                         <Modal.Title>Confirm Return</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
@@ -207,7 +230,7 @@ class ReturnBook extends React.Component {
                         <Button variant="secondary" onClick={() => this.setState({ confirmShow: false })}>
                             Close
                                 </Button>
-                        <Button variant="success" onClick={() => this.handleReturnConfirm()}>
+                        <Button variant="primary" onClick={() => this.handleReturnConfirm()}>
                             Confirm
                         </Button>
                     </Modal.Footer>

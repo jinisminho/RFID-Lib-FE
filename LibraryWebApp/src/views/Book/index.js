@@ -36,6 +36,7 @@ import * as MyConstant from '../Util/Constant'
 import AddToWishlistLibModal from "components/Modals/AddToWishlistLibModal";
 import CommonErrorModal from "components/Modals/CommonErrorModal";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal";
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 
 class Book extends React.Component {
     constructor(props) {
@@ -58,20 +59,23 @@ class Book extends React.Component {
             showAddToWishlistForm: false,
             addToWishlistId: false,
             successShowOther: false,
-            errorShowOther: false
+            errorShowOther: false,
+            searchList:[],
+            searchListConfirmShow:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this);
         this.getAuthorData = this.getAuthorData.bind(this);
-        this.getGenreData = this.getGenreData.bind(this);
+        // this.getGenreData = this.getGenreData.bind(this);
         this.bookDescriptionFormat = this.bookDescriptionFormat.bind(this);
-
+        this.handleSelectBook = this.handleSelectBook.bind(this)
+        this.handleAddToSearchList = this.handleAddToSearchList.bind(this)
     }
     componentDidMount() {
         this.fetchData();
         this.getAuthorData();
-        this.getGenreData()
+        // this.getGenreData()
         this.getCopyTypes()
     }
     componentDidUpdate() {
@@ -87,6 +91,9 @@ class Book extends React.Component {
         }
         if (this.props.copySuccess) {
             msg = "Add book copy successfully"
+        }
+        if (this.props.addSearchListSuccess) {
+            msg = "Add book to search list successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -104,9 +111,9 @@ class Book extends React.Component {
     getAuthorData() {
         this.props.onGetAuthor()
     }
-    getGenreData() {
-        this.props.onGetGenre()
-    }
+    // getGenreData() {
+    //     this.props.onGetGenre()
+    // }
     inputChangedHandler = (event) => {
         this.setState({ searchValue: event.target.value })
     }
@@ -150,7 +157,6 @@ class Book extends React.Component {
             },
             () => {
                 storage.ref('images/book').child(values.img[0].name).getDownloadURL().then(url => {
-                    console.log(url)
                     this.setState({ imageLoading: false })
                     values["img"] = url
                     values.publishYear = values.publishYear.getFullYear()
@@ -160,11 +166,11 @@ class Book extends React.Component {
                     });
                     values.authorIds = authorList
 
-                    let genreList = []
-                    values.genreIds.forEach(element => {
-                        genreList.push(element["value"])
-                    });
-                    values.genreIds = genreList
+                    // let genreList = []
+                    // values.genreIds.forEach(element => {
+                    //     genreList.push(element["value"])
+                    // });
+                    // values.genreIds = genreList
                     values["creatorId"] = this.props.userid
                     this.props.onAddBook(values)
                 })
@@ -173,7 +179,7 @@ class Book extends React.Component {
 
     }
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false })
+        this.setState({ successShow: false, errorShow: false, successShowOther: false, errorShowOther: false, searchListConfirmShow:false })
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue);
     }
     handleUpdateCancel = () => {
@@ -196,11 +202,11 @@ class Book extends React.Component {
         });
         values.authorIds = authorList
 
-        let genreList = []
-        values.genreIds.forEach(element => {
-            genreList.push(element["value"])
-        });
-        values.genreIds = genreList
+        // let genreList = []
+        // values.genreIds.forEach(element => {
+        //     genreList.push(element["value"])
+        // });
+        // values.genreIds = genreList
         if (Array.isArray(values.img)) {
             const uploadTask = storage.ref(`images/book/${values.img[0].name}`).put(values.img[0])
             uploadTask.on('state_changed',
@@ -369,14 +375,16 @@ class Book extends React.Component {
     }
     getInitialValues = () => {
         let author = []
-        let genre = []
+        // let genre = []
+        let ddc=""
         if (this.state.updateData) {
             this.state.updateData.author.forEach(el => {
                 author.push({ "value": el.id, "label": el.name })
             })
-            this.state.updateData.genres.forEach(el => {
-                genre.push({ "value": el.id, "label": el.name })
-            })
+            // this.state.updateData.genres.forEach(el => {
+            //     genre.push({ "value": el.id, "label": el.name })
+            // })
+            // ddc= this.state.updateData.callNumber.split(" ")[0]
         }
         return {
             isbn: this.state.updateData ? this.state.updateData.isbn : '',
@@ -389,8 +397,9 @@ class Book extends React.Component {
             pageNumber: this.state.updateData ? this.state.updateData.pageNumber : '',
             edition: this.state.updateData ? this.state.updateData.edition : '',
             status: this.state.updateData ? this.state.updateData.status : '',
+            // ddc: ddc,
             authorIds: author,
-            genreIds: genre,
+            // genreIds: genre,
             img: this.state.updateData ? this.state.updateData.img : '',
             id: this.state.updateData ? this.state.updateData.id : ''
         };
@@ -414,7 +423,30 @@ class Book extends React.Component {
             addToWishlistId: null,
         })
     }
-
+    handleSelectBook(row, isSelect, rowIndex, e){
+        if(isSelect){
+            if(!(this.state.searchList.includes(row.id))){
+                this.setState({
+                    searchList:[...this.state.searchList,row.id]
+                })
+            }
+        }else{
+            var array = [...this.state.searchList]; 
+            var index = array.indexOf(row.id)
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({searchList: array});
+            }
+        }
+    }
+    handleAddToSearchList = () => {
+        this.setState({ searchListConfirmShow:false })
+        let data={
+            bookIdList:this.state.searchList,
+            patronId:this.props.userid
+        }
+        this.props.onAddSearchList(data)
+    }
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -427,6 +459,11 @@ class Book extends React.Component {
             lastPage: '>>',
             hideSizePerPage: true,
         };
+        const selectRow = {
+            mode: 'checkbox',
+            onSelect:this.handleSelectBook,
+            selected: this.state.searchList
+          };
         let display = (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
@@ -440,16 +477,23 @@ class Book extends React.Component {
                     </Col>
                     <Col className="col-8 pr-4 pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-info btn-fill float-right ml-2" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book
                         </button>
+                        <button disabled={this.state.searchList.length==0} onClick={() => this.setState({ searchListConfirmShow: true })}
+                            type="button" className="btn btn-info btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> <i className="fa fa-plus"></i> Add Book Search List
+                        </button>
                     </Col>
+                    
                 </Row>
 
                 <br />
                 <BootstrapTable
                     data={this.props.data}
+                    selectRow={ selectRow }
                     options={options}
                     fetchInfo={{ dataTotalSize: this.props.totalSize }}
                     remote
@@ -462,9 +506,9 @@ class Book extends React.Component {
                     tableHeaderClass={"col-hidden"}
                     keyField="id"
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter}  width="13%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="description" width="45%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField='active' dataAlign="center" width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
                 </BootstrapTable>
                 {/* delete popup */}
                 <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
@@ -472,7 +516,12 @@ class Book extends React.Component {
                         <Modal.Title>Add Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg initialValues={this.getInitialAddStatus()} authorList={this.props.authorData} genreList={this.props.genreData} handleCancel={() => this.handleAddCancel()} onSubmit={(values) => this.handleAddSubmit(values)} />
+                        <BookFormImg 
+                        initialValues={this.getInitialAddStatus()} 
+                        authorList={this.props.authorData} 
+                        // genreList={this.props.genreData} 
+                        handleCancel={() => this.handleAddCancel()} 
+                        onSubmit={(values) => this.handleAddSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
@@ -480,7 +529,12 @@ class Book extends React.Component {
                         <Modal.Title>Update Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookFormImg authorList={this.props.authorData} genreList={this.props.genreData} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                        <BookFormImg 
+                        authorList={this.props.authorData} 
+                        // genreList={this.props.genreData} 
+                        initialValues={this.getInitialValues()} 
+                        handleCancel={() => this.handleUpdateCancel()} 
+                        onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <Modal backdrop="static" show={this.state.copyShow} onHide={() => this.handleCopyCancel()}>
@@ -563,6 +617,8 @@ class Book extends React.Component {
                         />
                         <CommonErrorModal show={this.props.errorInfo && this.state.errorShowOther} hide={() => this.handleModalClose()} msg={this.props.errorInfo} />
                         <CommonSuccessModal show={this.props.successMsgInfo && this.state.successShowOther} hide={() => this.handleModalClose()} msg={this.props.successMsgInfo} />
+                        <CommonConfirmModal title="Add books to search list" show={this.state.searchListConfirmShow} hide={() => this.setState({searchListConfirmShow:false})} clickConfirm={() => this.handleAddToSearchList(this.state.borrowChanged)} msg="Do you want to add selected books to search list?" />
+
                         {display}
                     </Card>
                 </Container>
@@ -578,20 +634,19 @@ const mapStateToProps = state => {
         error: state.book.error,
         totalSize: state.book.total,
         page: state.book.page,
-        sizePerPage: state.book.sizePerPage,
+        sizePerPage: 2,
         deleteSuccess: state.book.deleteSuccess,
         copySuccess: state.book.copySuccess,
         updateSuccess: state.book.updateSuccess,
         addSuccess: state.book.addSuccess,
         bookCopyData: state.book.bookCopyData,
         authorData: state.book.authorData,
-        genreData: state.book.genreData,
+        // genreData: state.book.genreData,
         copyTypes: state.book.copyTypes,
         userid: state.Auth.userId,
-
         successMsgInfo: state.info.successMsg,
         errorInfo: state.info.error,
-
+        addSearchListSuccess:state.book.addSearchListSuccess
     }
 }
 
@@ -605,8 +660,9 @@ const mapDispatchToProps = dispatch => {
         onGenerateBarcode: (data) => dispatch(actions.generateCopyBarcode(data)),
         onGetAuthor: () => dispatch(actions.getAuthor()),
         onGetCopyType: () => dispatch(actions.getBookCopyType()),
-        onGetGenre: () => dispatch(actions.getGenre()),
+        // onGetGenre: () => dispatch(actions.getGenre()),
         onAddReminder: (bookId, patronId) => dispatch(actions.addReminder(bookId, patronId)),
+        onAddSearchList: (data) => dispatch(actions.addBookSearchList(data)),
     }
 }
 

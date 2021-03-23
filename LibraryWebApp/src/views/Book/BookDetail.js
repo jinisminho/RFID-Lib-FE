@@ -12,8 +12,6 @@ import {
     Table
 } from "reactstrap";
 import { Button, Modal } from 'react-bootstrap'
-import MyUtil from 'store/utility'
-import * as MyConstant from '../Util/Constant'
 import * as actions from 'store/actions/index'
 
 class BookDetail extends React.Component {
@@ -57,7 +55,7 @@ class BookDetail extends React.Component {
     // }
 
     floorShelfFormatter(cell, row) {
-        return (row.floor ? "Floor: " + row.floor : "") + (row.shelf ? (row.floor ? " - " : "") + "Shelf: " + row.shelf : "")
+        return (row.shelf ? "Shelf: " + row.shelf : "") + (row.line ? (row.shelf ? " - " : "") + "Line: " + row.line : "")
     }
 
     render() {
@@ -166,9 +164,13 @@ class BookDetail extends React.Component {
                                     <th className="pl-7 border-0">Language:</th>
                                     <td className="border-0">{thisBook.language}</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <th className="pl-7 border-0">Genre(s):</th>
                                     <td className="border-0">{formatedGenres}</td>
+                                </tr> */}
+                                <tr>
+                                    <th className="pl-7 border-0">Genre:</th>
+                                    <td className="border-0">{thisBook.genre}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -194,8 +196,8 @@ class BookDetail extends React.Component {
                             className="ml-4 mr-4 mb-4"
                             keyField="index"
                         >
-                            <TableHeaderColumn dataField="bookCopyType" dataAlign="center" width="20%" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Group</TableHeaderColumn>
-                            <TableHeaderColumn dataFormat={this.floorShelfFormatter} dataField="floor/shelf" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Floor / Shelf</TableHeaderColumn>
+                            <TableHeaderColumn dataField="shelf" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Shelf</TableHeaderColumn>
+                            <TableHeaderColumn dataField="line" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Line</TableHeaderColumn>
                             {/* <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn> */}
                             {/* <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn> */}
                         </BootstrapTable>
