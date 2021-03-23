@@ -154,3 +154,12 @@ export {
     finishSearchBook,
     clearFinish
 } from './searchBook'
+
+export {
+    getShelves,
+    getLines,
+    saveSampledPosition,
+    getInitialPositions,
+    getScannedBook,
+    clearBook as clearScannedBook,
+} from './Common/Position'

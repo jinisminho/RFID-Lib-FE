@@ -16,6 +16,7 @@ import lost from './Librarian/BookLost'
 import types from './Common/Types'
 import logs from './Admin/Log'
 import lostBook from './Common/LostBook'
+import position from './Common/Position'
 import search from './searchBook'
 
 export default {
@@ -36,6 +37,7 @@ export default {
   types,
   logs,
   lostBook,
+  position,
   search,
   form: formReducer,
 };
