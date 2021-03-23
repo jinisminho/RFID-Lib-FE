@@ -35,6 +35,7 @@ import {
 } from "reactstrap";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 import { Link } from 'react-router-dom'
 class BookCopy extends React.Component {
     constructor(props) {
@@ -55,7 +56,8 @@ class BookCopy extends React.Component {
             price: null,
             copyType: null,
             copyStatus: null,
-            barcodeList:[]
+            barcodeList:[],
+            barcodeConfirm:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -330,6 +332,10 @@ class BookCopy extends React.Component {
             }
         }
     }
+    handlePrintBarcode(){
+        this.setState({barcodeConfirm:false})
+        this.props.onPrintBarcode({bookCopyIdList:this.state.barcodeList})
+    }
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -448,7 +454,7 @@ class BookCopy extends React.Component {
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Tag RFID
                         </button>
-                        <button disabled={this.state.barcodeList.length==0} onClick={() => this.props.onPrintBarcode({bookCopyIdList:this.state.barcodeList})}
+                        <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print Barcode
@@ -468,6 +474,8 @@ class BookCopy extends React.Component {
                     <Card className="shadow">
                     <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                     <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
+                    <CommonConfirmModal title="Print barcode" show={this.state.barcodeConfirm} hide={() => this.setState({barcodeConfirm:false})} clickConfirm={() => this.handlePrintBarcode()} msg="Do you want to print selected barcode?" />
+
                         {display}
                     </Card>
                 </Container>
