@@ -130,7 +130,7 @@ class ReturnBook extends React.Component {
                 <p>by <span className="font-weight-bold">{row.book.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.book.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p>
-                <p><span className="font-weight-bold">Genre(s):</span> {row.book.genres}</p>
+                {/* <p><span className="font-weight-bold">Genre(s):</span> {row.book.genres}</p> */}
             </>
         )
     }

@@ -139,10 +139,11 @@ class SearchBook extends React.Component {
         const selectRow = {
             mode: 'checkbox',
             onSelect: this.handleSelectBook,
+            unselectable:(this.props.data?this.props.data.filter(el => !el.available):[]).map(el=>el.id)
         };
         let barcodeReader = null
         let btn = (
-            <button disabled={this.props.data.length==0} onClick={() => this.setState({ scanning: true, title:"SCANNING BOOKS" })}
+            <button disabled={this.props.data.length==0 || this.props.data.filter(el => el.available).length==0} onClick={() => this.setState({ scanning: true, title:"SCANNING BOOKS" })}
                 type="button" className="btn btn-info btn-fill float-right" >
                 <span className="btn-label">
                 </span> Start
