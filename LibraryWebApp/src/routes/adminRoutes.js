@@ -31,6 +31,7 @@ import Types from "views/Admin/Types.js"
 import Logs from "views/Admin/Logs.js"
 import BookLost from "views/BookLost/index.js";
 import SearchBook from "views/SearchBook/index.js";
+import Misplace from "views/Librarian/Misplace/index.js";
 
 var routes = [
   {
@@ -131,6 +132,13 @@ var routes = [
     name: "Patron Management",
     icon: "fa fa-book-reader text-red",
     component: Student,
+    layout: "/admin"
+  },
+  {
+    path: "/misplace",
+    name: "Check misplaced books",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Misplace,
     layout: "/admin"
   },
   {
