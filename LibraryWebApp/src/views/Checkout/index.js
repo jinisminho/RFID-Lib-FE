@@ -63,6 +63,7 @@ class Checkout extends React.Component {
     }
     
     componentDidUpdate() {
+        console.log(this.props.bookData)
         let checkoutAllow=true
         this.props.bookData.forEach(el=>{
             if(el.violatePolicy){
@@ -181,7 +182,7 @@ class Checkout extends React.Component {
                 <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.copy.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.copy.barcode}</p>
-                <p><span className="font-weight-bold">Genre(s):</span> {row.copy.genres}</p>
+                {/* <p><span className="font-weight-bold">Genre(s):</span> {row.copy.genres}</p> */}
                 <p><span className="font-weight-bold">ISBN:</span> {row.copy.isbn}</p>
                 <p><span className="font-weight-bold">Overdue at:</span> {row.dueAt}</p>
             </div>

@@ -161,7 +161,6 @@ export const addCopy = (data) => {
                 let fileName = 'barcode.pdf';
                 if (contentDisposition) {
                     let fileNameMatch = contentDisposition.split("filename=");
-                    console.log(fileNameMatch)
                     if (fileNameMatch.length === 2)
                         fileName = fileNameMatch[1];
                 }
@@ -375,15 +374,16 @@ export const getCopyByBarcode = (barcode) => {
     return dispatch => {
         dispatch(getCopyByBarcodeStart())
         let url = '/copy/get/barcode/'+barcode
-        axios.get(url, { withCredentials: true })
+        if(barcode) {
+            axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getCopyByBarcodeSuccess(response.data.book))
             })
             .catch(error => {
                 dispatch(responseError(getCopyByBarcodeFailed,error))
             });
+        }
     }
-
 }
 
 export const getCopyByIdSuccess = (data) => {
@@ -456,4 +456,50 @@ export const getLocation = (search) => {
             });
     }
 
+}
+
+export const printBarcodeStart = () => {
+    return ({
+        type: actionTypes.PRINT_BARCODE_START
+    })
+}
+export const printBarcodeFail = (error) => {
+    return ({
+        type: actionTypes.PRINT_BARCODE_FAILED,
+        error: error
+    })
+}
+export const printBarcodeSuccess = () => {
+    return ({
+        type: actionTypes.PRINT_BARCODE_SUCCESS
+    })
+}
+export const printBarcode = (data) => {
+    console.log(data)
+    return dispatch => {
+        dispatch(printBarcodeStart())
+        let url='/copy/printBarcodes'
+        axios.post(url,data, { withCredentials: true,responseType: 'blob'})
+            .then(response => {
+                dispatch(printBarcodeSuccess())
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                const contentDisposition = response.headers['content-disposition'];
+                let fileName = 'barcode.pdf';
+                if (contentDisposition) {
+                    let fileNameMatch = contentDisposition.split("filename=");
+                    if (fileNameMatch.length === 2)
+                        fileName = fileNameMatch[1];
+                }
+                link.setAttribute('download', fileName); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error=> {
+                dispatch(responseError(printBarcodeFail,error))
+            });   
+    }
 }

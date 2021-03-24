@@ -170,13 +170,12 @@ class BookLost extends React.Component {
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="barcode" width="10%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Barcode</TableHeaderColumn>
-                    <TableHeaderColumn dataField="isbn" width="10%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>ISBN</TableHeaderColumn>
                     <TableHeaderColumn dataField='title'width="25%" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
                     <TableHeaderColumn dataField='borrowerEmail'width="15%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Patron Email</TableHeaderColumn>
                     <TableHeaderColumn dataField='lostAt' width="10%" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Lost At</TableHeaderColumn>
-                    <TableHeaderColumn dataField='fine'width="5%" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine</TableHeaderColumn>
-                    <TableHeaderColumn dataField='reason'width="10%" dataAlign="center" dataFormat={this.ifNullFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Note</TableHeaderColumn>
-                    <TableHeaderColumn dataField='action'width="15%" dataFormat={this.actionFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField='fine'width="15%" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine-VND</TableHeaderColumn>
+                    <TableHeaderColumn dataField='reason'width="15%" dataAlign="center" dataFormat={this.ifNullFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Note</TableHeaderColumn>
+                    <TableHeaderColumn dataField='action'width="10%" dataFormat={this.actionFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
         )
         let display = (

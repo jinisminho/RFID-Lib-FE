@@ -197,6 +197,8 @@ export function responseError(func,err) {
                     break;
                 case 402:
                     return logout()
+                case 401:
+                    return logout()
                 default:
                     msg = err.response.data.message
                     break;

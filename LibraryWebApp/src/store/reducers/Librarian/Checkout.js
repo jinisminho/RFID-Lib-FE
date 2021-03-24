@@ -119,11 +119,21 @@ const getBookStart = (state, action) =>{
   }
   const deleteCheckoutBook=(state, action) =>{
     let tmp_books=[...state.bookData]
-    tmp_books.forEach((book,idx)=> {
-      if(book.copy.id==action.id){
-        tmp_books.splice(idx,1)
+    let tmps=[...state.bookData]
+    console.log("bf",tmps)
+    let length = tmp_books.length
+    let idx=-1
+    for(let i=0;i<length;i++){
+      if(tmp_books[i].copy.id==action.id){
+        idx=i
       }
-    });
+    }
+    console.log("af",tmp_books)
+    console.log(idx)
+    if(idx!=-1){
+      tmp_books.splice(idx,1)
+    }
+
     return updateObject(state,{
       bookData:tmp_books
     })

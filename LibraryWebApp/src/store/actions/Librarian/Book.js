@@ -179,9 +179,24 @@ export const addBookCopy = (data) => {
     return dispatch => {
         dispatch(addCopyStart())    
         let url='/copy/add'
-        axios.post(url,data, { withCredentials: true })
+        axios.post(url,data, { withCredentials: true,responseType: 'blob' })
             .then(response => {
                 dispatch(addCopySuccess())
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                const contentDisposition = response.headers['content-disposition'];
+                let fileName = 'barcode.pdf';
+                if (contentDisposition) {
+                    let fileNameMatch = contentDisposition.split("filename=");
+                    if (fileNameMatch.length === 2)
+                        fileName = fileNameMatch[1];
+                }
+                link.setAttribute('download', fileName+".pdf"); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
             })
             .catch(error=> {
                 dispatch(responseError(addCopyFail,error))

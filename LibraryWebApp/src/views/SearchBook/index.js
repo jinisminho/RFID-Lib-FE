@@ -18,7 +18,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Row, Col, Modal, Button, FormControl, InputGroup } from 'react-bootstrap'
+import { Row, Col} from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -31,6 +31,7 @@ import {
 } from "reactstrap";
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 
 class SearchBook extends React.Component {
 
@@ -43,6 +44,9 @@ class SearchBook extends React.Component {
             successShow: false,
             errorShow: false,
             scanning: false,
+            confirmMessage:"",
+            confirmTitle:"",
+            confirmShow:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handleSelectBook = this.handleSelectBook.bind(this)
@@ -126,6 +130,17 @@ class SearchBook extends React.Component {
             });
             this.setState({ finishList: array });
         }
+        e.target.blur()
+    }
+    handleConfirm(){
+        this.setState({
+            confirmTitle:"",
+            confirmMessage:"",
+            confirmShow:false,
+            scanning: false,
+            title:'CLICK "START" TO SCAN'
+        })
+        this.props.onFinishScan(this.props.userid)
     }
     render() {
         const options = {
@@ -139,10 +154,11 @@ class SearchBook extends React.Component {
         const selectRow = {
             mode: 'checkbox',
             onSelect: this.handleSelectBook,
+            unselectable:(this.props.data?this.props.data.filter(el => !el.available):[]).map(el=>el.id)
         };
         let barcodeReader = null
         let btn = (
-            <button disabled={this.props.data.length==0} onClick={() => this.setState({ scanning: true, title:"SCANNING BOOKS" })}
+            <button disabled={this.props.data.length==0 || this.props.data.filter(el => el.available).length==0} onClick={(e) => {this.setState({ scanning: true, title:"SCANNING BOOKS" }); e.target.blur()}}
                 type="button" className="btn btn-info btn-fill float-right" >
                 <span className="btn-label">
                 </span> Start
@@ -151,8 +167,7 @@ class SearchBook extends React.Component {
         if (this.state.scanning) {
             btn = (
                 <button onClick={() => {
-                    this.setState({ scanning: false, title:'CLICK "START" TO SCAN' })
-                    this.props.onFinishScan(this.props.userid)
+                    this.setState({confirmShow:true, confirmMessage:"Do you want to stop looking for books?",confirmTitle:"Finish search books"})
             }}
                     type="button" className="btn btn-info btn-fill float-right" >
                     <span className="btn-label">
@@ -180,7 +195,7 @@ class SearchBook extends React.Component {
                         </Col>
                         <Col className="col-8 mb-3 pr-4 pull-right">
                             {btn}
-                            <button disabled={this.props.data.length==0} onClick={() => this.props.onFinishScan(this.props.userid)}
+                            <button disabled={this.props.data.length==0 || this.state.scanning} onClick={() => this.setState({ confirmShow:true, confirmMessage:"Do you want to clear book search list?",confirmTitle:"Confirm clear book"})}
                                 type="button" className="btn btn-info btn-fill float-right mr-3" >
                                 <span className="btn-label">Clear
                             </span>
@@ -215,7 +230,7 @@ class SearchBook extends React.Component {
                 {barcodeReader}
                 {bookDisplay}
                 <audio className="audio-element">
-                    <source src={require("assets/sound/beep.mp3")}></source>
+                    <source src={require("assets/sound/bell.wav")}></source>
                 </audio>
                 <CommonSuccessModal show={this.state.successShow} hide={() => {
                     this.props.onClearFinish()
@@ -223,6 +238,8 @@ class SearchBook extends React.Component {
                     }} 
                     msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+                <CommonConfirmModal title={this.state.confirmTitle} show={this.state.confirmShow} hide={() => this.setState({confirmShow:false,confirmMessage:"",confirmTitle:""})} clickConfirm={() => this.handleConfirm()} msg={this.state.confirmMessage}/>
+
             </>
         );
     }

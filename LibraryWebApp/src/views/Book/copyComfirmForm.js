@@ -16,8 +16,9 @@
 
 */
 import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
-
+import { Field, reduxForm } from 'redux-form';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Barcode from 'react-barcode'
 // reactstrap components
 import {
     Button,
@@ -26,9 +27,6 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
     Row,
     Col,
     Label
@@ -56,35 +54,6 @@ const renderFieldAlter = ({ input, placeholder, disabled, type, meta: { touched,
 )
 
 
-const renderCode = ({ fields, meta: { error, submitFailed } }) => (
-    <>
-        <Row className="ml-0 ml-sm-2">
-            <Label>Generated Barcode(s) - Total: {fields.length}</Label>
-        </Row>
-        <Row className="ml-0 ml-sm-2">
-            <div style={{ maxHeight: "400px", overflowY: "scroll", boxSizing: "border-box", width: "100%", paddingRight: "5px" }}>
-                {fields.map((member, index) =>
-                    // <Row key={index}>
-                    <InputGroup className="mb-3 input-group-alternative" key={index}>
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                                {index + 1}
-                            </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                            name={`${member}.barcode`}
-                            type="text"
-                            placeholder="Book's barcode"
-                            component={renderFieldAlter}
-                            disabled
-                            label="Book's barcode" />
-                    </InputGroup>
-                )}
-            </div>
-        </Row>
-    </>
-)
-
 const renderFixedField = ({ meta, title }) => (
     <>
         <Row>
@@ -92,7 +61,11 @@ const renderFixedField = ({ meta, title }) => (
         </Row>
     </>
 )
-
+const barcodeFormat = (cell, row)=> {
+    return (
+            <Barcode value={cell} format="CODE39" width={1} flat={true}/>
+        )
+}
 const ConfirmCopyForm = ({
     handleSubmit,
     handleCancel,
@@ -160,7 +133,26 @@ const ConfirmCopyForm = ({
                         </FormGroup>
                     </Col>
                     <Col lg="6" className="border-left">
-                        <FieldArray name="members" component={renderCode} />
+                    <BootstrapTable
+                        data={initialValues.members}
+                        options={{
+                            sizePerPage: 3,
+                            prePage: '<',
+                            nextPage: '>',
+                            firstPage: '<<',
+                            lastPage: '>>',
+                            hideSizePerPage: true,
+                        }}
+                        pagination
+                        striped
+                        hover
+                        condensed
+                        className="ml-4 mr-4"
+                        bordered={false}
+                        tableHeaderClass={"col-hidden"}
+                >
+                    <TableHeaderColumn dataField="barcode" isKey dataFormat={barcodeFormat}>Barcode</TableHeaderColumn>
+                </BootstrapTable>
                     </Col>
                 </Row>
                 <Row>

@@ -75,6 +75,10 @@ namespace DropBoxUI
 
         private void ReturnForm_Load(object sender, EventArgs e)
         {
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            txtBookRfid.Hide();
             connectToSerialPortBackDoor(portBack);
             connectToSerialPortFrontDoor(portFont);
             Console.WriteLine("---------------- load");
@@ -149,6 +153,8 @@ namespace DropBoxUI
             backDoorStatus = DoorStatus.BACK_CLOSED;
             timerSession.Enabled = false;
             timerCountBook.Enabled = false;
+            //timerWaitCloseDoor.Enabled = false;
+            //timerResetSuccess.Enabled = false;
             sesionTime = Constant.PROCESS_SESSION_TIME_OUT;
             lbsession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             spiner.Hide();
@@ -162,7 +168,7 @@ namespace DropBoxUI
             txtMessage.Text = "Please click on start button to begin/open the door";
             lbsession.Hide();
             processStatus = ProcessStatus.RESET;
-            lbNumber.Text = "Numnber book scanned: " + numberOfBookScanned;
+            lbNumber.Text = "";
             bookCodeMap.Clear();
 
         }
@@ -235,8 +241,13 @@ namespace DropBoxUI
                     if (!bookCodeMap.ContainsKey(bookRfid))
                     {
                         numberOfBookScanned++;
-                        lbNumber.Text = "Numnber book scanned: " + numberOfBookScanned;
-                        bookCodeMap.Add(bookRfid, bookRfid);
+                        try
+                        {
+                            bookCodeMap.Add(bookRfid, bookRfid);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
                 else

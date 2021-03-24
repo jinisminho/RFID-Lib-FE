@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 import Spinner from 'components/Spinner/Spinner'
 import {
     Card,
-    Container
+    Container,
+    CardHeader
 } from "reactstrap";
 import BarcodeReader from 'react-barcode-reader'
 import DeleteButton from 'components/Button/DeleteButton'
@@ -185,7 +186,7 @@ class Misplace extends React.Component {
             case "callNumber":
                 return row.book.callNumber
             case "initialPos":
-                return row.position ? ("Shelf: " + row.position.shelf + " - Line: " + row.position.line) : ''
+                return row.position ? ("Shelf: " + row.position.shelf + " - Line: " + row.position.line) : 'N/A'
             default:
                 break;
         }
@@ -211,7 +212,7 @@ class Misplace extends React.Component {
             bookSearchValue: "",
             isSampleScanning: false,
         })
-        if(e) e.target.blur()
+        if (e) e.target.blur()
     }
 
     clearChecking() {
@@ -242,7 +243,7 @@ class Misplace extends React.Component {
                     }
                 }
             }
-            if(!this.state.missingBooks) await this.clearChecking()
+            if (!this.state.missingBooks) await this.clearChecking()
             return
         }
 
@@ -296,11 +297,6 @@ class Misplace extends React.Component {
             hideSizePerPage: true,
         };
 
-        if (this.props.bookLoading && this.props.loading) {
-            sampling = <Spinner />
-            checking = <Spinner />
-        }
-
         let barcode1 = this.state.isSampleScanning ? <BarcodeReader
             onScan={this.handleSampleScan}
             onError={(e) => console.log(e)}
@@ -323,6 +319,7 @@ class Misplace extends React.Component {
                                 options={this.state.shelvesOpts}
                                 onChange={(e) => this.handleSelectShelf(e)}
                                 isDisabled={this.state.isSampleScanning}
+                                placeholder="Select a shelf..."
                             />
                         </Col>
                         <Col className="col-2">
@@ -331,6 +328,7 @@ class Misplace extends React.Component {
                                 options={this.state.linesOpts}
                                 onChange={(e) => this.handleSelectLine(e)}
                                 isDisabled={this.state.isSampleScanning}
+                                placeholder="Select a line..."
                             />
                         </Col>
                         {/* <Col className="col-4 mb-3 pl-4">
@@ -346,7 +344,7 @@ class Misplace extends React.Component {
                                 <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.finishSampling(e)} disabled={!this.props.bookData}> Finish </button>
                             </div>
                             <div>
-                                <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.clearBookData(e)} disabled={!this.state.selectPositionId}> Clear </button>
+                                <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.clearBookData(e)} disabled={!this.state.selectPositionId}> Cancel </button>
                             </div>
                             <div>
                                 <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.startScanSampling(e)} disabled={!this.state.selectPositionId}> Scan </button>
@@ -356,6 +354,16 @@ class Misplace extends React.Component {
                     </Row>
 
                     <br />
+                    <Row className="w-100 m-0 p-0">
+                        <Col>
+                            <div className="d-flex">
+                                <hr className="my-auto" width="5%" />
+                                <div className="px-6"><p className="h2">Scanned Books</p></div>
+                                <hr className="my-auto flex-grow-1" />
+                            </div>
+                        </Col>
+                    </Row>
+
                     <BootstrapTable
                         data={this.props.bookData ? this.props.bookData : []}
                         options={options}
@@ -423,6 +431,7 @@ class Misplace extends React.Component {
                                 options={this.state.shelvesOpts}
                                 onChange={(e) => this.handleSelectShelf(e)}
                                 isDisabled={this.props.bookData || this.state.isCheckScanning}
+                                placeholder="Select a shelf..."
                             />
                         </Col>
                         <Col className="col-2">
@@ -431,6 +440,7 @@ class Misplace extends React.Component {
                                 options={this.state.linesOpts}
                                 onChange={(e) => this.handleSelectLineAlt(e)}
                                 isDisabled={this.props.bookData || this.state.isCheckScanning}
+                                placeholder="Select a line..."
                             />
                         </Col>
                         {/* <Col className="col-4 mb-3 pl-4">
@@ -453,6 +463,16 @@ class Misplace extends React.Component {
                     </Row>
 
                     <br />
+                    <Row className="w-100 m-0 p-0">
+                        <Col>
+                            <div className="d-flex">
+                                <hr className="my-auto" width="5%" />
+                                <div className="px-6"><p className="h2">Scanned Books</p></div>
+                                <hr className="my-auto flex-grow-1" />
+                            </div>
+                        </Col>
+                    </Row>
+
                     <BootstrapTable
                         data={this.props.bookData ? this.props.bookData : []}
                         options={options}
@@ -480,6 +500,10 @@ class Misplace extends React.Component {
             </>
         ) : null
 
+        // if (this.props.bookLoading && this.props.loading) {
+        //     sampling = <Spinner />
+        //     checking = <Spinner />
+        // }
 
         return (
             <>
@@ -501,6 +525,9 @@ class Misplace extends React.Component {
                         </Row>
                     </Card>
                     <Card className="shadow w-100">
+                        <CardHeader className="border-0">
+                            <h3 className="mb-0">{this.state.isSampling ? "Sampling" : "Checking"}</h3>
+                        </CardHeader>
                         {sampling}
                         {checking}
                     </Card>

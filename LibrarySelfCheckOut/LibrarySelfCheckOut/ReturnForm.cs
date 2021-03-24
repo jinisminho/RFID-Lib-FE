@@ -34,9 +34,10 @@ namespace LibrarySelfCheckOut
         public ReturnForm()
         {
             InitializeComponent();
-            //this.TopMost = true;
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            this.txtBookCode.Hide();
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();
@@ -90,7 +91,13 @@ namespace LibrarySelfCheckOut
                             item.Width = this.pnBooksReturned.Width - 10;
                             pnBooksReturned.Controls.Add(item);
                             bookCodeList.Add(this.bookRFID);
-                            bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            try
+                            {
+                                bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                         else
                         {
