@@ -80,3 +80,36 @@ export const getLocation = (search) => {
     }
 
 }
+
+//Get added book search list
+export const addBookSearchListStart =()=>{
+    return({
+        type: actionTypes.PAT_ADD_BOOK_SEARCH_LIST_START
+    })
+} 
+export const addBookSearchListFail =(error)=>{
+    return({
+        type: actionTypes.PAT_ADD_BOOK_SEARCH_LIST_FAILED,
+        error:error
+    })
+} 
+export const addBookSearchListSuccess =()=>{
+    return({
+        type: actionTypes.PAT_ADD_BOOK_SEARCH_LIST_SUCCESS,
+    })
+} 
+
+export const addBookSearchList = (data) => {
+    return dispatch => {
+        dispatch(addBookSearchListStart()) 
+        let url='/portableSearch/add'
+        axios.post(url,data, { withCredentials: true })
+            .then(response => {
+                dispatch(addBookSearchListSuccess())
+            })
+            .catch(error=> {
+                dispatch(responseError(addBookSearchListFail,error))
+            });   
+        
+    }
+}

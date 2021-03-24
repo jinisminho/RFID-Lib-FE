@@ -35,6 +35,9 @@ class Logs extends React.Component {
         }
         this.handleSelect = this.handleSelect.bind(this);
         this.handleFormControl = this.handleFormControl.bind(this);
+        this.fetchDataAlarmLogs = this.fetchDataAlarmLogs.bind(this);
+        this.handlePageChangeLog = this.handlePageChangeLog.bind(this);
+        
     }
 
     componentDidMount() {
@@ -93,7 +96,8 @@ class Logs extends React.Component {
 
     handleSelect(date) {
         this.setState({ date: date, formValue: null })
-        this.fetchData(this.props.logPage, this.props.sizePerPage, date)
+        // this.fetchData(this.props.logPage, this.props.sizePerPage, date)
+        this.fetchData(1, this.props.sizePerPage, date)
     }
 
     handleFormControl(event) {
