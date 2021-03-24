@@ -17,6 +17,9 @@ const StudentInfoCard = ({student,overdue,showOverdue})  =>{
             <p><b>Email:</b> {student.email}</p>
           </div>
           <div>
+            <p><b>Patron Type:</b> {student.patronType}</p>
+          </div>
+          <div>
             <p><b>Overdue book(s):</b> <button className="btn btn-info"  onClick={()=>showOverdue()}>{overdue.length}</button></p>
           </div>
           </div>

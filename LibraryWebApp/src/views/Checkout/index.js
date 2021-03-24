@@ -164,6 +164,7 @@ class Checkout extends React.Component {
             name: this.props.studentData ? this.props.studentData.profile.fullName : '',
             id: this.props.studentData ? this.props.studentData.id : '',
             email: this.props.studentData ? this.props.studentData.email : '',
+            patronType:this.props.studentData ? this.props.studentData.patronType.name : '',
             img: this.props.studentData ? this.props.studentData.avatar : '',
         };
     }
@@ -182,6 +183,7 @@ class Checkout extends React.Component {
                 <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.copy.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.copy.barcode}</p>
+                <p><span className="font-weight-bold">Book Type:</span> {row.copy.copyType}</p>
                 {/* <p><span className="font-weight-bold">Genre(s):</span> {row.copy.genres}</p> */}
                 <p><span className="font-weight-bold">ISBN:</span> {row.copy.isbn}</p>
                 <p><span className="font-weight-bold">Overdue at:</span> {row.dueAt}</p>
