@@ -109,7 +109,7 @@ class SearchBook extends React.Component {
         }
     }
 
-    handleSelectBook(row, isSelect, rowIndex, e) {
+    handleSelectBook(row, isSelect, e) {
         if (isSelect) {
             let tmpArr = []
             row.copyRfidList.forEach(el => {

@@ -90,7 +90,20 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
         </Row>
     </>
   )}
-const validateImage = value => !value ? "Required" : undefined
+  const validateImage = value =>{
+    let msg=undefined
+    let imgExt=["PNG","JPEG","JPG","BMP","GIF"]
+    if(!value){
+      msg="Required"
+    }else if(typeof value=="object"){ 
+      if(!value[0]){
+        msg="Image file is not valid"
+      }else if(!imgExt.includes(value[0].name.split(".")[1].toUpperCase())){
+        msg="Image file is not valid"
+      }
+    } 
+    return msg
+  }
 
 const validate = values => {
     const errors = {};

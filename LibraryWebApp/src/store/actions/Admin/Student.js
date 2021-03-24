@@ -172,3 +172,42 @@ export const getAllPatronType = () => {
     }
 
 }
+
+export const importPatronStart =()=>{
+    return({
+        type: actionTypes.IMPORT_PATRON_START
+    })
+} 
+export const importPatronFail =(error)=>{
+    return({
+        type: actionTypes.IMPORT_PATRON_FAILED,
+        error:error
+    })
+} 
+export const importPatronSuccess =()=>{
+    return({
+        type: actionTypes.IMPORT_PATRON_SUCCESS,
+    })
+} 
+export const importPatron = (data) => {
+    return dispatch => {
+        dispatch(importPatronStart())    
+        let url='/account/importPatron'
+        axios.post(url,data, { withCredentials: true,headers: { 'Content-Type': 'multipart/form-data;' } })
+            .then(response => {
+                dispatch(importPatronSuccess())
+                let emailData={
+                    ...response.data
+            }
+            let mailUrl='/mail/account'
+            axios.post(mailUrl,emailData, {withCredentials: true})
+            .catch(error=>{
+                console.log(error)
+            })
+
+            })
+            .catch(error=> {
+                dispatch(responseError(importPatronFail,error))
+            });   
+    }
+}
