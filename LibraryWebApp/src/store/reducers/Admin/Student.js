@@ -8,7 +8,8 @@ const getStudentStart = (state, action) =>{
     loading:true,
     deleteSuccess:false,
     updateSuccess:false,
-    addSuccess:false
+    addSuccess:false,
+    importSuccess:false
   })
 }
 const getStudentSuccess = (state, action)=>{
@@ -126,6 +127,27 @@ const addStudentFail = (state, action) =>{
       sizePerPage:10,
   })
 }
+
+const importPatronStart = (state, action) =>{
+  return updateObject(state,{
+    error:null,
+    loading:true,
+    importSuccess:false,
+  })
+}
+const importPatronSuccess = (state, action)=>{
+  return updateObject(state,{
+      error:null,
+      loading:false,
+      importSuccess:true
+  })
+}
+const importPatronFail = (state, action) =>{
+  return updateObject(state,{
+      error:action.error,
+      loading:false,
+  })
+}
 export default function reducer(state = {
     data: null,
     total:0,
@@ -135,6 +157,7 @@ export default function reducer(state = {
     sizePerPage:10,
     deleteSuccess: false,
     updateSuccess:false,
+    importSuccess:false,
     addSuccess:false,
     patronType:[]
 }, action) {
@@ -158,6 +181,10 @@ export default function reducer(state = {
     case actionTypes.GET_ALL_PATRON_TYPE_START: return getAllPatronTypeStart(state, action)
     case actionTypes.GET_ALL_PATRON_TYPE_SUCCESS: return getAllPatronTypeSuccess(state, action)
     case actionTypes.GET_ALL_PATRON_TYPE_FAILED: return getAllPatronTypeFail(state, action)
+
+    case actionTypes.IMPORT_PATRON_START: return importPatronStart(state, action)
+    case actionTypes.IMPORT_PATRON_SUCCESS: return importPatronSuccess(state, action)
+    case actionTypes.IMPORT_PATRON_FAILED: return importPatronFail(state, action)
 }
 return state
 }

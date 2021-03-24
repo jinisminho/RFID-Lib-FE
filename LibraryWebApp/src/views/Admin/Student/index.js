@@ -24,6 +24,7 @@ import { connect } from 'react-redux'
 import Spinner from '../../../components/Spinner/Spinner'
 import UpdateButton from '../../../components/Button/UpdateButton'
 import StudentForm from './studentForm'
+import ImportForm from './importForm'
 import StudentUpdateForm from './studentUpdateForm'
 import CommonConfirmModal from 'components/Modals/CommonConfirmModal'
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
@@ -47,6 +48,7 @@ class Student extends React.Component {
             confirmDisableStatus: false,
             statusId: null,
             updateFormShow: false,
+            importFormShow: false,
             updateData: null,
             imageLoading: false
         }
@@ -68,6 +70,9 @@ class Student extends React.Component {
         }
         if (this.props.deleteSuccess) {
             msg = "Change student status successfully"
+        }
+        if (this.props.importSuccess) {
+            msg = "Import patron successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -131,6 +136,14 @@ class Student extends React.Component {
             }
         )
 
+    }
+    handleImportSubmit(values){
+        this.setState({importFormShow:false})
+        let formData = new FormData()
+        formData.append("file",values.file[0])
+        formData.append("auditorId",this.props.userid)
+        formData.append("patronTypeId",values.patronTypeId )
+        this.props.onImportPatron(formData)
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false })
@@ -277,7 +290,12 @@ class Student extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Patron
+                             <i className="fa fa-plus"></i> Add Patron</span>
+                        </button>
+                        <button onClick={() => this.setState({ importFormShow: true })}
+                            type="button" className="btn btn-info btn-fill float-right mr-2" >
+                            <span className="btn-label">
+                            Import Patron</span>
                         </button>
                     </Col>
                 </Row>
@@ -342,7 +360,7 @@ class Student extends React.Component {
                 {/* delete popup */}
                 <Modal size="lg" backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Student</Modal.Title>
+                        <Modal.Title>Add Patron</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <StudentForm initialValues={{
@@ -357,10 +375,23 @@ class Student extends React.Component {
                 </Modal>
                 <Modal size="lg" backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Student</Modal.Title>
+                        <Modal.Title>Update Patron</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <StudentUpdateForm patronTypes={this.props.patronType} initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
+                    </Modal.Body>
+                </Modal>
+                <Modal size="lg" backdrop="static" show={this.state.importFormShow} onHide={() => this.setState({importFormShow:false})}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Import Patron</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ImportForm initialValues={{
+                            patronTypeId:this.props.patronType?this.props.patronType[0]?this.props.patronType[0].id:null:null
+                        }}
+                            patronTypes={this.props.patronType}
+                            handleCancel={() => this.setState({importFormShow:false})}
+                            onSubmit={(values) => this.handleImportSubmit(values)} />
                     </Modal.Body>
                 </Modal>
                 <CommonConfirmModal title="Disable Student" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this patron?" />
@@ -394,6 +425,7 @@ const mapStateToProps = state => {
         sizePerPage: state.student.sizePerPage,
         deleteSuccess: state.student.deleteSuccess,
         updateSuccess: state.student.updateSuccess,
+        importSuccess: state.student.importSuccess,
         addSuccess: state.student.addSuccess,
         patronType: state.student.patronType,
         userid: state.Auth.userId
@@ -406,7 +438,8 @@ const mapDispatchToProps = dispatch => {
         onChangeStatusStudent: (id, status,updater) => dispatch(actions.changeStatusStudent(id, status,updater)),
         onUpdateStudent: (data) => dispatch(actions.updateStudent(data)),
         onAddStudent: (data) => dispatch(actions.addStudent(data)),
-        onGetPatronType:() => dispatch(actions.getAllPatronType())
+        onGetPatronType:() => dispatch(actions.getAllPatronType()),
+        onImportPatron: (data) => dispatch(actions.importPatron(data)),
     }
 }
 
