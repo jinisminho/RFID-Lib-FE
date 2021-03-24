@@ -77,7 +77,7 @@ class BookCopy extends React.Component {
         this.fetchData()
     }
     componentDidUpdate() {
-        console.log(this.props.printBarcodeSuccess)
+        // console.log(this.props.printBarcodeSuccess)
         let msg = null
         if (this.props.addSuccess) {
             msg = "Add book copy successfully"
