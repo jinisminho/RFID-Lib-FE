@@ -18,6 +18,7 @@ import logs from './Admin/Log'
 import lostBook from './Common/LostBook'
 import position from './Common/Position'
 import search from './searchBook'
+import stuPolicy from './Student/policy'
 
 export default {
   Auth,
@@ -39,5 +40,6 @@ export default {
   lostBook,
   position,
   search,
+  stuPolicy,
   form: formReducer,
 };

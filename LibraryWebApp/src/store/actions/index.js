@@ -112,7 +112,9 @@ export {
     getLocation as getLocation_Book_Pat,
     addBookSearchList as addBookSearchList_Pat,
 } from './Student/Book'
-
+export {
+    getPolicy
+} from './Student/policy'
 export {
     getBorrowPolicy,
     getFeePolicy,

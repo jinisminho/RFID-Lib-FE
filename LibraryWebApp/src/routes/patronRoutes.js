@@ -21,6 +21,7 @@ import Profile from "views/Student/Profile.js"
 import BookDetail from "views/Student/Book/BookDetail";
 import ChangePassword from "views/ChangePassword/index";
 import SearchBook from "views/SearchBook/index.js";
+import Policy from "views/Student/policy.js";
 
 var routes = [
   // {
@@ -65,6 +66,13 @@ var routes = [
     name: "Search Book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
+    layout: "/patron"
+  },
+  {
+    path: "/policy",
+    name: "Policy",
+    icon: "ni ni-book-bookmark text-primary",
+    component: Policy,
     layout: "/patron"
   },
   {
