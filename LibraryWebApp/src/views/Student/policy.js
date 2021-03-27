@@ -117,7 +117,7 @@ class BookStu extends React.Component {
                 <div>
                     <h2>Return and Fine</h2>
                     <p>Patrons should return all borrowing books before the due date. Patrons who return after the due date will be fined an amount of money.</p>
-                    <p><span className="font-weight-bold">Overdue fine:{this.props.data?this.props.data.feePolicy.overdueFinePerDay:""}</span></p>
+                    <p><span className="font-weight-bold">Overdue fine:</span> {this.props.data?this.props.data.feePolicy.overdueFinePerDay:""} VND/overdue day*/book</p>
                     <p>If the borrowed book is lost, the patron will also be fined</p>
                     <ul>
                         <li><span className="font-weight-bold">Lost book fine</span>

@@ -320,7 +320,7 @@ class Types extends React.Component {
                                     <h3 className="mb-0">{MyConstant.BORROW_POLICY}</h3>
                                 </CardHeader> */}
                                 <Tabs defaultActiveKey="bookCopy" onSelect={() => this.fetchData()} id="my-uncontrolled-tab" >
-                                    <Tab eventKey="bookCopy" title="BookCopy">
+                                    <Tab eventKey="bookCopy" title="Book copy">
                                         {book_copy_type}
                                     </Tab>
                                     <Tab eventKey="patron" title="Patron">

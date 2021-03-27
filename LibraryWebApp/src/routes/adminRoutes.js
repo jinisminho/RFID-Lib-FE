@@ -94,7 +94,7 @@ var routes = [
   },
   {
     path: "/policy",
-    name: "Policy",
+    name: "Policy setting",
     icon: "ni ni-bullet-list-67 text-red",
     component: Policy,
     layout: "/admin"
@@ -107,15 +107,15 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/types",
-    name: "Types",
+    path: "/groups",
+    name: "Group management",
     icon: "ni ni-bullet-list-67 text-red",
     component: Types,
     layout: "/admin"
   },
   {
     path: "/logs",
-    name: "Logs",
+    name: "Security gate logs",
     icon: "ni ni-bullet-list-67 text-red",
     component: Logs,
     layout: "/admin"
