@@ -1,4 +1,3 @@
-import { getCopyType } from 'store/actions'
 import * as actionTypes from '../../actions/actionTypes'
 import {updateObject} from '../../utility'
 
@@ -11,7 +10,8 @@ const getCopyStart = (state, action) => {
     updateSuccess: false,
     addSuccess: false,
     bookCopyData: null,
-    printBarcodeSuccess:false
+    printBarcodeSuccess:false,
+    printAllBarcodeSuccess:false
   })
 }
 const getCopySuccess = (state, action) => {
@@ -292,6 +292,27 @@ const printBarcodeFail = (state, action) => {
     loading: false,
   })
 }
+
+const printAllBarcodeStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true,
+    printAllBarcodeSuccess:false
+  })
+}
+const printAllBarcodeSuccess = (state, action) => {
+  return updateObject(state, {
+    printAllBarcodeSuccess: true,
+    error: null,
+    loading: false,
+  })
+}
+const printAllBarcodeFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false,
+  })
+}
 export default function reducer(state = {
   data: null,
   total: 0,
@@ -311,6 +332,7 @@ export default function reducer(state = {
   bookToTagData: [],
   copyDetail: null,
   copyLocation: null,
+  printAllBarcodeSuccess:false
 }, action) {
   switch (action.type) {
     case actionTypes.GET_COPY_BOOK_START: return getCopyStart(state, action)
@@ -364,6 +386,10 @@ export default function reducer(state = {
     case actionTypes.PRINT_BARCODE_START: return printBarcodeStart(state, action)
     case actionTypes.PRINT_BARCODE_SUCCESS: return printBarcodeSuccess(state, action)
     case actionTypes.PRINT_BARCODE_FAILED: return printBarcodeFail(state, action)
+
+    case actionTypes.PRINT_ALL_BARCODE_START: return printAllBarcodeStart(state, action)
+    case actionTypes.PRINT_ALL_BARCODE_SUCCESS: return printAllBarcodeSuccess(state, action)
+    case actionTypes.PRINT_ALL_BARCODE_FAILED: return printAllBarcodeFail(state, action)
   }
   return state
 }

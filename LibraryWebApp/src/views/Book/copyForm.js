@@ -103,10 +103,10 @@ const validate = values => {
     }
     if (!values.price) {
         errors.price = 'Price is required'
-    } else if (!/^[0-9]+$/i.test(values.price)) {
+    } else if (!/^\d*(\.\d+)?$/i.test(values.price)) {
         errors.price = 'Price is not valid'
-    } else if (parseInt(values.price) < 1000 || parseInt(values.price) > 1000000000) {
-        errors.price = 'Price is between 1000 VND and 1000000000 VND'
+    } else if (parseFloat(values.price) < 1000 || parseFloat(values.price) > 1000000000) {
+        errors.price = 'Price must be between 1000 VND and 1000000000 VND'
     }
 
     if (!values.numberOfCopies) {
