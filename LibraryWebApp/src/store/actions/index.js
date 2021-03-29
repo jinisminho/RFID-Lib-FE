@@ -50,7 +50,8 @@ export {
     getCopyByBarcode,
     getCopyById,
     getLocation as getLocation_BookCopy_Pat,
-    printBarcode
+    printBarcode,
+    printAllBarcode
 } from './Librarian/BookCopy'
 
 export {

@@ -475,7 +475,6 @@ export const printBarcodeSuccess = () => {
     })
 }
 export const printBarcode = (data) => {
-    console.log(data)
     return dispatch => {
         dispatch(printBarcodeStart())
         let url='/copy/printBarcodes'
@@ -500,6 +499,51 @@ export const printBarcode = (data) => {
             })
             .catch(error=> {
                 dispatch(responseError(printBarcodeFail,error))
+            });   
+    }
+}
+
+export const printAllBarcodeStart = () => {
+    return ({
+        type: actionTypes.PRINT_ALL_BARCODE_START
+    })
+}
+export const printAllBarcodeFail = (error) => {
+    return ({
+        type: actionTypes.PRINT_ALL_BARCODE_FAILED,
+        error: error
+    })
+}
+export const printAllBarcodeSuccess = () => {
+    return ({
+        type: actionTypes.PRINT_ALL_BARCODE_SUCCESS
+    })
+}
+export const printAllBarcode = (data) => {
+    return dispatch => {
+        dispatch(printAllBarcodeStart())
+        let url='/copy/printAllBarcodes'
+        axios.post(url,data, { withCredentials: true,responseType: 'blob'})
+            .then(response => {
+                dispatch(printAllBarcodeSuccess())
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                const contentDisposition = response.headers['content-disposition'];
+                let fileName = 'barcode.pdf';
+                if (contentDisposition) {
+                    let fileNameMatch = contentDisposition.split("filename=");
+                    if (fileNameMatch.length === 2)
+                        fileName = fileNameMatch[1];
+                }
+                link.setAttribute('download', fileName); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error=> {
+                dispatch(responseError(printAllBarcodeFail,error))
             });   
     }
 }

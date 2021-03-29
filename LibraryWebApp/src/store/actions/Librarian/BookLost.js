@@ -27,8 +27,13 @@ export const getBookLostStart = () => {
 export const getBookLost = (page,size,start,end,status) => {
     return dispatch => {
         dispatch(getBookLostStart())
-        console.log(start,end)
-        let url='/lost/find'+'?page='+page+'&size='+size+"&endDate="+end+"&startDate="+start+"&status="+status
+        let url = ""
+        if(status){
+            url ='/lost/find'+'?page='+page+'&size='+size+"&endDate="+end+"&startDate="+start+"&status="+status
+        }else{
+            url ='/lost/find'+'?page='+page+'&size='+size+"&endDate="+end+"&startDate="+start
+        }
+        
         axios.get(url, {withCredentials: true})
             .then(response => {
                 dispatch(getBookLostSuccess(response.data.content, response.data.totalElements, page, size))

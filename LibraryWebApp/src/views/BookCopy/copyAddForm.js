@@ -116,10 +116,10 @@ const validate = values => {
     }
     if (!values.price) {
         errors.price = 'Price is required'
-    } else if (!/^[0-9]+$/i.test(values.price)) {
+    } else if (!/^\d*(\.\d+)?$/i.test(values.price)) {
         errors.price = 'Price is not valid'
-    }else if(parseInt(values.price)<1000 || parseInt(values.price)>1000000000){
-        errors.price = 'Price is not valid'
+    }else if(parseFloat(values.price)<1000 || parseFloat(values.price)>1000000000){
+        errors.price = 'Price must be between 1000 VND and 1000000000 VND '
     }
 
     if (!values.numberOfCopies) {
@@ -127,7 +127,7 @@ const validate = values => {
     } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
         errors.numberOfCopies = 'Number of copy is not valid'
     }else if(parseInt(values.numberOfCopies)>50){
-        errors.numberOfCopies = 'Number of copy is not valid'
+        errors.numberOfCopies = 'Number of copy must be less than or equal 50'
     }
     return errors
 }

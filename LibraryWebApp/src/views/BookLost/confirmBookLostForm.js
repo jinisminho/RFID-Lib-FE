@@ -38,10 +38,10 @@ const validate = values => {
    
     if (!values.fine) {
         errors.fine = 'Book lost fine is required'
-    } else if (!/^[0-9]+$/i.test(values.fine)) {
+    } else if (!/^\d*(\.\d+)?$/i.test(values.fine)) {
         errors.fine = 'Book lost fine is not valid'
-    } else if (parseInt(values.fine) < 1000 || parseInt(values.fine) > 1000000000) {
-        errors.fine = 'Book lost fine is between 1000 VND and 1000000000 VND'
+    } else if (parseFloat(values.fine) < 1000 || parseFloat(values.fine) > 1000000000) {
+        errors.fine = 'Book lost fine must be between 1000 VND and 1000000000 VND'
     }
     if(values.note){
         if(values.note.length > 500){
