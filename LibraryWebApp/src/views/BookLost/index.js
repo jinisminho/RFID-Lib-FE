@@ -124,7 +124,7 @@ class BookLost extends React.Component {
         let tmp={
             auditorId: this.props.userid,
             bookLostReportId:value.id,
-            fine:parseInt(value.fine)+value.overdueFee,
+            fine:parseFloat(value.fine)+ parseFloat(value.overdueFee),
             reason:value.note
         }
         this.props.onConfirmBookLost(tmp)
