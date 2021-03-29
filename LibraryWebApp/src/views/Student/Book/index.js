@@ -212,7 +212,7 @@ class Book extends React.Component {
             mode: 'checkbox',
             onSelect:this.handleSelectBook,
             selected: this.state.searchList,
-            unselectable:(this.props.data?this.props.data.filter(el => el.status==MyConstant.BOOK_DISCARD || el.status == MyConstant.BOOK_OUT_OF_CIRCULATION):[]).map(el=>el.id)
+            unselectable:(this.props.data?this.props.data.filter(el => el.status==MyConstant.BOOK_DISCARD || el.status == MyConstant.BOOK_OUT_OF_CIRCULATION || el.stock <= 0):[]).map(el=>el.id)
           };
         const hide = {
             publisher: true,
