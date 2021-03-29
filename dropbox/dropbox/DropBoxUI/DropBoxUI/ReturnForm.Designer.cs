@@ -51,6 +51,7 @@
             this.timerCountBook = new System.Windows.Forms.Timer(this.components);
             this.timerWaitCloseDoor = new System.Windows.Forms.Timer(this.components);
             this.timerResetSuccess = new System.Windows.Forms.Timer(this.components);
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTitle)).BeginInit();
@@ -114,6 +115,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.pnMessage);
             this.panel2.Controls.Add(this.spiner);
             this.panel2.Controls.Add(this.txtBookRfid);
@@ -237,7 +239,7 @@
             // 
             // timerCountBook
             // 
-            this.timerCountBook.Interval = 10000;
+            this.timerCountBook.Interval = 5000;
             this.timerCountBook.Tick += new System.EventHandler(this.timerCountBook_Tick);
             // 
             // timerWaitCloseDoor
@@ -249,6 +251,14 @@
             // 
             this.timerResetSuccess.Interval = 10000;
             this.timerResetSuccess.Tick += new System.EventHandler(this.timerResetSuccess_Tick);
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel4.Location = new System.Drawing.Point(554, 257);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(649, 55);
+            this.panel4.TabIndex = 7;
             // 
             // ReturnForm
             // 
@@ -302,5 +312,6 @@
         private System.Windows.Forms.Timer timerResetSuccess;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox picTitle;
+        private System.Windows.Forms.Panel panel4;
     }
 }

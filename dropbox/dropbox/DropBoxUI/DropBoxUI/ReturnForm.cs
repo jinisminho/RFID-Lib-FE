@@ -70,6 +70,9 @@ namespace DropBoxUI
             InitializeComponent();
             this.portFont = portFont;
             this.portBack = portBack;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
 
         }
 
