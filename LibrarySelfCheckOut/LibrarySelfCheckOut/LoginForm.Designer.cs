@@ -36,11 +36,12 @@
             this.sessionTimer = new System.Windows.Forms.Timer(this.components);
             this.pnCenter = new System.Windows.Forms.Panel();
             this.pnLeft = new System.Windows.Forms.Panel();
-            this.lbScan = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picTitle = new System.Windows.Forms.PictureBox();
             this.pcLogo = new System.Windows.Forms.PictureBox();
             this.spinner = new System.Windows.Forms.PictureBox();
+            this.lbScan = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.pnCenter.SuspendLayout();
             this.pnLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -52,9 +53,12 @@
             // txtStudentRFID
             // 
             this.txtStudentRFID.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtStudentRFID.BackColor = System.Drawing.Color.White;
+            this.txtStudentRFID.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtStudentRFID.ForeColor = System.Drawing.Color.White;
             this.txtStudentRFID.Location = new System.Drawing.Point(726, 871);
             this.txtStudentRFID.Name = "txtStudentRFID";
-            this.txtStudentRFID.Size = new System.Drawing.Size(226, 22);
+            this.txtStudentRFID.Size = new System.Drawing.Size(226, 15);
             this.txtStudentRFID.TabIndex = 5;
             this.txtStudentRFID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtStudentRFID_KeyDown);
             // 
@@ -91,6 +95,7 @@
             // pnCenter
             // 
             this.pnCenter.BackColor = System.Drawing.Color.White;
+            this.pnCenter.Controls.Add(this.panel5);
             this.pnCenter.Controls.Add(this.pnLeft);
             this.pnCenter.Controls.Add(this.txtStudentRFID);
             this.pnCenter.Controls.Add(this.spinner);
@@ -115,17 +120,6 @@
             this.pnLeft.Name = "pnLeft";
             this.pnLeft.Size = new System.Drawing.Size(458, 929);
             this.pnLeft.TabIndex = 15;
-            // 
-            // lbScan
-            // 
-            this.lbScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbScan.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lbScan.Location = new System.Drawing.Point(464, 344);
-            this.lbScan.Name = "lbScan";
-            this.lbScan.Size = new System.Drawing.Size(739, 44);
-            this.lbScan.TabIndex = 1;
-            this.lbScan.Text = "PLEASE SCAN YOUR ID CARD\r\n";
-            this.lbScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
@@ -171,6 +165,25 @@
             this.spinner.TabIndex = 14;
             this.spinner.TabStop = false;
             // 
+            // lbScan
+            // 
+            this.lbScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbScan.Font = new System.Drawing.Font("UD Digi Kyokasho N-R", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lbScan.Location = new System.Drawing.Point(464, 344);
+            this.lbScan.Name = "lbScan";
+            this.lbScan.Size = new System.Drawing.Size(739, 44);
+            this.lbScan.TabIndex = 1;
+            this.lbScan.Text = "PLEASE SCAN YOUR ID CARD\r\n";
+            this.lbScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel5
+            // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Location = new System.Drawing.Point(559, 836);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(547, 84);
+            this.panel5.TabIndex = 16;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -206,6 +219,7 @@
         private System.Windows.Forms.PictureBox picTitle;
         private System.Windows.Forms.PictureBox pcLogo;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel5;
     }
 }
 

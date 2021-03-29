@@ -37,7 +37,7 @@ namespace LibrarySelfCheckOut
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            this.txtBookCode.Hide();
+            this.txtBookCode.BackColor = Color.White;
             this.spiner.Hide();
             this.txtBookCode.Text = "";
             this.txtBookCode.Focus();

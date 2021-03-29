@@ -26,7 +26,6 @@ namespace LibrarySelfCheckOut
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            this.txtStudentRFID.Hide();
             this.sesionTime = Constant.LOGIN_SESSION_TIME_OUT;
       
         }

@@ -45,6 +45,7 @@
             this.lbSession = new System.Windows.Forms.Label();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
+            this.panel5 = new System.Windows.Forms.Panel();
             this.panelHead.SuspendLayout();
             this.pnNav.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -76,9 +77,12 @@
             // 
             // txtBookRFID
             // 
+            this.txtBookRFID.BackColor = System.Drawing.Color.White;
+            this.txtBookRFID.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBookRFID.ForeColor = System.Drawing.Color.White;
             this.txtBookRFID.Location = new System.Drawing.Point(784, 43);
             this.txtBookRFID.Name = "txtBookRFID";
-            this.txtBookRFID.Size = new System.Drawing.Size(299, 22);
+            this.txtBookRFID.Size = new System.Drawing.Size(299, 15);
             this.txtBookRFID.TabIndex = 4;
             this.txtBookRFID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookRFID_KeyDown);
             // 
@@ -149,6 +153,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.txtBookRFID);
             this.panel1.Controls.Add(this.btDone);
             this.panel1.Controls.Add(this.btCancel);
@@ -222,6 +227,14 @@
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
             // 
+            // panel5
+            // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Location = new System.Drawing.Point(635, 4);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(547, 84);
+            this.panel5.TabIndex = 10;
+            // 
             // CheckOutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -263,5 +276,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnNav;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel5;
     }
 }

@@ -45,7 +45,6 @@ namespace LibrarySelfCheckOut
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            this.txtBookRFID.Hide();
             this.lbSession.Text = "SESSION TIMEOUT: " + this.sesionTime;
             this.txtBookRFID.Focus();
 

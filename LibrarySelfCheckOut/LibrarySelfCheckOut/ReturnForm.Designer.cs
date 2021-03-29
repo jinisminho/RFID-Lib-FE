@@ -44,6 +44,8 @@
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panel5 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -94,9 +96,12 @@
             // 
             // txtBookCode
             // 
+            this.txtBookCode.BackColor = System.Drawing.Color.White;
+            this.txtBookCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBookCode.ForeColor = System.Drawing.Color.White;
             this.txtBookCode.Location = new System.Drawing.Point(749, 47);
             this.txtBookCode.Name = "txtBookCode";
-            this.txtBookCode.Size = new System.Drawing.Size(223, 22);
+            this.txtBookCode.Size = new System.Drawing.Size(223, 15);
             this.txtBookCode.TabIndex = 3;
             this.txtBookCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookCode_KeyDown);
             // 
@@ -127,7 +132,7 @@
             this.pnBooksReturned.AutoScroll = true;
             this.pnBooksReturned.Location = new System.Drawing.Point(46, 71);
             this.pnBooksReturned.Name = "pnBooksReturned";
-            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 617);
+            this.pnBooksReturned.Size = new System.Drawing.Size(1687, 587);
             this.pnBooksReturned.TabIndex = 1;
             // 
             // spiner
@@ -143,6 +148,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.panel5);
             this.panel3.Controls.Add(this.txtBookCode);
             this.panel3.Controls.Add(this.btCancel);
             this.panel3.Controls.Add(this.btDone);
@@ -207,6 +213,20 @@
             this.timerSessionTimeOut.Interval = 1000;
             this.timerSessionTimeOut.Tick += new System.EventHandler(this.timerSessionTimeOut_Tick);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // panel5
+            // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Location = new System.Drawing.Point(572, 4);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(547, 84);
+            this.panel5.TabIndex = 9;
+            // 
             // ReturnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -248,5 +268,7 @@
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Panel panel5;
     }
 }
