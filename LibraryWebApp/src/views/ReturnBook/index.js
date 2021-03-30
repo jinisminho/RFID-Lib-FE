@@ -15,6 +15,7 @@ import BarcodeReader from 'react-barcode-reader'
 import DeleteButton from '../../components/Button/DeleteButton'
 import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
+import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 
 class ReturnBook extends React.Component {
     constructor(props) {
@@ -127,9 +128,9 @@ class ReturnBook extends React.Component {
         return (
             <>
                 <a><h2 className="font-weight-bolder">{row.book.title}{row.book.subtitle ? ":" + " " + row.book.subtitle : ""}</h2></a>
-                <p>by <span className="font-weight-bold">{row.book.authors}</span></p>
+                {/* <p>by <span className="font-weight-bold">{row.book.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.book.edition}</p>
-                <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p>
+                <p><span className="font-weight-bold">Barcode:</span> {row.barcode}</p> */}
                 {/* <p><span className="font-weight-bold">Genre(s):</span> {row.book.genres}</p> */}
             </>
         )
@@ -164,13 +165,18 @@ class ReturnBook extends React.Component {
             condensed
             className="mt-3"
             bordered={false}
-            tableHeaderClass={"col-hidden"}
+            // tableHeaderClass={"col-hidden"}
             keyField="id"
         >
-            <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
+            <TableHeaderColumn dataField="img" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataFormat={this.imageFormatter} width="7%">Image</TableHeaderColumn>
+            <TableHeaderColumn dataField="title" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" width="35%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Title</TableHeaderColumn>
+            <TableHeaderColumn dataField="borrower" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="20%" headerAlign="center" dataFormat={(cell,row)=> row.borrower.profile.fullName}>Borrower</TableHeaderColumn>
+            <TableHeaderColumn dataField="overdueDay" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="10%" headerAlign="center" dataFormat={(cell,row)=> row.overdue ? row.overdueDays : 0}>Overdue Day(s)</TableHeaderColumn>
+            <TableHeaderColumn dataField="fine" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="15%" headerAlign="center">Fine (VND)</TableHeaderColumn>
+            {/* <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
             <TableHeaderColumn dataField="bookinfo" width="60%" dataFormat={this.bookDescriptionFormat}>Book Info</TableHeaderColumn>
-            <TableHeaderColumn dataField='returninfo' width="30%" dataFormat={this.returnDescriptionFormat} >Return Info</TableHeaderColumn>
-            <TableHeaderColumn dataField='action' width="20%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
+            <TableHeaderColumn dataField='returninfo' width="30%" dataFormat={this.returnDescriptionFormat} >Return Info</TableHeaderColumn> */}
+            <TableHeaderColumn dataField='action' width="10%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn>
         </BootstrapTable>
 
         if (this.props.bookLoading) {
@@ -200,12 +206,12 @@ class ReturnBook extends React.Component {
                             </Col>
                             <Col className="col-4 mb-3 pr-4 pull-right">
                                 <button disabled={!this.props.bookData.length > 0} onClick={() => this.setState({ confirmShow: true })}
-                                    type="button" className="btn btn-info btn-fill float-right" >
+                                    type="button" className="btn btn-primary btn-fill float-right" >
                                     <span className="btn-label">
                                     </span> Return
                         </button>
                                 <button onClick={() => this.clearBookData()}
-                                    type="button" className="btn btn-info btn-fill float-right mr-3" >
+                                    type="button" className="btn btn-primary btn-fill float-right mr-3" >
                                     <span className="btn-label">
                                     </span> Clear
                         </button>
@@ -217,24 +223,7 @@ class ReturnBook extends React.Component {
                 </Container>
                 <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
-                <Modal show={this.state.confirmShow} onHide={() => this.setState({ confirmShow: false })} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton className="bg-primary">
-                        <Modal.Title>Confirm Return</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h1 className="text-primary display-1"><i className="fas fa-question-circle"></i></h1>
-                        <h2>Confirm return books</h2>
-                    </Modal.Body>
-                    <Modal.Footer>
-
-                        <Button variant="secondary" onClick={() => this.setState({ confirmShow: false })}>
-                            Close
-                                </Button>
-                        <Button variant="primary" onClick={() => this.handleReturnConfirm()}>
-                            Confirm
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <CommonConfirmModal show={this.state.confirmShow} title="Confirm return" hide={() => this.setState({ confirmShow: false })} msg="Do you want to return scanned books?" />
             </>
         )
     }

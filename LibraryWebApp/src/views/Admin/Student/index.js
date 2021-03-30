@@ -288,12 +288,12 @@ class Student extends React.Component {
                     </Col>
                     <Col className="col-8 pr-4 pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                              <i className="fa fa-plus"></i> Add Patron</span>
                         </button>
                         <button onClick={() => this.setState({ importFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right mr-2" >
+                            type="button" className="btn btn-primary btn-fill float-right mr-2" >
                             <span className="btn-label">
                             Import Patron</span>
                         </button>

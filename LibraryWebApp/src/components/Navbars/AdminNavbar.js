@@ -33,7 +33,7 @@ class AdminNavbar extends React.Component {
   render() {
     return (
       <>
-        <Navbar className="navbar-top navbar-dark bg-gradient-info d-none d-lg-flex" expand="md" id="navbar-main" style={{position:"sticky", zIndex:"1000"}}>
+        <Navbar className="navbar-top navbar-dark bg-gradient-primary d-none d-lg-flex" expand="md" id="navbar-main" style={{position:"sticky", zIndex:"1000"}}>
           <Container fluid>
             <h2
               className="mb-0 text-white text-uppercase d-none d-lg-inline-block"

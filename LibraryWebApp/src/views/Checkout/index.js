@@ -54,7 +54,6 @@ class Checkout extends React.Component {
             title: "SCAN PATRON'S CARD",
             checkoutAllow:true,
             searchValue:"",
-            searchBtn:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.activeFormatter = this.activeFormatter.bind(this)
@@ -63,7 +62,6 @@ class Checkout extends React.Component {
     }
     
     componentDidUpdate() {
-        console.log(this.props.bookData)
         let checkoutAllow=true
         this.props.bookData.forEach(el=>{
             if(el.violatePolicy){
@@ -118,7 +116,7 @@ class Checkout extends React.Component {
         this.props.onGetBook(this.state.bookSearchValue.trim(),this.props.studentData.id)
     }
     fetchData() {
-        this.props.onFetchData(this.state.searchValue.trim())
+        this.props.onFetchData(this.state.searchValue?this.state.searchValue.trim():"")
     }
     handleDeleteBook(id, rfidcode,barcode) {
         let tmp = [...this.state.bookCodeList]
@@ -144,7 +142,6 @@ class Checkout extends React.Component {
             bookShow: false,
             errMsg: "",
             bookErrMsg: "",
-            searchBtn:false,
             title: "SCAN PATRON'S CARD"
         })
         this.props.onClearData()
@@ -180,13 +177,12 @@ class Checkout extends React.Component {
             <div>
                 {msg!="" &&<h3 className="text-danger">{msg.toUpperCase()}</h3>}
                 <h2 className="font-weight-bolder">{row.copy.title}{row.copy.subtitle?":" +" "+row.copy.subtitle:""}</h2>
-                <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
+                {/* <p>by <span className="font-weight-bold">{row.copy.authors}</span></p>
                 <p><span className="font-weight-bold">Edition:</span> {row.copy.edition}</p>
                 <p><span className="font-weight-bold">Barcode:</span> {row.copy.barcode}</p>
                 <p><span className="font-weight-bold">Book Type:</span> {row.copy.copyType}</p>
-                {/* <p><span className="font-weight-bold">Genre(s):</span> {row.copy.genres}</p> */}
                 <p><span className="font-weight-bold">ISBN:</span> {row.copy.isbn}</p>
-                <p><span className="font-weight-bold">Overdue at:</span> {row.dueAt}</p>
+                <p><span className="font-weight-bold">Overdue at:</span> {row.dueAt}</p> */}
             </div>
             )
     }
@@ -248,21 +244,12 @@ class Checkout extends React.Component {
         }
         let form = null
         if(this.props.studentData == null){
-            if(this.state.searchBtn){
                 form=<InputGroup className="mb-3">
                 <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by patron's email" />
                 <InputGroup.Append>
                     <button onClick={() => this.handleSearch()} className="btn btn-primary"><span><i className="fa fa-search"></i></span></button>
                 </InputGroup.Append>
-                <InputGroup.Append>
-                    <button onClick={()=>this.setState({searchBtn:!this.state.searchBtn})} className="btn btn-simple"><span><i className="fa fa-times"></i></span></button>
-                </InputGroup.Append>
             </InputGroup>
-            }else{
-                form=<div className="w-100">
-                <Button className="btn-primary w-100" onClick={()=>this.setState({searchBtn:!this.state.searchBtn})}>Search Patron By Email</Button>
-                </div>
-            }
         }
 
         if (this.props.studentData != null && this.props.overdueData != null) {
@@ -304,12 +291,12 @@ class Checkout extends React.Component {
                         </Col>
                             <Col className="col-8 mb-3 pr-4 pull-right">
                                 <button disabled={!(this.state.checkoutAllow && this.props.bookData.length>0)} onClick={() => this.props.onCheckPolicy(this.props.bookData,this.props.studentData.id,this.props.userid)}
-                                    type="button" className="btn btn-info btn-fill float-right" >
+                                    type="button" className="btn btn-primary btn-fill float-right" >
                                     <span className="btn-label">
                                     </span> Check out
                         </button>
                                 <button onClick={() => this.handleModalClose()}
-                                    type="button" className="btn btn-info btn-fill float-right mr-3" >
+                                    type="button" className="btn btn-primary btn-fill float-right mr-3" >
                                     <span className="btn-label">Clear
                             </span>
                                 </button>
@@ -326,12 +313,15 @@ class Checkout extends React.Component {
                     condensed
                     className="mt-3"
                     bordered={false}
-                    tableHeaderClass={"col-hidden"}
+                    // tableHeaderClass={"col-hidden"}
                     keyField="copy"
                 >
-                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="60%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="action" width="20%" headerAlign="center" dataFormat={this.activeFormatter}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataFormat={this.imageFormatter} width="7%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" width="45%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="author" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="15%" headerAlign="center" dataFormat={(cell,row)=> row.copy.authors}>Author</TableHeaderColumn>
+                    <TableHeaderColumn dataField="type" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="10%" headerAlign="center" dataFormat={(cell,row)=> row.copy.copyType}>Book Copy Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueAt" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="13%" headerAlign="center">Due At</TableHeaderColumn>
+                    <TableHeaderColumn dataField="action" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="10%" headerAlign="center" dataFormat={this.activeFormatter}>Action</TableHeaderColumn>
                 </BootstrapTable>
                 </Container>
         }
@@ -372,11 +362,14 @@ class Checkout extends React.Component {
                         condensed
                         className="mt-3"
                         bordered={false}
-                        tableHeaderClass={"col-hidden"}
+                        // tableHeaderClass={"col-hidden"}
                         keyField="copy"
                     >
-                    <TableHeaderColumn dataField="img"  dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" width="60%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataFormat={this.imageFormatter} width="10%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="title" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" width="40%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField="author" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="20%" headerAlign="center" dataFormat={(cell,row)=> row.copy.authors}>Author</TableHeaderColumn>
+                    <TableHeaderColumn dataField="type" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="15%" headerAlign="center" dataFormat={(cell,row)=> row.copy.copyType}>Book Copy Type</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueAt" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="13%" headerAlign="center">Due At</TableHeaderColumn>
                 </BootstrapTable>
                        {reasonConfirm}
                     </Modal.Body>

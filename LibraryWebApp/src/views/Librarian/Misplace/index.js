@@ -512,12 +512,12 @@ class Misplace extends React.Component {
                         <Row className="w-100 mt-3 p-0">
                             <Col className="col-12 mb-3 pull-right">
                                 <button onClick={() => this.startChecking()}
-                                    type="button" className="btn btn-info btn-fill float-right" >
+                                    type="button" className="btn btn-primary btn-fill float-right" >
                                     <span className="btn-label">
                                     </span> Check
                                 </button>
                                 <button onClick={() => this.startSampling()}
-                                    type="button" className="btn btn-info btn-fill float-right mr-3" >
+                                    type="button" className="btn btn-primary btn-fill float-right mr-3" >
                                     <span className="btn-label">
                                     </span> Sample
                         </button>
