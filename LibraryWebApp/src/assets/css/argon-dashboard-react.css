@@ -11279,7 +11279,7 @@ textarea[resize="horizontal"] {
           left: 0;
           top: 0.25rem;
           bottom: 0.25rem;
-          border-left: 2px solid #5e72e4; }
+          border-left: 4px solid #5e72e4; }
       .navbar-vertical .navbar-nav .nav-link > i {
         min-width: 2.25rem;
         font-size: .9375rem;

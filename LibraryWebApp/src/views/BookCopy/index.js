@@ -139,7 +139,7 @@ class BookCopy extends React.Component {
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
-        this.props.onFetchData(page - 1, sizePerPage, searchValue, selectValue)
+        this.props.onFetchData(page - 1, sizePerPage, searchValue.toUpperCase(), selectValue)
     }
 
     getCopyTypes() {
@@ -433,7 +433,7 @@ class BookCopy extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-3 pl-4">
                         <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by ISBN, barcode or title" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by ISBN, barcode, rfid or title" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -450,23 +450,23 @@ class BookCopy extends React.Component {
                     </Col>
                     <Col className="col-6 pr-4 pull-right offset-1">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book Copy
                         </button>
 
                         <button onClick={() => this.setState({ tagFormShow: true })}
-                            type="button" className="btn mr-2 btn-info btn-fill float-right" >
+                            type="button" className="btn mr-2 btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Tag RFID
                         </button>
                         <button onClick={() => this.setState({allBarcodeConfirm:true})}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print All Barcode
                         </button>
                         <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print Barcode
                         </button>
