@@ -91,7 +91,7 @@ class Types extends React.Component {
     bookCopyActionFormatter(cell, row) {
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({ updateBookCopyShow: true, bookCopyChanged: row })} />
+                <UpdateButton tooltipMsg="Save" clicked={() => this.setState({ updateBookCopyShow: true, bookCopyChanged: row })} />
                 <DeleteButton clicked={() => this.setState({ deleteBookCopyShow: true, bookCopyToDel: row })} />
             </div>
         )
@@ -112,7 +112,7 @@ class Types extends React.Component {
     patronActionFormatter(cell, row) {
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
+                <UpdateButton tooltipMsg="Save" clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
                 <DeleteButton clicked={() => this.setState({ deletePatronShow: true, patronToDel: row })} />
             </div>
         )
