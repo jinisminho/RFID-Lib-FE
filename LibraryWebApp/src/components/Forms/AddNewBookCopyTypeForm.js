@@ -37,11 +37,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -92,10 +92,15 @@ class AddNewBookCopyTypeForm extends React.Component {
                                 name="name"
                                 type="text"
                                 placeholder="Name"
+                                isRequired={true}
                                 title="Name"
                                 component={renderField} />
                         </FormGroup>
+
                         <div className="text-right mt-2">
+                            <div className="text-left">
+                                <span className="text-danger">* Required field</span>
+                            </div>
                             <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                                 <span className="btn-label">
                                 </span> Cancel

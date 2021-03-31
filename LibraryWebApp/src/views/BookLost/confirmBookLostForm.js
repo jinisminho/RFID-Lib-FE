@@ -85,7 +85,7 @@ const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { t
 const renderFixedField = ({ meta, title ,isPrice}) => (
     <>
         <Row>
-            <Label>{title + ": " + (meta.initial ? meta.initial : null)+(isPrice?" VND":"")}</Label>
+            <span className="font-weight-bold">{title + ": "}</span>&nbsp;<span> {(meta.initial ? meta.initial : null)+(isPrice?" VND":"")}</span>
         </Row>
     </>
 )
