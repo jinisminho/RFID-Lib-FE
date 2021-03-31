@@ -102,6 +102,7 @@
     <Compile Include="Utils\APIHelpers.cs" />
     <Compile Include="Utils\ArduinoMessage.cs" />
     <Compile Include="Utils\Constant.cs" />
+    <Compile Include="Utils\PriceFormatter.cs" />
     <Compile Include="Utils\UIMessage.cs" />
     <EmbeddedResource Include="BookReturnItem.resx">
       <DependentUpon>BookReturnItem.cs</DependentUpon>
