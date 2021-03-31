@@ -34,12 +34,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picTitle = new System.Windows.Forms.PictureBox();
             this.lbNumber = new System.Windows.Forms.Label();
-            this.txtBookRfid = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnMessage = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.spiner = new System.Windows.Forms.PictureBox();
             this.pnFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.pbBottom = new System.Windows.Forms.Panel();
@@ -51,7 +49,8 @@
             this.timerCountBook = new System.Windows.Forms.Timer(this.components);
             this.timerWaitCloseDoor = new System.Windows.Forms.Timer(this.components);
             this.timerResetSuccess = new System.Windows.Forms.Timer(this.components);
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.serialMiddleApp = new System.IO.Ports.SerialPort(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTitle)).BeginInit();
@@ -104,21 +103,11 @@
             this.lbNumber.TabIndex = 7;
             this.lbNumber.Text = " ";
             // 
-            // txtBookRfid
-            // 
-            this.txtBookRfid.Location = new System.Drawing.Point(760, 274);
-            this.txtBookRfid.Name = "txtBookRfid";
-            this.txtBookRfid.Size = new System.Drawing.Size(281, 22);
-            this.txtBookRfid.TabIndex = 0;
-            this.txtBookRfid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookRfid_KeyDown);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.pnMessage);
             this.panel2.Controls.Add(this.spiner);
-            this.panel2.Controls.Add(this.txtBookRfid);
             this.panel2.Controls.Add(this.pnFlow);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 208);
@@ -162,17 +151,6 @@
             this.txtMessage.TabIndex = 1;
             this.txtMessage.TabStop = false;
             this.txtMessage.Text = "";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(11, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Message:";
             // 
             // spiner
             // 
@@ -239,7 +217,7 @@
             // 
             // timerCountBook
             // 
-            this.timerCountBook.Interval = 5000;
+            this.timerCountBook.Interval = 5;
             this.timerCountBook.Tick += new System.EventHandler(this.timerCountBook_Tick);
             // 
             // timerWaitCloseDoor
@@ -252,13 +230,16 @@
             this.timerResetSuccess.Interval = 10000;
             this.timerResetSuccess.Tick += new System.EventHandler(this.timerResetSuccess_Tick);
             // 
-            // panel4
+            // label1
             // 
-            this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel4.Location = new System.Drawing.Point(554, 257);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(649, 55);
-            this.panel4.TabIndex = 7;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(11, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 29);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Message:";
             // 
             // ReturnForm
             // 
@@ -278,7 +259,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTitle)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.pnMessage.ResumeLayout(false);
             this.pnMessage.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -299,19 +279,18 @@
         private System.IO.Ports.SerialPort serialFrontDoor;
         private System.IO.Ports.SerialPort serialBackDoor;
         private System.Windows.Forms.Timer timerSession;
-        private System.Windows.Forms.TextBox txtBookRfid;
         private System.Windows.Forms.Timer timerCountBook;
         private System.Windows.Forms.PictureBox spiner;
         private System.Windows.Forms.FlowLayoutPanel pnFlow;
         private System.Windows.Forms.Panel pnMessage;
         private System.Windows.Forms.RichTextBox txtMessage;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timerWaitCloseDoor;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lbNumber;
         private System.Windows.Forms.Timer timerResetSuccess;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox picTitle;
-        private System.Windows.Forms.Panel panel4;
+        private System.IO.Ports.SerialPort serialMiddleApp;
+        private System.Windows.Forms.Label label1;
     }
 }

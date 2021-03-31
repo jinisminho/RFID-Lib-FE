@@ -30,5 +30,10 @@ namespace LibrarySelfCheckOut.Processors
         {
             return await BookAPI.findBookByBookRFID(rfid);
         }
+
+        public async static Task<BookScanReturnResponse> getBookByRfidReturn(String rfid)
+        {
+            return await BookAPI.findReturningBook(rfid);
+        }
     }
 }

@@ -74,29 +74,33 @@ namespace LibrarySelfCheckOut
                 {
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
-                        numberOfBookScanned++;
-                        if (numberOfBookScanned == 1)
-                        {
-                            this.btDone.Enabled = true;
-                        }
-                        this.lbInstruction.Text =  "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
+                     
                         this.timerSessionTimeOut.Enabled = false;
                         this.spiner.Show();
-                        BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
+                        BookScanReturnResponse rs = await BookProcessor.getBookByRfidReturn(this.bookRFID);
                         this.spiner.Hide();
                         this.timerSessionTimeOut.Enabled = true;
                         if (rs.isSuccess)
                         {
-                            BookScannedItem item = new BookScannedItem(rs.book);
-                            item.Width = this.pnBooksReturned.Width - 10;
-                            pnBooksReturned.Controls.Add(item);
-                            bookCodeList.Add(this.bookRFID);
-                            try
+                            if(rs.book.status == "BORROWED")
                             {
-                                bookCodeMap.Add(this.bookRFID, this.bookRFID);
-                            }
-                            catch (Exception)
-                            {
+                                ScanReturnItem item = new ScanReturnItem(rs.book);
+                                item.Width = this.pnBooksReturned.Width - 10;
+                                pnBooksReturned.Controls.Add(item);
+                                bookCodeList.Add(this.bookRFID);
+                                try
+                                {
+                                    bookCodeMap.Add(this.bookRFID, this.bookRFID);
+                                    numberOfBookScanned++;
+                                    if (numberOfBookScanned == 1)
+                                    {
+                                        this.btDone.Enabled = true;
+                                    }
+                                    this.lbInstruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
                         }
                         else

@@ -40,6 +40,35 @@ namespace LibrarySelfCheckOut.APIs
            
         }
 
+        public static async Task<BookScanReturnResponse> findReturningBook(String rfid)
+        {
+            string url = $"/BookCopy/Returning/" + rfid;
+            try
+            {
+                using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        BookScannedReturn book = await response.Content.ReadAsAsync<BookScannedReturn>();
+
+                        return new BookScanReturnResponse(true, "", book);
+                    }
+                    else
+                    {
+                        ErrorDto error = await response.Content.ReadAsAsync<ErrorDto>();
+
+                        return new BookScanReturnResponse(false, error.message, null);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new BookScanReturnResponse(false, e.Message, null);
+            }
+
+        }
+
         public static async Task<CheckOutResponseModel> addBookBorrow(CheckOutRequestModel requestBody)
         {
             string url = $"/BookBorrowing/checkout";
