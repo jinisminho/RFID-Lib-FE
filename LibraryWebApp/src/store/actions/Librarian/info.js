@@ -41,7 +41,8 @@ export const getBorrowingInfo_Overdue = (page, size, search) => {
                     dispatch(responseError(getBorrowingInfoOverdueFailed, error))
                 });
         }
-
+        else
+            dispatch((responseError(getBorrowingInfoOverdueFailed, "getBorrowingInfo_Overdue: Missing search value")))
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
         //     dispatch(getBorrowingInfoOverdueSuccess(response.data, page, size))
@@ -88,7 +89,8 @@ export const getBorrowingInfo_Borrowing = (page, size, search) => {
                     dispatch(responseError(getBorrowingInfoBorrowingFailed, error))
                 });
         }
-
+        else
+            dispatch((responseError(getBorrowingInfoBorrowingFailed, "getBorrowingInfo_Borrowing: Missing search value")))
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
         //     dispatch(getBorrowingInfoBorrowingSuccess(response.data, page, size))
@@ -135,6 +137,8 @@ export const getBorrowingInfo_Returned = (page, size, search) => {
                     dispatch(responseError(getBorrowingInfoReturnedFailed, error))
                 });
         }
+        else
+            dispatch((responseError(getBorrowingInfoReturnedFailed, "getBorrowingInfo_Returned: Missing search value")))
 
         // let response = prototype.getRentingInfosSplit(search)
         // if (response.status) {
@@ -278,7 +282,7 @@ export const getStudent = (search) => {
                     dispatch(responseError(getStudentFailed, error))
                 });
         else
-            dispatch(getStudentFailed(responseError("getStudent: Missing search value")))
+            dispatch((responseError(getStudentFailed, "getStudent: Missing search value")))
 
 
         // let response=prototype.getStudent(search)
@@ -320,15 +324,17 @@ export const getLostReports = (page, size, patronId, startDate, endDate) => {
         dispatch(getLostReportsStart())
 
         let url = '/lost/find/' + patronId + '?page=' + page + '&size=' + size + (startDate ? '&startDate=' + startDate : '') + (endDate ? '&endDate=' + endDate : '')
-        axios.get(url, { withCredentials: true })
-            .then(response => {
-                dispatch(getLostReportsSuccess(response.data.content, response.data.totalElements, page, size))
-            })
-            .catch(error => {
-                dispatch(responseError(getLostReportsFailed, error))
-            });
+        if (patronId)
+            axios.get(url, { withCredentials: true })
+                .then(response => {
+                    dispatch(getLostReportsSuccess(response.data.content, response.data.totalElements, page, size))
+                })
+                .catch(error => {
+                    dispatch(responseError(getLostReportsFailed, error))
+                });
+        else
+            dispatch((responseError(getLostReportsFailed, "getLostReports: Missing patronId value")))
     }
-
 }
 
 //Get Student Then Get Borrowing Histories

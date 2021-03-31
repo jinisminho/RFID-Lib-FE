@@ -10,6 +10,7 @@ import {
     Row,
     Col
 } from "reactstrap";
+import { Tab, Tabs } from 'react-bootstrap'
 import MyUtil from "store/utility"
 import DueHistoryModal from '../../components/Modals/DueHistoryModal';
 import ExtendDueModal from '../../components/Modals/ExtendDueModal';
@@ -136,11 +137,11 @@ class BorrowingInfo extends React.Component {
             <div>
                 <Row>
                     <Col lg="8"><button className="btn btn-fill btn-primary btn-block btn-sm text-truncate" onClick={() => this.setState({
-                    showHistory: true,
-                    patronId: borrowerId,
-                    bookBorrowing: bokBorrowing,
-                    bookCopy: bokCpy
-                })} ><i className="ni ni-collection" /> History </button></Col>
+                        showHistory: true,
+                        patronId: borrowerId,
+                        bookBorrowing: bokBorrowing,
+                        bookCopy: bokCpy
+                    })} ><i className="ni ni-collection" /> History </button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showLostForm: true,
                         lostBook: bokCpy,
@@ -165,7 +166,7 @@ class BorrowingInfo extends React.Component {
                         patronId: borrowerId,
                         bookCopy: bokCpy,
                         bookBorrowing: bokBorrowing
-                    })} ><i className="ni ni-collection" /></button></Col>
+                    })} >History</button></Col>
                     <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
                         showLostForm: true,
                         lostBook: bokCpy,
@@ -193,7 +194,7 @@ class BorrowingInfo extends React.Component {
                     patronId: borrowerId,
                     bookBorrowing: bokBorrowing,
                     bookCopy: bokCpy
-                })} ><i className="ni ni-collection" /> History </button>
+                })} >History</button>
             </div>
         )
     }
@@ -257,7 +258,7 @@ class BorrowingInfo extends React.Component {
 
     handleLostSubmit() {
         this.props.onLostSubmit(this.state.lostBorrowing ? this.state.lostBorrowing.id : null);
-        this.setState({showLostForm: false, lostBook: null, lostBorrowing: null, lostSuccessShow: true, lostErrorShow: true });
+        this.setState({ showLostForm: false, lostBook: null, lostBorrowing: null, lostSuccessShow: true, lostErrorShow: true });
     }
 
     titleForModalFormatter() {
@@ -324,7 +325,7 @@ class BorrowingInfo extends React.Component {
             onPageChange: this.handlePageChangeLost,
         };
 
-        let overdueBooks = this.props.dataOverdue && this.props.dataOverdue.length != 0 ? (
+        let overdueBooks = (
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -356,9 +357,9 @@ class BorrowingInfo extends React.Component {
 
                 {/* delete popup */}
             </div>
-        ) : null;
+        );
 
-        let borrowingBooks = this.props.dataBorrowing && this.props.dataBorrowing.length != 0 ? (
+        let borrowingBooks =(
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -387,9 +388,9 @@ class BorrowingInfo extends React.Component {
 
                 {/* delete popup */}
             </div>
-        ) : null;
+        );
 
-        let returnedBooks = this.props.dataReturned && this.props.dataReturned.length != 0 ? (
+        let returnedBooks =(
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -420,9 +421,9 @@ class BorrowingInfo extends React.Component {
 
                 {/* delete popup */}
             </div>
-        ) : null;
+        );
 
-        let lostBooks = this.props.dataLost && this.props.dataLost.length != 0 ? (
+        let lostBooks =(
             <div className="content">
                 <div className="row">
                     <div className="col-md-4 col-lg-4 puul-left">
@@ -452,7 +453,7 @@ class BorrowingInfo extends React.Component {
 
                 {/* delete popup */}
             </div>
-        ) : null;
+        );
 
         // let errorMsg = null
         // let msg = null
@@ -470,37 +471,29 @@ class BorrowingInfo extends React.Component {
             <>
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
-                    <Card className="shadow mt-1 pb-auto w-100">
-                        <CardHeader className="border-0 ">
-                            {/* <h3 className="mb-0">Student Infomation</h3> */}
-                        </CardHeader>
-                        {/* {errorMsg}
-                        {msg} */}
-                    </Card>
-                    <Card className="shadow pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.OVERDUE_BOOKS}</h3>
-                        </CardHeader>
-                        {overdueBooks}
-                    </Card>
-                    <Card className="shadow mt-1 pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.BORROWING_BOOKS}</h3>
-                        </CardHeader>
-                        {borrowingBooks}
-                    </Card>
-                    <Card className="shadow mt-1 pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.RETURNED_BOOKS}</h3>
-                        </CardHeader>
-                        {returnedBooks}
-                    </Card>
-                    <Card className="shadow mt-1 pb-auto">
-                        <CardHeader className="border-0">
-                            <h3 className="mb-0">{MyConstant.LOST_BOOKS}</h3>
-                        </CardHeader>
-                        {lostBooks}
-                    </Card>
+                    <Row className="justify-content-center">
+                        <Row className="shadow mt-1 pb-auto w-100">
+                            <Card className="shadow pb-auto w-100">
+                                {/* <CardHeader className="border-0">
+                                    <h3 className="mb-0">{MyConstant.BORROW_POLICY}</h3>
+                                </CardHeader> */}
+                                <Tabs defaultActiveKey="borrowingBooks" onSelect={() => { if (this.props.studentData && this.props.studentData.accountId) this.fetchData() }} id="my-uncontrolled-tab" >
+                                    <Tab eventKey="overdueBooks" title={MyConstant.OVERDUE_BOOKS}>
+                                        {overdueBooks}
+                                    </Tab>
+                                    <Tab eventKey="borrowingBooks" title={MyConstant.BORROWING_BOOKS}>
+                                        {borrowingBooks}
+                                    </Tab>
+                                    <Tab eventKey="returnedBooks" title={MyConstant.RETURNED_BOOKS}>
+                                        {returnedBooks}
+                                    </Tab>
+                                    <Tab eventKey="lostBooks" title={MyConstant.LOST_BOOKS}>
+                                        {lostBooks}
+                                    </Tab>
+                                </Tabs>
+                            </Card>
+                        </Row>
+                    </Row>
 
                     <Row className="justify-content-center">
                         <DueHistoryModal
@@ -522,7 +515,7 @@ class BorrowingInfo extends React.Component {
                             numOfDateToAdd={MyConstant.DEFAULT_DATE_TO_ADD}
                         />
 
-                        <CommonConfirmModal title="Report book lost" show={this.state.showLostForm} hide={() => this.handleLostFormClose()} clickConfirm={() =>  this.handleLostSubmit()} msg={"Do you want to report lost this book ["+ this.titleForModalFormatter() +"] ?"} />
+                        <CommonConfirmModal title="Report book lost" show={this.state.showLostForm} hide={() => this.handleLostFormClose()} clickConfirm={() => this.handleLostSubmit()} msg={"Do you want to report lost this book [" + this.titleForModalFormatter() + "] ?"} />
 
                         <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                         <CommonErrorModal show={this.props.lostError && this.state.lostErrorShow} hide={() => this.handleModalClose()} msg={this.props.lostError} />
@@ -559,7 +552,7 @@ const mapStateToProps = state => {
         currentUserId: state.Auth.userId,
         lostSuccessMsg: state.lostBook.successMsg,
         lostError: state.lostBook.error,
-        pageLost:state.lostBook.page,
+        pageLost: state.lostBook.page,
         totalSizeLost: state.lostBook.total,
         dataLost: state.lostBook.data,
     }

@@ -266,7 +266,7 @@ class Staff extends React.Component {
                     </Col>
                     <Col className="col-8 pr-4 pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Librarian
                         </button>

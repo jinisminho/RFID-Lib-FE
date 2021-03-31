@@ -114,7 +114,6 @@ class ExtendDueForm extends React.Component {
                             {dueDate}
                             {policyViolation}
                         </div>
-                        <span className="text-danger">* Required field</span>
                         <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                             <span className="btn-label">
                             </span> Back

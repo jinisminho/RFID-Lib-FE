@@ -57,7 +57,8 @@ class BookCopy extends React.Component {
             copyType: null,
             copyStatus: null,
             barcodeList:[],
-            barcodeConfirm:false
+            barcodeConfirm:false,
+            allBarcodeConfirm:false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -88,7 +89,7 @@ class BookCopy extends React.Component {
         if (this.props.deleteSuccess) {
             msg = "Delete book copy successfully"
         }
-        if (this.props.printBarcodeSuccess) {
+        if (this.props.printBarcodeSuccess || this.props.printAllBarcodeSuccess) {
             msg = "Print barcode successfully"
         }
         if (msg != null && !this.state.successShow) {
@@ -138,7 +139,7 @@ class BookCopy extends React.Component {
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
-        this.props.onFetchData(page - 1, sizePerPage, searchValue, selectValue)
+        this.props.onFetchData(page - 1, sizePerPage, searchValue.toUpperCase(), selectValue)
     }
 
     getCopyTypes() {
@@ -336,6 +337,10 @@ class BookCopy extends React.Component {
         this.setState({barcodeConfirm:false})
         this.props.onPrintBarcode({bookCopyIdList:this.state.barcodeList})
     }
+    handlePrintAllBarcode(){
+        this.setState({allBarcodeConfirm:false})
+        this.props.onPrintAllBarcode({searchValue:this.state.searchValue,status:this.state.selectValue})
+    }
     render() {
         const options = {
             onPageChange: this.handlePageChange,
@@ -428,7 +433,7 @@ class BookCopy extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-3 pl-4">
                         <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by ISBN, barcode or title" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by ISBN, barcode, rfid or title" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -439,23 +444,29 @@ class BookCopy extends React.Component {
                             closeMenuOnSelect={false}
                             isMulti
                             options={this.state.copyStatus}
+                            placeholder="Select status..."
                             onChange={(e) => this.handleSelectChange(e)}
                         />
                     </Col>
-                    <Col className="col-4 pr-4 pull-right offset-3">
+                    <Col className="col-6 pr-4 pull-right offset-1">
                         <button onClick={() => this.setState({ addFormShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book Copy
                         </button>
 
                         <button onClick={() => this.setState({ tagFormShow: true })}
-                            type="button" className="btn mr-2 btn-info btn-fill float-right" >
+                            type="button" className="btn mr-2 btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Tag RFID
                         </button>
+                        <button onClick={() => this.setState({allBarcodeConfirm:true})}
+                            type="button" className="btn btn-primary btn-fill float-right" >
+                            <span className="btn-label">
+                            </span> Print All Barcode
+                        </button>
                         <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print Barcode
                         </button>
@@ -474,7 +485,8 @@ class BookCopy extends React.Component {
                     <Card className="shadow">
                     <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                     <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
-                    <CommonConfirmModal title="Print barcode" show={this.state.barcodeConfirm} hide={() => this.setState({barcodeConfirm:false})} clickConfirm={() => this.handlePrintBarcode()} msg="Do you want to print selected barcode?" />
+                    <CommonConfirmModal title="Print barcode" show={this.state.barcodeConfirm} hide={() => this.setState({barcodeConfirm:false})} clickConfirm={() => this.handlePrintBarcode()} msg="Do you want to print selected barcodes?" />
+                    <CommonConfirmModal title="Print all barcode" show={this.state.allBarcodeConfirm} hide={() => this.setState({allBarcodeConfirm:false})} clickConfirm={() => this.handlePrintAllBarcode()} msg="Do you want to print all searched barcodes?" />
 
                         {display}
                     </Card>
@@ -496,6 +508,7 @@ const mapStateToProps = state => {
         sizePerPage: state.copy.sizePerPage,
         deleteSuccess: state.copy.deleteSuccess,
         printBarcodeSuccess: state.copy.printBarcodeSuccess,
+        printAllBarcodeSuccess: state.copy.printAllBarcodeSuccess,
         updateSuccess: state.copy.updateSuccess,
         addSuccess: state.copy.addSuccess,
         bookCopyData: state.copy.bookCopyData,
@@ -515,7 +528,8 @@ const mapDispatchToProps = dispatch => {
         onGetCopyType: () => dispatch(actions.getCopyType()),
         onGenerateBarcode: (data) => dispatch(actions.generateBarcode(data)),
         onTagRFID: (data) => dispatch(actions.tagRFID(data)),
-        onPrintBarcode: (data) => dispatch(actions.printBarcode(data))
+        onPrintBarcode: (data) => dispatch(actions.printBarcode(data)),
+        onPrintAllBarcode: (data) => dispatch(actions.printAllBarcode(data))
     }
 }
 

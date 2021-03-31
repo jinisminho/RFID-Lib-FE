@@ -159,7 +159,7 @@ class SearchBook extends React.Component {
         let barcodeReader = null
         let btn = (
             <button disabled={this.props.data.length==0 || this.props.data.filter(el => el.available).length==0} onClick={(e) => {this.setState({ scanning: true, title:"SCANNING BOOKS" }); e.target.blur()}}
-                type="button" className="btn btn-info btn-fill float-right" >
+                type="button" className="btn btn-primary btn-fill float-right" >
                 <span className="btn-label">
                 </span> Start
             </button>
@@ -169,7 +169,7 @@ class SearchBook extends React.Component {
                 <button onClick={() => {
                     this.setState({confirmShow:true, confirmMessage:"Do you want to stop looking for books?",confirmTitle:"Finish search books"})
             }}
-                    type="button" className="btn btn-info btn-fill float-right" >
+                    type="button" className="btn btn-primary btn-fill float-right" >
                     <span className="btn-label">
                     </span> Finish
                 </button>)
@@ -196,7 +196,7 @@ class SearchBook extends React.Component {
                         <Col className="col-8 mb-3 pr-4 pull-right">
                             {btn}
                             <button disabled={this.props.data.length==0 || this.state.scanning} onClick={() => this.setState({ confirmShow:true, confirmMessage:"Do you want to clear book search list?",confirmTitle:"Confirm clear book"})}
-                                type="button" className="btn btn-info btn-fill float-right mr-3" >
+                                type="button" className="btn btn-primary btn-fill float-right mr-3" >
                                 <span className="btn-label">Clear
                             </span>
                             </button>

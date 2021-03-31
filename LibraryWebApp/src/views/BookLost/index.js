@@ -40,7 +40,7 @@ class BookLost extends React.Component {
         this.state = {
             errorShow: false,
             bookLostStatus:null,
-            selectValue:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],
+            selectValue:null,
             startDate:this.formatDate(new Date())+" 00:00:00",
             endDate:this.formatDate(new Date())+" 23:59:59",
             successShow:false,
@@ -125,7 +125,7 @@ class BookLost extends React.Component {
             auditorId: this.props.userid,
             bookLostReportId:value.id,
             fine:parseFloat(value.fine)+ parseFloat(value.overdueFee),
-            reason:value.note
+            note:value.note
         }
         this.props.onConfirmBookLost(tmp)
     }
@@ -178,6 +178,9 @@ class BookLost extends React.Component {
                     <TableHeaderColumn dataField='action'width="10%" dataFormat={this.actionFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
         )
+        if (this.props.loading) {
+            main = <Spinner />
+        }
         let display = (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
@@ -193,8 +196,9 @@ class BookLost extends React.Component {
                     </Col>
                     <Col className="col-4">
                     <Select className=""
-                            defaultValue={{value:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],label:MyConstant.BOOK_LOST_STATUS[Object.keys(MyConstant.BOOK_LOST_STATUS)[0]]}}
+                            // defaultValue={{value:Object.keys(MyConstant.BOOK_LOST_STATUS)[0],label:MyConstant.BOOK_LOST_STATUS[Object.keys(MyConstant.BOOK_LOST_STATUS)[0]]}}
                             options={this.state.bookLostStatus}
+                            placeholder="Select report status..."
                             onChange={(e) => this.handleSelectChange(e)}
                         />
                     </Col>
@@ -205,9 +209,7 @@ class BookLost extends React.Component {
             </div>
             
         )
-        if (this.props.loading) {
-            main = <Spinner />
-        }
+       
         return (
             <>
                 {/* <Header /> */}
