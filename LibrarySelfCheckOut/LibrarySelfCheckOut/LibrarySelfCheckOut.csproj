@@ -103,6 +103,8 @@
     <Compile Include="Models\BookReturnModel.cs" />
     <Compile Include="Models\BookScannedModel.cs" />
     <Compile Include="Models\BookScannedResponseModel.cs" />
+    <Compile Include="Models\BookScannedReturn.cs" />
+    <Compile Include="Models\BookScanReturnResponse.cs" />
     <Compile Include="Models\CheckOutRequestModel.cs" />
     <Compile Include="Models\CheckOutResponseModel.cs" />
     <Compile Include="Models\EmailCheckOutRequest.cs" />
@@ -133,6 +135,12 @@
     </Compile>
     <Compile Include="ReturnForm.Designer.cs">
       <DependentUpon>ReturnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScanReturnItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScanReturnItem.Designer.cs">
+      <DependentUpon>ScanReturnItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\APIHelper.cs" />
     <Compile Include="Utils\Constant.cs" />
@@ -168,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReturnForm.resx">
       <DependentUpon>ReturnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScanReturnItem.resx">
+      <DependentUpon>ScanReturnItem.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

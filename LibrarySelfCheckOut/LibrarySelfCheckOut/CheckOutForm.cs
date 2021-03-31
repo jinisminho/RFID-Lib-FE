@@ -81,12 +81,7 @@ namespace LibrarySelfCheckOut
                     //tranh scan lap lai cung 1 cuon sach
                     if (!bookCodeMap.ContainsKey(this.bookRFID))
                     {
-                        this.numberOfBookScanned++;
-                        if (this.numberOfBookScanned == 1)
-                        {
-                            this.btDone.Enabled = true;
-                        }
-                        this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();                   
+                                       
                         this.timerSession.Enabled = false;
                         this.spiner.Show();
                         BookScannedResponseModel rs = await BookProcessor.getBookByRfid(this.bookRFID);
@@ -100,6 +95,12 @@ namespace LibrarySelfCheckOut
                             bookCodeList.Add(new BookCheckOutRequestModel(rs.book.rfid, rs.book.group, rs.book.groupId, rs.book.bookId, rs.book.title));
                             try
                             {
+                                this.numberOfBookScanned++;
+                                if (this.numberOfBookScanned == 1)
+                                {
+                                    this.btDone.Enabled = true;
+                                }
+                                this.lbIntruction.Text = "NUMBER OF SCANNED BOOKS: " + numberOfBookScanned.ToString();
                                 bookCodeMap.Add(this.bookRFID, this.bookRFID);
                             }
                             catch (Exception)
