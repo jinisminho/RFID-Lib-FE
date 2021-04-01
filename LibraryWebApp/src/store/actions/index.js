@@ -63,7 +63,8 @@ export {
     getOverdue,
     clearBookError,
     cancelConfirm,
-    checkPolicy
+    checkPolicy,
+    closeToast
 } from './Librarian/Checkout'
 
 export {

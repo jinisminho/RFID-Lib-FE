@@ -142,6 +142,24 @@ const getBookStart = (state, action) =>{
       validBook:tmp_books
     })
   }
+
+  const closeToast=(state, action) =>{
+    let tmp_books=[...state.invalidBook]
+    let length = tmp_books.length
+    let idx=-1
+    for(let i=0;i<length;i++){
+      if(tmp_books[i].copy.id==action.id){
+        idx=i
+      }
+    }
+    if(idx!=-1){
+      tmp_books.splice(idx,1)
+    }
+
+    return updateObject(state,{
+      invalidBook:tmp_books
+    })
+  }
 export default function reducer(state = {
     studentData: null,
     overdueData:null,
@@ -180,6 +198,9 @@ export default function reducer(state = {
     case actionTypes.CANCEL_CHECKOUT_CONFIRM: return cancelConfirm(state, action)
 
     case actionTypes.DELETE_CHECKOUT_BOOK: return deleteCheckoutBook(state, action)
+
+    case actionTypes.CLOSE_ERROR_TOAST: return closeToast(state, action)
+
 }
 return state
 }
