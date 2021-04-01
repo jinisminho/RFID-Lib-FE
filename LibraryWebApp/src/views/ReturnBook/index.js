@@ -223,7 +223,7 @@ class ReturnBook extends React.Component {
                 </Container>
                 <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.state.errMsg}/>
-                <CommonConfirmModal show={this.state.confirmShow} title="Confirm return" hide={() => this.setState({ confirmShow: false })} msg="Do you want to return scanned books?" />
+                <CommonConfirmModal show={this.state.confirmShow} title="Confirm return" hide={() => this.setState({ confirmShow: false })} clickConfirm={()=>this.handleReturnConfirm()} msg="Do you want to return scanned books?" />
             </>
         )
     }

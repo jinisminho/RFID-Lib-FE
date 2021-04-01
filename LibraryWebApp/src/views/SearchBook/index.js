@@ -79,21 +79,18 @@ class SearchBook extends React.Component {
     }
     bookDescriptionFormat(cell, row) {
         let position = ""
-        position = row.positionList.map(el => "Shelf: " + el.shelf + "-Line: " + el.line).join(", ")
+        position = row.positionList.map(el => "Shelf: " + el.shelf + "-Row: " + el.line).join(", ")
         if (position == "") {
             position = "No longer available"
-        } else if (position == "Shelf: N/A-Line: N/A") {
+        } else if (position == "Shelf: N/A-Row: N/A") {
             position = "N/A"
         }
 
         return (
             <div>
                 <h2 className="font-weight-bolder">{row.title}{row.subtitle ? ":" + " " + row.subtitle : ""}</h2>
-                <p>by <span className="font-weight-bold">{row.authorNames}</span></p>
-                <p><span className="font-weight-bold">Edition:</span> {row.edition}</p>
                 <p><span className="font-weight-bold">Locations:</span> {position}</p>
                 <p><span className="font-weight-bold">Call Number:</span> {row.callNumber}</p>
-                <p><span className="font-weight-bold">ISBN:</span> {row.isbn}</p>
             </div>
         )
     }
@@ -180,20 +177,10 @@ class SearchBook extends React.Component {
         }
 
         let bookDisplay = (
-            <Container className="mt-4" fluid>
+            <Container className="mt-2" fluid>
                 <Card className="shadow w-100">
-                    <CardHeader className="border-0">
-                    </CardHeader>
                     <Row>
-                        <Col className="col-4 pl-4">
-                            {/* <InputGroup className="mb-3">
-                                <FormControl value={this.state.bookSearchValue ? this.state.bookSearchValue : ""} onChange={(event => this.inputBookChangedHandler(event))} type="text" placeholder="Search book by barcode" />
-                                <InputGroup.Append>
-                                    <button onClick={() => this.handleBookSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
-                                </InputGroup.Append>
-                            </InputGroup> */}
-                        </Col>
-                        <Col className="col-8 mb-3 pr-4 pull-right">
+                        <Col className="col-12 mt-3 mb-3 pr-4 pull-right">
                             {btn}
                             <button disabled={this.props.data.length==0 || this.state.scanning} onClick={() => this.setState({ confirmShow:true, confirmMessage:"Do you want to clear book search list?",confirmTitle:"Confirm clear book"})}
                                 type="button" className="btn btn-primary btn-fill float-right mr-3" >
@@ -216,7 +203,7 @@ class SearchBook extends React.Component {
                     keyField="id"
                     selectRow={selectRow}
                 >
-                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="20%">Image</TableHeaderColumn>
+                    <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="7%">Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
                 </BootstrapTable>
             </Container>)
