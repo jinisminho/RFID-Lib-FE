@@ -40,12 +40,12 @@
             this.pnBooksReturned = new System.Windows.Forms.FlowLayoutPanel();
             this.spiner = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.btCancel = new System.Windows.Forms.Button();
             this.btDone = new System.Windows.Forms.Button();
             this.lbSessionTimeOut = new System.Windows.Forms.Label();
             this.timerSessionTimeOut = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.panel5 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -159,6 +159,14 @@
             this.panel3.Size = new System.Drawing.Size(1778, 100);
             this.panel3.TabIndex = 2;
             // 
+            // panel5
+            // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Location = new System.Drawing.Point(572, 4);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(547, 84);
+            this.panel5.TabIndex = 9;
+            // 
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -190,7 +198,7 @@
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 7;
             this.btDone.TabStop = false;
-            this.btDone.Text = "RETURN";
+            this.btDone.Text = "CONFIRM";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
             this.btDone.Click += new System.EventHandler(this.btDone_Click);
@@ -218,14 +226,6 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // panel5
-            // 
-            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel5.Location = new System.Drawing.Point(572, 4);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(547, 84);
-            this.panel5.TabIndex = 9;
             // 
             // ReturnForm
             // 

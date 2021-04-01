@@ -40,12 +40,12 @@
             this.lbDate = new System.Windows.Forms.Label();
             this.panelCenter = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.btDone = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.lbSession = new System.Windows.Forms.Label();
             this.flowLayoutPanelBookList = new System.Windows.Forms.FlowLayoutPanel();
             this.timerSession = new System.Windows.Forms.Timer(this.components);
-            this.panel5 = new System.Windows.Forms.Panel();
             this.panelHead.SuspendLayout();
             this.pnNav.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spiner)).BeginInit();
@@ -164,6 +164,14 @@
             this.panel1.Size = new System.Drawing.Size(1778, 100);
             this.panel1.TabIndex = 8;
             // 
+            // panel5
+            // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Location = new System.Drawing.Point(635, 4);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(547, 84);
+            this.panel5.TabIndex = 10;
+            // 
             // btDone
             // 
             this.btDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -177,7 +185,7 @@
             this.btDone.Size = new System.Drawing.Size(199, 47);
             this.btDone.TabIndex = 2;
             this.btDone.TabStop = false;
-            this.btDone.Text = "CHECK OUT";
+            this.btDone.Text = "CONFIRM";
             this.btDone.UseMnemonic = false;
             this.btDone.UseVisualStyleBackColor = false;
             this.btDone.Click += new System.EventHandler(this.btLogout_Click);
@@ -226,14 +234,6 @@
             this.timerSession.Enabled = true;
             this.timerSession.Interval = 1000;
             this.timerSession.Tick += new System.EventHandler(this.sessionTimer_Tick);
-            // 
-            // panel5
-            // 
-            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel5.Location = new System.Drawing.Point(635, 4);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(547, 84);
-            this.panel5.TabIndex = 10;
             // 
             // CheckOutForm
             // 

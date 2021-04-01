@@ -79,10 +79,10 @@ class SearchBook extends React.Component {
     }
     bookDescriptionFormat(cell, row) {
         let position = ""
-        position = row.positionList.map(el => "Shelf: " + el.shelf + "-Line: " + el.line).join(", ")
+        position = row.positionList.map(el => "Shelf: " + el.shelf + "-Row: " + el.line).join(", ")
         if (position == "") {
             position = "No longer available"
-        } else if (position == "Shelf: N/A-Line: N/A") {
+        } else if (position == "Shelf: N/A-Row: N/A") {
             position = "N/A"
         }
 

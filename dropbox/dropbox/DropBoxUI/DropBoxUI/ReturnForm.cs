@@ -287,7 +287,23 @@ namespace DropBoxUI
                 else
                 {
                     bookRfid = books[0];
-                    callReturnAPI();
+                    if (bookRfid.Trim().Equals(""))
+                    {
+                        txtMessage.ForeColor = Color.Red;
+                        txtMessage.Text = "There is no item. The system will cancel automatically.";
+                        var t = new Timer();
+                        t.Interval = 4000;
+                        t.Tick += (s, d) =>
+                        {
+                            resetState();
+                            t.Stop();
+                        };
+                        t.Start();
+                    }
+                    else
+                    {
+                        callReturnAPI();
+                    }
                 }
             }
         }
@@ -374,8 +390,11 @@ namespace DropBoxUI
                 {
                     message = message.Remove(lastIndex);
                 }
-                string[] tmp = message.Split(';');
-                rs = tmp.ToList().Distinct().ToList();
+                if (message.Contains(";"))
+                {
+                    string[] tmp = message.Split(';');
+                    rs = tmp.ToList().Distinct().ToList();
+                }
                 Console.WriteLine("book count: " + rs.Count);
                 Console.WriteLine("final : " + rs.ToString());
             }

@@ -55,7 +55,7 @@ class BookDetail extends React.Component {
     // }
 
     floorShelfFormatter(cell, row) {
-        return (row.shelf ? "Shelf: " + row.shelf : "") + (row.line ? (row.shelf ? " - " : "") + "Line: " + row.line : "")
+        return (row.shelf ? "Shelf: " + row.shelf : "") + (row.line ? (row.shelf ? " - " : "") + "Row: " + row.line : "")
     }
 
     render() {
@@ -197,7 +197,7 @@ class BookDetail extends React.Component {
                             keyField="index"
                         >
                             <TableHeaderColumn dataField="shelf" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Shelf</TableHeaderColumn>
-                            <TableHeaderColumn dataField="line" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Line</TableHeaderColumn>
+                            <TableHeaderColumn dataField="line" dataAlign="center" headerAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Row</TableHeaderColumn>
                             {/* <TableHeaderColumn dataField="description" width="50%" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn> */}
                             {/* <TableHeaderColumn dataField='active' dataAlign="center" width="30%" dataFormat={this.activeFormatter} >Action</TableHeaderColumn> */}
                         </BootstrapTable>

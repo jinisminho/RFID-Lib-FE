@@ -186,7 +186,7 @@ class Misplace extends React.Component {
             case "callNumber":
                 return row.book.callNumber
             case "initialPos":
-                return row.position ? ("Shelf: " + row.position.shelf + " - Line: " + row.position.line) : 'N/A'
+                return row.position ? ("Shelf: " + row.position.shelf + " - Row: " + row.position.line) : 'N/A'
             default:
                 break;
         }
@@ -328,7 +328,7 @@ class Misplace extends React.Component {
                                 options={this.state.linesOpts}
                                 onChange={(e) => this.handleSelectLine(e)}
                                 isDisabled={this.state.isSampleScanning}
-                                placeholder="Select a line..."
+                                placeholder="Select a row..."
                             />
                         </Col>
                         {/* <Col className="col-4 mb-3 pl-4">
@@ -440,7 +440,7 @@ class Misplace extends React.Component {
                                 options={this.state.linesOpts}
                                 onChange={(e) => this.handleSelectLineAlt(e)}
                                 isDisabled={this.props.bookData || this.state.isCheckScanning}
-                                placeholder="Select a line..."
+                                placeholder="Select a row..."
                             />
                         </Col>
                         {/* <Col className="col-4 mb-3 pl-4">
