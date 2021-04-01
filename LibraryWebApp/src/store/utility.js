@@ -212,6 +212,27 @@ export function responseError(func,err) {
     return func(msg)
 }
 
+export function responseErrorForAuth(func,err) {
+    let msg = ""
+    if (err.response) {
+        if (err.response.data) {
+            switch (err.response.data.status) {
+                case 500:
+                    msg = Constant.INTERNAL_SERVER_ERROR
+                    break;
+                default:
+                    msg = err.response.data.message
+                    break;
+            }
+        } else {
+            msg = err.message
+        }
+    } else {
+        msg = err.message
+    }
+    return func(msg)
+}
+
 export function responseErrorwithCustomMsg(err, msg) {
     return responseError(err);
 

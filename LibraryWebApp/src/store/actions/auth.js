@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes'
 import axios from '../../axios'
 import {responseError} from '../utility'
+import {responseErrorForAuth} from '../utility'
+
 
 export const authStart = ()=>{
     return{
@@ -52,7 +54,7 @@ export const auth = (username, password) =>{
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
         })
         .catch(error =>{
-            dispatch(responseError(authFail,error))
+            dispatch(responseErrorForAuth(authFail,error))
         })
     }
 }
