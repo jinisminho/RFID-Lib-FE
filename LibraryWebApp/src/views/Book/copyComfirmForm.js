@@ -124,6 +124,15 @@ const ConfirmCopyForm = ({
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <Field
+                                name="note"
+                                type="text"
+                                placeholder="Note"
+                                title="Price Note"
+                                disabled
+                                component={renderFixedField} />
+                        </FormGroup>
+                        <FormGroup className="mb-3">
+                            <Field
                                 name="copyType"
                                 type="text"
                                 placeholder="Copy Type"

@@ -56,6 +56,7 @@ class Book extends React.Component {
             imageLoading: false,
             price: null,
             copyType: null,
+            note: null,
             showAddToWishlistForm: false,
             addToWishlistId: false,
             successShowOther: false,
@@ -234,7 +235,7 @@ class Book extends React.Component {
 
     }
     handleCopySubmit(values) {
-        this.setState({ copyShow: false, price: values.price, copyType: values.copyTypeId })
+        this.setState({ copyShow: false, price: values.price, copyType: values.copyTypeId, note: values.note })
         delete values["title"]
         delete values["id"]
         this.props.onGenerateBarcode(values)
@@ -273,7 +274,8 @@ class Book extends React.Component {
             copyType: copyType,
             members: barcode,
             img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
-            id: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : ''
+            id: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : '',
+            note: this.state.note ? this.state.note : '',
         };
     }
     handleConfirmCancel = () => {
@@ -293,11 +295,13 @@ class Book extends React.Component {
         data["copyTypeId"] = this.state.copyType
         data["price"] = this.state.price
         data["barcodes"] = barcodes
+        data["priceNote"] = this.state.note
         this.props.onAddCopy(data)
         this.setState({
             confirmFormShow: false,
             copyType: null,
-            price: null
+            price: null,
+            note:null,
         })
     }
     activeFormatter(cell, row) {
@@ -409,7 +413,8 @@ class Book extends React.Component {
             isbn: this.state.copyData ? this.state.copyData.isbn : '',
             title: this.state.copyData ? this.state.copyData.title : '',
             id: this.state.copyData ? this.state.copyData.id : '',
-            copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["value"] : ""
+            copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["value"] : "",
+            note: 'This price include price on the cover and shipping fee'
         };
     }
 

@@ -89,6 +89,47 @@ const renderSelectField = ({ input, isRequired, meta: { touched, error }, title,
     </>
 )
 
+const renderSelectNote = ({ input, isRequired, meta: { touched, error }, title }) => (
+    <>
+        <Row>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <select name="note" className="form-control">
+                    <option value="Gia Tren Bia">Gia tren bia</option>
+                    <option value="Bao gom cac chi phi">Bao gom cac chi phi</option>
+                    <option value="Other">Other</option>
+                </select>
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+                { input.value == 'Other' ? 
+                    <FormGroup className="mb-3">
+                    <Field
+                        name="other"
+                        type="text"
+                        placeholder="other note"
+                        title="Other note"
+                        component={renderField} />
+                    </FormGroup> 
+                    : null
+                }
+            </InputGroup>
+        </Row>
+    </>
+)
+
 const validateNumber = value => {
     if (value < 1) {
         return 1
@@ -113,11 +154,15 @@ const validate = values => {
         errors.numberOfCopies = 'Number of copy is required'
     } else if (!/^[0-9]+$/i.test(values.numberOfCopies)) {
         errors.numberOfCopies = 'Number of copy is not valid'
-    } else if (parseInt(values.numberOfCopies) > 50) {
-        errors.numberOfCopies = 'Number of copy is less than or equal 50'
+    } else if (parseInt(values.numberOfCopies) > 5000) {
+        errors.numberOfCopies = 'Number of copy is less than or equal 5000'
     }
     if (!(values.copyTypeId && values.copyTypeId !== "")) {
         errors.copyTypeId = 'Copy type is required'
+    }
+    if(!values.note){
+    }else if(values.note.length > 500){
+        errors.note = 'Note is less than or equal 500 characters';
     }
     return errors
 }
@@ -164,6 +209,15 @@ const CopyForm = ({
                         isRequired={true}
                         title="Price"
                         normalize={validateNumber}
+                        component={renderField} />
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <Field
+                        name="note"
+                        type="textarea"
+                        placeholder="Price note"
+                        isRequired={true}
+                        title="Price Note"
                         component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
