@@ -17,7 +17,7 @@ namespace LibrarySelfCheckOut
     {
 
         private const String BT_TXT_DONE = "DONE";
-        private const String BT_TXT_RETURN = "RETURN";
+        private const String BT_TXT_RETURN = "CONFIRM";
 
 
         private int sesionTime = Constant.PROCESS_SESSION_TIME_OUT;

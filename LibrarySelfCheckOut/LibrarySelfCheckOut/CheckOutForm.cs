@@ -17,7 +17,7 @@ namespace LibrarySelfCheckOut
     {
 
         private const String BT_TXT_DONE = "DONE";
-        private const String BT_TXT_CHECKOUT = "CHECK OUT";
+        private const String BT_TXT_CHECKOUT = "CONFIRM";
 
         private string username;
 
