@@ -77,7 +77,7 @@ const validate = values => {
 const renderFixedField = ({ meta, title, myValue }) => (
     <>
         <Row>
-            <Label>{title + ": " + (meta.initial ? meta.initial : (myValue ? myValue : ""))}</Label>
+            <span className="font-weight-bold">{title + ": "}</span>&nbsp;<span> {(meta.initial ? meta.initial : (myValue ? myValue : ""))}</span>
         </Row>
     </>
 )

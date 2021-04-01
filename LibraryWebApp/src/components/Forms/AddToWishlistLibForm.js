@@ -18,7 +18,7 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, disabled,isRequired, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
@@ -64,7 +64,7 @@ const validate = values => {
 const renderFixedField = ({ meta, title, myValue }) => (
     <>
         <Row>
-            <Label>{title + ": " + (meta.initial ? meta.initial : (myValue ? myValue : ""))}</Label>
+            <span className="font-weight-bold">{title + ": "}</span>&nbsp;<span> {(meta.initial ? meta.initial : (myValue ? myValue : ""))}</span>
         </Row>
     </>
 )
@@ -235,13 +235,13 @@ class AddToWishlistLibForm extends React.Component {
                                 <span className="text-danger">* Required field</span>
                             </div>
                             <div className="col-6 text-right">
-                                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                                        <span className="btn-label">
-                                        </span> Cancel
+                                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                                    <span className="btn-label">
+                                    </span> Cancel
                 </button>
-                                    {button}
-                                </div>
+                                {button}
                             </div>
+                        </div>
 
 
                     </Form>

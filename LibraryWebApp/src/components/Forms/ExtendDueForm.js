@@ -32,19 +32,19 @@ class ExtendDueForm extends React.Component {
 
         let dueDate = this.props.newDueDate && (this.props.isRenewable && !this.props.isViolated) ? (
             <>
-            <p className="font-weight-bold">{"Please return before: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
+                <span className="font-weight-bold">New Due Date: </span> <span>{moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</span>
             </>
         ) : null
 
         const reasons = (reason) => (
             <p key={reason}>{reason}</p>
         )
-        
+
         let policyViolation = this.props.policyViolation && this.props.policyViolation.length != 0 ? (
             <>
-            <p className="font-weight-bold">{"This book can not be renew because: "}</p>
-            {/* {this.props.policyViolation ? this.props.policyViolation.forEach(element => <p className="font-weight-bold">{element}</p>) : null} */}
-            {this.props.policyViolation ? this.props.policyViolation.map(reasons) : null}
+                <p className="font-weight-bold">{"This book can not be renew because: "}</p>
+                {/* {this.props.policyViolation ? this.props.policyViolation.forEach(element => <p className="font-weight-bold">{element}</p>) : null} */}
+                {this.props.policyViolation ? this.props.policyViolation.map(reasons) : null}
             </>
         ) : null
 

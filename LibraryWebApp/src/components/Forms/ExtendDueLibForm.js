@@ -13,7 +13,7 @@ import {
     Input,
     InputGroup,
 } from "reactstrap";
-import { Popover, OverlayTrigger} from 'react-bootstrap'
+import { Popover, OverlayTrigger } from 'react-bootstrap'
 
 const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
@@ -74,7 +74,7 @@ class ExtendDueForm extends React.Component {
 
         let dueDate = this.props.newDueDate && this.props.isRenewable ? (
             <>
-                <p className="font-weight-bold">{"New Due Date: " + moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</p>
+                <span className="font-weight-bold">New Due Date: </span> <span>{moment(MyUtil.convertToDate(this.props.newDueDate)).format(MyConstant.DATE)}</span>
             </>
         ) : null
 
@@ -93,8 +93,8 @@ class ExtendDueForm extends React.Component {
                     component={renderField} />
             </FormGroup>
         ) : (
-                <p className="font-weight-bold">This borrowing is not able to renew.</p>
-            )
+            <p className="font-weight-bold text-danger">This borrowing is not able to renew.</p>
+        )
 
 
         let policyViolation = this.props.policyViolation && this.props.policyViolation.length != 0 ? (
@@ -114,6 +114,9 @@ class ExtendDueForm extends React.Component {
                             {dueDate}
                             {policyViolation}
                         </div>
+                        {policyViolation && this.props.isRenewable ? (<div className="text-left">
+                            <span className="text-danger">* Required field</span>
+                        </div>) : null}
                         <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
                             <span className="btn-label">
                             </span> Back

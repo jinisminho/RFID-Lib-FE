@@ -120,7 +120,7 @@ class Policy extends React.Component {
     borrowActionFormatter(cell, row) {
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({ updateBorrowShow: true, borrowChanged: row })} />
+                <UpdateButton tooltipMsg="Save" clicked={() => this.setState({ updateBorrowShow: true, borrowChanged: row })} />
                 <DeleteButton clicked={() => this.setState({ deleteBorrowShow: true, borrowToDel: row })} />
             </div>
         )
@@ -141,7 +141,7 @@ class Policy extends React.Component {
     patronActionFormatter(cell, row) {
         return (
             <div>
-                <UpdateButton clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
+                <UpdateButton tooltipMsg="Save" clicked={() => this.setState({ updatePatronShow: true, patronChanged: row })} />
             </div>
         )
     }

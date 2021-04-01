@@ -2,7 +2,7 @@ import React from "react";
 import Header from "components/Headers/Header.js";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { Alert, Tab, Tabs } from 'react-bootstrap'
+import { Alert, OverlayTrigger, Tab, Tabs, Tooltip } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import {
@@ -176,12 +176,24 @@ class BorrowingInfo extends React.Component {
             <div>
                 <Row>
                     <Col lg="8"><button className="btn btn-fill btn-primary btn-sm btn-block mt-1 mt-lg-0 text-truncate" onClick={() => { this.handleExtdFormShow(borrowerId, bokCpy); this.setState({ bookBorrowing: bokBorrowing }) }} >Renew</button></Col>
-                    <Col lg="4"><button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
-                        showHistory: true,
-                        patronId: borrowerId,
-                        bookCopy: bokCpy,
-                        bookBorrowing: bokBorrowing
-                    })} ><i className="ni ni-collection" /></button></Col>
+                    <Col lg="4">
+                        <OverlayTrigger
+                            key="top"
+                            placement="top"
+                            overlay={
+                                <Tooltip id="tooltip-top">
+                                    History
+                                </Tooltip>
+                            }
+                        >
+                            <button className="btn btn-fill btn-primary btn-sm mt-1 mt-lg-0 btn-block" onClick={() => this.setState({
+                                showHistory: true,
+                                patronId: borrowerId,
+                                bookCopy: bokCpy,
+                                bookBorrowing: bokBorrowing
+                            })} ><i className="ni ni-collection" /></button>
+                        </OverlayTrigger>
+                    </Col>
                 </Row>
             </div>
         )

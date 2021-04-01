@@ -31,7 +31,7 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder, isRequired, type, meta: { touched, error }, title }) => (
     <>
         <Row>
             <Col lg="3">
@@ -72,7 +72,7 @@ const validate = values => {
 const renderFixedField = ({ meta, title }) => (
     <>
         <Row>
-            <Label>{title + ": " + (meta.initial ? meta.initial : "")}</Label>
+            <span className="font-weight-bold">{title + ": "}</span>&nbsp;<span> {(meta.initial ? meta.initial : null)}</span>
         </Row>
     </>
 )
@@ -85,7 +85,7 @@ const RfidNormalizer = value => {
     return value.trim().toUpperCase()
 }
 
-const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input, isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
             <Col lg="3">
@@ -229,21 +229,21 @@ const CopyForm = ({
                         </FormGroup>
                     </Col>
                 </Row>
-                        <div className="row mt-2">
-                            <div className="col-6 text-left">
-                                <span className="text-danger">* Required field</span>
-                            </div>
-                            <div className="col-6 text-right">
-                                <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
-                                    <span className="btn-label">
-                                    </span> Cancel
+                <div className="row mt-2">
+                    <div className="col-6 text-left">
+                        <span className="text-danger">* Required field</span>
+                    </div>
+                    <div className="col-6 text-right">
+                        <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                            <span className="btn-label">
+                            </span> Cancel
                 </button>
-                                <button type="submit" className="btn btn-wd btn-success ">
-                                    <span className="btn-label">
-                                    </span> Save
+                        <button type="submit" className="btn btn-wd btn-success ">
+                            <span className="btn-label">
+                            </span> Save
                 </button>
-                            </div>
-                        </div>
+                    </div>
+                </div>
             </Form>
         </CardBody>
     </Card>
