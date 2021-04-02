@@ -296,6 +296,7 @@ class Misplace extends React.Component {
             successShow: true,
             errorShow: true,
             isSampleScanning: false,
+            isPositionScanning: true,
         })
 
         let bookCodeList = null
