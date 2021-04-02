@@ -193,6 +193,8 @@ class Book extends React.Component {
         this.setState({
             copyShow: false,
             copyData: null,
+            price:null,
+            note:""
         })
     }
     handleUpdateSubmit(values) {
@@ -235,7 +237,7 @@ class Book extends React.Component {
 
     }
     handleCopySubmit(values) {
-        this.setState({ copyShow: false, price: values.price, copyType: values.copyTypeId, note: values.note })
+        this.setState({ copyShow: false, price: values.price, copyType: values.copyTypeId, note: values.note=="Other"?values.otherNote:values.note })
         delete values["title"]
         delete values["id"]
         this.props.onGenerateBarcode(values)
@@ -275,7 +277,7 @@ class Book extends React.Component {
             members: barcode,
             img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
             id: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : '',
-            note: this.state.note ? this.state.note : '',
+            priceNote: this.state.note ? this.state.note : '',
         };
     }
     handleConfirmCancel = () => {
@@ -414,7 +416,7 @@ class Book extends React.Component {
             title: this.state.copyData ? this.state.copyData.title : '',
             id: this.state.copyData ? this.state.copyData.id : '',
             copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["value"] : "",
-            note: 'This price include price on the cover and shipping fee'
+            note: MyConstant.BOOK_COPY_PRICE_NOTE[0].value
         };
     }
 

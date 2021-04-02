@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React,{ Component } from "react";
 import { Field, reduxForm } from 'redux-form';
 
 // reactstrap components
@@ -32,6 +32,7 @@ import {
     Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
+import {BOOK_COPY_PRICE_NOTE} from '../Util/Constant'
 
 const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
     <>
@@ -97,7 +98,39 @@ const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, 
     </>
 )
 
+const renderSelectNoteOptions = (option) => (
+    <option key={option.id} value={option.value}>{option.label}</option>
+)
 
+const renderSelectNoteField = ({ input,isRequired, meta: { touched, error }, title, options }) => (
+    <>
+        <Row>
+            <Col lg="3">
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+            </Col>
+            <Col lg="9">
+                <InputGroup className="input-group-alternative">
+                    <select {...input} className="form-control">
+                        {options ? options.map(renderSelectNoteOptions) : null}
+                    </select>
+                    {touched && ((error && <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Content>
+                                    <span className="text-danger">{error}</span>
+                                </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                    </OverlayTrigger>))}
+                </InputGroup>
+            </Col>
+        </Row>
+    </>
+)
 
 const validateNumber = value => {
     if (value < 1) {
@@ -129,16 +162,32 @@ const validate = values => {
     }else if(parseInt(values.numberOfCopies)>50){
         errors.numberOfCopies = 'Number of copy must be less than or equal 50'
     }
+    if(!values.otherNote){
+        errors.otherNote = 'Please input price note';
+    }else if(values.note.length > 500){
+        errors.otherNote = 'Note is less than or equal 500 characters';
+    }
     return errors
 }
-const CopyAddForm = ({
-    handleSubmit,
-    handleCancel,
-    options
-}) => (
+
+class CopyAddForm extends Component {
+    state = { noteVal: BOOK_COPY_PRICE_NOTE[0].value};
+    
+    render = () => {
+        let otherNote = null
+        if(this.state.noteVal=="Other"){
+            otherNote=<FormGroup className="mb-3">
+            <Field
+                name="otherNote"
+                type="textarea"
+                placeholder="Note"
+                component={renderField} />
+        </FormGroup>
+        }
+        return (
     <Card className="bg-secondary shadow border-0">
         <CardBody>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={this.props.handleSubmit}>
                 <FormGroup className="mb-3">
                     <Field
                         name="isbn"
@@ -153,9 +202,19 @@ const CopyAddForm = ({
                         name="copyTypeId"
                         title="Copy Type"
                         isRequired={true}
-                        options={options}
+                        options={this.props.options}
                         component={renderSelectField}>
                     </Field>
+                </FormGroup>
+                <FormGroup className="mb-3">
+                    <Field
+                        name="numberOfCopies"
+                        type="number"
+                        normalize={validateNumber}
+                        title="Number of copy"
+                        placeholder="Number of copy"
+                        isRequired={true}
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
@@ -169,20 +228,20 @@ const CopyAddForm = ({
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
-                        name="numberOfCopies"
-                        type="number"
-                        normalize={validateNumber}
-                        title="Number of copy"
-                        placeholder="Number of copy"
-                        isRequired={true}
-                        component={renderField} />
+                        name="note"
+                        placeholder="Price note"
+                        title="Price Note"
+                        onChange={(e)=>this.setState({noteVal:e.target.value})}
+                        options={BOOK_COPY_PRICE_NOTE}
+                        component={renderSelectNoteField} />
                 </FormGroup>
+                {otherNote}
                 <div className="row">
                     <div className="col-6 text-left">
                         <span className="text-danger">* Required field</span>
                     </div>
                     <div className="col-6 text-right">
-                    <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                    <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
                         <span className="btn-label">
                         </span> Cancel
                 </button>
@@ -195,7 +254,7 @@ const CopyAddForm = ({
             </Form>
         </CardBody>
     </Card>
-);
+        )}};
 
 export default reduxForm({
     form: 'CopyAddForm',
