@@ -44,6 +44,7 @@ class Misplace extends React.Component {
         this.handleCheckScan = this.handleCheckScan.bind(this)
         this.handleSelectShelf = this.handleSelectShelf.bind(this)
         this.rowClassNameFormat = this.rowClassNameFormat.bind(this)
+        this.handlePositionScan = this.handlePositionScan.bind(this)
     }
     componentDidMount() {
         this.clearBookData()
