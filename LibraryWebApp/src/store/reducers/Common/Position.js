@@ -67,7 +67,7 @@ const saveSampledPositionStart = (state, action) => {
 const saveSampledPositionSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
-        successMsg: "the position is saved successfully.",
+        successMsg: "The position is saved successfully.",
         loading: false,
     })
 }
@@ -146,6 +146,32 @@ const clearScannedBook = (state, action) => {
     })
 }
 
+//Shelf + Line by RFID
+const getPositionByRFIDStart = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        successMsg: null,
+        loading: true,
+        bookError: null,
+    })
+}
+const getPositionByRFIDSuccess = (state, action) => {
+    return updateObject(state, {
+        position: action.data,
+        error: null,
+        loading: false,
+    })
+}
+const getPositionByRFIDFailed = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        successMsg: null,
+        loading: false,
+        bookError: null,
+        bookLoading: false,
+    })
+}
+
 export default function reducer(state = {
     error: null,
     loading: false,
@@ -160,6 +186,7 @@ export default function reducer(state = {
     bookData: null,
     bookError: null,
     bookLoading: false,
+    position: null,
 }, action) {
     switch (action.type) {
 
@@ -184,6 +211,10 @@ export default function reducer(state = {
         case actionTypes.COMMON_GET_SCANNED_BOOK_FAILED: return getScannedBookFail(state, action)
 
         case actionTypes.CLEAR_SCANNED_BOOK: return clearScannedBook(state, action)
+
+        case actionTypes.COMMON_GET_POSITION_RFID_START: return getPositionByRFIDStart(state, action)
+        case actionTypes.COMMON_GET_POSITION_RFID_SUCCESS: return getPositionByRFIDSuccess(state, action)
+        case actionTypes.COMMON_GET_POSITION_RFID_FAILED: return getPositionByRFIDFailed(state, action)
     }
     return state
 }

@@ -81,8 +81,8 @@ const validate = values => {
 }
 
 const validateNumber = value => {
-    if (value < 1) {
-        return 1
+    if (value < 0) {
+        return 0
     } else {
         return value
     }
