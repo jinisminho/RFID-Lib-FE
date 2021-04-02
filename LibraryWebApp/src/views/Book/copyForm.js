@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import React ,{ Component } from "react";
+import { Field, reduxForm } from 'redux-form';
 
 // reactstrap components
 import {
@@ -32,6 +32,7 @@ import {
     Col
 } from "reactstrap";
 import { Popover, OverlayTrigger } from 'react-bootstrap'
+import {BOOK_COPY_PRICE_NOTE} from '../Util/Constant'
 const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
@@ -160,20 +161,31 @@ const validate = values => {
     if (!(values.copyTypeId && values.copyTypeId !== "")) {
         errors.copyTypeId = 'Copy type is required'
     }
-    if(!values.note){
+    if(!values.otherNote){
+        errors.otherNote = 'Please input price note';
     }else if(values.note.length > 500){
-        errors.note = 'Note is less than or equal 500 characters';
+        errors.otherNote = 'Note is less than or equal 500 characters';
     }
     return errors
 }
-const CopyForm = ({
-    handleSubmit,
-    handleCancel,
-    options
-}) => (
+class CopyForm extends Component {
+    state = { noteVal: BOOK_COPY_PRICE_NOTE[0].value};
+    
+    render = () => {
+        let otherNote = null
+        if(this.state.noteVal=="Other"){
+            otherNote=<FormGroup className="mb-3">
+            <Field
+                name="otherNote"
+                type="textarea"
+                placeholder="Note"
+                component={renderField} />
+        </FormGroup>
+        }
+    return(
     <Card className="bg-secondary shadow border-0">
         <CardBody>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={this.props.handleSubmit}>
                 <FormGroup className="mb-3">
                     <Field
                         name="isbn"
@@ -197,9 +209,20 @@ const CopyForm = ({
                         name="copyTypeId"
                         title="Copy Type"
                         isRequired={true}
-                        options={options}
+                        options={this.props.options}
                         component={renderSelectField}>
                     </Field>
+                </FormGroup>
+                
+                <FormGroup className="mb-3">
+                    <Field
+                        name="numberOfCopies"
+                        type="number"
+                        title="Number of copy"
+                        isRequired={true}
+                        normalize={validateNumber}
+                        placeholder="Number of copy"
+                        component={renderField} />
                 </FormGroup>
                 <FormGroup className="mb-3">
                     <Field
@@ -214,28 +237,19 @@ const CopyForm = ({
                 <FormGroup className="mb-3">
                     <Field
                         name="note"
-                        type="textarea"
                         placeholder="Price note"
-                        isRequired={true}
                         title="Price Note"
-                        component={renderField} />
+                        onChange={(e)=>this.setState({noteVal:e.target.value})}
+                        options={BOOK_COPY_PRICE_NOTE}
+                        component={renderSelectField} />
                 </FormGroup>
-                <FormGroup className="mb-3">
-                    <Field
-                        name="numberOfCopies"
-                        type="number"
-                        title="Number of copy"
-                        isRequired={true}
-                        normalize={validateNumber}
-                        placeholder="Number of copy"
-                        component={renderField} />
-                </FormGroup>
+                {otherNote}
                 <div className="row">
                     <div className="col-6 text-left">
                         <span className="text-danger">* Required field</span>
                     </div>
                     <div className="col-6 text-right">
-                        <button onClick={handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
                             <span className="btn-label">
                             </span> Cancel
                 </button>
@@ -248,7 +262,7 @@ const CopyForm = ({
             </Form>
         </CardBody>
     </Card>
-);
+    )}}
 
 export default reduxForm({
     form: 'bookMakeCopyForm',

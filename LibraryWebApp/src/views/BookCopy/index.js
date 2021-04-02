@@ -58,7 +58,8 @@ class BookCopy extends React.Component {
             copyStatus: null,
             barcodeList:[],
             barcodeConfirm:false,
-            allBarcodeConfirm:false
+            allBarcodeConfirm:false,
+            note:""
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -135,7 +136,8 @@ class BookCopy extends React.Component {
             addFormShow: false,
             cancelAdd: true,
             price: null,
-            copyType: null
+            copyType: null,
+            note:""
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
@@ -146,11 +148,11 @@ class BookCopy extends React.Component {
         this.props.onGetCopyType()
     }
     handleGenerateSubmit(values) {
-        this.setState({ addFormShow: false, price: values.price, copyType: values.copyTypeId })
+        this.setState({ addFormShow: false, price: values.price, copyType: values.copyTypeId,note: values.note=="Other"?values.otherNote:values.note  })
         this.props.onGenerateBarcode(values)
     }
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false, barcodeList:[] })
+        this.setState({ successShow: false, errorShow: false, barcodeList:[]})
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue, this.state.selectValue);
     }
     handleUpdateCancel = () => {
@@ -197,6 +199,7 @@ class BookCopy extends React.Component {
         data["creatorId"] = this.props.userid
         data["copyTypeId"] = this.state.copyType
         data["price"] = this.state.price
+        data["priceNote"] = this.state.note
         data["barcodes"] = barcodes
         this.props.onAddCopy(data)
         this.setState({

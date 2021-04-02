@@ -73,3 +73,5 @@ export const BOOK_COPY_NOT_UPDATE_STATUS = ["BORROWED","LOST","DISCARD"]
 export const BOOK_NOT_UPDATE_STATUS = ["DISCARD"]
 
 export const BOOK_LOST_STATUS = {CONFIRMED:"Confirmed",PENDING:"Pending"}
+
+export const BOOK_COPY_PRICE_NOTE = [{"value":"Cover price only","label":"Cover price only"},{"value":"Include other costs","label":"Include other costs"},{"value":"Other","label":"Other"}]
