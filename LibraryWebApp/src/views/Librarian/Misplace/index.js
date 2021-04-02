@@ -205,6 +205,9 @@ class Misplace extends React.Component {
 
     handlePositionScan(data) {
         this.props.onGetPosition(data)
+        this.setState({
+            errorShow: true,
+        })
     }
 
     commonFormat(cell, row, extraData) {
