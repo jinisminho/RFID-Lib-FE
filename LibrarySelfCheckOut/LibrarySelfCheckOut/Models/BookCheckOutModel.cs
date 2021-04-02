@@ -16,5 +16,6 @@ namespace LibrarySelfCheckOut.Models
         public String group { get; set; }
         public String borrowedAt { get; set; }
         public String genres { get; set; }
+        public int feePolicyId { get; set; }
     }
 }

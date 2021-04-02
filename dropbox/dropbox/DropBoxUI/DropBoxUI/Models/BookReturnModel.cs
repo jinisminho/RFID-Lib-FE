@@ -21,5 +21,6 @@ namespace DropBoxUI.Models
         public String returnedAt { get; set; }
         public String genres { get; set; }
         public String patron { get; set; }
+
     }
 }
