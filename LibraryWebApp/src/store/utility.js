@@ -195,6 +195,13 @@ export function responseError(func,err) {
                 case 500:
                     msg = Constant.INTERNAL_SERVER_ERROR
                     break;
+                case 404:
+                    if(!err.response.data.message){
+                        msg =Constant.NOT_FOUND
+                    }else{
+                        msg = err.response.data.message
+                    }
+                    break;
                 case 402:
                     return logout()
                 case 401:

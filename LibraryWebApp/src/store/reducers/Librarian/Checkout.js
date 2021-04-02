@@ -30,9 +30,16 @@ const getBookStart = (state, action) =>{
     })
   }
   const getBookSuccess = (state, action)=>{
-    let bookList = [...state.bookData,action.bookData]
+    let valid=[...state.validBook]
+    let invalid = [...state.invalidBook]
+    if(action.bookData.violatePolicy){
+      invalid.push(action.bookData)
+    }else{
+      valid.push(action.bookData)
+    }
     return updateObject(state,{
-        bookData: bookList,
+        validBook: valid,
+        invalidBook:invalid,
         bookError:null,
         bookLoading:false,
     })
@@ -97,7 +104,8 @@ const getBookStart = (state, action) =>{
     return updateObject(state,{
       studentData: null,
       error:null,
-      bookData:[],
+      validBook:[],
+      invalidBook:[],
       overdueData:null,
       bookError:null,
       studentLoading:false,
@@ -118,9 +126,7 @@ const getBookStart = (state, action) =>{
     })
   }
   const deleteCheckoutBook=(state, action) =>{
-    let tmp_books=[...state.bookData]
-    let tmps=[...state.bookData]
-    console.log("bf",tmps)
+    let tmp_books=[...state.validBook]
     let length = tmp_books.length
     let idx=-1
     for(let i=0;i<length;i++){
@@ -128,21 +134,38 @@ const getBookStart = (state, action) =>{
         idx=i
       }
     }
-    console.log("af",tmp_books)
-    console.log(idx)
     if(idx!=-1){
       tmp_books.splice(idx,1)
     }
 
     return updateObject(state,{
-      bookData:tmp_books
+      validBook:tmp_books
+    })
+  }
+
+  const closeToast=(state, action) =>{
+    let tmp_books=[...state.invalidBook]
+    let length = tmp_books.length
+    let idx=-1
+    for(let i=0;i<length;i++){
+      if(tmp_books[i].copy.id==action.id){
+        idx=i
+      }
+    }
+    if(idx!=-1){
+      tmp_books.splice(idx,1)
+    }
+
+    return updateObject(state,{
+      invalidBook:tmp_books
     })
   }
 export default function reducer(state = {
     studentData: null,
     overdueData:null,
     error:null,
-    bookData:[],
+    validBook:[],
+    invalidBook:[],
     bookError:null,
     studentLoading:false,
     bookLoading:false,
@@ -175,6 +198,9 @@ export default function reducer(state = {
     case actionTypes.CANCEL_CHECKOUT_CONFIRM: return cancelConfirm(state, action)
 
     case actionTypes.DELETE_CHECKOUT_BOOK: return deleteCheckoutBook(state, action)
+
+    case actionTypes.CLOSE_ERROR_TOAST: return closeToast(state, action)
+
 }
 return state
 }

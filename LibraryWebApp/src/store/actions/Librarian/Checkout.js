@@ -227,3 +227,10 @@ export const checkPolicy = (data,patronid,libid) => {
     }
 
 }
+
+export const closeToast = (id) => {
+    return {
+        type: actionTypes.CLOSE_ERROR_TOAST,
+        id:id
+    }
+}
