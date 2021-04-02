@@ -103,10 +103,10 @@ export {
     importPatron
 } from './Admin/Student'
 
-export{
+export {
     requestNewBook,
     refreshRequestNewBook
-}from './Student/RequestNewBook'
+} from './Student/RequestNewBook'
 
 export {
     getBook as getBookStudentSide,
@@ -168,4 +168,5 @@ export {
     getInitialPositions,
     getScannedBook,
     clearBook as clearScannedBook,
+    getPositionByRFID,
 } from './Common/Position'

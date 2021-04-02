@@ -33,7 +33,7 @@ export const getShelves = () => {
                 dispatch(getShelvesSuccess(response.data))
             })
             .catch(error => {
-                dispatch(responseError(getShelvesFailed,error))
+                dispatch(responseError(getShelvesFailed, error))
             });
     }
 
@@ -64,13 +64,13 @@ export const getLines = (shelf) => {
     return dispatch => {
         dispatch(getLinesStart())
 
-        let url = '/position/row/'+shelf
+        let url = '/position/row/' + shelf
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getLinesSuccess(response.data))
             })
             .catch(error => {
-                dispatch(responseError(getLinesFailed,error))
+                dispatch(responseError(getLinesFailed, error))
             });
     }
 
@@ -100,12 +100,12 @@ export const saveSampledPosition = (data) => {
         dispatch(saveSampledPositionStart())
 
         let url = '/position/row/save'
-        axios.post(url,data, { withCredentials: true })
+        axios.post(url, data, { withCredentials: true })
             .then(response => {
                 dispatch(saveSampledPositionSuccess())
             })
             .catch(error => {
-                dispatch(responseError(saveSampledPositionFail,error))
+                dispatch(responseError(saveSampledPositionFail, error))
             });
     }
 }
@@ -134,13 +134,13 @@ export const getInitialPositions = (positionId) => {
     return dispatch => {
         dispatch(getInitialPositionsStart())
 
-        let url = '/position/row/getBooks/'+positionId
+        let url = '/position/row/getBooks/' + positionId
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getInitialPositionsSuccess(response.data))
             })
             .catch(error => {
-                dispatch(responseError(getInitialPositionsFail,error))
+                dispatch(responseError(getInitialPositionsFail, error))
             });
     }
 }
@@ -169,13 +169,13 @@ export const getScannedBookStart = () => {
 export const getScannedBook = (rfid) => {
     return dispatch => {
         dispatch(getScannedBookStart())
-        let url='/copy/get/rfid/'+rfid
-        axios.get(url, {withCredentials: true})
+        let url = '/copy/get/rfid/' + rfid
+        axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getScannedBookSuccess(response.data))
             })
-            .catch(error=> {
-                dispatch(responseError(getScannedBookFail,error))
+            .catch(error => {
+                dispatch(responseError(getScannedBookFail, error))
             });
     }
 
@@ -185,6 +185,43 @@ export const getScannedBook = (rfid) => {
 export const clearBook = () => {
     return {
         type: actionTypes.CLEAR_SCANNED_BOOK
+    }
+
+}
+
+//Shelf + Line by RFID
+export const getPositionByRFIDSuccess = (data) => {
+    return {
+        type: actionTypes.COMMON_GET_POSITION_RFID_SUCCESS,
+        data: data,
+    }
+}
+
+export const getPositionByRFIDFailed = (error) => {
+    return {
+        type: actionTypes.COMMON_GET_POSITION_RFID_FAILED,
+        error: error
+    }
+}
+
+export const getPositionByRFIDStart = () => {
+    return {
+        type: actionTypes.COMMON_GET_POSITION_RFID_START
+    }
+}
+
+export const getPositionByRFID = (rfid) => {
+    return dispatch => {
+        dispatch(getPositionByRFIDStart())
+
+        let url = '/position/rfid/getPosition/' + rfid
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getPositionByRFIDSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(responseError(getPositionByRFIDFailed, error))
+            });
     }
 
 }
