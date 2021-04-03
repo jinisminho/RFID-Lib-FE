@@ -51,10 +51,11 @@ const validate = values => {
 
     return errors
 }
-const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title, isPrice}) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title, isPrice, isFine}) => (
     <>
         <Row>
             <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+            {isFine? <small>Overdue fine is not included</small>:null}
         </Row>
         <Row>
             <InputGroup className="input-group-alternative">
@@ -174,6 +175,7 @@ const BookLostConfirmForm = ({
                                 type="number"
                                 placeholder="Lost book fine"
                                 title="Lost book fine"
+                                isFine
                                 isRequired
                                 isPrice
                                 component={renderField} />
