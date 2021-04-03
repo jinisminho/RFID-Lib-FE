@@ -42,7 +42,8 @@ import {
 
 class Sidebar extends React.Component {
   state = {
-    collapseOpen: false
+    collapseOpen: false,
+    multiLevelOpen: false,
   };
   constructor(props) {
     super(props);
@@ -67,7 +68,37 @@ class Sidebar extends React.Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks = routes => {
     return routes.map((prop, key) => {
-      if(prop.invisible) return null;
+
+      if (prop.invisible) return null;
+
+      if (prop.isMultiLevel) return (
+        <React.Fragment key={key}>
+          <NavItem >
+            <NavLink
+              onClick={() => this.setState({ multiLevelOpen: this.state.multiLevelOpen == prop.groupId ? null : prop.groupId })}
+              style={prop.groupId == this.state.multiLevelOpen ? { backgroundColor: "#87CEFA", color: "black", fontSize: "18px", borderLeft: "3px solid #1E90FF" } : null}
+            >
+              {prop.groupName}
+              {prop.groupId == this.state.multiLevelOpen ? <span>&emsp;&#9660;</span> : <span>&emsp;&#9654;</span>}
+            </NavLink>
+          </NavItem>
+          {prop.groupId == this.state.multiLevelOpen ? (prop.paths.map((path, index) =>
+            <NavItem key={index}>
+              <NavLink
+                to={prop.layout + path}
+                tag={NavLinkRRD}
+                onClick={this.closeCollapse}
+                activeClassName="active"
+              >
+                {/* <i className={prop.icon} /> */}
+                &emsp;{prop.names[index]}
+              </NavLink>
+            </NavItem>
+          )) : null}
+          {prop.groupId == this.state.multiLevelOpen ? <hr className="my-auto" width="99%" size="10" noshade="" /> : null}
+        </React.Fragment>
+      );
+
       return (
         <NavItem key={key}>
           <NavLink
@@ -81,6 +112,7 @@ class Sidebar extends React.Component {
           </NavLink>
         </NavItem>
       );
+
     });
   };
   render() {

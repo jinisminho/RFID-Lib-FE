@@ -37,7 +37,7 @@ import CommonSuccessModal from "components/Modals/CommonSuccessModal"
 import CommonErrorModal from "components/Modals/CommonErrorModal"
 import CommonConfirmModal from "components/Modals/CommonConfirmModal"
 import { Link } from 'react-router-dom'
-class BookCopy extends React.Component {
+class InProcess extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -70,7 +70,7 @@ class BookCopy extends React.Component {
         if (!this.state.copyStatus) {
             let copyStatus = []
             Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).forEach(el => {
-                if( el != "IN_PROCESS") copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
+                copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
             })
             this.setState({ copyStatus: copyStatus })
         }
@@ -119,15 +119,15 @@ class BookCopy extends React.Component {
             successShow: false,
             errorShow: false
         })
-        this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
+        this.fetchData(1, 10, this.state.searchValue, ["IN_PROCESS"])
     }
     handlePageChange(page, sizePerPage) {
-        this.fetchData(page, sizePerPage, this.state.searchValue, this.state.selectValue);
+        this.fetchData(page, sizePerPage, this.state.searchValue, ["IN_PROCESS"]);
     }
 
     handleSizePerPageChange(sizePerPage) {
         // When changing the size per page always navigating to the first page
-        this.fetchData(1, sizePerPage, this.state.searchValue, this.state.selectValue);
+        this.fetchData(1, sizePerPage, this.state.searchValue, ["IN_PROCESS"]);
 
     }
     handleAddCancel = () => {
@@ -138,7 +138,7 @@ class BookCopy extends React.Component {
             copyType: null
         })
     }
-    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
+    fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = ["IN_PROCESS"]) {
         this.props.onFetchData(page - 1, sizePerPage, searchValue.toUpperCase(), selectValue)
     }
 
@@ -151,7 +151,7 @@ class BookCopy extends React.Component {
     }
     handleModalClose() {
         this.setState({ successShow: false, errorShow: false, barcodeList:[] })
-        this.fetchData(1, this.props.sizePerPage, this.state.searchValue, this.state.selectValue);
+        this.fetchData(1, this.props.sizePerPage, this.state.searchValue, ["IN_PROCESS"]);
     }
     handleUpdateCancel = () => {
         this.setState({
@@ -213,7 +213,7 @@ class BookCopy extends React.Component {
             });
         }
         this.setState({ selectValue: tmp }, () => {
-            this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
+            this.fetchData(1, 10, this.state.searchValue, ["IN_PROCESS"])
         })
     }
     activeFormatter(cell, row) {
@@ -339,7 +339,7 @@ class BookCopy extends React.Component {
     }
     handlePrintAllBarcode(){
         this.setState({allBarcodeConfirm:false})
-        this.props.onPrintAllBarcode({searchValue:this.state.searchValue,status:this.state.selectValue})
+        this.props.onPrintAllBarcode({searchValue:this.state.searchValue,status:["IN_PROCESS"]})
     }
     render() {
         const options = {
@@ -439,7 +439,7 @@ class BookCopy extends React.Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>
-                    <Col className="col-2">
+                    {/* <Col className="col-2">
                         <Select
                             closeMenuOnSelect={false}
                             isMulti
@@ -447,20 +447,20 @@ class BookCopy extends React.Component {
                             placeholder="Select status..."
                             onChange={(e) => this.handleSelectChange(e)}
                         />
-                    </Col>
-                    <Col className="col-6 pr-4 pull-right offset-1">
-
+                    </Col> */}
+                    <Col className="col-8 pr-4 pull-right offset-1">
+                        
                         {/* <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add Book Copy
                         </button> */}
 
-                        {/* <button onClick={() => this.setState({ tagFormShow: true })}
+                        <button onClick={() => this.setState({ tagFormShow: true })}
                             type="button" className="btn mr-2 btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Tag RFID
-                        </button> */}
+                        </button>
 
                         <button onClick={() => this.setState({allBarcodeConfirm:true})}
                             type="button" className="btn btn-primary btn-fill float-right" >
@@ -537,4 +537,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookCopy)
+export default connect(mapStateToProps, mapDispatchToProps)(InProcess)
