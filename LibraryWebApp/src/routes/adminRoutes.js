@@ -33,6 +33,7 @@ import BookLost from "views/BookLost/index.js";
 import SearchBook from "views/SearchBook/index.js";
 import Misplace from "views/Librarian/Misplace/index.js";
 import InProcess from "views/BookCopy/inProcess.js";
+import Lost from "views/BookCopy/lost.js";
 
 var routes = [
   {
@@ -117,20 +118,36 @@ var routes = [
     component: Misplace,
     layout: "/admin"
   },
-
-  {
-    path: "/lost",
-    name: "Book lost report",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: BookLost,
-    layout: "/admin"
-  },
   {
     path: "/logs",
     name: "Security gate logs",
     icon: "ni ni-bullet-list-67 text-red",
     component: Logs,
     layout: "/admin"
+  },
+  {
+    path: "/lostReports",
+    name: "Lost book reports",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: BookLost,
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    path: "/lost",
+    name: "Lost books",
+    icon: "ni ni-books text-primary",
+    component: Lost,
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    isMultiLevel: true,
+    groupName: "Lost book management",
+    groupId: "lostManagement",
+    paths: ["/lostReports", "/lost"],
+    names: ["Lost book reports", "Lost books"],
+    layout: "/admin",
   },
   {
     path: "/groups",
