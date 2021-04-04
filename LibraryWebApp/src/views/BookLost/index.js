@@ -184,13 +184,14 @@ class BookLost extends React.Component {
         let display = (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
-                    <Col className="col-8 pl-4">
+                    <Col className="col-2 pl-4">
                     <DatePicker onChange={(startDate, endDate) => {
+                        console.log(startDate,endDate)
                         this.setState({
-                            startDate:this.formatDate(startDate)+" 00:00:00",
-                            endDate:this.formatDate(endDate)+" 00:00:00"
+                            startDate:startDate+" 00:00:00",
+                            endDate:endDate+" 00:00:00"
                         })
-                        this.fetchData(1,10,this.formatDate(startDate)+" 00:00:00",this.formatDate(endDate)+" 23:59:59")}} 
+                        this.fetchData(1,10,startDate+" 00:00:00",endDate+" 23:59:59")}} 
                         startDateId="lost_start"
                         endDateId="lost_end"/>
                     </Col>

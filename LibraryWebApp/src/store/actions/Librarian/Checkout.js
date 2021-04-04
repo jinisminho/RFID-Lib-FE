@@ -99,7 +99,7 @@ export const checkout = (studentid,booklist,reason,libid,mail) => {
             bookRfidTags:booklist,
             librarianId:libid,
             patronId:studentid,
-            reason:reason
+            checkoutNote:reason
         }
         let url='/librarian/checkout'
         axios.post(url,checkoutData, {withCredentials: true})
