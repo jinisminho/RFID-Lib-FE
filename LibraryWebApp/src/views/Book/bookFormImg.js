@@ -76,10 +76,9 @@ const validate = values => {
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
+  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
+    errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
   }
-  // else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z]+$/i.test(values.callNumber)){
-  //   errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
-  // }
   // if (!values.ddc) {
   //   errors.ddc = 'DDC is required'
   // }else if(!/^-?\d{3}(\.\d+)?$/.test(values.ddc)){

@@ -34,10 +34,10 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder, type, meta: { touched, error }, title, isRequired }) => (
     <>
       <Row>
-        <Label>{title}</Label>
+        <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
       </Row>
       <Row>
         <InputGroup className="input-group-alternative">
@@ -62,11 +62,11 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
   const renderSelectOptions = (option) => (
     <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
   )
-  const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
+  const renderSelectField = ({ input, meta: { touched, error }, title, options, isRequired }) => {
     return(
     <>
         <Row>
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Row>
             <Row >
                 <InputGroup className="input-group-alternative">
@@ -167,6 +167,7 @@ class StaffForm extends Component {
                                             name="rfid"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter RFID Number"
                                             title="RFID Number"
                                         />
@@ -178,6 +179,7 @@ class StaffForm extends Component {
                                             name="fullName"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter Staff Full Name"
                                             title="Name"
                                         />
@@ -189,6 +191,7 @@ class StaffForm extends Component {
                                             name="email"
                                             component={renderField}
                                             type="email"
+                                            isRequired
                                             placeholder="Email"
                                             title="Email"
                                         />
@@ -200,6 +203,7 @@ class StaffForm extends Component {
                                             name="phone"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter phone number"
                                             title="Phone"
                                         />
@@ -219,6 +223,7 @@ class StaffForm extends Component {
                                 <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <Field
                                     name="gender"
+                                    isRequired
                                     title="Gender"
                                     defaultValue={Object.keys(MyConstant.GENDER_LIST)[0]}
                                     options={Object.keys(MyConstant.GENDER_LIST)}
@@ -238,16 +243,21 @@ class StaffForm extends Component {
                         </Col> */}
                         
                     </Row>
-                    <div className="text-right">
-                        <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
-                            <span className="btn-label">
-                            </span> Cancel
-                </button>
-                        <button type="submit" className="btn btn-wd btn-success ">
-                            <span className="btn-label">
-                            </span> Save
-                </button>
+                    <div className="row">
+                    <div className="col-6 text-left">
+                        <span className="text-danger">* Required field</span>
                     </div>
+                    <div className="col-6 text-right">
+                    <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
+                </button>
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
+                </button>
+                </div>
+                </div>
                 </Form>
             </CardBody>
         </Card>

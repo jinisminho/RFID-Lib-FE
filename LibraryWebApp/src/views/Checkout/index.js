@@ -241,7 +241,7 @@ class Checkout extends React.Component {
 
     render() {
         const options = {
-            sizePerPage: 3,
+            sizePerPage: 5,
             prePage: '<',
             nextPage: '>',
             firstPage: '<<',
