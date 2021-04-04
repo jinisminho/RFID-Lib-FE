@@ -32,6 +32,7 @@ import Logs from "views/Admin/Logs.js"
 import BookLost from "views/BookLost/index.js";
 import SearchBook from "views/SearchBook/index.js";
 import Misplace from "views/Librarian/Misplace/index.js";
+import InProcess from "views/BookCopy/inProcess.js";
 
 var routes = [
   {
@@ -51,10 +52,27 @@ var routes = [
   },
   {
     path: "/copy",
-    name: "Copy of book",
+    name: "Copy management",
     icon: "ni ni-books text-primary",
     component: BookCopy,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    path: "/tagCopy",
+    name: "Tag copy",
+    icon: "ni ni-books text-primary",
+    component: InProcess,
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    isMultiLevel: true,
+    groupName: "Book copies",
+    groupId: "bookCopies",
+    paths: ["/tagCopy", "/copy"],
+    names: ["Tag copy", "Copy mangament"],
+    layout: "/admin",
   },
   {
     path: "/copyDetail",
@@ -80,37 +98,31 @@ var routes = [
   },
   {
     path: "/checkoutInfo",
-    name: "Checkout Information",
+    name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInfo,
     layout: "/admin"
   },
   {
     path: "/searchbook",
-    name: "Search Book",
+    name: "Search book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/admin"
   },
   {
-    path: "/policy",
-    name: "Policy setting",
+    path: "/misplace",
+    name: "Check misplaced books",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Policy,
+    component: Misplace,
     layout: "/admin"
   },
+
   {
     path: "/lost",
-    name: "Book Lost Report",
+    name: "Book lost report",
     icon: "ni ni-bullet-list-67 text-red",
     component: BookLost,
-    layout: "/admin"
-  },
-  {
-    path: "/groups",
-    name: "Group management",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Types,
     layout: "/admin"
   },
   {
@@ -121,24 +133,31 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/groups",
+    name: "Group management",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Types,
+    layout: "/admin"
+  },
+  {
     path: "/staff",
-    name: "Librarian Management",
+    name: "Librarian management",
     icon: "fa fa-users text-red",
     component: Staff,
     layout: "/admin"
   },
   {
     path: "/student",
-    name: "Patron Management",
+    name: "Patron management",
     icon: "fa fa-book-reader text-red",
     component: Student,
     layout: "/admin"
   },
   {
-    path: "/misplace",
-    name: "Check misplaced books",
+    path: "/policy",
+    name: "Policy setting",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Misplace,
+    component: Policy,
     layout: "/admin"
   },
   {

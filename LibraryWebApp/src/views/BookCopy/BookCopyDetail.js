@@ -146,7 +146,7 @@ class BookCopyDetail extends React.Component {
 
         return (
             <>
-                <Header />
+                {/* <Header /> */}
                 <Container className="my-3" fluid>
                     <Card className="shadow">
                         {display}

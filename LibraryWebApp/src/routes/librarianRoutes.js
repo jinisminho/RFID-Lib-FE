@@ -29,6 +29,7 @@ import Profile from "views/Student/Profile.js"
 import ChangePassword from "views/ChangePassword/index";
 import Misplace from "views/Librarian/Misplace/index.js";
 import SearchBook from "views/SearchBook/index.js";
+import InProcess from "views/BookCopy/inProcess.js";
 
 var routes = [
   // {
@@ -63,10 +64,27 @@ var routes = [
   },
   {
     path: "/copy",
-    name: "Copy of book",
+    name: "Copy management",
     icon: "ni ni-books text-primary",
     component: BookCopy,
-    layout: "/librarian"
+    layout: "/librarian",
+    invisible: true
+  },
+  {
+    path: "/tagCopy",
+    name: "Tag copy",
+    icon: "ni ni-books text-primary",
+    component: InProcess,
+    layout: "/librarian",
+    invisible: true
+  },
+  {
+    isMultiLevel: true,
+    groupName: "Book copies",
+    groupId: "bookCopies",
+    paths: ["/tagCopy", "/copy"],
+    names: ["Tag copy", "Copy management"],
+    layout: "/librarian",
   },
   {
     path: "/copyDetail",
@@ -92,21 +110,28 @@ var routes = [
   },
   {
     path: "/checkoutInfo",
-    name: "Checkout Information",
+    name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: CheckoutInf,
     layout: "/librarian"
   },
   {
     path: "/searchbook",
-    name: "Search Book",
+    name: "Search book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/librarian"
   },
   {
+    path: "/misplace",
+    name: "Check misplaced books",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Misplace,
+    layout: "/librarian"
+  },
+  {
     path: "/student",
-    name: "Patron Management",
+    name: "Patron management",
     icon: "fa fa-book-reader text-red",
     component: Student,
     layout: "/librarian"
@@ -120,16 +145,9 @@ var routes = [
   },
   {
     path: "/lost",
-    name: "Book Lost Report",
+    name: "Book lost report",
     icon: "ni ni-bullet-list-67 text-red",
     component: BookLost,
-    layout: "/librarian"
-  },
-  {
-    path: "/misplace",
-    name: "Check misplaced books",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Misplace,
     layout: "/librarian"
   },
   {
