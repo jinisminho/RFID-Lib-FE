@@ -52,6 +52,7 @@ class BorrowingInfo extends React.Component {
         this.handleHistoryClose = this.handleHistoryClose.bind(this);
         this.otherFormatter = this.otherFormatter.bind(this);
         this.otherFormatter2 = this.otherFormatter2.bind(this);
+        this.otherFormatter3 = this.otherFormatter3.bind(this);
         this.dateFormatter = this.dateFormatter.bind(this);
         this.ifNullFormatter = this.ifNullFormatter.bind(this);
         this.handleExtdSubmit = this.handleExtdSubmit.bind(this);
