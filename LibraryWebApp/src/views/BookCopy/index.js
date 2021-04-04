@@ -18,7 +18,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import { FormControl, InputGroup, Row, Col, Modal, Button, Dropdown, DropdownButton } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -56,9 +56,9 @@ class BookCopy extends React.Component {
             price: null,
             copyType: null,
             copyStatus: null,
-            barcodeList:[],
-            barcodeConfirm:false,
-            allBarcodeConfirm:false
+            barcodeList: [],
+            barcodeConfirm: false,
+            allBarcodeConfirm: false
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -70,7 +70,7 @@ class BookCopy extends React.Component {
         if (!this.state.copyStatus) {
             let copyStatus = []
             Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).forEach(el => {
-                if( el != "IN_PROCESS") copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
+                if (el != "IN_PROCESS") copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
             })
             this.setState({ copyStatus: copyStatus })
         }
@@ -150,7 +150,7 @@ class BookCopy extends React.Component {
         this.props.onGenerateBarcode(values)
     }
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false, barcodeList:[] })
+        this.setState({ successShow: false, errorShow: false, barcodeList: [] })
         this.fetchData(1, this.props.sizePerPage, this.state.searchValue, this.state.selectValue);
     }
     handleUpdateCancel = () => {
@@ -217,9 +217,9 @@ class BookCopy extends React.Component {
         })
     }
     activeFormatter(cell, row) {
-        let btn=null
-        if(!MyConstant.BOOK_COPY_NOT_UPDATE_STATUS.includes(row.status)){
-            btn=(<UpdateButton clicked={() => this.setState({
+        let btn = null
+        if (!MyConstant.BOOK_COPY_NOT_UPDATE_STATUS.includes(row.status)) {
+            btn = (<UpdateButton clicked={() => this.setState({
                 updateFormShow: true,
                 updateData: row
             })} />)
@@ -269,7 +269,7 @@ class BookCopy extends React.Component {
             copyType: this.state.updateData ? (this.state.updateData.bookCopyTypeDto ? this.state.updateData.bookCopyTypeDto.id : '') : '',
             img: this.state.updateData ? this.state.updateData.book.img : '',
             barcode: this.state.updateData ? this.state.updateData.barcode : '',
-            subtitle: this.state.updateData ?  (this.state.updateData.book ? (this.state.updateData.book.subtitle ? this.state.updateData.book.subtitle : '') : '') : '',
+            subtitle: this.state.updateData ? (this.state.updateData.book ? (this.state.updateData.book.subtitle ? this.state.updateData.book.subtitle : '') : '') : '',
             authors: author.join(", "),
         };
     }
@@ -317,29 +317,29 @@ class BookCopy extends React.Component {
             copyTypeId: this.props.copyTypes ? this.props.copyTypes[0]["id"] : ""
         };
     }
-    handleSelectBook(row, isSelect, rowIndex, e){
-        if(isSelect){
-            if(!(this.state.barcodeList.includes(row.id))){
+    handleSelectBook(row, isSelect, rowIndex, e) {
+        if (isSelect) {
+            if (!(this.state.barcodeList.includes(row.id))) {
                 this.setState({
-                    barcodeList:[...this.state.barcodeList,row.id]
+                    barcodeList: [...this.state.barcodeList, row.id]
                 })
             }
-        }else{
-            var array = [...this.state.barcodeList]; 
+        } else {
+            var array = [...this.state.barcodeList];
             var index = array.indexOf(row.id)
             if (index !== -1) {
-              array.splice(index, 1);
-              this.setState({barcodeList: array});
+                array.splice(index, 1);
+                this.setState({ barcodeList: array });
             }
         }
     }
-    handlePrintBarcode(){
-        this.setState({barcodeConfirm:false})
-        this.props.onPrintBarcode({bookCopyIdList:this.state.barcodeList})
+    handlePrintBarcode() {
+        this.setState({ barcodeConfirm: false })
+        this.props.onPrintBarcode({ bookCopyIdList: this.state.barcodeList })
     }
-    handlePrintAllBarcode(){
-        this.setState({allBarcodeConfirm:false})
-        this.props.onPrintAllBarcode({searchValue:this.state.searchValue,status:this.state.selectValue})
+    handlePrintAllBarcode() {
+        this.setState({ allBarcodeConfirm: false })
+        this.props.onPrintAllBarcode({ searchValue: this.state.searchValue, status: this.state.selectValue })
     }
     render() {
         const options = {
@@ -355,15 +355,15 @@ class BookCopy extends React.Component {
         };
         const selectRow = {
             mode: 'checkbox',
-            onSelect:this.handleSelectBook,
+            onSelect: this.handleSelectBook,
             selected: this.state.barcodeList
-          };
+        };
         let main = (
             <>
                 <BootstrapTable
                     data={this.props.data}
                     options={options}
-                    selectRow={ selectRow }
+                    selectRow={selectRow}
                     fetchInfo={{ dataTotalSize: this.props.totalSize }}
                     remote
                     pagination
@@ -462,17 +462,26 @@ class BookCopy extends React.Component {
                             </span> <i className="fa fa-plus"></i> Tag RFID
                         </button> */}
 
-                        <button onClick={() => this.setState({allBarcodeConfirm:true})}
-                            type="button" className="btn btn-primary btn-fill float-right" >
+                        {/* <button onClick={() => this.setState({ allBarcodeConfirm: true })}
+                            type="button" className="btn btn-primary mx-1 btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print All Barcode
-                        </button>
+                        </button> */}
 
-                        <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
-                            type="button" className="btn btn-primary btn-fill float-right" >
+                        {/* <button disabled={this.state.barcodeList.length == 0} onClick={() => this.setState({ barcodeConfirm: true })}
+                            type="button" className="btn btn-primary mx-1 btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print Barcode
-                        </button>
+                        </button> */}
+
+                        <Dropdown className="mx-1 float-right" alignRight={true}>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">Print Barcodes</Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item as="button" onClick={() => this.setState({ allBarcodeConfirm: true })}>All</Dropdown.Item>
+                                <Dropdown.Item as="button" disabled={this.state.barcodeList.length == 0} onClick={() => this.setState({ barcodeConfirm: true })}>Selected</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
 
                     </Col>
                 </Row>
@@ -487,10 +496,10 @@ class BookCopy extends React.Component {
                 {/* <Header /> */}
                 <Container className="mt-3" fluid>
                     <Card className="shadow">
-                    <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
-                    <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
-                    <CommonConfirmModal title="Print barcode" show={this.state.barcodeConfirm} hide={() => this.setState({barcodeConfirm:false})} clickConfirm={() => this.handlePrintBarcode()} msg="Do you want to print selected barcodes?" />
-                    <CommonConfirmModal title="Print all barcode" show={this.state.allBarcodeConfirm} hide={() => this.setState({allBarcodeConfirm:false})} clickConfirm={() => this.handlePrintAllBarcode()} msg="Do you want to print all searched barcodes?" />
+                        <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                        <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
+                        <CommonConfirmModal title="Print barcode" show={this.state.barcodeConfirm} hide={() => this.setState({ barcodeConfirm: false })} clickConfirm={() => this.handlePrintBarcode()} msg="Do you want to print selected barcodes?" />
+                        <CommonConfirmModal title="Print all barcode" show={this.state.allBarcodeConfirm} hide={() => this.setState({ allBarcodeConfirm: false })} clickConfirm={() => this.handlePrintAllBarcode()} msg="Do you want to print all searched barcodes?" />
 
                         {display}
                     </Card>

@@ -64,15 +64,15 @@ var routes = [
   },
   {
     path: "/copy",
-    name: "Other copies",
+    name: "Copy management",
     icon: "ni ni-books text-primary",
     component: BookCopy,
     layout: "/librarian",
     invisible: true
   },
   {
-    path: "/inprocess",
-    name: "In Process",
+    path: "/tagCopy",
+    name: "Tag copy",
     icon: "ni ni-books text-primary",
     component: InProcess,
     layout: "/librarian",
@@ -82,8 +82,8 @@ var routes = [
     isMultiLevel: true,
     groupName: "Book copies",
     groupId: "bookCopies",
-    paths: ["/inprocess", "/copy"],
-    names: ["In process", "Other"],
+    paths: ["/tagCopy", "/copy"],
+    names: ["Tag copy", "Copy management"],
     layout: "/librarian",
   },
   {

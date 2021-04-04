@@ -18,7 +18,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import { FormControl, InputGroup, Row, Col, Modal, Button } from 'react-bootstrap'
+import { FormControl, InputGroup, Row, Col, Modal, Button, Dropdown } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
 import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
@@ -457,22 +457,31 @@ class InProcess extends React.Component {
                         </button> */}
 
                         <button onClick={() => this.setState({ tagFormShow: true })}
-                            type="button" className="btn mr-2 btn-primary btn-fill float-right" >
+                            type="button" className="btn btn-primary mx-1 btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Tag RFID
                         </button>
 
-                        <button onClick={() => this.setState({allBarcodeConfirm:true})}
-                            type="button" className="btn btn-primary btn-fill float-right" >
+                        {/* <button onClick={() => this.setState({allBarcodeConfirm:true})}
+                            type="button" className="btn btn-primary mx-1 btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print All Barcode
-                        </button>
+                        </button> */}
 
-                        <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
-                            type="button" className="btn btn-primary btn-fill float-right" >
+                        {/* <button disabled={this.state.barcodeList.length==0} onClick={() => this.setState({barcodeConfirm:true})}
+                            type="button" className="btn btn-primary mx-1 btn-fill float-right" >
                             <span className="btn-label">
                             </span> Print Barcode
-                        </button>
+                        </button> */}
+
+                        <Dropdown className="mx-1 float-right" alignRight={true}>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">Print Barcodes</Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item as="button" onClick={() => this.setState({ allBarcodeConfirm: true })}>All</Dropdown.Item>
+                                <Dropdown.Item as="button" disabled={this.state.barcodeList.length == 0} onClick={() => this.setState({ barcodeConfirm: true })}>Selected</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
 
                     </Col>
                 </Row>
