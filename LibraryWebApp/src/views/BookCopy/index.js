@@ -438,6 +438,7 @@ class BookCopy extends React.Component {
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
                         </InputGroup>
+                        <span>Found {this.props.totalSize} results</span>
                     </Col>
                     <Col className="col-2">
                         <Select
