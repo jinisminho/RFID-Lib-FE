@@ -28,6 +28,7 @@ export default class DatePicker extends Component {
           singleDatePicker: true,
           showDropdowns: true,
           startDate: moment(),
+          maxDate: moment(),
           minYear: 1901,
           maxYear: parseInt(moment().format('YYYY'), 10),
           locale: {
@@ -37,7 +38,7 @@ export default class DatePicker extends Component {
         onCallback={(start) => {
           this.props.onChange(start.format(MyConstant.DATE_PICKER_FORMAT));
         }}
-        
+
       >
         <input type="text" className="form-control col-4" />
       </DateRangePicker>
