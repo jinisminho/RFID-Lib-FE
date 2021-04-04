@@ -38,29 +38,26 @@ import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 const renderField = ({ input, isRequired, placeholder, type, meta: { touched, error }, title }) => (
     <>
         <Row>
-            <Col lg="3">
-                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
-            </Col>
-            <Col lg="9">
-                <InputGroup className="input-group-alternative">
-                    <Input {...input} placeholder={placeholder} type={type} />
-                    {touched && ((error && <OverlayTrigger
-                        trigger={['hover', 'focus']}
-                        placement="right"
-                        overlay={
-                            <Popover>
-                                <Popover.Content>
-                                    <span className="text-danger">{error}</span>
-                                </Popover.Content>
-                            </Popover>
-                        }
-                    >
-                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                    </OverlayTrigger>))}
-                </InputGroup>
-            </Col>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
         </Row>
-
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
     </>
 )
 
