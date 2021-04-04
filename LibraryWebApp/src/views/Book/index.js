@@ -277,7 +277,7 @@ class Book extends React.Component {
             members: barcode,
             img: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.img : '',
             id: this.props.bookCopyData ? this.props.bookCopyData.bookInfo.bookId : '',
-            priceNote: this.state.note ? this.state.note : '',
+            note: this.state.note ? this.state.note : '',
         };
     }
     handleConfirmCancel = () => {
