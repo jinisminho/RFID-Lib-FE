@@ -56,14 +56,14 @@ var routes = [
   },
   {
     path: "/checkoutInfo",
-    name: "Checkout Information",
+    name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInf,
     layout: "/patron"
   },
   {
     path: "/searchbook",
-    name: "Search Book",
+    name: "Search book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/patron"
