@@ -42,6 +42,7 @@ class BookCopy extends React.Component {
         super(props);
         this.state = {
             searchValue: '',
+            defaultSearchValue: '',
             successNotice: '',
             successShow: false,
             errorShow: false,
@@ -69,14 +70,21 @@ class BookCopy extends React.Component {
     }
     componentDidMount() {
         if (!this.state.copyStatus) {
-            let copyStatus = []
-            Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).forEach(el => {
-                if (el != "IN_PROCESS") copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
+            let copyStatusSelectList = []
+            let copyStatusList = Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).filter(function(value) {
+                return value != "IN_PROCESS";
+              });
+            let searchValues = [];  
+            copyStatusList.forEach(el => {
+                searchValues.push(el)
+                copyStatusSelectList.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
             })
-            this.setState({ copyStatus: copyStatus })
+            this.setState({ copyStatus: copyStatusSelectList, selectValue: searchValues, defaultSearchValue: searchValues,}, () => {
+                this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
+            })
         }
         this.getCopyTypes()
-        this.fetchData()
+        // this.fetchData()
     }
     componentDidUpdate() {
         // console.log(this.props.printBarcodeSuccess)
@@ -214,6 +222,8 @@ class BookCopy extends React.Component {
             values.forEach(el => {
                 tmp.push(el["value"])
             });
+        } else {
+            tmp = this.state.defaultSearchValue
         }
         this.setState({ selectValue: tmp }, () => {
             this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
@@ -441,6 +451,7 @@ class BookCopy extends React.Component {
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
                         </InputGroup>
+                        <span>Found {this.props.totalSize} results</span>
                     </Col>
                     <Col className="col-2">
                         <Select
