@@ -42,6 +42,7 @@ class BookCopy extends React.Component {
         super(props);
         this.state = {
             searchValue: '',
+            defaultSearchValue: '',
             successNotice: '',
             successShow: false,
             errorShow: false,
@@ -58,7 +59,8 @@ class BookCopy extends React.Component {
             copyStatus: null,
             barcodeList: [],
             barcodeConfirm: false,
-            allBarcodeConfirm: false
+            allBarcodeConfirm: false,
+            note: ""
         }
         this.fetchData = this.fetchData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -68,14 +70,21 @@ class BookCopy extends React.Component {
     }
     componentDidMount() {
         if (!this.state.copyStatus) {
-            let copyStatus = []
-            Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).forEach(el => {
-                if (el != "IN_PROCESS") copyStatus.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
+            let copyStatusSelectList = []
+            let copyStatusList = Object.keys(MyConstant.BOOK_COPY_STATUS_LIST).filter(function(value) {
+                return value != "IN_PROCESS";
+              });
+            let searchValues = [];  
+            copyStatusList.forEach(el => {
+                searchValues.push(el)
+                copyStatusSelectList.push({ "value": el, "label": MyConstant.BOOK_COPY_STATUS_LIST[el] })
             })
-            this.setState({ copyStatus: copyStatus })
+            this.setState({ copyStatus: copyStatusSelectList, selectValue: searchValues, defaultSearchValue: searchValues,}, () => {
+                this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
+            })
         }
         this.getCopyTypes()
-        this.fetchData()
+        // this.fetchData()
     }
     componentDidUpdate() {
         // console.log(this.props.printBarcodeSuccess)
@@ -135,7 +144,8 @@ class BookCopy extends React.Component {
             addFormShow: false,
             cancelAdd: true,
             price: null,
-            copyType: null
+            copyType: null,
+            note: ""
         })
     }
     fetchData(page = this.props.page, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue, selectValue = this.state.selectValue) {
@@ -146,7 +156,7 @@ class BookCopy extends React.Component {
         this.props.onGetCopyType()
     }
     handleGenerateSubmit(values) {
-        this.setState({ addFormShow: false, price: values.price, copyType: values.copyTypeId })
+        this.setState({ addFormShow: false, price: values.price, copyType: values.copyTypeId, note: values.note == "Other" ? values.otherNote : values.note })
         this.props.onGenerateBarcode(values)
     }
     handleModalClose() {
@@ -211,6 +221,8 @@ class BookCopy extends React.Component {
             values.forEach(el => {
                 tmp.push(el["value"])
             });
+        } else {
+            tmp = this.state.defaultSearchValue
         }
         this.setState({ selectValue: tmp }, () => {
             this.fetchData(1, 10, this.state.searchValue, this.state.selectValue)
