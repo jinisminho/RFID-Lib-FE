@@ -37,7 +37,7 @@ class Logs extends React.Component {
         this.handleFormControl = this.handleFormControl.bind(this);
         this.fetchDataAlarmLogs = this.fetchDataAlarmLogs.bind(this);
         this.handlePageChangeLog = this.handlePageChangeLog.bind(this);
-        
+
     }
 
     componentDidMount() {
@@ -135,35 +135,10 @@ class Logs extends React.Component {
         let log = this.props.log ? (
             <div className="content mt-7 mt-md-3">
                 <Row className="w-100 m-0 p-0">
-                    <Col xs={12} xl={2} className="pl-4">
-                        <InputGroup className="">
-                            <InputGroup.Prepend>
-                                <Button onClick={() => this.setState({ calendarShow: !this.state.calendarShow })}><i className="ni ni-calendar-grid-58" /></Button>
-                            </InputGroup.Prepend>
-                            <FormControl
-                                className="pl-5"
-                                placeholder="Choose date for logs..."
-                                aria-label="Choose date for logs..."
-                                aria-describedby="basic-addon2"
-                                value={this.state.formValue ? this.state.formValue : moment(MyUtil.convertToDate(this.state.date)).format(MyConstant.DATE)}
-                                onChange={this.handleFormControl}
-                            />
-
-                        </InputGroup>
-                        {/* {calendar} */}
+                    <Col xs={12} xl={4} className="pl-4">
+                        <DatePicker onChange={this.handleSelect} />
                     </Col>
-                    <Col xs={12} xl={10} className="pr-4 pull-right">
-
-                    </Col>
-                </Row>
-                <Row className="w-100 m-0 p-0">
-                    <Col xs={1} md={0} className="">
-
-                    </Col>
-                    <Col xs={10} md={12} className="">
-                        {calendar}
-                    </Col>
-                    <Col xs={1} md={0} className="">
+                    <Col xs={12} xl={8} className="pr-4 pull-right">
 
                     </Col>
                 </Row>
