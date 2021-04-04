@@ -522,7 +522,9 @@ export const printAllBarcodeSuccess = () => {
 export const printAllBarcode = (data) => {
     return dispatch => {
         dispatch(printAllBarcodeStart())
-        let url='/copy/printAllBarcodes'
+        let search=data.searchValue?data.searchValue:""
+        let select=data.status.length>0?data.status.join(","):""
+        let url='/copy/printAllBarcodes'+"?searchValue="+search+"&status="+select
         axios.post(url,data, { withCredentials: true,responseType: 'blob'})
             .then(response => {
                 dispatch(printAllBarcodeSuccess())
