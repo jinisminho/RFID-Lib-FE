@@ -258,6 +258,16 @@ class Misplace extends React.Component {
         })
     }
 
+    cancelChecking() {
+        this.props.onClearBook()
+        this.setState({
+            bookSearchValue: "",
+            missingBooks: null,
+            isCheckScanning: false,
+            isPositionScanning: true,
+        })
+    }
+
     finishChecking(e) {
         e.target.blur()
 
@@ -512,7 +522,7 @@ class Misplace extends React.Component {
                                 <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.finishChecking(e)} disabled={!this.props.bookData}> {this.state.missingBooks ? "Clear" : "Finish"} </button>
                             </div>
                             <div>
-                                <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => this.startScanChecking(e)} disabled={!this.state.selectPositionId}> Start </button>
+                                <button className="btn btn-fill btn-primary float-right mr-1" onClick={(e) => { if (!this.state.isCheckScanning) this.startScanChecking(e); else this.cancelChecking(e) }} disabled={!this.state.selectPositionId}> {this.state.isCheckScanning ? "Cancel" : "Start"} </button>
                             </div>
                         </Col>
 
