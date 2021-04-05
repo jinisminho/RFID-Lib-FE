@@ -63,7 +63,7 @@ class BookStu extends React.Component {
         return row.bookCopyType.name
     }
     quantityFormatter(cell, row) {
-        return row.maxBorrowNumber + " books/borrow"
+        return row.maxBorrowNumber + " books"
     }
     dueFormatter(cell, row) {
         return row.dueDuration + " days"
@@ -95,10 +95,10 @@ class BookStu extends React.Component {
                             bordered={false}
                             keyField="id"
                         >
-                            <TableHeaderColumn dataField="category" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" dataFormat={this.categoryFormatter} width="25%">Category</TableHeaderColumn>
-                            <TableHeaderColumn dataField="quantity" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.quantityFormatter}>Quantity</TableHeaderColumn>
-                            <TableHeaderColumn dataField="action" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.dueFormatter}>Due</TableHeaderColumn>
-                            <TableHeaderColumn dataField="renewTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.renewFormatter}>Renew</TableHeaderColumn>
+                            <TableHeaderColumn dataField="category" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" dataFormat={this.categoryFormatter} width="25%">Book Group</TableHeaderColumn>
+                            <TableHeaderColumn dataField="quantity" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.quantityFormatter}>Checkouts Allowed</TableHeaderColumn>
+                            <TableHeaderColumn dataField="action" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.dueFormatter}>Borrow Period</TableHeaderColumn>
+                            <TableHeaderColumn dataField="renewTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.renewFormatter}>Renewal Allowed</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 )
@@ -127,9 +127,11 @@ class BookStu extends React.Component {
                         </ul>
                         </li>
                     </ul>
-                    <p>*Does not include Saturdays and Sundays.</p>
-                    <p>**Lost book’s price is based on what the library recorded when the book is added to the library multiplied by {this.props.data?this.props.data.feePolicy.maxPercentageOverdue:""}%.</p>
-                    <p>***The fine policy used is the policy in circulation when the book was borrowed, not the latest circulation policy</p>
+                    <i>
+                        <p>*Does not include Saturdays and Sundays.</p>
+                        <p>**Lost book’s price is based on what the library recorded when the book is added to the library multiplied by {this.props.data?this.props.data.feePolicy.maxPercentageOverdue:""}%.</p>
+                        <p>***The fine policy used is the policy in circulation when the book was borrowed, not the latest circulation policy</p>
+                    </i>
                 </div>
                 <div>
                     <h2>Self-Service</h2>
@@ -137,7 +139,7 @@ class BookStu extends React.Component {
                         <li>Self-service machine: Patron can checkout (borrow) or return books at the self-service machines. Self-service machines can be found inside the library area.</li>
                         <li>Book drop station: Patron can return books at the book drop stations without having to come directly to the library. Book drop stations can be found at some places in the school campus.</li>
                     </ul>
-                    <p>Note: Overdue books can only be returned at the librarian counter.</p>
+                    <p><i>Note: Overdue books can only be returned at the librarian counter.</i></p>
                 </div>
                 <div>
                     <h2>Library Staff</h2>
