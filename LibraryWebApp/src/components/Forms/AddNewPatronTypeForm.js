@@ -74,8 +74,8 @@ const validate = values => {
     if (!values.maxBorrowNumber) {
         errors.maxBorrowNumber = 'Max borrow number is required';
     }
-    if (MyConstant.MIN_NUMBER_BORROW > values.maxBorrowNumber || values.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW) {
-        errors.maxBorrowNumber = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+    if (MyConstant.MIN_NUMBER_BORROW_PAT > values.maxBorrowNumber || values.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW_PAT) {
+        errors.maxBorrowNumber = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
     }
     return errors
 }

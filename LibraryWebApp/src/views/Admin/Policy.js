@@ -221,11 +221,11 @@ class Policy extends React.Component {
         if (MyConstant.MIN_EXTEND_DUE_DURATION > value.extendDueDuration || value.extendDueDuration > MyConstant.MAX_EXTEND_DUE_DURATION) {
             return "Renew due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
         }
-        if (MyConstant.MIN_NUMBER_BORROW > value.maxBorrowNumber || value.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW) {
-            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+        if (MyConstant.MIN_NUMBER_BORROW_PAT > value.maxBorrowNumber || value.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW_PAT) {
+            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
         }
         if (MyConstant.MIN_NUMBER_BORROW > value.maxNumberCopyBorrow || value.maxNumberCopyBorrow > MyConstant.MAX_NUMBER_BORROW) {
-            return "Max max borrow number must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
         }
         if (MyConstant.MIN_EXTEND_TIME > value.maxExtendTime || value.maxExtendTime > MyConstant.MAX_EXTEND_TIME) {
             return "Max renew time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME

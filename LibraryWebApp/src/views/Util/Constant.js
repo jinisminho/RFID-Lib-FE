@@ -32,7 +32,10 @@ export const BOOK_DISCARD = "DISCARD"
 
 //PolicyConstant
 export const MAX_NUMBER_BORROW = 100;
-export const MIN_NUMBER_BORROW = 0;
+export const MIN_NUMBER_BORROW = 1;
+
+export const MAX_NUMBER_BORROW_PAT = 100;
+export const MIN_NUMBER_BORROW_PAT = 0;
 
 export const MAX_EXTEND_TIME = 100;
 export const MIN_EXTEND_TIME = 0;
