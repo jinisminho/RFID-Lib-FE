@@ -34,10 +34,10 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder, type, meta: { touched, error }, title, isRequired }) => (
     <>
         <Row>
-            <Label>{title}</Label>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
         </Row>
         <Row>
             <InputGroup className="input-group-alternative">
@@ -62,11 +62,11 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
 const renderSelectOptions = (option) => (
     <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
 )
-const renderSelectField = ({ input, meta: { touched, error }, title, options }) => {
+const renderSelectField = ({ input, meta: { touched, error }, title, options, isRequired }) => {
     return (
         <>
             <Row>
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Row>
             <Row >
                 <InputGroup className="input-group-alternative">
@@ -94,11 +94,11 @@ const renderSelectField = ({ input, meta: { touched, error }, title, options }) 
 const renderSelectOptionsPatron = (option) => (
     <option key={option.id} value={option.id}>{option.name}</option>
 )
-const renderSelectPatron = ({ input, meta: { touched, error }, title, options }) => {
+const renderSelectPatron = ({ input, meta: { touched, error }, title, options, isRequired }) => {
     return (
         <>
             <Row>
-                <Label>{title}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Row>
             <Row >
                 <InputGroup className="input-group-alternative">
@@ -211,6 +211,7 @@ class StudentForm extends Component {
                                             name="rfid"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter RFID Number"
                                             title="RFID Number"
                                         />
@@ -222,6 +223,7 @@ class StudentForm extends Component {
                                             name="fullName"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter Staff Full Name"
                                             title="Name"
                                         />
@@ -233,6 +235,7 @@ class StudentForm extends Component {
                                             name="email"
                                             component={renderField}
                                             type="email"
+                                            isRequired
                                             placeholder="Email"
                                             title="Email"
                                         />
@@ -244,6 +247,7 @@ class StudentForm extends Component {
                                             name="phone"
                                             component={renderField}
                                             type="text"
+                                            isRequired
                                             placeholder="Enter phone number"
                                             title="Phone"
                                         />
@@ -265,6 +269,7 @@ class StudentForm extends Component {
                                     <Field
                                         name="gender"
                                         title="Gender"
+                                        isRequired
                                         options={Object.keys(MyConstant.GENDER_LIST)}
                                         component={renderSelectField} />
                                         </FormGroup>
@@ -276,6 +281,7 @@ class StudentForm extends Component {
                                         type="select"
                                         placeholder="Select Patron Type"
                                         title="Patron Type"
+                                        isRequired
                                         options={this.props.patronTypes}
                                         component={renderSelectPatron} />
                                         </FormGroup>
@@ -294,16 +300,21 @@ class StudentForm extends Component {
                         </Col> */}
 
                     </Row>
-                    <div className="text-right">
-                        <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
-                            <span className="btn-label">
-                            </span> Cancel
-                </button>
-                        <button type="submit" className="btn btn-wd btn-success ">
-                            <span className="btn-label">
-                            </span> Save
-                </button>
+                    <div className="row">
+                    <div className="col-6 text-left">
+                        <span className="text-danger">* Required field</span>
                     </div>
+                    <div className="col-6 text-right">
+                    <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
+                        <span className="btn-label">
+                        </span> Cancel
+                </button>
+                    <button type="submit" className="btn btn-wd btn-success ">
+                        <span className="btn-label">
+                        </span> Save
+                </button>
+                </div>
+                </div>
                 </Form>
             </CardBody>
         </Card>
