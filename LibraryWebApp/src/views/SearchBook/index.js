@@ -79,9 +79,11 @@ class SearchBook extends React.Component {
     }
     bookDescriptionFormat(cell, row) {
         let position = ""
+        let positionClass= ""
         position = row.positionList.map(el => "Shelf: " + el.shelf + "-Row: " + el.line).join(", ")
         if (position == "") {
             position = "No longer available"
+            positionClass = "text-danger"
         } else if (position == "Shelf: N/A-Row: N/A") {
             position = "N/A"
         }
@@ -89,7 +91,7 @@ class SearchBook extends React.Component {
         return (
             <div>
                 <h2 className="font-weight-bolder">{row.title}{row.subtitle ? ":" + " " + row.subtitle : ""}</h2>
-                <p><span className="font-weight-bold">Locations:</span> {position}</p>
+                <p><span className="font-weight-bold">Locations:</span> <span className={positionClass}>{position}</span></p>
                 <p><span className="font-weight-bold">Call Number:</span> {row.callNumber}</p>
             </div>
         )
