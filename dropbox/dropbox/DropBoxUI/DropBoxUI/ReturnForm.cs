@@ -280,7 +280,7 @@ namespace DropBoxUI
                 else if (numberOfBookScanned > 1)
                 {
                     txtMessage.ForeColor = Color.Red;
-                    txtMessage.Text = "Only one 1 item each transaction. Please take your items out. The door will close in     few second.";
+                    txtMessage.Text = "Only one 1 item each transaction. Please take your items out. The door will close in few second.";
                     processStatus = ProcessStatus.ERROR;
                     openFrontDoor();
                 }
