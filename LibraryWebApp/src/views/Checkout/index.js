@@ -369,11 +369,21 @@ class Checkout extends React.Component {
         }
         let reasonConfirm = null
         let submitFunction = () => this.checkout()
+        let warning = null
         if (this.props.warning != null) {
             submitFunction = () => this.props.onSubmitConfirmForm()
             reasonConfirm = (<Row className="w-100">
                 <CheckoutConfirmForm onSubmit={(values) => this.checkout(values)} />
             </Row>)
+            let tmp = this.props.warning.map((el,index)=>(<li key={index}>{el}</li>))
+            warning=(
+                <>
+                    <h3 className="text-warning">Warning:</h3>
+                    <ul>
+                    {tmp}
+                    </ul>
+                </>
+            )
         }
         let toast = this.props.invalidBook.map((el, index) => {
             let msg = ""
@@ -399,9 +409,35 @@ class Checkout extends React.Component {
                     onScan={this.handleScan}
                     onError={(e) => console.log(e)}
                 />
+                {
+                    this.props.invalidBook.length>0?
+                <div
+                    aria-live="polite"
+                    aria-atomic="true"
+                    style={{
+                        position: 'absolute',
+                        minHeight: '200px',
+                        minWidth:'400px',
+                        zIndex: '5000',
+                        top:0,
+                        right:0
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                        }}
+                    >
+                        {toast}
+                    </div>
+                </div>:null
+                }
                 {studentDisplay}
                 {overdueDisplay}
                 {bookDisplay}
+                
                 <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
                 <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.state.errMsg} />
                 <CommonErrorModal show={this.state.bookErrorShow} hide={() => this.clearBookError()} msg={this.state.bookErrMsg} />
@@ -409,8 +445,7 @@ class Checkout extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm checkout</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <h2 className="text-warning">{this.props.warning}</h2>
+                    <Modal.Body>
                         <BootstrapTable
                             data={this.props.validBook}
                             options={options}
@@ -430,9 +465,12 @@ class Checkout extends React.Component {
                             <TableHeaderColumn dataField="dueAt" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataAlign="center" width="13%" headerAlign="center">Due At</TableHeaderColumn>
                         </BootstrapTable>
                         {reasonConfirm}
+                        <div style={{maxHeight:"200px", overflowY:"scroll"}}>
+                            {warning}
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <span className="text-danger">* Required field</span>
+                        {this.props.warning?<span className="text-danger">* Required field</span>:null}
                         <Button variant="secondary" onClick={() => this.handleConfirmCancel()}>
                             Close
                                 </Button>
@@ -441,24 +479,7 @@ class Checkout extends React.Component {
                                 </Button>
                     </Modal.Footer>
                 </Modal>
-                <div
-                    aria-live="polite"
-                    aria-atomic="true"
-                    style={{
-                        position: 'relative',
-                        minHeight: '200px',
-                    }}
-                >
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                        }}
-                    >
-                        {toast}
-                    </div>
-                </div>
+                
             </>
         );
     }

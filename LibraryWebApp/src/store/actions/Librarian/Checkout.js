@@ -217,7 +217,7 @@ export const checkPolicy = (data,patronid,libid) => {
             .then(response => {
                 let warning=null
                 if(response.data.duplicateBook || response.data.haveOverdueCopies || response.data.violatePolicy){
-                    warning=response.data.reasons.join(", ")
+                    warning=response.data.reasons
                 }
                 dispatch(checkPolicySuccess(warning))
             })
