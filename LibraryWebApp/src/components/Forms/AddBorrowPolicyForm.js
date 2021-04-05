@@ -111,30 +111,28 @@ const renderSelectOptions = (option) => (
 const renderSelectField = ({ input, isRequired, meta: { touched, error }, title, options }) => (
     <>
         <Row>
-            <Col lg="3">
-                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
-            </Col>
-            <Col lg="9">
-                <InputGroup className="input-group-alternative">
-                    <select {...input} className="form-control">
-                        <option value="">Select</option>
-                        {options ? options.map(renderSelectOptions) : null}
-                    </select>
-                    {touched && ((error && <OverlayTrigger
-                        trigger={['hover', 'focus']}
-                        placement="right"
-                        overlay={
-                            <Popover>
-                                <Popover.Content>
-                                    <span className="text-danger">{error}</span>
-                                </Popover.Content>
-                            </Popover>
-                        }
-                    >
-                        <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-                    </OverlayTrigger>))}
-                </InputGroup>
-            </Col>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <select {...input} className="form-control">
+                    <option value="">Select</option>
+                    {options ? options.map(renderSelectOptions) : null}
+                </select>
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
         </Row>
     </>
 )
@@ -168,7 +166,7 @@ class AddBorrowPolicyForm extends React.Component {
                     <Form onSubmit={handleSubmit}>
                         <Row>
                             <Col lg="6">
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 mr-2">
                                     <Field
                                         name="patronTypeId"
                                         title="Patron Type"
@@ -178,7 +176,7 @@ class AddBorrowPolicyForm extends React.Component {
                                     </Field>
                                 </FormGroup>
 
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 mr-2">
                                     <Field
                                         name="bookCopyTypeId"
                                         title="Copy Type"
@@ -190,7 +188,7 @@ class AddBorrowPolicyForm extends React.Component {
 
                             </Col>
                             <Col lg="6" className="border-left">
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 ml-2">
                                     <Field
                                         name="dueDuration"
                                         type="number"
@@ -200,7 +198,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 ml-2">
                                     <Field
                                         name="maxNumberCopyBorrow"
                                         type="number"
@@ -210,7 +208,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 ml-2">
                                     <Field
                                         name="maxExtendTime"
                                         type="number"
@@ -220,7 +218,7 @@ class AddBorrowPolicyForm extends React.Component {
                                         isRequired={true}
                                         component={renderField} />
                                 </FormGroup>
-                                <FormGroup className="mb-3">
+                                <FormGroup className="mb-3 ml-2">
                                     <Field
                                         name="extendDueDuration"
                                         type="number"
