@@ -43,7 +43,7 @@ class BookCopyDetail extends React.Component {
             + (thisCopy.borrower.email ? (thisCopy.borrower.profile.fullName ? " - " : "") + thisCopy.borrower.email : "") + (thisCopy.borrower.profile.phone ? (thisCopy.borrower.email || thisCopy.borrower.profile.fullName ? " - " : "") + thisCopy.borrower.profile.phone : "") : statusFormatted;
 
         let locationFormatted = thisLoc ? ((thisLoc.floor ? "Floor: " + thisLoc.floor : "") + (thisLoc.shelf ? (thisLoc.floor ? " - " : "") + "Shelf: " + thisLoc.shelf : "") + (thisLoc.line ? (thisLoc.floor || thisLoc.shelf? " - " : "") + "Row: " + thisLoc.line : "")) : null;
-        if (locationFormatted = "Shelf: N/A - Row: N/A"){
+        if (thisLoc && thisLoc.shelf == "N/A" && thisLoc.line == "N/A"){
             locationFormatted = "N/A"
         }
 
