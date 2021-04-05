@@ -76,7 +76,7 @@ class Sidebar extends React.Component {
           <NavItem >
             <NavLink
               onClick={() => this.setState({ multiLevelOpen: this.state.multiLevelOpen == prop.groupId ? null : prop.groupId })}
-              style={prop.groupId == this.state.multiLevelOpen ? { backgroundColor: "#87CEFA", color: "black", fontSize: "18px", borderLeft: "3px solid #1E90FF" } : null}
+              style={prop.groupId == this.state.multiLevelOpen ? { backgroundColor: "#87CEFA", color: "black", fontSize: "15px", borderLeft: "3px solid #1E90FF" } : null}
             >
               {prop.groupName}
               {prop.groupId == this.state.multiLevelOpen ? <span>&emsp;&#9660;</span> : <span>&emsp;&#9654;</span>}
