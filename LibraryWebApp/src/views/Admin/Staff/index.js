@@ -349,8 +349,8 @@ class Staff extends React.Component {
                         <StaffUpdateForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <CommonConfirmModal title="Disable Student" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this librarian?" />
-                <CommonConfirmModal title="Activate Student" show={this.state.confirmActiveStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(true)} msg="Do you want to activate this librarian?" />
+                <CommonConfirmModal title="Disable Patron" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this librarian?" />
+                <CommonConfirmModal title="Activate Patron" show={this.state.confirmActiveStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(true)} msg="Do you want to activate this librarian?" />
                 
             </div>
         )

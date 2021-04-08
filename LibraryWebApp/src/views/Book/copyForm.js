@@ -26,14 +26,12 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroup,
     Label,
     Row,
-    Col
 } from "reactstrap";
-import { Popover, OverlayTrigger } from 'react-bootstrap'
+import { Popover, OverlayTrigger,InputGroup } from 'react-bootstrap'
 import {BOOK_COPY_PRICE_NOTE} from '../Util/Constant'
-const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title,isPrice }) => (
     <>
         <Row>
             <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
@@ -41,6 +39,9 @@ const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { t
         <Row>
             <InputGroup className="input-group-alternative">
                 <Input {...input} disabled={disabled} placeholder={placeholder} type={type} />
+                {isPrice && <InputGroup.Append>
+                               <button className="btn btn-simple"><span className="font-weight-bold">VND</span></button> 
+                </InputGroup.Append>}
                 {touched && ((error && <OverlayTrigger
                     trigger={['hover', 'focus']}
                     placement="right"
@@ -231,6 +232,7 @@ class CopyForm extends Component {
                         placeholder="Price"
                         isRequired={true}
                         title="Price"
+                        isPrice
                         normalize={validateNumber}
                         component={renderField} />
                 </FormGroup>

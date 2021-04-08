@@ -63,13 +63,13 @@ class Student extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add student successfully"
+            msg = "Add patron successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update student successfully"
+            msg = "Update patron successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Change student status successfully"
+            msg = "Change patron status successfully"
         }
         if (this.props.importSuccess) {
             msg = "Import patron successfully"
@@ -394,8 +394,8 @@ class Student extends React.Component {
                             onSubmit={(values) => this.handleImportSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <CommonConfirmModal title="Disable Student" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this patron?" />
-                <CommonConfirmModal title="Activate Student" show={this.state.confirmActiveStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(true)} msg="Do you want to activate this patron?" />
+                <CommonConfirmModal title="Disable Patron" show={this.state.confirmDisableStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(false)} msg="Do you want to disable this patron?" />
+                <CommonConfirmModal title="Activate Patron" show={this.state.confirmActiveStatus} hide={() => this.handleChangeStatusCancel()} clickConfirm={() => this.handleChangeStatusSubmit(true)} msg="Do you want to activate this patron?" />
             </div>
         )
         if (this.props.loading) {

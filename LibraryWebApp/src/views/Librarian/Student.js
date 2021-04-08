@@ -61,7 +61,7 @@ class Student extends React.Component {
         //     msg = "Update student successfully"
         // }
         if (this.props.deleteSuccess) {
-            msg = "Change student status successfully"
+            msg = "Change patron status successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -344,7 +344,7 @@ class Student extends React.Component {
                 </Modal> */}
                 <Modal backdrop="static" show={this.state.confirmDisableStatus} onHide={() => this.handleChangeStatusCancel()}>
                     <Modal.Header className="bg-danger" closeButton>
-                        <Modal.Title>Disable Student</Modal.Title>
+                        <Modal.Title>Disable Patron</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
@@ -361,7 +361,7 @@ class Student extends React.Component {
                 </Modal>
                 <Modal backdrop="static" show={this.state.confirmActiveStatus} onHide={() => this.handleChangeStatusCancel()}>
                     <Modal.Header className="bg-primary" closeButton>
-                        <Modal.Title>Activate Student</Modal.Title>
+                        <Modal.Title>Activate Patron</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         <h1>Are you sure?</h1>
