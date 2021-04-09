@@ -287,10 +287,10 @@ class Policy extends React.Component {
                 >
                     <TableHeaderColumn dataField="patronType" dataAlign="center" dataFormat={this.protoTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration (Days)</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxNumberCopyBorrow" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Renew Time</TableHeaderColumn>
-                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renew Due Duration (Days)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrow Period (Days)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxNumberCopyBorrow" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Checkouts Allowed (Count)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxExtendTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewals Allowed (Count)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="extendDueDuration" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewal Period (Days)</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.borrowActionFormatter} editable={false}>Action</TableHeaderColumn> */}
                 </BootstrapTable>
 
@@ -325,7 +325,7 @@ class Policy extends React.Component {
                 // cellEdit={cellEditProp}
                 >
                     <TableHeaderColumn dataField="name" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxBorrowNumber" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Total Checkouts Allowed</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false}>Action</TableHeaderColumn> */}
                 </BootstrapTable>
 
@@ -362,7 +362,7 @@ class Policy extends React.Component {
                 // cellEdit={cellEditProp_fee}
                 >
                     <TableHeaderColumn dataField="overdueFinePerDay" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine (%)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxPercentageOverdueFine" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Overdue Fine (% of Book Price)</TableHeaderColumn>
                     <TableHeaderColumn dataField="documentProcessing_Fee" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
                     <TableHeaderColumn dataField="createdAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>

@@ -325,10 +325,10 @@ class Policy extends React.Component {
                 >
                     <TableHeaderColumn dataField="patronType" dataAlign="center" dataFormat={this.protoTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="dueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "dueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Due Duration (Days)</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxNumberCopyBorrow" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxNumberCopyBorrow") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxExtendTime" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxExtendTime") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Renew Time</TableHeaderColumn>
-                    <TableHeaderColumn dataField="extendDueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "extendDueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renew Due Duration (Days)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="dueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "dueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrow Period (Days)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxNumberCopyBorrow" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxNumberCopyBorrow") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Checkouts Allowed (Count)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxExtendTime" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxExtendTime") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewals Allowed (Count)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="extendDueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "extendDueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewal Period (Days)</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="12%" dataFormat={this.borrowActionFormatter} editable={false} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
 
@@ -363,7 +363,7 @@ class Policy extends React.Component {
                     cellEdit={cellEditProp}
                 >
                     <TableHeaderColumn dataField="name" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Patron Type</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxBorrowNumber" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxBorrowNumber") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxBorrowNumber" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxBorrowNumber") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Total Checkouts Allowed</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.patronActionFormatter} editable={false} >Action</TableHeaderColumn>
                 </BootstrapTable>
 
@@ -400,7 +400,7 @@ class Policy extends React.Component {
                     cellEdit={cellEditProp_fee}
                 >
                     <TableHeaderColumn dataField="overdueFinePerDay" editable={{ validator: (value, row) => { return this.cellValidator(value, "overdueFinePerDay") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxPercentageOverdueFine" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxPercentageOverdueFine") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Percentage Overdue Fine (%)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxPercentageOverdueFine" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxPercentageOverdueFine") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Overdue Fine (% of Book Price)</TableHeaderColumn>
                     <TableHeaderColumn dataField="documentProcessing_Fee" editable={{ validator: (value, row) => { return this.cellValidator(value, "documentProcessing_Fee") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="missingDocMultiplier" editable={{ validator: (value, row) => { return this.cellValidator(value, "missingDocMultiplier") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
                     <TableHeaderColumn dataField="createdAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
