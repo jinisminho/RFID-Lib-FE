@@ -128,6 +128,7 @@ export {
     updatePatronPolicy,
     getFeePolicies,
     updateFeePolicy,
+    getTypesForBorrow,
 } from './Librarian/Policy'
 export {
     getBookLost,

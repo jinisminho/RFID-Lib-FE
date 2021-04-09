@@ -55,9 +55,9 @@ class Types extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.patron ? (this.props.patronPage != 0 && this.props.patron.length == 0) : false)
+        if (this.props.patron ? (this.props.patronPage > 1 && this.props.patron.length == 0) : false)
             this.fetchDataPatron(1);
-        if (this.props.bookCopy ? (this.props.bookCopyPage != 0 && this.props.bookCopy.length == 0) : false)
+        if (this.props.bookCopy ? (this.props.bookCopyPage > 1 && this.props.bookCopy.length == 0) : false)
             this.fetchDataBookCopy(1);
     }
 
