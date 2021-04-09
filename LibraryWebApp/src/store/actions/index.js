@@ -128,6 +128,7 @@ export {
     updatePatronPolicy,
     getFeePolicies,
     updateFeePolicy,
+    getTypesForBorrow,
 } from './Librarian/Policy'
 export {
     getBookLost,
@@ -145,7 +146,8 @@ export {
     getBookCopyTypes,
     updateBookCopyType,
     addBookCopyType,
-    deleteBookCopyType
+    deleteBookCopyType,
+    getAllCpyTypes
 } from './Common/Types'
 
 export {
