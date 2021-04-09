@@ -93,6 +93,27 @@ const deletePatronTypeFail = (state, action) => {
     })
 }
 
+//patronTypes
+const getPatronTypeStart = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: true,
+    })
+}
+const getPatronTypeSuccess = (state, action) => {
+    return updateObject(state, {
+        allPatronTypes: action.data,
+        error: null,
+        loading: false,
+    })
+}
+const getPatronTypeFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loading: false,
+    })
+}
+
 //bookCopy
 const getBookCopyTypesStart = (state, action) => {
     return updateObject(state, {
@@ -185,6 +206,28 @@ const deleteBookCopyTypeFail = (state, action) => {
     })
 }
 
+//cpyTypes
+const getAllCpyTypesStart = (state, action) => {
+
+    return updateObject(state, {
+        error: null,
+        loading: true,
+    })
+}
+const getAllCpyTypesSuccess = (state, action) => {
+    return updateObject(state, {
+        cpyTypes: action.data,
+        error: null,
+        loading: false,
+    })
+}
+const getAllCpyTypesFailed = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loading: false,
+    })
+}
+
 export default function reducer(state = {
     error: null,
     loading: false,
@@ -216,6 +259,10 @@ export default function reducer(state = {
         case actionTypes.COMMON_DELETE_PATRON_TYPE_SUCCESS: return deletePatronTypeSuccess(state, action)
         case actionTypes.COMMON_DELETE_PATRON_TYPE_FAILED: return deletePatronTypeFail(state, action)
 
+        case actionTypes.GET_PATRON_TYPE_START: return getPatronTypeStart(state, action)
+        case actionTypes.GET_PATRON_TYPE_SUCCESS: return getPatronTypeSuccess(state, action)
+        case actionTypes.GET_PATRON_TYPE_FAILED: return getPatronTypeFail(state, action)
+
         //Book Copy
         case actionTypes.COMMON_GET_BOOK_COPY_TYPES_PAGE_START: return getBookCopyTypesStart(state, action)
         case actionTypes.COMMON_GET_BOOK_COPY_TYPES_PAGE_SUCCESS: return getBookCopyTypesSuccess(state, action)
@@ -232,6 +279,10 @@ export default function reducer(state = {
         case actionTypes.COMMON_DELETE_BOOK_COPY_TYPE_START: return deleteBookCopyTypeStart(state, action)
         case actionTypes.COMMON_DELETE_BOOK_COPY_TYPE_SUCCESS: return deleteBookCopyTypeSuccess(state, action)
         case actionTypes.COMMON_DELETE_BOOK_COPY_TYPE_FAILED: return deleteBookCopyTypeFail(state, action)
+
+        case actionTypes.COMMON_GET_ALL_CPY_TYPE_START: return getAllCpyTypesStart(state, action)
+        case actionTypes.COMMON_GET_ALL_CPY_TYPE_SUCCESS: return getAllCpyTypesSuccess(state, action)
+        case actionTypes.COMMON_GET_ALL_CPY_TYPE_FAILED: return getAllCpyTypesFailed(state, action)
         
     }
     return state

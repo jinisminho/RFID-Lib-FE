@@ -146,7 +146,8 @@ export {
     getBookCopyTypes,
     updateBookCopyType,
     addBookCopyType,
-    deleteBookCopyType
+    deleteBookCopyType,
+    getAllCpyTypes
 } from './Common/Types'
 
 export {

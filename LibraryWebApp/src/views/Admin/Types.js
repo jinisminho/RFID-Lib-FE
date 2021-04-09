@@ -21,6 +21,7 @@ import CommonErrorModal from "components/Modals/CommonErrorModal"
 import moment from 'moment';
 import AddNewPatronTypeModal from "components/Modals/AddNewPatronTypeModal";
 import AddNewBookCopyTypeModal from "components/Modals/AddNewBookCopyTypeModal";
+import Select from "react-select";
 
 
 class Types extends React.Component {
@@ -54,11 +55,27 @@ class Types extends React.Component {
         this.fetchData()
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.patron ? (this.props.patronPage > 1 && this.props.patron.length == 0) : false)
             this.fetchDataPatron(1);
         if (this.props.bookCopy ? (this.props.bookCopyPage > 1 && this.props.bookCopy.length == 0) : false)
             this.fetchDataBookCopy(1);
+        if (this.props.patronTypes && this.props.patronTypes !== prevProps.patronTypes) {
+            let patTypesOpts = []
+            patTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            this.props.patronTypes.forEach(el => {
+                patTypesOpts.push({ "value": el.id, "label": el.name })
+            })
+            this.setState({ patTypesOpts: patTypesOpts })
+        }
+        if (this.props.cpyTypes && this.props.cpyTypes !== prevProps.cpyTypes) {
+            let cpyTypesOpts = []
+            cpyTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            this.props.cpyTypes.forEach(el => {
+                cpyTypesOpts.push({ "value": el.id, "label": el.name })
+            })
+            this.setState({ cpyTypesOpts: cpyTypesOpts })
+        }
     }
 
     handlePageChangeBookCopy(page, sizePerPage) {
@@ -80,12 +97,14 @@ class Types extends React.Component {
         this.fetchDataPatron(page, sizePerPage, searchValue)
     }
 
-    fetchDataBookCopy(page = this.props.bookCopyPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchDataBookCopy(page = this.props.bookCopyPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.selectedCpy) {
         this.props.onFetchDataBookCopy(page - 1, sizePerPage, searchValue)
+        this.props.onGetAllCopyTypes()
     }
 
-    fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
+    fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.selectedPat) {
         this.props.onFetchDataPatron(page - 1, sizePerPage, searchValue)
+        this.props.onGetAllPatronTypes()
     }
 
     bookCopyActionFormatter(cell, row) {
@@ -185,6 +204,32 @@ class Types extends React.Component {
         this.fetchDataPatron()
     }
 
+    handleSelectPat(el) {
+        if (el.value == "clear") {
+            this.setState({
+                selectedPat: null, selectedPatEl: null,
+            }, this.fetchDataPatron(1, this.props.sizePerPage, null))
+        }
+        else {
+            this.setState({
+                selectedPat: el.label, selectedPatEl: el,
+            }, this.fetchDataPatron(1, this.props.sizePerPage, el.label))
+        }
+    }
+
+    handleSelectCpy(el) {
+        if (el.value == "clear") {
+            this.setState({
+                selectedCpy: null, selectedCpyEl: null,
+            }, this.fetchDataBookCopy(1, this.props.sizePerPage, null))
+        }
+        else {
+            this.setState({
+                selectedCpy: el.label, selectedCpyEl: el,
+            }, this.fetchDataBookCopy(1, this.props.sizePerPage, el.label))
+        }
+    }
+
     render() {
 
         const options_book_copy = {
@@ -220,6 +265,15 @@ class Types extends React.Component {
         let book_copy_type = this.props.bookCopy ? (
             <div className="content mt-2">
                 <Row className="w-100 m-0 p-0">
+                    <Col className="col-2">
+                        <Select
+                            closeMenuOnSelect={false}
+                            options={this.state.cpyTypesOpts}
+                            onChange={(e) => this.handleSelectCpy(e)}
+                            value={this.state.selectedCpyEl}
+                            placeholder="Select copy type..."
+                        />
+                    </Col>
                     <Col className="pull-right">
                         <button onClick={() => this.setState({ addNewBookCopyShow: true })}
                             type="button" className="btn btn-primary btn-fill float-right" >
@@ -254,6 +308,15 @@ class Types extends React.Component {
         let patron_type = this.props.patron ? (
             <div className="content mt-2">
                 <Row className="w-100 m-0 p-0">
+                    <Col className="col-2">
+                        <Select
+                            closeMenuOnSelect={false}
+                            options={this.state.patTypesOpts}
+                            onChange={(e) => this.handleSelectPat(e)}
+                            value={this.state.selectedPatEl}
+                            placeholder="Select patron type..."
+                        />
+                    </Col>
                     <Col className="pull-right">
                         <button onClick={() => this.setState({ addNewPatronShow: true })}
                             type="button" className="btn btn-primary btn-fill float-right" >
@@ -357,24 +420,28 @@ const mapStateToProps = state => {
         patron: state.types.patronTypes,
         patronPage: state.types.patronPage,
         patronTotalSize: state.types.patronTotal,
+        patronTypes: state.types.allPatronTypes,
 
         bookCopy: state.types.bookCopyTypes,
         bookCopyTotalSize: state.types.bookCopyTotal,
         bookCopyPage: state.types.bookCopyPage,
+        cpyTypes: state.types.cpyTypes,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchDataPatron: (page, size) => dispatch(actions.getPatronTypes(page, size)),
+        onFetchDataPatron: (page, size, pat) => dispatch(actions.getPatronTypes(page, size, pat)),
         onUpdatePatronType: (data) => dispatch(actions.updatePatronType(data)),
         onAddPatronType: (data) => dispatch(actions.addPatronType(data)),
         onDeletePatronType: (id) => dispatch(actions.deletePatronType(id)),
+        onGetAllPatronTypes: () => dispatch(actions.getPatronType()),
 
-        onFetchDataBookCopy: (page, size) => dispatch(actions.getBookCopyTypes(page, size)),
+        onFetchDataBookCopy: (page, size, cpy) => dispatch(actions.getBookCopyTypes(page, size, cpy)),
         onUpdateBookCopyType: (data) => dispatch(actions.updateBookCopyType(data)),
         onAddBookCopyType: (data) => dispatch(actions.addBookCopyType(data)),
-        onDeleteBookCopyType: (id) => dispatch(actions.deleteBookCopyType(id))
+        onDeleteBookCopyType: (id) => dispatch(actions.deleteBookCopyType(id)),
+        onGetAllCopyTypes: () => dispatch(actions.getAllCpyTypes()),
     }
 }
 

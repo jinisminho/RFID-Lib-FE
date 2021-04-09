@@ -26,11 +26,11 @@ export const getPatronTypesStart = () => {
     }
 }
 
-export const getPatronTypes = (page, size) => {
+export const getPatronTypes = (page, size, searchValue) => {
     return dispatch => {
         dispatch(getPatronTypesStart())
 
-        let url = '/patronType/find' + '?page=' + page + '&size=' + size
+        let url = '/patronType/find' + '?page=' + page + '&size=' + size + (searchValue ? ('&name=' + searchValue) : '')
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getPatronTypesSuccess(response.data.content, response.data.totalElements, page, size))
@@ -169,11 +169,11 @@ export const getBookCopyTypesStart = () => {
     }
 }
 
-export const getBookCopyTypes = (page, size) => {
+export const getBookCopyTypes = (page, size,searchValue) => {
     return dispatch => {
         dispatch(getBookCopyTypesStart())
 
-        let url = '/copyType/find' + '?page=' + page + '&size=' + size
+        let url = '/copyType/find' + '?page=' + page + '&size=' + size + (searchValue ? ('&name=' + searchValue) : '')
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getBookCopyTypesSuccess(response.data.content, response.data.totalElements, page, size))
@@ -285,4 +285,43 @@ export const deleteBookCopyType = (id) => {
                 dispatch(responseError(deleteBookCopyTypeFail,error))
             });
     }
+}
+
+//get Copy Types
+
+export const getAllCpyTypesSuccess = (data) => {
+    return {
+        type: actionTypes.COMMON_GET_ALL_CPY_TYPE_SUCCESS,
+        data: data,
+    }
+}
+
+export const getAllCpyTypesFailed = (error) => {
+    return {
+        type: actionTypes.COMMON_GET_ALL_CPY_TYPE_FAILED,
+        error: error
+    }
+}
+
+export const getAllCpyTypesStart = () => {
+    return {
+        type: actionTypes.COMMON_GET_ALL_CPY_TYPE_START
+    }
+}
+
+export const getAllCpyTypes = () => {
+    return dispatch => {
+        dispatch(getAllCpyTypesStart())
+
+        let url = '/copyType/getAll'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getAllCpyTypesSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(responseError(getAllCpyTypesFailed,error))
+            });
+
+    }
+
 }

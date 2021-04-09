@@ -365,7 +365,7 @@ class Policy extends React.Component {
                             options={this.state.patTypesOpts}
                             onChange={(e) => this.handleSelectPat(e)}
                             value={this.state.selectedPatEl}
-                            placeholder="Select patron types..."
+                            placeholder="Select patron type..."
                         />
                     </Col>
                     <Col className="col-2">
@@ -374,7 +374,7 @@ class Policy extends React.Component {
                             options={this.state.bookCpyTypesOpts}
                             onChange={(e) => this.handleSelectCpy(e)}
                             value={this.state.selectedCpyEl}
-                            placeholder="Select copy types..."
+                            placeholder="Select copy type..."
                         />
                     </Col>
 
@@ -430,7 +430,7 @@ class Policy extends React.Component {
                             options={this.state.patTypesAltOpts}
                             onChange={(e) => this.handleSelectPatAlt(e)}
                             value={this.state.selectedPatAltEl}
-                            placeholder="Select patron types..."
+                            placeholder="Select patron type..."
                         />
                     </Col>
                 </Row>
@@ -594,7 +594,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchDataBorrow: (page, size, patId, cpyId) => dispatch(actions.getBorrowPolicy(page, size, patId, cpyId)),
-        onFetchDataPatron: (page, size, patId) => dispatch(actions.getPatronPolicy(page, size, patId)),
+        onFetchDataPatron: (page, size, pat) => dispatch(actions.getPatronPolicy(page, size, pat)),
         onFetchDataFee: () => dispatch(actions.getFeePolicy()),
         onAddBorrowPolicy: (data) => dispatch(actions.addBorrowPolicy(data)),
         onUpdateBorrowPolicy: (data) => dispatch(actions.updateBorrowPolicy(data)),

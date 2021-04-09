@@ -174,7 +174,7 @@ export const getPatronType = () => {
                 dispatch(getPatronTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getPatronTypeFailed(responseError(error)))
+                dispatch(responseError(getPatronTypeFailed,error))
             });
 
         // if (response.status) {
