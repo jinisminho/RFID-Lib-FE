@@ -78,7 +78,6 @@ const getBookStart = (state, action) =>{
   }
   
   const checkPolicyStart = (state, action) =>{
-    console.log(action.data)
     return updateObject(state,{
       error:null, 
       warning:null,

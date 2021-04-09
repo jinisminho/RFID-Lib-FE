@@ -27,11 +27,11 @@ export const getBorrowPolicyStart = () => {
     }
 }
 
-export const getBorrowPolicy = (page, size) => {
+export const getBorrowPolicy = (page, size, patronTypeId, bookCopyTypeId) => {
     return dispatch => {
         dispatch(getBorrowPolicyStart())
 
-        let url = '/borrowPolicy/get' + '?page=' + page + '&size=' + size
+        let url = '/borrowPolicy/get' + '?page=' + page + '&size=' + size + (patronTypeId ? ('&patronTypeId=' + patronTypeId) : "") + (bookCopyTypeId ? ('&bookCopyTypeId=' + bookCopyTypeId) : "")
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getBorrowPolicySuccess(response.data.content, response.data.totalElements, page, size))
@@ -73,11 +73,11 @@ export const getPatronPolicyStart = () => {
     }
 }
 
-export const getPatronPolicy = (page, size) => {
+export const getPatronPolicy = (page, size, searchValue) => {
     return dispatch => {
         dispatch(getPatronPolicyStart())
 
-        let url = '/patronType/find' + '?page=' + page + '&size=' + size
+        let url = '/patronType/find' + '?page=' + page + '&size=' + size + (searchValue ? ('&name=' + searchValue) : '')
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getPatronPolicySuccess(response.data.content, response.data.totalElements, page, size))
@@ -174,7 +174,7 @@ export const getPatronType = () => {
                 dispatch(getPatronTypeSuccess(response.data))
             })
             .catch(error => {
-                dispatch(getPatronTypeFailed(responseError(error)))
+                dispatch(responseError(getPatronTypeFailed,error))
             });
 
         // if (response.status) {
@@ -429,4 +429,42 @@ export const updateFeePolicy = (data) => {
         //     dispatch(updateFeePolicyFail(response.error))
         // }
     }
+}
+
+//Borrow's types
+export const getTypesForBorrowSuccess = (data) => {
+    return {
+        type: actionTypes.LIB_GET_BORROW_POLICY_TYPES_SUCCESS,
+        data: data,
+    }
+}
+
+export const getTypesForBorrowFailed = (error) => {
+    return {
+        type: actionTypes.LIB_GET_BORROW_POLICY_TYPES_FAILED,
+        error: error
+    }
+}
+
+export const getTypesForBorrowStart = () => {
+    return {
+        type: actionTypes.LIB_GET_BORROW_POLICY_TYPES_START
+    }
+}
+
+export const getTypesForBorrow = () => {
+    return dispatch => {
+        dispatch(getTypesForBorrowStart())
+
+        let url = '/borrowPolicy/getTypes'
+        axios.get(url, { withCredentials: true })
+            .then(response => {
+                dispatch(getTypesForBorrowSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(responseError(getTypesForBorrowFailed,error))
+            });
+
+    }
+
 }

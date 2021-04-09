@@ -240,6 +240,28 @@ const updateFeePolicyFail = (state, action) => {
     })
 }
 
+//borrow's types
+const getTypesForBorrowStart = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: true,
+    })
+}
+const getTypesForBorrowSuccess = (state, action) => {
+    return updateObject(state, {
+        borrowTypes: action.data,
+        error: null,
+        loading: false,
+    })
+}
+const getTypesForBorrowFailed = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loading: false,
+    })
+}
+
+
 export default function reducer(state = {
     borrowPolicy: [],
     patronPolicy: [],
@@ -258,6 +280,7 @@ export default function reducer(state = {
     successMsg: null,
     patronTypes: null,
     updateSuccess: null,
+    borrowTypes: null,
 }, action) {
     switch (action.type) {
 
@@ -301,7 +324,9 @@ export default function reducer(state = {
         case actionTypes.UPDATE_FEE_POLICY_SUCCESS: return updateFeePolicySuccess(state, action)
         case actionTypes.UPDATE_FEE_POLICY_FAILED: return updateFeePolicyFail(state, action)
 
-
+        case actionTypes.LIB_GET_BORROW_POLICY_TYPES_START: return getTypesForBorrowStart(state, action)
+        case actionTypes.LIB_GET_BORROW_POLICY_TYPES_SUCCESS: return getTypesForBorrowSuccess(state, action)
+        case actionTypes.LIB_GET_BORROW_POLICY_TYPES_FAILED: return getTypesForBorrowFailed(state, action)
     }
     return state
 }
