@@ -68,6 +68,7 @@ export const setAuthRedirectPath = (path) =>{
 export const authCheckState = ()=>{
     return dispatch=>{
         const token =getCookie("Authorization")
+        console.log(getCookie("Userid"),getCookie("Username"))
         if(!token){
             dispatch(logout())
         }else{
@@ -151,6 +152,6 @@ function getCookie(cname) {
         var cookie = cookies[i];
         var eqPos = cookie.indexOf("=");
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
     }
 }

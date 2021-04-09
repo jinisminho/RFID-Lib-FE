@@ -41,7 +41,7 @@ class ChangePassword extends React.Component {
     componentDidUpdate() {
         let msg= null
         if (this.props.changePasswordSuccess) {
-            msg = "Change password successfully"
+            msg = "Change password successfully. Please sign in again"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -77,7 +77,7 @@ class ChangePassword extends React.Component {
                     <Row className="justify-content-center">
                         <Col className="col-4">
                     
-                    <CommonSuccessModal show={this.state.successShow} hide={() => this.handleModalClose()} msg={this.state.successNotice} />
+                    <CommonSuccessModal show={this.state.successShow} hide={() => this.props.onLogout()} msg={this.state.successNotice} />
                     <CommonErrorModal show={this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                         {display}
                     </Col>
@@ -102,6 +102,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangePassword: (id,current, newPw) => dispatch(actions.changePassword(id,current,newPw)),
         onCloseChangePassword: () =>{dispatch(actions.closeChangePassword()); dispatch(reset('changePasswordForm'));},
+        onLogout: () => dispatch(actions.logout())
     }
 }
 
