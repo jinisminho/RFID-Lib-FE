@@ -65,7 +65,7 @@ class AdminNavbar extends React.Component {
                     <i className="ni ni-single-02" />
                     <span>My profile</span>
                   </DropdownItem>
-                  <DropdownItem to="/admin/changepw" tag={Link}>
+                  <DropdownItem to={this.props.location.pathname.includes('/admin') ? "/admin/changepw" : (this.props.location.pathname.includes('/librarian') ? "/librarian/changepw" : "/patron/changepw")} tag={Link}>
                     <i className="fa fa-lock"/>
                     <span>Change password</span>
                   </DropdownItem>
