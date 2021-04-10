@@ -224,7 +224,7 @@ class StudentForm extends Component {
                                             component={renderField}
                                             type="text"
                                             isRequired
-                                            placeholder="Enter Staff Full Name"
+                                            placeholder="Enter Full Name"
                                             title="Name"
                                         />
                                     </FormGroup>

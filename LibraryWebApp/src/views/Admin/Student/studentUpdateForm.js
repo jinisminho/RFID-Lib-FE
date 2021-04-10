@@ -201,7 +201,7 @@ class StudentUpdateForm extends Component {
                                             component={renderField}
                                             isRequired
                                             type="text"
-                                            placeholder="Enter Staff Full Name"
+                                            placeholder="Enter Full Name"
                                             title="Name"
                                         />
                                     </FormGroup>
