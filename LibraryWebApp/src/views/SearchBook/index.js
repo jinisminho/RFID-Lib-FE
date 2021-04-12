@@ -46,7 +46,8 @@ class SearchBook extends React.Component {
             scanning: false,
             confirmMessage:"",
             confirmTitle:"",
-            confirmShow:false
+            confirmShow:false,
+            currentBook:null
         }
         this.fetchData = this.fetchData.bind(this);
         this.handleSelectBook = this.handleSelectBook.bind(this)
@@ -103,7 +104,12 @@ class SearchBook extends React.Component {
         for (let i = 0; i < this.props.data.length; i++) {
             if (this.props.data[i].copyRfidList.includes(data.trim()) && !this.state.finishList.includes(data.trim())) {
                 const audioEl = document.getElementsByClassName("audio-element")[0]
+                audioEl.pause()
+                audioEl.currentTime = 0;
                 audioEl.play()
+                this.setState({
+                    currentBook:this.props.data[i].id
+                })
             }
         }
     }
@@ -117,7 +123,8 @@ class SearchBook extends React.Component {
                 }
             });
             this.setState({
-                finishList: [...this.state.finishList, ...tmpArr]
+                finishList: [...this.state.finishList, ...tmpArr],
+                currentBook:null
             })
         } else {
             var array = [...this.state.finishList];
@@ -163,6 +170,9 @@ class SearchBook extends React.Component {
                 </span> Start
             </button>
         )
+        const rowStyleFormat=(row, rowIdx)=> {
+            return { backgroundColor: row?row.id==this.state.currentBook?"rgb(210, 244, 210)":"":"" };
+          }
         if (this.state.scanning) {
             btn = (
                 <button onClick={() => {
@@ -194,8 +204,8 @@ class SearchBook extends React.Component {
                 </Card>
                 <BootstrapTable
                     data={this.props.data}
-                    options={options}
-                    pagination
+                    // options={options}
+                    // pagination
                     striped
                     hover
                     condensed
@@ -204,6 +214,8 @@ class SearchBook extends React.Component {
                     tableHeaderClass={"col-hidden"}
                     keyField="id"
                     selectRow={selectRow}
+                    maxHeight='600px'
+                    trStyle={rowStyleFormat}
                 >
                     <TableHeaderColumn dataField="img" dataFormat={this.imageFormatter} width="7%">Image</TableHeaderColumn>
                     <TableHeaderColumn dataField="description" headerAlign="center" dataFormat={this.bookDescriptionFormat}>Description</TableHeaderColumn>
