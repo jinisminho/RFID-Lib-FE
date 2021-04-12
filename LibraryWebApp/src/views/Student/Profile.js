@@ -71,7 +71,7 @@ class BookStu extends React.Component {
 
             //Set img src
             // document.getElementById('profileImg').src = require("assets/img/theme/team-4-800x800.jpg")
-            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.img ? this.props.profile.img : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
 
             return
         }
@@ -80,13 +80,17 @@ class BookStu extends React.Component {
 
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.submited) {
             this.setState({ submited: false, edited: false })
         }
         if (this.props.error != null && !this.state.errorShow) {
             this.setState({ errorShow: true, searchValue: '' })
         }
+        if (prevProps.profile != this.props.profile) {
+            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+        }
+
     }
 
     fetchData(patronId = this.state.patronId) {

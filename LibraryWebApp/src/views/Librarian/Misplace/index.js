@@ -39,6 +39,7 @@ class Misplace extends React.Component {
             isSampleScanning: false,
             missingBooks: null,
             isPositionScanning: true,
+            isCheckFinished:false,
         }
         this.handleSampleScan = this.handleSampleScan.bind(this)
         this.handleCheckScan = this.handleCheckScan.bind(this)
@@ -107,7 +108,7 @@ class Misplace extends React.Component {
     }
 
     handleModalClose() {
-        this.setState({ successShow: false, errorShow: false })
+        this.setState({ successShow: false, errorShow: false, isCheckFinished: false })
         // this.clearBookData()
     }
 
@@ -279,6 +280,7 @@ class Misplace extends React.Component {
                 await this.clearChecking()
                 await this.setState({
                     isPositionScanning: true,
+                    isCheckFinished: true,
                 })
                 return
             }
@@ -295,6 +297,7 @@ class Misplace extends React.Component {
                 await this.clearChecking()
                 await this.setState({
                     isPositionScanning: true,
+                    isCheckFinished: true,
                 })
             }
             return
@@ -603,6 +606,7 @@ class Misplace extends React.Component {
                 <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
                 <CommonErrorModal show={this.props.bookError && this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.props.bookError} />
                 <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
+                <CommonSuccessModal show={this.state.isCheckFinished} hide={() => this.handleModalClose()} msg="Finish check misplaced books" />
             </>
         )
     }
