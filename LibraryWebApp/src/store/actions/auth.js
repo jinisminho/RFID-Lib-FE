@@ -28,12 +28,37 @@ export const authFail =(error) =>{
         error: error
     }
 }
-
-export const logout =()=>{
-    deleteAllCookies()
+export const logoutSuccess =() =>{
     return{
         type: actionTypes.AUTH_LOGOUT
     }
+}
+export const logoutFail =() =>{
+    return{
+        type: actionTypes.AUTH_LOGOUT
+    }
+}
+export const logout =()=>{
+    return dispatch => {
+        let url='/auth/logout'
+    axios.get(url)
+        .then(response =>{
+            localStorage.removeItem("Userid")
+            localStorage.removeItem("Role")
+            localStorage.removeItem("Avatar")
+            localStorage.removeItem("Username")
+            dispatch(logoutSuccess())
+        })
+        .catch(error =>{
+            localStorage.removeItem("Userid")
+            localStorage.removeItem("Role")
+            localStorage.removeItem("Avatar")
+            localStorage.removeItem("Username")
+            dispatch(logoutFail())
+        })
+    }
+    
+    
 }
 
 
@@ -47,10 +72,10 @@ export const auth = (username, password) =>{
         let url='/auth/login'
         axios.post(url,authData,{withCredentials:true})
         .then(response =>{
-            setCookie("Userid",response.data.userId)
-            setCookie("Role",response.data.role)
-            setCookie("Avatar",response.data.avatar)
-            setCookie("Username",response.data.email)
+            localStorage.setItem("Userid",response.data.userId)
+            localStorage.setItem("Role",response.data.role)
+            localStorage.setItem("Avatar",response.data.avatar)
+            localStorage.setItem("Username",response.data.email)
             dispatch(authSuccess(response.data.accessToken, response.data.userId, response.data.role,response.data.avatar,response.data.email))
         })
         .catch(error =>{
@@ -68,14 +93,14 @@ export const setAuthRedirectPath = (path) =>{
 export const authCheckState = ()=>{
     return dispatch=>{
         const token =getCookie("Authorization")
-        console.log(getCookie("Userid"),getCookie("Username"))
         if(!token){
             dispatch(logout())
         }else{
-                const userId = getCookie("Userid")
-                const role= getCookie("Role")
-                const avt= getCookie("Avatar")
-                const username= getCookie("Username")
+                const userId = localStorage.getItem("Userid")
+                const role= localStorage.getItem("Role")
+                const avt= localStorage.getItem("Avatar")
+                const username= localStorage.getItem("Username")
+                console.log(userId,role,avt,username)
                 dispatch(authSuccess(token, userId,role,avt,username))
         }
     }
@@ -111,7 +136,6 @@ export const changePassword = (id, current,newPassword) =>{
         let url='/account/password/change'
         axios.post(url,changeData,{withCredentials:true})
         .then(response =>{
-            setCookie("Authorization",response.data)
             dispatch(changePasswordSuccess(response.data))
 
         })
@@ -141,17 +165,3 @@ function getCookie(cname) {
     }
     return "";
   }
-
-  function setCookie(cname, cvalue) {
-    document.cookie = cname + "=" + cvalue;
-  }
-  function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
-
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
-    }
-}

@@ -101,7 +101,14 @@ class TagRFIDForm extends React.Component {
     componentDidMount() {
         this.fetchData()
     }
-
+    componentDidUpdate(){
+        if(this.props.pristine){
+            document.querySelectorAll("input[name='barcode']")[0].focus()
+        }
+        if(!Array.isArray(this.props.myValues)){
+            document.querySelectorAll("input[name='rfid']")[0].focus()
+        }
+    }
     fetchData(event, newValue, previousValue, name) {
         this.props.onFetchData(newValue);
     }
