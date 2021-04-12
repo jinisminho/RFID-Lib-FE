@@ -67,9 +67,9 @@ const validate = values => {
     if (!values.book) {
         errors.book = 'Book is required';
     }
-    if (!values.rfid) {
-        errors.rfid = 'Rfid is required';
-    }
+    // if (!values.rfid) {
+    //     errors.rfid = 'Rfid is required';
+    // }
     return errors
 }
 const renderFixedField = ({ meta, title }) => (
@@ -220,7 +220,7 @@ const CopyForm = ({
                                 component={renderSelectField}>
                             </Field>
                         </FormGroup>
-                        <FormGroup className="mb-3">
+                        {/* <FormGroup className="mb-3">
                             <Field
                                 name="rfid"
                                 type="text"
@@ -229,7 +229,7 @@ const CopyForm = ({
                                 isRequired={true}
                                 normalize={RfidNormalizer}
                                 component={renderField} />
-                        </FormGroup>
+                        </FormGroup> */}
                     </Col>
                 </Row>
                 <div className="row mt-2">
@@ -253,6 +253,6 @@ const CopyForm = ({
 );
 
 export default reduxForm({
-    form: 'fieldArrays',
+    form: 'inProgressCopyUpdateForm',
     validate
 })(CopyForm)

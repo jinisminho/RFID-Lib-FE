@@ -24,7 +24,7 @@ import { connect } from 'react-redux'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateButton from '../../components/Button/UpdateButton'
 import CopyAddForm from './copyAddForm'
-import CopyUpdateForm from './copyUpdateForm'
+import CopyUpdateForm from './inProgressCopyUpdateForm'
 import ConfirmCopyForm from './copyComfirmForm'
 import Select from 'react-select';
 import TagRFIDModal from "../../components/Modals/TagRFIDModal"
