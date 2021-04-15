@@ -268,7 +268,7 @@ export const getStudentProfile = (patronId) => {
     return dispatch => {
         dispatch(getStudentProfileStart())
 
-        let url = 'http://localhost:8091/patron/profile/getProfile/' + patronId
+        let url = '/patron/profile/getProfile/' + patronId
         axios.get(url, { withCredentials: true })
             .then(response => {
                 dispatch(getStudentProfileSuccess(response.data))
