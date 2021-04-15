@@ -64,9 +64,10 @@ export function compareDate(date1, date2) {
     );
 }
 
-const detailsTextClassName = "h3"
-
 export function bookDescriptionFormat(cell, row, extraData) {
+    const detailsTextClassName = "p text-dark"
+    const boldTextClassName = "h3"
+
     let hide = extraData.hide ? extraData.hide : [];
     let thisBook = [];
     thisBook.push(row)
@@ -102,7 +103,7 @@ export function bookDescriptionFormat(cell, row, extraData) {
     ) : null;
 
     let warn = row.onlyInLibrary && !hide.warn ? (
-        <p className={"text-danger " + detailsTextClassName}>Only in library</p>
+        <p className={"text-danger " + boldTextClassName}>Only in library</p>
     ) : null;
 
     let position = row.callNumber ? "Available at " + row.callNumber : null;
@@ -112,7 +113,7 @@ export function bookDescriptionFormat(cell, row, extraData) {
         position_class = "text-danger"
     }
     let pos = position && !hide.position && !warn ? (
-        <p className={position_class + " " + detailsTextClassName}>{position}</p>
+        <p className={position_class + " " + boldTextClassName}>{position}</p>
     ) : null;
 
     let publisherPublishYearStr = row.publisher && !hide.publisher ? row.publisher : "";
@@ -165,18 +166,18 @@ export function bookDescriptionFormat(cell, row, extraData) {
                     patronId: extraData.patronId ? extraData.patronId : null
                 }
             }}>
-                    {title}
-                    {author}
-                    {publisherPublishYear}
-                    {edition}
-                    {language}
-                    {isbn}
-                    {nop}
-                    {genre}
-                    {totalCopies}
-                    {totalAvailableCopies}
-                    {pos}
-                    {warn}
+                {title}
+                {author}
+                {publisherPublishYear}
+                {edition}
+                {language}
+                {isbn}
+                {nop}
+                {genre}
+                {totalCopies}
+                {totalAvailableCopies}
+                {pos}
+                {warn}
             </Link>
 
         </>
@@ -187,7 +188,7 @@ export function imageFormatter(cell, row) {
     return (<img className="img-thumbnail" src={cell} />)
 }
 
-export function responseError(func,err) {
+export function responseError(func, err) {
     let msg = ""
     if (err.response) {
         if (err.response.data) {
@@ -196,9 +197,9 @@ export function responseError(func,err) {
                     msg = Constant.INTERNAL_SERVER_ERROR
                     break;
                 case 404:
-                    if(!err.response.data.message){
-                        msg =Constant.NOT_FOUND
-                    }else{
+                    if (!err.response.data.message) {
+                        msg = Constant.NOT_FOUND
+                    } else {
                         msg = err.response.data.message
                     }
                     break;
@@ -219,7 +220,7 @@ export function responseError(func,err) {
     return func(msg)
 }
 
-export function responseErrorForAuth(func,err) {
+export function responseErrorForAuth(func, err) {
     let msg = ""
     if (err.response) {
         if (err.response.data) {
