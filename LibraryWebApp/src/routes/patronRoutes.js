@@ -69,8 +69,8 @@ var routes = [
     layout: "/patron"
   },
   {
-    path: "/policy",
-    name: "Policy",
+    path: "/libraryServices",
+    name: "Library services",
     icon: "ni ni-book-bookmark text-primary",
     component: Policy,
     layout: "/patron"
