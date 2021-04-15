@@ -41,7 +41,7 @@ export const logoutFail =() =>{
 export const logout =()=>{
     return dispatch => {
         let url='/auth/logout'
-    axios.get(url)
+    axios.get(url,{withCredentials:true})
         .then(response =>{
             localStorage.removeItem("Userid")
             localStorage.removeItem("Role")
