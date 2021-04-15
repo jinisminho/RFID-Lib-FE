@@ -106,6 +106,14 @@ const validate = values => {
   
   return errors
 }
+
+const warn = values => {
+  const warnings = {}
+  if (!values.subtitle) {
+    warnings.subtitle = 'Hmm, you seem a bit young...'
+  }
+  return warnings
+}
 const renderSelectOptions = (option) => (
   <option key={option} value={option}>{MyConstant.BOOK_STATUS_ADD_LIST[option]}</option>
 )
@@ -138,10 +146,10 @@ const renderSelectField = ({ input,isRequired, meta: { touched, error }, title, 
   </>
 )}
  
-const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error,warning }, title }) => (
   <>
     <Row>
-      <Label>{title}{isRequired?<span className="text-danger">*</span>:null}</Label>
+      <Label>{title}{isRequired?<span className="text-danger">*</span>:null} {warning?<small className="text-warning">{warning}</small>:null}</Label>
     </Row>
     <Row>
       <InputGroup className="input-group-alternative">
@@ -433,4 +441,4 @@ class BookFormImg extends Component {
   );
 }
 
-export default reduxForm({ form: "UploadImageForm",validate })(BookFormImg);
+export default reduxForm({ form: "UploadImageForm",validate,warn })(BookFormImg);
