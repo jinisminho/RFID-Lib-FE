@@ -91,7 +91,7 @@ class Policy extends React.Component {
             })
             this.setState({ patTypesAltOpts: patTypesAltOpts })
         }
-        
+
     }
 
     handlePageChangeBorrow(page, sizePerPage) {
@@ -397,7 +397,7 @@ class Policy extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                     cellEdit={cellEditProp}
                 >
@@ -445,7 +445,7 @@ class Policy extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                     cellEdit={cellEditProp}
                 >

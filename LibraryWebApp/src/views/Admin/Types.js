@@ -293,7 +293,7 @@ class Types extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                     cellEdit={cellEditProp}
                 >
@@ -336,7 +336,7 @@ class Types extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                     cellEdit={cellEditProp}
                 >
