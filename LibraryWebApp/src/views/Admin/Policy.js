@@ -73,8 +73,8 @@ class Policy extends React.Component {
         if (this.props.borrowTypes && this.props.borrowTypes !== prevProps.borrowTypes) {
             let patTypesOpts = []
             let bookCpyTypesOpts = []
-            patTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
-            bookCpyTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            patTypesOpts.push({ "value": "clear", "label": "NONE" })
+            bookCpyTypesOpts.push({ "value": "clear", "label": "NONE" })
             this.props.borrowTypes.patronTypes.forEach(el => {
                 patTypesOpts.push({ "value": el.id, "label": el.name })
             })
@@ -85,7 +85,7 @@ class Policy extends React.Component {
         }
         if (this.props.patronTypes && this.props.patronTypes !== prevProps.patronTypes) {
             let patTypesAltOpts = []
-            patTypesAltOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            patTypesAltOpts.push({ "value": "clear", "label": "NONE" })
             this.props.patronTypes.forEach(el => {
                 patTypesAltOpts.push({ "value": el.id, "label": el.name })
             })

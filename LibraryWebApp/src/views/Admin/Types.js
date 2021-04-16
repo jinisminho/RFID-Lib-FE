@@ -62,7 +62,7 @@ class Types extends React.Component {
             this.fetchDataBookCopy(1);
         if (this.props.patronTypes && this.props.patronTypes !== prevProps.patronTypes) {
             let patTypesOpts = []
-            patTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            patTypesOpts.push({ "value": "clear", "label": "NONE" })
             this.props.patronTypes.forEach(el => {
                 patTypesOpts.push({ "value": el.id, "label": el.name })
             })
@@ -70,7 +70,7 @@ class Types extends React.Component {
         }
         if (this.props.cpyTypes && this.props.cpyTypes !== prevProps.cpyTypes) {
             let cpyTypesOpts = []
-            cpyTypesOpts.push({ "value": "clear", "label": "SELECT THIS TO RESET" })
+            cpyTypesOpts.push({ "value": "clear", "label": "NONE" })
             this.props.cpyTypes.forEach(el => {
                 cpyTypesOpts.push({ "value": el.id, "label": el.name })
             })

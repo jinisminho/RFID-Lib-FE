@@ -14,7 +14,7 @@ import MyUtil from "store/utility"
 import * as MyConstant from '../Util/Constant'
 import FeePolicyHistoryModal from "components/Modals/FeePolicyHistoryModal";
 import moment from 'moment';
-
+import Select from 'react-select';
 
 class Policy extends React.Component {
     constructor(props) {
@@ -49,22 +49,47 @@ class Policy extends React.Component {
         this.bookCopyTypeFormatter = this.bookCopyTypeFormatter.bind(this);
         this.protoTypeFormatter = this.protoTypeFormatter.bind(this);
         this.datetimeFormatter = this.datetimeFormatter.bind(this);
+        this.handleSelectPat = this.handleSelectPat.bind(this);
+        this.handleSelectCpy = this.handleSelectCpy.bind(this);
+        this.handleSelectPatAlt = this.handleSelectPatAlt.bind(this);
     }
 
     componentDidMount() {
         this.fetchData()
     }
 
-    componentDidUpdate() {
-
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.borrowPage > 1 && this.props.borrow.length == 0)
+        this.fetchDataBorrow(1);
+    if (this.props.borrowTypes && this.props.borrowTypes !== prevProps.borrowTypes) {
+        let patTypesOpts = []
+        let bookCpyTypesOpts = []
+        patTypesOpts.push({ "value": "clear", "label": "NONE" })
+        bookCpyTypesOpts.push({ "value": "clear", "label": "NONE" })
+        this.props.borrowTypes.patronTypes.forEach(el => {
+            patTypesOpts.push({ "value": el.id, "label": el.name })
+        })
+        this.props.borrowTypes.bookCopyTypes.forEach(el => {
+            bookCpyTypesOpts.push({ "value": el.id, "label": el.name })
+        })
+        this.setState({ patTypesOpts: patTypesOpts, bookCpyTypesOpts: bookCpyTypesOpts })
+    }
+    if (this.props.patronTypes && this.props.patronTypes !== prevProps.patronTypes) {
+        let patTypesAltOpts = []
+        patTypesAltOpts.push({ "value": "clear", "label": "NONE" })
+        this.props.patronTypes.forEach(el => {
+            patTypesAltOpts.push({ "value": el.id, "label": el.name })
+        })
+        this.setState({ patTypesAltOpts: patTypesAltOpts })
+    }
     }
 
     handlePageChangeBorrow(page, sizePerPage) {
-        this.fetchDataBorrow(page, sizePerPage, this.state.searchValue);
+        this.fetchDataBorrow(page, sizePerPage, this.state.selectedPat, this.state.selectedCpy);
     }
 
     handlePageChangePatron(page, sizePerPage) {
-        this.fetchDataPatron(page, sizePerPage, this.state.searchValue);
+        this.fetchDataPatron(page, sizePerPage, this.state.selectedPatAlt);
     }
 
     handlePageChangeFee(page, sizePerPage) {
@@ -83,21 +108,14 @@ class Policy extends React.Component {
         this.fetchDataFee()
     }
 
-    fetchDataBorrow(page = this.props.borrowPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
-
-        // const doFetchData = async () => {
-        //     await this.props.onFetchDataBorrow(page - 1, sizePerPage, searchValue)
-        //     await this.setState({
-        //         borrow: this.props.borrow,
-        //     })
-        //     return
-        // }
-        // return doFetchData()
+    fetchDataBorrow(page = this.props.borrowPage, sizePerPage = this.props.sizePerPage, patId = this.state.selectedPat, cpyId = this.state.selectedCpy) {
+        this.props.onFetchDataBorrow(page - 1, sizePerPage, patId, cpyId)
+        this.props.onFetchTypesBorrow()
     }
 
-    fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, searchValue = this.state.searchValue) {
-        this.props.onFetchDataPatron(page - 1, sizePerPage, searchValue)
+    fetchDataPatron(page = this.props.patronPage, sizePerPage = this.props.sizePerPage, patId = this.state.selectedPatAlt) {
+        this.props.onFetchDataPatron(page - 1, sizePerPage, patId)
+        this.props.onFetchTypesPatron()
     }
 
     fetchDataFee() {
@@ -207,6 +225,45 @@ class Policy extends React.Component {
         return moment(MyUtil.convertToDateTime(cell)).format(MyConstant.DATETIME)
     }
 
+    handleSelectPat(el) {
+        if (el.value == "clear") {
+            this.setState({
+                selectedPat: null, selectedPatEl: null,
+            }, this.fetchDataBorrow(1, this.props.sizePerPage, null, this.state.selectedCpy))
+        }
+        else {
+            this.setState({
+                selectedPat: el.value, selectedPatEl: el,
+            }, this.fetchDataBorrow(1, this.props.sizePerPage, el.value, this.state.selectedCpy))
+        }
+    }
+
+    handleSelectCpy(el) {
+        if (el.value == "clear") {
+            this.setState({
+                selectedCpy: null, selectedCpyEl: null
+            }, this.fetchDataBorrow(1, this.props.sizePerPage, this.state.selectedPat, null))
+        }
+        else {
+            this.setState({
+                selectedCpy: el.value, selectedCpyEl: el
+            }, this.fetchDataBorrow(1, this.props.sizePerPage, this.state.selectedPat, el.value))
+        }
+
+    }
+
+    handleSelectPatAlt(el) {
+        if (el.value == "clear") {
+            this.setState({
+                selectedPatAlt: null, selectedPatAltEl: null,
+            }, this.fetchDataPatron(1, this.props.sizePerPage, null))
+        }
+        else {
+            this.setState({
+                selectedPatAlt: el.label, selectedPatAltEl: el,
+            }, this.fetchDataPatron(1, this.props.sizePerPage, el.label))
+        }
+    }
 
     render() {
 
@@ -261,15 +318,34 @@ class Policy extends React.Component {
 
         let borrow_policy = this.props.borrow ? (
             <div className="content mt-2">
-                {/* <Row className="w-100 m-0 p-0">
+                <Row className="w-100 m-0 p-0">
+                    <Col className="col-2">
+                        <Select
+                            closeMenuOnSelect={false}
+                            options={this.state.patTypesOpts}
+                            onChange={(e) => this.handleSelectPat(e)}
+                            value={this.state.selectedPatEl}
+                            placeholder="Select patron type..."
+                        />
+                    </Col>
+                    <Col className="col-2">
+                        <Select
+                            closeMenuOnSelect={false}
+                            options={this.state.bookCpyTypesOpts}
+                            onChange={(e) => this.handleSelectCpy(e)}
+                            value={this.state.selectedCpyEl}
+                            placeholder="Select copy type..."
+                        />
+                    </Col>
+
                     <Col className="pull-right">
                         <button onClick={() => this.setState({ addNewBorrowPolicyShow: true })}
-                            type="button" className="btn btn-info btn-fill float-right" >
+                            type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add New
                         </button>
                     </Col>
-                </Row> */}
+                </Row>
 
                 <br />
                 <BootstrapTable
@@ -281,7 +357,7 @@ class Policy extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                 // cellEdit={cellEditProp}
                 >
@@ -300,15 +376,24 @@ class Policy extends React.Component {
 
         let patron_policy = this.props.patron ? (
             <div className="content">
-                {/* <Row className="w-100 m-0 p-0">
-                    <Col className="pull-right">
+                <Row className="w-100 m-0 p-0">
+                    {/* <Col className="pull-right">
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-info btn-fill float-right" >
                             <span className="btn-label">
                             </span> <i className="fa fa-plus"></i> Add New Policy
                         </button>
+                    </Col> */}
+                    <Col className="col-2">
+                        <Select
+                            closeMenuOnSelect={false}
+                            options={this.state.patTypesAltOpts}
+                            onChange={(e) => this.handleSelectPatAlt(e)}
+                            value={this.state.selectedPatAltEl}
+                            placeholder="Select patron type..."
+                        />
                     </Col>
-                </Row> */}
+                </Row>
 
                 <br />
                 <BootstrapTable
@@ -320,7 +405,7 @@ class Policy extends React.Component {
                     striped
                     hover
                     condensed
-                    className="ml-4 mr-4"
+                    className="ml-3 mr-3"
                     keyField="id"
                 // cellEdit={cellEditProp}
                 >
@@ -455,13 +540,15 @@ const mapStateToProps = state => {
         sizePerPage: state.policy.sizePerPage,
         feeSizePerPage: state.policy.feeSizePerPage,
         updateSuccess: state.policy.updateSuccess,
+        borrowTypes: state.policy.borrowTypes,
+        patronTypes: state.policy.patronTypes,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchDataBorrow: (page, size) => dispatch(actions.getBorrowPolicy(page, size)),
-        onFetchDataPatron: (page, size) => dispatch(actions.getPatronPolicy(page, size)),
+        onFetchDataBorrow: (page, size, patId, cpyId) => dispatch(actions.getBorrowPolicy(page, size, patId, cpyId)),
+        onFetchDataPatron: (page, size, pat) => dispatch(actions.getPatronPolicy(page, size, pat)),
         onFetchDataFee: () => dispatch(actions.getFeePolicy()),
         onAddBorrowPolicy: (data) => dispatch(actions.addBorrowPolicy(data)),
         onUpdateBorrowPolicy: (data) => dispatch(actions.updateBorrowPolicy(data)),
@@ -469,6 +556,8 @@ const mapDispatchToProps = dispatch => {
         onUpdatePatronPolicy: (data) => dispatch(actions.updatePatronPolicy(data)),
         getFeePolicyHistory: (page, size) => dispatch(actions.getFeePolicies(page, size)),
         onUpdateFeePolicy: (data) => dispatch(actions.updateFeePolicy(data)),
+        onFetchTypesBorrow: () => dispatch(actions.getTypesForBorrow()),
+        onFetchTypesPatron: () => dispatch(actions.getPatronType()),
     }
 }
 
