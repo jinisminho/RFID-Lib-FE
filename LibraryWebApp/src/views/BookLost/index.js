@@ -169,9 +169,9 @@ class BookLost extends React.Component {
                     bordered={false}
                     keyField="id"
                 >
-                    <TableHeaderColumn dataField="barcode" width="10%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Barcode</TableHeaderColumn>
-                    <TableHeaderColumn dataField='title'width="25%" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField='borrowerEmail'width="15%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Patron Email</TableHeaderColumn>
+                    <TableHeaderColumn dataField="barcode" width="12%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Barcode</TableHeaderColumn>
+                    <TableHeaderColumn dataField='title'width="20%" dataFormat={this.titleFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Title</TableHeaderColumn>
+                    <TableHeaderColumn dataField='borrowerEmail'width="18%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Patron Email</TableHeaderColumn>
                     <TableHeaderColumn dataField='lostAt' width="10%" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Lost At</TableHeaderColumn>
                     <TableHeaderColumn dataField='fine'width="15%" dataFormat={this.ifNullFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Fine-VND</TableHeaderColumn>
                     <TableHeaderColumn dataField='reason'width="15%" dataAlign="center" dataFormat={this.ifNullFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Note</TableHeaderColumn>
@@ -188,7 +188,7 @@ class BookLost extends React.Component {
                     <DatePicker onChange={(startDate, endDate) => {
                         this.setState({
                             startDate:startDate+" 00:00:00",
-                            endDate:endDate+" 00:00:00"
+                            endDate:endDate+" 23:59:59"
                         })
                         this.fetchData(1,10,startDate+" 00:00:00",endDate+" 23:59:59")}} 
                         startDateId="lost_start"

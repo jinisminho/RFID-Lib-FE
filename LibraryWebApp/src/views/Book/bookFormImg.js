@@ -109,8 +109,11 @@ const validate = values => {
 
 const warn = values => {
   const warnings = {}
-  if (!values.subtitle) {
-    warnings.subtitle = 'Hmm, you seem a bit young...'
+  if (parseInt(values.pageNumber)>=30000) {
+    warnings.pageNumber = 'Inputting a very large number of page'
+  }
+  if (parseInt(values.edition)>=100) {
+    warnings.edition = 'Inputting a very large number of edition'
   }
   return warnings
 }

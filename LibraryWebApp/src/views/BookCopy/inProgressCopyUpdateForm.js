@@ -31,11 +31,11 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger, Row, Col } from 'react-bootstrap'
 
-const renderField = ({ input, placeholder, isRequired, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder, isRequired, type, meta: { touched, error, warning }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null} {warning?<small className="text-warning">{warning}</small>:null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -61,8 +61,12 @@ const renderField = ({ input, placeholder, isRequired, type, meta: { touched, er
 )
 const validate = values => {
     const errors = {}
-    if (!values.code) {
-        errors.code = 'Code is required'
+    if (!values.price) {
+        errors.price = 'Price is required'
+    } else if (!/^\d*(\.\d+)?$/i.test(values.price)) {
+        errors.price = 'Price is not valid'
+    } else if (parseFloat(values.price) < 1000 || parseFloat(values.price) > 1000000000) {
+        errors.price = 'Price must be between 1000 VND and 1000000000 VND'
     }
     if (!values.book) {
         errors.book = 'Book is required';
@@ -72,6 +76,13 @@ const validate = values => {
     // }
     return errors
 }
+const warn = values => {
+    const warnings = {}
+    if (parseInt(values.price)>=10000000) {
+      warnings.price = 'Inputting a very high price'
+    }
+    return warnings
+  }
 const renderFixedField = ({ meta, title }) => (
     <>
         <Row>
@@ -254,5 +265,6 @@ const CopyForm = ({
 
 export default reduxForm({
     form: 'inProgressCopyUpdateForm',
-    validate
+    validate,
+    warn
 })(CopyForm)
