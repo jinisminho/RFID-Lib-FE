@@ -183,7 +183,7 @@ class Types extends React.Component {
             return 'Value must be a integer';
         }
         if (MyConstant.MIN_NUMBER_BORROW_PAT > value.maxBorrowNumber || value.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW_PAT) {
-            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
+            return "Total checkouts allowed must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
         }
         return true
     }
@@ -341,7 +341,7 @@ class Types extends React.Component {
                     cellEdit={cellEditProp}
                 >
                     <TableHeaderColumn dataField="name" dataAlign="center" editable={{ validator: (value, row) => { return this.stringValidator(value, "name") } }} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} >Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxBorrowNumber" editable={{ validator: (value, row) => { return this.intValidator(value, "maxBorrowNumber") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Borrow Number</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxBorrowNumber" editable={{ validator: (value, row) => { return this.intValidator(value, "maxBorrowNumber") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Total Checkouts Allowed</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="12%" dataFormat={this.patronActionFormatter} editable={false} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
 

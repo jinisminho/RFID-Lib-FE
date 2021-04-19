@@ -70,28 +70,28 @@ const validate = values => {
         errors.patronTypeId = 'Patron type is required';
     }
     if (!values.dueDuration) {
-        errors.dueDuration = 'Due durarion is required'
+        errors.dueDuration = 'Borrow period is required'
     }
     if (!values.extendDueDuration) {
-        errors.extendDueDuration = 'Renew due duration is required';
+        errors.extendDueDuration = 'Renewal period is required';
     }
     if (!values.maxBorrowNumber) {
-        errors.maxBorrowNumber = 'Max borrow number is required'
+        errors.maxBorrowNumber = 'Checkouts allowed is required'
     }
     if (!values.maxExtendTime) {
-        errors.maxExtendTime = 'Max renew time is required';
+        errors.maxExtendTime = 'Renewals allowed is required';
     }
     if (MyConstant.MIN_DUE_DURATION > values.dueDuration || values.dueDuration > MyConstant.MAX_DUE_DURATION) {
-        errors.dueDuration = "Due duration must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
+        errors.dueDuration = "Borrow period must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
     }
     if (MyConstant.MIN_EXTEND_DUE_DURATION > values.extendDueDuration || values.extendDueDuration > MyConstant.MAX_EXTEND_DUE_DURATION) {
-        errors.extendDueDuration = "Renew due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
+        errors.extendDueDuration = "Renewal period must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
     }
     if (MyConstant.MIN_NUMBER_BORROW > values.maxNumberCopyBorrow || values.maxNumberCopyBorrow > MyConstant.MAX_NUMBER_BORROW) {
-        errors.maxNumberCopyBorrow = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+        errors.maxNumberCopyBorrow = "Checkouts allowed must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
     }
     if (MyConstant.MIN_EXTEND_TIME > values.maxExtendTime || values.maxExtendTime > MyConstant.MAX_EXTEND_TIME) {
-        errors.maxExtendTime = "Max renew time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
+        errors.maxExtendTime = "Renewals allowed must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
     }
     return errors
 }
@@ -192,8 +192,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="dueDuration"
                                         type="number"
-                                        placeholder="Due Duration"
-                                        title="Due Duration"
+                                        placeholder="Borrow Period (Days)"
+                                        title="Borrow Period (Days)"
                                         normalize={validateNumber}
                                         isRequired={true}
                                         component={renderField} />
@@ -202,8 +202,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="maxNumberCopyBorrow"
                                         type="number"
-                                        placeholder="Max Borrow Number"
-                                        title="Max Borrow Number"
+                                        placeholder="Checkouts Allowed (Count)"
+                                        title="Checkouts Allowed (Count)"
                                         normalize={validateNumber}
                                         isRequired={true}
                                         component={renderField} />
@@ -212,8 +212,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="maxExtendTime"
                                         type="number"
-                                        placeholder="Max Renew Time"
-                                        title="Max Renew Time"
+                                        placeholder="Renewals Allowed (Times)"
+                                        title="Renewals Allowed (Times)"
                                         normalize={validateNumber}
                                         isRequired={true}
                                         component={renderField} />
@@ -222,8 +222,8 @@ class AddBorrowPolicyForm extends React.Component {
                                     <Field
                                         name="extendDueDuration"
                                         type="number"
-                                        placeholder="Renew Due Duration"
-                                        title="Renew Due Duration"
+                                        placeholder="Renewal Period (Days)"
+                                        title="Renewal Period (Days)"
                                         normalize={validateNumber}
                                         isRequired={true}
                                         component={renderField} />

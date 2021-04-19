@@ -72,10 +72,10 @@ const validate = values => {
         errors.name = 'Name is required'
     }
     if (!values.maxBorrowNumber) {
-        errors.maxBorrowNumber = 'Max borrow number is required';
+        errors.maxBorrowNumber = 'Total checkouts allowed is required';
     }
     if (MyConstant.MIN_NUMBER_BORROW_PAT > values.maxBorrowNumber || values.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW_PAT) {
-        errors.maxBorrowNumber = "Max number borrow must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
+        errors.maxBorrowNumber = "Total checkouts allowed must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
     }
     return errors
 }
@@ -114,9 +114,9 @@ class AddNewPatronTypeForm extends React.Component {
                             <Field
                                 name="maxBorrowNumber"
                                 type="number"
-                                placeholder="Max Borrow Number"
+                                placeholder="Total Checkouts Allowed"
                                 isRequired={true}
-                                title="Max Borrow Number"
+                                title="Total Checkouts Allowed"
                                 normalize={validateNumber}
                                 component={renderField} />
                         </FormGroup>

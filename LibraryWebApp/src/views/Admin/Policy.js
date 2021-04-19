@@ -235,31 +235,31 @@ class Policy extends React.Component {
             return 'Value must be a integer';
         }
         if (MyConstant.MIN_DUE_DURATION > value.dueDuration || value.dueDuration > MyConstant.MAX_DUE_DURATION) {
-            return "Due duration must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
+            return "Borrow period must be " + MyConstant.MIN_DUE_DURATION + "-" + MyConstant.MAX_DUE_DURATION
         }
         if (MyConstant.MIN_EXTEND_DUE_DURATION > value.extendDueDuration || value.extendDueDuration > MyConstant.MAX_EXTEND_DUE_DURATION) {
-            return "Renew due duration must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
+            return "Renewal period must be " + MyConstant.MIN_EXTEND_DUE_DURATION + "-" + MyConstant.MAX_EXTEND_DUE_DURATION
         }
         if (MyConstant.MIN_NUMBER_BORROW_PAT > value.maxBorrowNumber || value.maxBorrowNumber > MyConstant.MAX_NUMBER_BORROW_PAT) {
-            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
+            return "Total checkouts allowed must be " + MyConstant.MIN_NUMBER_BORROW_PAT + "-" + MyConstant.MAX_NUMBER_BORROW_PAT
         }
         if (MyConstant.MIN_NUMBER_BORROW > value.maxNumberCopyBorrow || value.maxNumberCopyBorrow > MyConstant.MAX_NUMBER_BORROW) {
-            return "Max borrow number must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
+            return "Checkouts allowed must be " + MyConstant.MIN_NUMBER_BORROW + "-" + MyConstant.MAX_NUMBER_BORROW
         }
         if (MyConstant.MIN_EXTEND_TIME > value.maxExtendTime || value.maxExtendTime > MyConstant.MAX_EXTEND_TIME) {
-            return "Max renew time must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
+            return "Renewals allowed must be " + MyConstant.MIN_EXTEND_TIME + "-" + MyConstant.MAX_EXTEND_TIME
         }
         if (MyConstant.MIN_FINE_PER_DAY > value.overdueFinePerDay || value.overdueFinePerDay > MyConstant.MAX_FINE_PER_DAY) {
             return "Overdue fine per day must be " + MyConstant.MIN_FINE_PER_DAY + "-" + MyConstant.MAX_FINE_PER_DAY
         }
         if (MyConstant.MIN_PERCENTAGE_OVERDUE_FINE > value.maxPercentageOverdueFine || value.maxPercentageOverdueFine > MyConstant.MAX_PERCENTAGE_OVERDUE_FINE) {
-            return "Max percentage overdue fine must be " + MyConstant.MIN_PERCENTAGE_OVERDUE_FINE + "-" + MyConstant.MAX_PERCENTAGE_OVERDUE_FINE
+            return "Max overdue fine must be " + MyConstant.MIN_PERCENTAGE_OVERDUE_FINE + "-" + MyConstant.MAX_PERCENTAGE_OVERDUE_FINE
         }
         if (MyConstant.MIN_DOC_PROCESSING_FEE > value.documentProcessing_Fee || value.documentProcessing_Fee > MyConstant.MAX_DOC_PROCESSING_FEE) {
             return "Document processing fee must be " + MyConstant.MIN_DOC_PROCESSING_FEE + "-" + MyConstant.MAX_DOC_PROCESSING_FEE
         }
         if (MyConstant.MIN_DOC_MULTIPLIER > value.missingDocMultiplier || value.missingDocMultiplier > MyConstant.MAX_DOC_MULTIPLIER) {
-            return "Missing doc multiplier must be " + MyConstant.MIN_DOC_MULTIPLIER + "-" + MyConstant.MAX_DOC_MULTIPLIER
+            return "Missing document multiplier must be " + MyConstant.MIN_DOC_MULTIPLIER + "-" + MyConstant.MAX_DOC_MULTIPLIER
         }
         return true
     }
@@ -405,7 +405,7 @@ class Policy extends React.Component {
                     <TableHeaderColumn dataField="bookCopyType" dataAlign="center" dataFormat={this.bookCopyTypeFormatter} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Book Copy Type</TableHeaderColumn>
                     <TableHeaderColumn dataField="dueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "dueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Borrow Period (Days)</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxNumberCopyBorrow" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxNumberCopyBorrow") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Checkouts Allowed (Count)</TableHeaderColumn>
-                    <TableHeaderColumn dataField="maxExtendTime" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxExtendTime") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewals Allowed (Count)</TableHeaderColumn>
+                    <TableHeaderColumn dataField="maxExtendTime" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxExtendTime") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewals Allowed (Times)</TableHeaderColumn>
                     <TableHeaderColumn dataField="extendDueDuration" editable={{ validator: (value, row) => { return this.cellValidator(value, "extendDueDuration") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Renewal Period (Days)</TableHeaderColumn>
                     <TableHeaderColumn dataField='action' dataAlign="center" width="12%" dataFormat={this.borrowActionFormatter} editable={false} tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Action</TableHeaderColumn>
                 </BootstrapTable>
@@ -489,7 +489,7 @@ class Policy extends React.Component {
                     <TableHeaderColumn dataField="overdueFinePerDay" editable={{ validator: (value, row) => { return this.cellValidator(value, "overdueFinePerDay") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Overdue Fine Per Day ({MyConstant.CURRENCY})</TableHeaderColumn>
                     <TableHeaderColumn dataField="maxPercentageOverdueFine" editable={{ validator: (value, row) => { return this.cellValidator(value, "maxPercentageOverdueFine") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Max Overdue Fine (% of Book Price)</TableHeaderColumn>
                     <TableHeaderColumn dataField="documentProcessing_Fee" editable={{ validator: (value, row) => { return this.cellValidator(value, "documentProcessing_Fee") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Document Processing Fee ({MyConstant.CURRENCY})</TableHeaderColumn>
-                    <TableHeaderColumn dataField="missingDocMultiplier" editable={{ validator: (value, row) => { return this.cellValidator(value, "missingDocMultiplier") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Doc Multiplier</TableHeaderColumn>
+                    <TableHeaderColumn dataField="missingDocMultiplier" editable={{ validator: (value, row) => { return this.cellValidator(value, "missingDocMultiplier") } }} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>Missing Document Multiplier</TableHeaderColumn>
                     <TableHeaderColumn dataField="createdAt" dataFormat={this.datetimeFormatter} dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} editable={false}>Created At</TableHeaderColumn>
                     {/* <TableHeaderColumn dataField='action' dataAlign="center" width="10%" dataFormat={this.feeActionFormatter} editable={ false }>Action</TableHeaderColumn> */}
                 </BootstrapTable>
