@@ -76,7 +76,7 @@ const validate = values => {
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
-  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.][0-9A-Z\s]+$/i.test(values.callNumber)){
+  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.]?[0-9A-Z\s]+$/i.test(values.callNumber)){
     errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
   }
   // if (!values.ddc) {

@@ -433,20 +433,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ADMIN\\.nuget\\packages\\": {}
+    "C:\\Users\\ACER\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\RFID_LIB_GIT\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp.csproj",
+      "projectUniqueName": "G:\\FPT\\Capstone\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp.csproj",
       "projectName": "MiddleConsoleApp",
-      "projectPath": "D:\\RFID_LIB_GIT\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp.csproj",
-      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\RFID_LIB_GIT\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\obj\\",
+      "projectPath": "G:\\FPT\\Capstone\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "G:\\FPT\\Capstone\\RFID-Lib-FE\\dropbox\\dropbox\\ConsoleApp\\MiddleConsoleApp\\MiddleConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -489,7 +494,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.112\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -11,7 +11,7 @@ namespace rfid_security_controller
             Server = "localhost";
             DatabaseName = "library_rfid";
             Username = "root";
-            Password = "4123";
+            Password = "12345678";
         }
 
         public string Server { get; set; }
