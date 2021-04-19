@@ -31,10 +31,10 @@ import {
 } from "reactstrap";
 import { Popover, OverlayTrigger,InputGroup } from 'react-bootstrap'
 import {BOOK_COPY_PRICE_NOTE} from '../Util/Constant'
-const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error }, title,isPrice }) => (
+const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { touched, error, warning }, title,isPrice }) => (
     <>
         <Row>
-            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null} {warning?<small className="text-warning">{warning}</small>:null}</Label>
         </Row>
         <Row>
             <InputGroup className="input-group-alternative">
@@ -63,7 +63,7 @@ const renderField = ({ input, disabled, isRequired, placeholder, type, meta: { t
 const renderSelectOptions = (option) => (
     <option key={option.label} value={option.value}>{option.label}</option>
 )
-const renderSelectField = ({ input, isRequired, meta: { touched, error }, title, options }) => (
+const renderSelectField = ({ input, isRequired, meta: { touched, error, warning }, title, options }) => (
     <>
         <Row>
             <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
@@ -169,6 +169,13 @@ const validate = values => {
     }
     return errors
 }
+const warn = values => {
+    const warnings = {}
+    if (parseInt(values.price)>=10000000) {
+      warnings.price = 'Inputting a very high price'
+    }
+    return warnings
+  }
 class CopyForm extends Component {
     state = { noteVal: BOOK_COPY_PRICE_NOTE[0].value};
     
@@ -268,5 +275,6 @@ class CopyForm extends Component {
 
 export default reduxForm({
     form: 'bookMakeCopyForm',
-    validate
+    validate,
+    warn
 })(CopyForm)

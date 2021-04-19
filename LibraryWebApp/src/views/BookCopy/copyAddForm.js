@@ -34,11 +34,11 @@ import {
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 import {BOOK_COPY_PRICE_NOTE} from '../Util/Constant'
 
-const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error }, title }) => (
+const renderField = ({ input, placeholder,isRequired, type, meta: { touched, error, warning }, title }) => (
     <>
         <Row>
             <Col lg="3">
-                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+                <Label>{title}{isRequired ? <span className="text-danger">*</span> : null} {warning?<small className="text-warning">{warning}</small>:null}</Label>
             </Col>
             <Col lg="9">
                 <InputGroup className="input-group-alternative">
@@ -169,7 +169,13 @@ const validate = values => {
     }
     return errors
 }
-
+const warn = values => {
+    const warnings = {}
+    if (parseInt(values.price)>=10000000) {
+      warnings.price = 'Inputting a very high price'
+    }
+    return warnings
+  }
 class CopyAddForm extends Component {
     state = { noteVal: BOOK_COPY_PRICE_NOTE[0].value};
     
@@ -258,5 +264,6 @@ class CopyAddForm extends Component {
 
 export default reduxForm({
     form: 'CopyAddForm',
-    validate
+    validate,
+    warn
 })(CopyAddForm)
