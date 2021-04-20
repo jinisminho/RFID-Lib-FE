@@ -21,6 +21,8 @@ import BookCopy from "views/BookCopy/index.js";
 import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
+import Author from "views/Admin/Author/index.js";
+import Position from "views/Admin/Position/index.js";
 import Student from "views/Admin/Student/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Admin/Policy";
@@ -175,6 +177,20 @@ var routes = [
     name: "Policy setting",
     icon: "ni ni-bullet-list-67 text-red",
     component: Policy,
+    layout: "/admin"
+  },
+  {
+    path: "/author",
+    name: "Author Management",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Author,
+    layout: "/admin"
+  },
+  {
+    path: "/position",
+    name: "Position Management",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Position,
     layout: "/admin"
   },
   {

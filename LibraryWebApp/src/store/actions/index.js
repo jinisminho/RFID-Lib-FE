@@ -94,7 +94,18 @@ export {
     updateStaff,
     changeStatusStaff
 } from './Admin/Staff'
-
+export {
+    getAuthor as getAdminAuthor,
+    addAuthor,
+    updateAuthor,
+    deleteAuthor
+} from './Admin/Author'
+export {
+    getPosition,
+    addPosition,
+    updatePosition,
+    deletePosition
+} from './Admin/Position'
 export {
     getAdminStudent,
     addStudent,

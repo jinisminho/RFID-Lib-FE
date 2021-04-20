@@ -19,6 +19,8 @@ import lostBook from './Common/LostBook'
 import position from './Common/Position'
 import search from './searchBook'
 import stuPolicy from './Student/policy'
+import author from './Admin/Author';
+import adminPosition from './Admin/Position';
 
 export default {
   Auth,
@@ -41,5 +43,7 @@ export default {
   position,
   search,
   stuPolicy,
+  author,
+  adminPosition,
   form: formReducer,
 };
