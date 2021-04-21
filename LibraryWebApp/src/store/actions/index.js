@@ -107,6 +107,9 @@ export {
     deletePosition
 } from './Admin/Position'
 export {
+    getHistory
+} from './Admin/CheckoutHistory'
+export {
     getAdminStudent,
     addStudent,
     updateStudent,

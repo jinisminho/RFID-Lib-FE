@@ -23,6 +23,7 @@ import ReturnBook from "views/ReturnBook/index.js";
 import Staff from "views/Admin/Staff/index.js";
 import Author from "views/Admin/Author/index.js";
 import Position from "views/Admin/Position/index.js";
+import History from "views/Admin/CheckoutHistory/index.js";
 import Student from "views/Admin/Student/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Admin/Policy";
@@ -191,6 +192,13 @@ var routes = [
     name: "Position Management",
     icon: "ni ni-bullet-list-67 text-red",
     component: Position,
+    layout: "/admin"
+  },
+  {
+    path: "/history",
+    name: "Checkout History",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: History,
     layout: "/admin"
   },
   {

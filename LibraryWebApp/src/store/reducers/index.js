@@ -21,6 +21,7 @@ import search from './searchBook'
 import stuPolicy from './Student/policy'
 import author from './Admin/Author';
 import adminPosition from './Admin/Position';
+import history from './Admin/CheckoutHistory';
 
 export default {
   Auth,
@@ -45,5 +46,6 @@ export default {
   stuPolicy,
   author,
   adminPosition,
+  history,
   form: formReducer,
 };

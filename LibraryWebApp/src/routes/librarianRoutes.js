@@ -22,7 +22,7 @@ import Checkout from "views/Checkout/index.js";
 import ReturnBook from "views/ReturnBook/index.js";
 import BookDetail from "views/Book/BookDetail";
 import Policy from "views/Librarian/Policy";
-import Student from "views/Librarian/Student";
+// import Student from "views/Librarian/Student";
 import CopyDetail from "views/BookCopy/BookCopyDetail";
 import BookLost from "views/BookLost/index.js";
 import Profile from "views/Student/Profile.js"
@@ -154,13 +154,13 @@ var routes = [
     names: ["Lost book reports", "Lost books"],
     layout: "/librarian",
   },
-  {
-    path: "/student",
-    name: "Patron management",
-    icon: "fa fa-book-reader text-red",
-    component: Student,
-    layout: "/librarian"
-  },
+  // {
+  //   path: "/student",
+  //   name: "Patron management",
+  //   icon: "fa fa-book-reader text-red",
+  //   component: Student,
+  //   layout: "/librarian"
+  // },
   {
     path: "/policy",
     name: "Policy",
