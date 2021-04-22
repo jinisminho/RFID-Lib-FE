@@ -354,7 +354,7 @@ class Checkout extends React.Component {
                         hover
                         condensed
                         className="mt-3"
-                        bordered={false}
+                        // bordered={false}
                         // tableHeaderClass={"col-hidden"}
                         keyField="copy"
                     >
@@ -454,7 +454,7 @@ class Checkout extends React.Component {
                             hover
                             condensed
                             className="mt-3"
-                            bordered={false}
+                            // bordered={false}
                             // tableHeaderClass={"col-hidden"}
                             keyField="copy"
                         >

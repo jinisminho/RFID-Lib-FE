@@ -164,7 +164,6 @@ class ReturnBook extends React.Component {
             pagination
             condensed
             className="mt-3"
-            bordered={false}
             // tableHeaderClass={"col-hidden"}
             keyField="id"
         >

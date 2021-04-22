@@ -133,7 +133,6 @@ class CheckoutHistory extends React.Component {
                     hover
                     condensed
                     className="ml-4 mr-4"
-                    bordered={false}
                     keyField="id"
                 >
                     <TableHeaderColumn dataField="index" width="12%" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} dataFormat={(cell, row, enumObject, index)=>index+1}>#</TableHeaderColumn>
