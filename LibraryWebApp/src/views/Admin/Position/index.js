@@ -55,13 +55,13 @@ class Position extends React.Component {
     componentDidUpdate() {
         let msg = null
         if (this.props.addSuccess) {
-            msg = "Add position successfully"
+            msg = "Add location successfully"
         }
         if (this.props.updateSuccess) {
-            msg = "Update position successfully"
+            msg = "Update location successfully"
         }
         if (this.props.deleteSuccess) {
-            msg = "Delete position successfully"
+            msg = "Delete location successfully"
         }
         if (msg != null && !this.state.successShow) {
             this.setState({ successShow: true, successNotice: msg })
@@ -167,7 +167,7 @@ class Position extends React.Component {
                 <Row className="w-100 m-0 p-0">
                     <Col className="col-4 pl-4">
                         {/* <InputGroup className="mb-3">
-                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by position name" />
+                            <FormControl value={this.state.searchValue ? this.state.searchValue : ""} onChange={(event => this.inputChangedHandler(event))} type="text" placeholder="Search by location name" />
                             <InputGroup.Append>
                                 <button onClick={() => this.handleSearch()} className="btn btn-simple"><span><i className="fa fa-search"></i></span></button>
                             </InputGroup.Append>
@@ -177,7 +177,7 @@ class Position extends React.Component {
                         <button onClick={() => this.setState({ addFormShow: true })}
                             type="button" className="btn btn-primary btn-fill float-right" >
                             <span className="btn-label">
-                            </span> <i className="fa fa-plus"></i> Add Position
+                            </span> <i className="fa fa-plus"></i> Add Location
                         </button>
                     </Col>
                 </Row>
@@ -232,7 +232,7 @@ class Position extends React.Component {
                 {/* delete popup */}
                 <Modal backdrop="static" show={this.state.addFormShow} onHide={() => this.handleAddCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Position</Modal.Title>
+                        <Modal.Title>Add Location</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <PositionForm 
@@ -242,13 +242,13 @@ class Position extends React.Component {
                 </Modal>
                 <Modal backdrop="static" show={this.state.updateFormShow} onHide={() => this.handleUpdateCancel()}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Update Position</Modal.Title>
+                        <Modal.Title>Update Location</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <PositionForm initialValues={this.getInitialValues()} handleCancel={() => this.handleUpdateCancel()} onSubmit={(values) => this.handleUpdateSubmit(values)} />
                     </Modal.Body>
                 </Modal>
-                <CommonConfirmModal title="Delete Position" show={this.state.deleteFormShow} hide={() => this.handleDeleteCancel()} clickConfirm={() => this.handleDeleteSubmit()} msg="Do you want to delete this position?" />
+                <CommonConfirmModal title="Delete Location" show={this.state.deleteFormShow} hide={() => this.handleDeleteCancel()} clickConfirm={() => this.handleDeleteSubmit()} msg="Do you want to delete this location?" />
                 
             </div>
         )

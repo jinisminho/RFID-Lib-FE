@@ -252,7 +252,7 @@ class BookCopy extends React.Component {
         return (
             <>
                 <Link to={{
-                    pathname: this.props.location.pathname.includes('/admin') ? '/admin/copyDetail' : '/librarian/copyDetail',
+                    pathname: this.props.location.pathname.includes('/admin') ? '/admin/copy-detail' : '/librarian/copy-detail',
                     state: {
                         copy: row,
                     }

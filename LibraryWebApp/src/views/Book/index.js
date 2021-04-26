@@ -353,7 +353,7 @@ class Book extends React.Component {
     bookDescriptionFormat(cell, row) {
         let title = row.title ? (
             <Link to={{
-                pathname: this.props.location.pathname.includes('/admin') ? '/admin/bookDetail' : '/librarian/book/detail',
+                pathname: this.props.location.pathname.includes('/admin') ? '/admin/book-detail' : '/librarian/book-detail',
                 state: {
                     book: row,
                 }

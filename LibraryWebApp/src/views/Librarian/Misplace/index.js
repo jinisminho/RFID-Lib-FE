@@ -589,14 +589,14 @@ class Misplace extends React.Component {
                                 <button onClick={() => this.startSampling()} disabled={this.state.isSampling}
                                     type="button" className="btn btn-primary btn-fill float-right mr-3" >
                                     <span className="btn-label">
-                                    </span> Sample
+                                    </span> Index
                         </button>
                             </Col>
                         </Row>
                     </Card>
                     <Card className="shadow w-100">
                         <CardHeader className="border-0">
-                            <h1 className="mb-0">{(this.state.isSampling ? "Sampling" : "Checking") + (this.state.isPositionScanning ? " - Please SELECT or SCAN position before start..." : "")}</h1>
+                            <h1 className="mb-0">{(this.state.isSampling ? "Indexing" : "Checking") + (this.state.isPositionScanning ? " - Please SELECT or SCAN location before start..." : "")}</h1>
                         </CardHeader>
                         {sampling}
                         {checking}
