@@ -160,7 +160,7 @@ export function bookDescriptionFormat(cell, row, extraData) {
     return (
         <>
             <Link to={{
-                pathname: '/patron/book/detail',
+                pathname: '/patron/book-detail',
                 state: {
                     book: thisBook,
                     patronId: extraData.patronId ? extraData.patronId : null

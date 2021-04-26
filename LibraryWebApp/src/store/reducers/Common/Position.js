@@ -67,7 +67,7 @@ const saveSampledPositionStart = (state, action) => {
 const saveSampledPositionSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
-        successMsg: "The position is saved successfully.",
+        successMsg: "The location is indexed successfully.",
         loading: false,
     })
 }

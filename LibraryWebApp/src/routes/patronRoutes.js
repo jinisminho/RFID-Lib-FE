@@ -40,8 +40,8 @@ var routes = [
     invisible:true
   },
   {
-    path: "/book/detail",
-    name: "Book Detail",
+    path: "/book-detail",
+    name: "Book detail",
     icon: "ni ni-book-bookmark text-primary",
     component: BookDetail,
     layout: "/patron",
@@ -55,21 +55,21 @@ var routes = [
     layout: "/patron"
   },
   {
-    path: "/checkoutInfo",
+    path: "/checkout-info",
     name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInf,
     layout: "/patron"
   },
   {
-    path: "/searchbook",
-    name: "Search book",
+    path: "/find-book",
+    name: "Find book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/patron"
   },
   {
-    path: "/libraryServices",
+    path: "/library-services",
     name: "Library services",
     icon: "ni ni-book-bookmark text-primary",
     component: Policy,

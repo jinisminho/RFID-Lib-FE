@@ -47,12 +47,20 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/bookDetail",
-    name: "Book Detail",
+    path: "/book-detail",
+    name: "Book detail",
     icon: "ni ni-book-bookmark text-primary",
     component: BookDetail,
     layout: "/admin",
     invisible: true
+  },
+  {
+    isMultiLevel: true,
+    groupName: "Book copies",
+    groupId: "bookCopies",
+    paths: ["/tag-copy", "/copy"],
+    names: ["Tag copy", "Copy management"],
+    layout: "/admin",
   },
   {
     path: "/copy",
@@ -63,7 +71,7 @@ var routes = [
     invisible: true
   },
   {
-    path: "/tagCopy",
+    path: "/tag-copy",
     name: "Tag copy",
     icon: "ni ni-books text-primary",
     component: InProcess,
@@ -71,65 +79,86 @@ var routes = [
     invisible: true
   },
   {
-    isMultiLevel: true,
-    groupName: "Book copies",
-    groupId: "bookCopies",
-    paths: ["/tagCopy", "/copy"],
-    names: ["Tag copy", "Copy mangament"],
-    layout: "/admin",
-  },
-  {
-    path: "/copyDetail",
-    name: "Copy Detail",
+    path: "/copy-detail",
+    name: "Copy detail",
     icon: "ni ni-book-bookmark text-primary",
     component: CopyDetail,
     layout: "/admin",
     invisible: true
   },
   {
+    isMultiLevel: true,
+    groupName: "Circulation",
+    groupId: "cỉculation",
+    paths: ["/return", "/checkout", "/checkout-info"],
+    names: ["Return", "Checkout", "Checkout information"],
+    layout: "/admin",
+  },
+  {
     path: "/checkout",
     name: "Check out books",
     icon: "fas fa-shopping-cart text-primary",
     component: Checkout,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/return",
     name: "Return books",
     icon: "fas fa-shopping-cart text-primary",
     component: ReturnBook,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/checkoutInfo",
+    path: "/checkout-info",
     name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: BorrowingInfo,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/searchbook",
-    name: "Search book",
+    path: "/find-book",
+    name: "Find book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/admin"
   },
   {
-    path: "/misplace",
-    name: "Check misplaced books",
+    isMultiLevel: true,
+    groupName: "Shelf management",
+    groupId: "shelfManagement",
+    paths: ["/location", "/location-setting"],
+    names: ["Index / Check", "Location setting"],
+    layout: "/admin",
+  },
+  {
+    path: "/location",
+    name: "Index and check book locations",
     icon: "ni ni-bullet-list-67 text-red",
     component: Misplace,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/logs",
-    name: "Security gate logs",
+    path: "/location-setting",
+    name: "Location setting",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Logs,
-    layout: "/admin"
+    component: Position,
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/lostReports",
+    isMultiLevel: true,
+    groupName: "Lost book management",
+    groupId: "lostManagement",
+    paths: ["/lost-reports", "/lost"],
+    names: ["Lost book reports", "Lost books"],
+    layout: "/admin",
+  },
+  {
+    path: "/lost-reports",
     name: "Lost book reports",
     icon: "ni ni-bullet-list-67 text-red",
     component: BookLost,
@@ -146,31 +175,33 @@ var routes = [
   },
   {
     isMultiLevel: true,
-    groupName: "Lost book management",
-    groupId: "lostManagement",
-    paths: ["/lostReports", "/lost"],
-    names: ["Lost book reports", "Lost books"],
+    groupName: "Account management",
+    groupId: "accountManagement",
+    paths: ["/librarian-mng", "/patron-mng"],
+    names: ["Librarian", "Patron"],
     layout: "/admin",
   },
   {
-    path: "/groups",
-    name: "Group management",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Types,
-    layout: "/admin"
-  },
-  {
-    path: "/staff",
+    path: "/librarian-mng",
     name: "Librarian management",
     icon: "fa fa-users text-red",
     component: Staff,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/student",
+    path: "/patron-mng",
     name: "Patron management",
     icon: "fa fa-book-reader text-red",
     component: Student,
+    layout: "/admin",
+    invisible: true
+  },
+  {
+    path: "/logs",
+    name: "Security gate logs",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Logs,
     layout: "/admin"
   },
   {
@@ -181,25 +212,36 @@ var routes = [
     layout: "/admin"
   },
   {
+    isMultiLevel: true,
+    groupName: "Other settings",
+    groupId: "otherSetting",
+    paths: ["/groups", "/author"],
+    names: ["Group managementt", "Author management"],
+    layout: "/admin",
+  },
+  {
+    path: "/groups",
+    name: "Group management",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Types,
+    layout: "/admin",
+    invisible: true
+  },
+  {
     path: "/author",
-    name: "Author Management",
+    name: "Author management",
     icon: "ni ni-bullet-list-67 text-red",
     component: Author,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
-    path: "/position",
-    name: "Position Management",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Position,
-    layout: "/admin"
-  },
-  {
-    path: "/history",
-    name: "Checkout History",
+    path: "/checkout-history",
+    name: "Checkout history",
     icon: "ni ni-bullet-list-67 text-red",
     component: History,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
   {
     path: "/profile",
@@ -211,7 +253,7 @@ var routes = [
   },
   {
     path: "/changepw",
-    name: "Change Password",
+    name: "Change password",
     icon: "fa fa-book-reader text-red",
     component: ChangePassword,
     layout: "/admin",

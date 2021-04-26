@@ -79,7 +79,7 @@ class Logs extends React.Component {
         return (
             <>
                 <Link to={{
-                    pathname: '/admin/copyDetail',
+                    pathname: '/admin/copy-detail',
                     state: {
                         copy: thisCopy,
                     }

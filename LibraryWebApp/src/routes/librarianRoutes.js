@@ -49,8 +49,8 @@ var routes = [
     invisible:true
   },
   {
-    path: "/book/detail",
-    name: "Book Detail",
+    path: "/book-detail",
+    name: "Book detail",
     icon: "ni ni-book-bookmark text-primary",
     component: BookDetail,
     layout: "/librarian",
@@ -64,6 +64,14 @@ var routes = [
     layout: "/librarian"
   },
   {
+    isMultiLevel: true,
+    groupName: "Book copies",
+    groupId: "bookCopies",
+    paths: ["/tag-copy", "/copy"],
+    names: ["Tag copy", "Copy management"],
+    layout: "/librarian",
+  },
+  {
     path: "/copy",
     name: "Copy management",
     icon: "ni ni-books text-primary",
@@ -72,7 +80,7 @@ var routes = [
     invisible: true
   },
   {
-    path: "/tagCopy",
+    path: "/tag-copy",
     name: "Tag copy",
     icon: "ni ni-books text-primary",
     component: InProcess,
@@ -80,52 +88,55 @@ var routes = [
     invisible: true
   },
   {
-    isMultiLevel: true,
-    groupName: "Book copies",
-    groupId: "bookCopies",
-    paths: ["/tagCopy", "/copy"],
-    names: ["Tag copy", "Copy management"],
-    layout: "/librarian",
-  },
-  {
-    path: "/copyDetail",
-    name: "Copy Detail",
+    path: "/copy-detail",
+    name: "Copy detail",
     icon: "ni ni-book-bookmark text-primary",
     component: CopyDetail,
     layout: "/librarian",
     invisible: true
   },
   {
+    isMultiLevel: true,
+    groupName: "Circulation",
+    groupId: "cỉculation",
+    paths: ["/return", "/checkout", "/checkout-info"],
+    names: ["Return", "Checkout", "Checkout information"],
+    layout: "/librarian",
+  },
+  {
     path: "/checkout",
     name: "Check out books",
     icon: "fas fa-shopping-cart text-primary",
     component: Checkout,
-    layout: "/librarian"
+    layout: "/librarian",
+    invisible: true
   },
   {
     path: "/return",
     name: "Return books",
     icon: "fas fa-shopping-cart text-primary",
     component: ReturnBook,
-    layout: "/librarian"
+    layout: "/librarian",
+    invisible: true
   },
   {
-    path: "/checkoutInfo",
+    path: "/checkout-info",
     name: "Checkout information",
     icon: "ni ni-bullet-list-67 text-red",
     component: CheckoutInf,
-    layout: "/librarian"
+    layout: "/librarian",
+    invisible: true
   },
   {
-    path: "/searchbook",
-    name: "Search book",
+    path: "/find-book",
+    name: "Find book",
     icon: "ni ni-book-bookmark text-primary",
     component: SearchBook,
     layout: "/librarian"
   },
   {
-    path: "/misplace",
-    name: "Check misplaced books",
+    path: "/location",
+    name: "Index/Check shelves",
     icon: "ni ni-bullet-list-67 text-red",
     component: Misplace,
     layout: "/librarian"
