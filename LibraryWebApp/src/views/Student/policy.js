@@ -85,7 +85,7 @@ class BookStu extends React.Component {
                     <div key={el.id} className="mb-5">
                         <h3>{el.name}</h3>
                         <br />
-                        <p>A {el.name} can borrow a total of {el.maxBorrowNumber} books of all categories. For each category, a {el.name} can borrow:</p>
+                        <p>A {el.name} can borrow a <mark>total of {el.maxBorrowNumber} books</mark> of all categories. For each category, a {el.name} can borrow:</p>
                         <BootstrapTable
                             data={el.borrowPolicies}
                             striped
@@ -96,10 +96,14 @@ class BookStu extends React.Component {
                             keyField="id"
                         >
                             <TableHeaderColumn dataField="category" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} headerAlign="center" dataFormat={this.categoryFormatter} width="25%">Book Group</TableHeaderColumn>
-                            <TableHeaderColumn dataField="quantity" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.quantityFormatter}>Checkouts Allowed</TableHeaderColumn>
+                            <TableHeaderColumn dataField="quantity" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.quantityFormatter}>Checkouts Allowed*</TableHeaderColumn>
                             <TableHeaderColumn dataField="action" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.dueFormatter}>Borrow Period</TableHeaderColumn>
                             <TableHeaderColumn dataField="renewTime" dataAlign="center" tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }} width="25%" headerAlign="center" dataFormat={this.renewFormatter}>Renewal Allowed</TableHeaderColumn>
                         </BootstrapTable>
+                        
+                    <i>
+                       <p>*Checkouts allowed is the total number of books a patron can borrow at a time (including books that patron currently keeping)</p> 
+                    </i>
                     </div>
                 )
             });
@@ -136,8 +140,9 @@ class BookStu extends React.Component {
                 <div>
                     <h2>Self-Service</h2>
                     <ul>
-                        <li>Self-service machine: Patron can checkout (borrow) or return books at the self-service machines. Self-service machines can be found inside the library area.</li>
+                        <li>Self-service kiosks: Patron can checkout (borrow) or return books at the self-service kiosks. Self-service kiosks can be found inside the library area.</li>
                         <li>Book drop station: Patron can return books at the book drop stations without having to come directly to the library. Book drop stations can be found at some places in the school campus.</li>
+                        <li>Find books with book reader: By adding the desired books to the "Search list" from the patron web application, the patron can then use the book readers available inside the library to search for those books position on the shelf.</li>
                     </ul>
                     <p><i>Note: Overdue books can only be returned at the librarian counter.</i></p>
                 </div>
