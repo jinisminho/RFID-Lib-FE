@@ -39,7 +39,7 @@ class Misplace extends React.Component {
             isSampleScanning: false,
             missingBooks: null,
             isPositionScanning: true,
-            isCheckFinished:false,
+            isCheckFinished: false,
         }
         this.handleSampleScan = this.handleSampleScan.bind(this)
         this.handleCheckScan = this.handleCheckScan.bind(this)
@@ -149,11 +149,11 @@ class Misplace extends React.Component {
 
     handleSampleScan(data) {
         var found = false;
-        if (data.trim().toUpperCase().includes("PAT#")) {
-            data = data.trim().toUpperCase().split("PAT#")[1];
-        }
+        // if (data.trim().toUpperCase().includes("PAT#")) {
+        //     data = data.trim().toUpperCase().split("PAT#")[1];
+        // }
 
-        if (this.props.bookData) {
+        if (this.props.bookData && data.trim().length == 24) {
             for (var i = 0; i < this.props.bookData.length; i++) {
                 if (this.props.bookData[i].rfid == data.trim()) {
                     found = true;
@@ -172,11 +172,11 @@ class Misplace extends React.Component {
 
     handleCheckScan(data) {
         var found = false;
-        if (data.trim().toUpperCase().includes("PAT#")) {
-            data = data.trim().toUpperCase().split("PAT#")[1];
-        }
+        // if (data.trim().toUpperCase().includes("PAT#")) {
+        //     data = data.trim().toUpperCase().split("PAT#")[1];
+        // }
 
-        if (this.props.initPos) {
+        if (this.props.initPos && data.trim().length == 24) {
             for (var i = 0; i < this.props.initPos.length; i++) {
                 if (this.props.initPos[i].rfid == data.trim()) {
                     found = true;
@@ -190,7 +190,7 @@ class Misplace extends React.Component {
             audio.play()
         }
 
-        if (this.props.bookData) {
+        if (this.props.bookData && data.trim().length == 24) {
             for (var i = 0; i < this.props.bookData.length; i++) {
                 if (this.props.bookData[i].rfid == data.trim()) {
                     return
@@ -205,10 +205,12 @@ class Misplace extends React.Component {
     }
 
     handlePositionScan(data) {
-        this.props.onGetPosition(data)
-        this.setState({
-            errorShow: true,
-        })
+        if (data.trim().length == 24) {
+            this.props.onGetPosition(data.trim())
+            this.setState({
+                errorShow: true,
+            })
+        }
     }
 
     commonFormat(cell, row, extraData) {
