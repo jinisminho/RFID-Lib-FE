@@ -101,6 +101,7 @@ class SearchBook extends React.Component {
         return (<img className="img-thumbnail" src={row.img} />)
     }
     handleScan=(data)=> {
+        if(data.trim().length != 24){
         for (let i = 0; i < this.props.data.length; i++) {
             if (this.props.data[i].copyRfidList.includes(data.trim()) && !this.state.finishList.includes(data.trim())) {
                 const audioEl = document.getElementsByClassName("audio-element")[0]
@@ -111,6 +112,7 @@ class SearchBook extends React.Component {
                     currentBook:this.props.data[i].id
                 })
             }
+        }
         }
     }
 
