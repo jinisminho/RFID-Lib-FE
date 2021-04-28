@@ -86,6 +86,9 @@ class InProcess extends React.Component {
         if (this.props.updateSuccess) {
             msg = "Update book copy successfully"
         }
+        if (this.props.tagSuccess) {
+            msg = "Tag book copy successfully"
+        }
         if (this.props.deleteSuccess) {
             msg = "Delete book copy successfully"
         }
@@ -524,6 +527,7 @@ const mapStateToProps = state => {
         printBarcodeSuccess: state.copy.printBarcodeSuccess,
         printAllBarcodeSuccess: state.copy.printAllBarcodeSuccess,
         updateSuccess: state.copy.updateSuccess,
+        tagSuccess: state.copy.tagSuccess,
         addSuccess: state.copy.addSuccess,
         bookCopyData: state.copy.bookCopyData,
         bookCopyStatus: state.copy.bookCopyStatus,

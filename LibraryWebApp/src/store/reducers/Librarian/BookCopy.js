@@ -8,6 +8,7 @@ const getCopyStart = (state, action) => {
     loading: true,
     deleteSuccess: false,
     updateSuccess: false,
+    tagSuccess: false,
     addSuccess: false,
     bookCopyData: null,
     printBarcodeSuccess:false,
@@ -193,14 +194,14 @@ const tagRFIDStart = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: true,
-    updateSuccess: false,
+    tagSuccess: false,
   })
 }
 const tagRFIDSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: false,
-    updateSuccess: true
+    tagSuccess: true
   })
 }
 const tagRFIDFail = (state, action) => {
@@ -324,6 +325,7 @@ export default function reducer(state = {
   sizePerPage: 10,
   deleteSuccess: false,
   updateSuccess: false,
+  tagSuccess: false,
   addSuccess: false,
   printBarcodeSuccess:false,
   bookCopyData: null,
