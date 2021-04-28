@@ -118,7 +118,7 @@ const getScannedBookStart = (state, action) => {
     })
 }
 const getScannedBookSuccess = (state, action) => {
-    let bookList = state.bookData ? [...state.bookData, action.bookData] : [...[], action.bookData]
+    let bookList = state.bookData ? (!state.bookData.includes(action.bookData) ? [...state.bookData, action.bookData] : state.bookData) : [...[], action.bookData]
     return updateObject(state, {
         bookData: bookList,
         bookError: null,
