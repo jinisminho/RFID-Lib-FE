@@ -3,7 +3,7 @@
 
 #define SS_PIN    10  // Configurable, see typical pin layout above
 #define RST_PIN   5   // Configurable, see typical pin layout above
-int piezoPin = 7;   // Configurable, see typical pin layout above
+int piezoPin = 9;   // Configurable, see typical pin layout above
 int redLedPin = 3; // Configurable, see typical pin layout above
 
 String inputString = "";         // a string to hold incoming data
@@ -56,7 +56,7 @@ void loop() {
       blinkLED(3);
     }
     if (commandString.equals("ALRT")) {
-      blindBeep(9);
+      blindBeep(3);
     }
     if (commandString.equals("BEP1")) {
       beep(1);

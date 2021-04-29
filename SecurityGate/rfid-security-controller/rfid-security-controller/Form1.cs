@@ -75,6 +75,7 @@ namespace rfid_security_controller
 
 
             InitializeComponent();
+            this.Text = "RLMS - Security Controller";
             disableControls();
             getAvailableComPorts();
             RefreshLoggedList();

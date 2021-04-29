@@ -30,6 +30,7 @@ namespace rfid_security_controller
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbPorts = new System.Windows.Forms.ComboBox();
             this.btnConnectSerialPort = new System.Windows.Forms.Button();
@@ -50,6 +51,8 @@ namespace rfid_security_controller
             this.button2 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btnBeep = new System.Windows.Forms.Button();
+            this.lbRLMS = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,6 +104,7 @@ namespace rfid_security_controller
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "LED Control";
+            this.groupBox1.Visible = false;
             // 
             // chbLed3
             // 
@@ -112,6 +116,7 @@ namespace rfid_security_controller
             this.chbLed3.TabIndex = 7;
             this.chbLed3.Text = "LED3";
             this.chbLed3.UseVisualStyleBackColor = true;
+            this.chbLed3.Visible = false;
             // 
             // chbLed1
             // 
@@ -123,6 +128,7 @@ namespace rfid_security_controller
             this.chbLed1.TabIndex = 5;
             this.chbLed1.Text = "LED1";
             this.chbLed1.UseVisualStyleBackColor = true;
+            this.chbLed1.Visible = false;
             this.chbLed1.CheckedChanged += new System.EventHandler(this.chbLed1_CheckedChanged);
             // 
             // chbLed2
@@ -135,6 +141,7 @@ namespace rfid_security_controller
             this.chbLed2.TabIndex = 6;
             this.chbLed2.Text = "LED2";
             this.chbLed2.UseVisualStyleBackColor = true;
+            this.chbLed2.Visible = false;
             // 
             // arduinoUnoPort
             // 
@@ -217,6 +224,7 @@ namespace rfid_security_controller
             this.button1.TabIndex = 20;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
@@ -227,6 +235,7 @@ namespace rfid_security_controller
             this.button2.TabIndex = 21;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnBeep
@@ -237,13 +246,38 @@ namespace rfid_security_controller
             this.btnBeep.TabIndex = 22;
             this.btnBeep.Text = "beep";
             this.btnBeep.UseVisualStyleBackColor = true;
+            this.btnBeep.Visible = false;
             this.btnBeep.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // lbRLMS
+            // 
+            this.lbRLMS.AutoSize = true;
+            this.lbRLMS.Font = new System.Drawing.Font("Century", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbRLMS.Location = new System.Drawing.Point(177, 3);
+            this.lbRLMS.Name = "lbRLMS";
+            this.lbRLMS.Size = new System.Drawing.Size(167, 57);
+            this.lbRLMS.TabIndex = 23;
+            this.lbRLMS.Text = "RLMS";
+            this.lbRLMS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(111, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(300, 38);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Security Controller";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(509, 328);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbRLMS);
             this.Controls.Add(this.btnBeep);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -253,6 +287,7 @@ namespace rfid_security_controller
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -286,6 +321,8 @@ namespace rfid_security_controller
         private System.Windows.Forms.Button button2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnBeep;
+        private System.Windows.Forms.Label lbRLMS;
+        private System.Windows.Forms.Label label1;
     }
 }
 

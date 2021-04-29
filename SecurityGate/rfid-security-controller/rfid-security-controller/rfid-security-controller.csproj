@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>cloud-computing.ico</ApplicationIcon>
+    <ApplicationIcon>security.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
@@ -187,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cloud-computing.ico" />
+    <Content Include="icon.ico" />
+    <Content Include="security.ico" />
     <Content Include="server.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
