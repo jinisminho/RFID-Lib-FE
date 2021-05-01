@@ -98,7 +98,7 @@ class ReturnBook extends React.Component {
         };
     }
     handleScan(data) {
-        if (!this.state.bookCodeList.includes(data.trim()) || data.trim().length == 24) {
+        if (!(this.state.bookCodeList.includes(data.trim()) || data.trim().length != 24)) {
             this.setState({
                 successShow: false,
                 errorShow: false,
