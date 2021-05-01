@@ -53,6 +53,7 @@ namespace rfid_security_controller
             this.btnBeep = new System.Windows.Forms.Button();
             this.lbRLMS = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnGetPorts = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -190,7 +191,7 @@ namespace rfid_security_controller
             this.txtMessage.Location = new System.Drawing.Point(12, 234);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ReadOnly = true;
-            this.txtMessage.Size = new System.Drawing.Size(481, 82);
+            this.txtMessage.Size = new System.Drawing.Size(645, 82);
             this.txtMessage.TabIndex = 17;
             this.txtMessage.Text = "";
             // 
@@ -271,11 +272,22 @@ namespace rfid_security_controller
             this.label1.Text = "Security Controller";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnGetPorts
+            // 
+            this.btnGetPorts.Location = new System.Drawing.Point(530, 127);
+            this.btnGetPorts.Name = "btnGetPorts";
+            this.btnGetPorts.Size = new System.Drawing.Size(75, 23);
+            this.btnGetPorts.TabIndex = 25;
+            this.btnGetPorts.Text = "Get ports";
+            this.btnGetPorts.UseVisualStyleBackColor = true;
+            this.btnGetPorts.Click += new System.EventHandler(this.btnGetPorts_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 328);
+            this.ClientSize = new System.Drawing.Size(669, 328);
+            this.Controls.Add(this.btnGetPorts);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbRLMS);
             this.Controls.Add(this.btnBeep);
@@ -323,6 +335,7 @@ namespace rfid_security_controller
         private System.Windows.Forms.Button btnBeep;
         private System.Windows.Forms.Label lbRLMS;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnGetPorts;
     }
 }
 

@@ -448,5 +448,22 @@ namespace rfid_security_controller
         {
             uhfPort.WriteLine("#BEP1");
         }
+
+        private void btnGetPorts_Click(object sender, EventArgs e)
+        {
+            getAvailableComPorts();
+            cbPorts.Items.Clear();
+            cbUhfPorts.Items.Clear();
+            foreach (string port in ports)
+            {
+                cbPorts.Items.Add(port);
+                cbUhfPorts.Items.Add(port);
+                if (ports[0] != null)
+                {
+                    cbPorts.SelectedItem = ports[0];
+                    cbUhfPorts.SelectedItem = ports[0];
+                }
+            }
+        }
     }
 }
