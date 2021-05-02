@@ -181,13 +181,15 @@ const extendDueStart = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: true,
-    successMsg: null
+    successMsg: null,
+    isRenewing: true,
   })
 }
 const extendDueSuccess = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: false,
+    isRenewing: false,
     successMsg: 'Renewed successfully'
   })
 }
@@ -196,6 +198,7 @@ const extendDueFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
     loading: false,
+    isRenewing: false,
     successMsg: null
   })
 }
@@ -322,6 +325,9 @@ export default function reducer(state = {
   pageBorrowing: 1,
   pageReturned: 1,
   pageLost: 1,
+
+  isRenewing: false,
+
 
 }, action) {
   switch (action.type) {

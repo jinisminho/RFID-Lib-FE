@@ -512,8 +512,21 @@ class BorrowingInfo extends React.Component {
                 </Row>
             </>
         )
+        if (this.props.isRenewing) {
+            display =
+                <Row className="justify-content-center">
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100"><Spinner /></Card>
+                    </Row>
+                </Row>
+        }
         if (!this.props.studentData && this.props.loading) {
-            display = <Card className="shadow mt-1 pb-auto w-100"><Spinner /></Card>
+            display =
+                <Row className="justify-content-center">
+                    <Row className="shadow mt-1 pb-auto w-100">
+                        <Card className="shadow mt-1 pb-auto w-100"><Spinner /></Card>
+                    </Row>
+                </Row>
         }
 
         return (
@@ -588,6 +601,7 @@ const mapStateToProps = state => {
         pageLost: state.infoLside.pageLost,
         totalSizeLost: state.infoLside.totalLost,
         dataLost: state.infoLside.dataLost,
+        isRenewing: state.infoLside.isRenewing,
     }
 }
 
