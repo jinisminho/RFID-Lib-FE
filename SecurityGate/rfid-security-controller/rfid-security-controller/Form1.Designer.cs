@@ -63,7 +63,7 @@ namespace rfid_security_controller
             // 
             this.groupBox2.Controls.Add(this.cbPorts);
             this.groupBox2.Controls.Add(this.btnConnectSerialPort);
-            this.groupBox2.Location = new System.Drawing.Point(6, 102);
+            this.groupBox2.Location = new System.Drawing.Point(12, 149);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -152,7 +152,7 @@ namespace rfid_security_controller
             // 
             this.groupBox3.Controls.Add(this.cbUhfPorts);
             this.groupBox3.Controls.Add(this.btnConnectUhf);
-            this.groupBox3.Location = new System.Drawing.Point(272, 102);
+            this.groupBox3.Location = new System.Drawing.Point(278, 149);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
@@ -188,10 +188,10 @@ namespace rfid_security_controller
             // txtMessage
             // 
             this.txtMessage.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtMessage.Location = new System.Drawing.Point(12, 234);
+            this.txtMessage.Location = new System.Drawing.Point(12, 280);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ReadOnly = true;
-            this.txtMessage.Size = new System.Drawing.Size(645, 82);
+            this.txtMessage.Size = new System.Drawing.Size(487, 106);
             this.txtMessage.TabIndex = 17;
             this.txtMessage.Text = "";
             // 
@@ -200,7 +200,7 @@ namespace rfid_security_controller
             this.lblNotConnectAlarm.AutoSize = true;
             this.lblNotConnectAlarm.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNotConnectAlarm.ForeColor = System.Drawing.Color.Red;
-            this.lblNotConnectAlarm.Location = new System.Drawing.Point(12, 166);
+            this.lblNotConnectAlarm.Location = new System.Drawing.Point(18, 213);
             this.lblNotConnectAlarm.Name = "lblNotConnectAlarm";
             this.lblNotConnectAlarm.Size = new System.Drawing.Size(309, 20);
             this.lblNotConnectAlarm.TabIndex = 18;
@@ -211,7 +211,7 @@ namespace rfid_security_controller
             this.lblNotConnectScanner.AutoSize = true;
             this.lblNotConnectScanner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNotConnectScanner.ForeColor = System.Drawing.Color.Red;
-            this.lblNotConnectScanner.Location = new System.Drawing.Point(12, 196);
+            this.lblNotConnectScanner.Location = new System.Drawing.Point(18, 243);
             this.lblNotConnectScanner.Name = "lblNotConnectScanner";
             this.lblNotConnectScanner.Size = new System.Drawing.Size(329, 20);
             this.lblNotConnectScanner.TabIndex = 19;
@@ -274,7 +274,7 @@ namespace rfid_security_controller
             // 
             // btnGetPorts
             // 
-            this.btnGetPorts.Location = new System.Drawing.Point(530, 127);
+            this.btnGetPorts.Location = new System.Drawing.Point(12, 121);
             this.btnGetPorts.Name = "btnGetPorts";
             this.btnGetPorts.Size = new System.Drawing.Size(75, 23);
             this.btnGetPorts.TabIndex = 25;
@@ -286,7 +286,7 @@ namespace rfid_security_controller
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(669, 328);
+            this.ClientSize = new System.Drawing.Size(516, 398);
             this.Controls.Add(this.btnGetPorts);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbRLMS);
@@ -299,6 +299,7 @@ namespace rfid_security_controller
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
