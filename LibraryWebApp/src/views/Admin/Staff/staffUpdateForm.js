@@ -100,6 +100,8 @@ const validate = values => {
         errors.fullName = 'Staff name is required';
     } else if (values.fullName.length > 100) {
         errors.fullName = 'Staff name length is less than or equal 100';
+    }else if(!/^[a-zA-Z\s]+$/i.test(values.fullName)){
+        errors.fullName = 'Staff name is not valid';
     }
     if (!values.phone) {
         errors.phone = 'Phone number is required';

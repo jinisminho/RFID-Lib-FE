@@ -76,14 +76,41 @@ const validate = values => {
   }
   if (!values.callNumber) {
     errors.callNumber = 'Call number is required'
-  }else if(!values.callNumber.length>50 || !/^[0-9]{3}[.]?[0-9A-Z\s]+$/i.test(values.callNumber)){
-    errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
+  }else if(!values.callNumber.length>50){
+    errors.callNumber = 'Call number is not valid (ex: 123.123 ABC 1991)'
+  }else{
+    let err = false
+    let tmp_arr = values.callNumber.split(" ")
+    if(tmp_arr.length!=3){
+      err = true
+    }
+    if(!/^\d{3}(\.\d{1,6})?$/i.test(tmp_arr[0])){
+      err = true
+    }
+    if(!/^[a-zA-Z]{3}$/i.test(tmp_arr[1])){
+      err = true
+    }
+    if(!/^[0-9]{4}[a-zA-Z]?$/i.test(tmp_arr[2])){
+      err = true
+    }else if(tmp_arr[2].substring(0, 4)!=(values.publishYear?values.publishYear.getFullYear():null)){
+      err = true
+    }
+    if(err){
+      errors.callNumber = 'Call number is not valid (ex: 123.123 ABC 1991)'
+    }
   }
+  // else if(!values.callNumber.length>50 || !/^[0-9]{3}[.]?[0-9A-Z\s]+$/i.test(values.callNumber)){
+  //   errors.callNumber = 'Call number is not valid (ex: 123.ABC)'
+  // }
+
+
   // if (!values.ddc) {
   //   errors.ddc = 'DDC is required'
   // }else if(!/^-?\d{3}(\.\d+)?$/.test(values.ddc)){
   //   errors.ddc = 'DDC is not valid (ex: 123.123)'
   // }
+
+
   if (!values.edition) {
     errors.edition = 'Edition is required'
   } else if (!/^[0-9]+$/i.test(values.edition)) {
