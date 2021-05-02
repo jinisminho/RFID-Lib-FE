@@ -36,36 +36,36 @@ import { Popover, OverlayTrigger, Row } from 'react-bootstrap'
 
 const renderField = ({ input, placeholder, type, meta: { touched, error }, title, isRequired }) => (
     <>
-      <Row>
-        <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
-      </Row>
-      <Row>
-        <InputGroup className="input-group-alternative">
-          <Input {...input} placeholder={placeholder} type={type} />
-          {touched && ((error && <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="right"
-            overlay={
-              <Popover>
-                <Popover.Content>
-                  <span className="text-danger">{error}</span>
-                </Popover.Content>
-              </Popover>
-            }
-          >
-            <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
-          </OverlayTrigger>))}
-        </InputGroup>
-      </Row>
-    </>
-  )
-  const renderSelectOptions = (option) => (
-    <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
-  )
-  const renderSelectField = ({ input, meta: { touched, error }, title, options, isRequired }) => {
-    return(
-    <>
         <Row>
+            <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
+        </Row>
+        <Row>
+            <InputGroup className="input-group-alternative">
+                <Input {...input} placeholder={placeholder} type={type} />
+                {touched && ((error && <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Content>
+                                <span className="text-danger">{error}</span>
+                            </Popover.Content>
+                        </Popover>
+                    }
+                >
+                    <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
+                </OverlayTrigger>))}
+            </InputGroup>
+        </Row>
+    </>
+)
+const renderSelectOptions = (option) => (
+    <option key={option} value={option}>{MyConstant.GENDER_LIST[option]}</option>
+)
+const renderSelectField = ({ input, meta: { touched, error }, title, options, isRequired }) => {
+    return (
+        <>
+            <Row>
                 <Label>{title}{isRequired ? <span className="text-danger">*</span> : null}</Label>
             </Row>
             <Row >
@@ -87,23 +87,24 @@ const renderField = ({ input, placeholder, type, meta: { touched, error }, title
                         <Button onClick={(e) => e.preventDefault()} className="text-danger"><i className="fas fa-exclamation-circle"></i></Button>
                     </OverlayTrigger>))}
                 </InputGroup>
-        </Row>
-    </>
-  )}
-  const validateImage = value =>{
-    let msg=undefined
-    let imgExt=["PNG","JPEG","JPG","BMP","GIF"]
-    if(!value){
-      msg="Required"
-    }else if(typeof value=="object"){ 
-      if(!value[0]){
-        msg="Image file is not valid"
-      }else if(!imgExt.includes(value[0].name.split(".")[1].toUpperCase())){
-        msg="Image file is not valid"
-      }
-    } 
+            </Row>
+        </>
+    )
+}
+const validateImage = value => {
+    let msg = undefined
+    let imgExt = ["PNG", "JPEG", "JPG", "BMP", "GIF"]
+    if (!value) {
+        msg = "Required"
+    } else if (typeof value == "object") {
+        if (!value[0]) {
+            msg = "Image file is not valid"
+        } else if (!imgExt.includes(value[0].name.split(".")[1].toUpperCase())) {
+            msg = "Image file is not valid"
+        }
+    }
     return msg
-  }
+}
 
 const validate = values => {
     const errors = {};
@@ -111,7 +112,7 @@ const validate = values => {
         errors.fullName = 'Staff name is required';
     } else if (values.fullName.length > 100) {
         errors.fullName = 'Staff name length is less than or equal 100';
-    }else if(!/^[a-zA-Z\s]+$/i.test(values.fullName)){
+    } else if (!/^[a-zA-Z\s]+$/i.test(values.fullName)) {
         errors.fullName = 'Staff name is not valid';
     }
     if (!values.phone) {
@@ -131,9 +132,12 @@ const validate = values => {
 };
 const onKeyPress = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); //<===== This stops the form from being submitted
-    } 
-  }
+        event.preventDefault(); //<===== This stops the form from being submitted
+    }
+}
+const RfidNormalizer = value => {
+    return value.trim().toUpperCase()
+}
 class StaffForm extends Component {
     state = { imageFile: [] };
     componentDidMount() {
@@ -163,7 +167,7 @@ class StaffForm extends Component {
                         </Col>
                         <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
                             <Row>
-                            <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                     <FormGroup className="mb-3">
                                         <Field
                                             name="rfid"
@@ -171,6 +175,7 @@ class StaffForm extends Component {
                                             type="text"
                                             isRequired
                                             placeholder="Enter RFID Number"
+                                            normalize={RfidNormalizer}
                                             title="RFID Number"
                                         />
                                     </FormGroup>
@@ -223,14 +228,14 @@ class StaffForm extends Component {
                                     </FormGroup>
                                 </Col> */}
                                 <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                <Field
-                                    name="gender"
-                                    isRequired
-                                    title="Gender"
-                                    defaultValue={Object.keys(MyConstant.GENDER_LIST)[0]}
-                                    options={Object.keys(MyConstant.GENDER_LIST)}
-                                    component={renderSelectField}/>
-                            </Col>
+                                    <Field
+                                        name="gender"
+                                        isRequired
+                                        title="Gender"
+                                        defaultValue={Object.keys(MyConstant.GENDER_LIST)[0]}
+                                        options={Object.keys(MyConstant.GENDER_LIST)}
+                                        component={renderSelectField} />
+                                </Col>
                             </Row>
                         </Col>
                         {/* <Col className="col-sm-12 col-md-5 col-lg-5 col-xl-5 mx-2">
@@ -243,23 +248,23 @@ class StaffForm extends Component {
                                 component={FieldDatePicker} />
                             </FormGroup>
                         </Col> */}
-                        
+
                     </Row>
                     <div className="row">
-                    <div className="col-6 text-left">
-                        <span className="text-danger">* Required field</span>
+                        <div className="col-6 text-left">
+                            <span className="text-danger">* Required field</span>
+                        </div>
+                        <div className="col-6 text-right">
+                            <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
+                                <span className="btn-label">
+                                </span> Cancel
+                </button>
+                            <button type="submit" className="btn btn-wd btn-success ">
+                                <span className="btn-label">
+                                </span> Save
+                </button>
+                        </div>
                     </div>
-                    <div className="col-6 text-right">
-                    <button onClick={this.props.handleCancel} type="button" className="btn btn-wd btn-default" >
-                        <span className="btn-label">
-                        </span> Cancel
-                </button>
-                    <button type="submit" className="btn btn-wd btn-success ">
-                        <span className="btn-label">
-                        </span> Save
-                </button>
-                </div>
-                </div>
                 </Form>
             </CardBody>
         </Card>

@@ -178,6 +178,9 @@ const onKeyPress = (event) => {
         event.preventDefault(); //<===== This stops the form from being submitted
     }
 }
+const RfidNormalizer = value => {
+    return value.trim().toUpperCase()
+}
 class StudentForm extends Component {
     state = { imageFile: [] };
     componentDidMount() {
@@ -215,6 +218,7 @@ class StudentForm extends Component {
                                             type="text"
                                             isRequired
                                             placeholder="Enter RFID Number"
+                                            normalize={RfidNormalizer}
                                             title="RFID Number"
                                         />
                                     </FormGroup>
