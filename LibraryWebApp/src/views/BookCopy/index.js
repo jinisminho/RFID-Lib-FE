@@ -244,7 +244,7 @@ class BookCopy extends React.Component {
         )
     }
     imageFormatter(cell, row) {
-        return (<img className="img-thumbnail" src={row.book.img} />)
+        return (<img className="img-thumbnail" src={row.book.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>)
     }
     bookDescriptionFormat(cell, row) {
         let author = []

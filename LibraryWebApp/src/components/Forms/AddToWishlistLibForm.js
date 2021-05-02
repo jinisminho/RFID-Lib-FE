@@ -155,7 +155,7 @@ class AddToWishlistLibForm extends React.Component {
 
         let leftSide = (
             <>
-                {myValues.avatar ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.avatar} /></Row></Col>) : null}
+                {myValues.avatar ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.avatar} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")} /></Row></Col>) : null}
                 <Col lg={{ size: 3, offset: 1 }}>
                     <FormGroup className="mb-3">
                         <Field

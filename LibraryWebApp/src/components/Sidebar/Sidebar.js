@@ -151,6 +151,7 @@ class Sidebar extends React.Component {
                 alt={logo.imgAlt}
                 className="navbar-brand-img"
                 src={logo.imgSrc}
+                onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}
               />
             </NavbarBrand>
           ) : null}
@@ -163,6 +164,7 @@ class Sidebar extends React.Component {
                     <img
                       alt="..."
                       src={require("assets/img/theme/team-1-800x800.jpg")}
+                      onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}
                     />
                   </span>
                 </Media>
@@ -192,11 +194,11 @@ class Sidebar extends React.Component {
                   <Col className="collapse-brand" xs="6">
                     {logo.innerLink ? (
                       <Link to={logo.innerLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img alt={logo.imgAlt} src={logo.imgSrc} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>
                       </Link>
                     ) : (
                       <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img alt={logo.imgAlt} src={logo.imgSrc} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>
                       </a>
                     )}
                   </Col>

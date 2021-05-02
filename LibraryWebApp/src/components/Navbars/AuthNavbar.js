@@ -34,7 +34,7 @@ class AdminNavbar extends React.Component {
         >
           <Container className="px-4">
             <NavbarBrand to="/" tag={Link}>
-              <img alt="..." src={require("assets/img/brand/logo_trans_2.png")} />
+              <img alt="..." src={require("assets/img/brand/logo_trans_2.png")} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>
             </NavbarBrand>
             <button className="navbar-toggler" id="navbar-collapse-main">
               <span className="navbar-toggler-icon" />

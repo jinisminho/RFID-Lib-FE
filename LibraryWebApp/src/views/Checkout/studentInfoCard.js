@@ -7,7 +7,7 @@ const StudentInfoCard = ({student,overdue,showOverdue})  =>{
       <div className="container border-left m-3" >
           <div className="row">
           <div className="pl-3">
-            <img width='150' height='200' src={student.img}  alt="" className="img-rounded"/>
+            <img width='150' height='200' src={student.img}  alt="" className="img-rounded" onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>
           </div>
           <div className="pl-4">
           <div>
