@@ -133,7 +133,7 @@ class TagRFIDForm extends React.Component {
                 <CardBody>
                     <Form onSubmit={handleSubmit} onKeyDown={this.onKeyPress}>
                         <Row>
-                            {myValues.img ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.img} /></Row></Col>) : null}
+                            {myValues.img ? (<Col lg="2"><Row><img className="img-thumbnail" src={myValues.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")} /></Row></Col>) : null}
                             <Col lg={{ size: 3, offset: 1 }}>
                                 <FormGroup className="mb-3">
                                     <Field

@@ -151,7 +151,7 @@ const CopyForm = ({
         <CardBody>
             <Form onSubmit={handleSubmit} onKeyDown={onKeyPress}>
                 <Row>
-                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img} /></Row></Col>
+                    <Col lg="2"><Row><img className="img-thumbnail" src={initialValues.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/></Row></Col>
                     <Col lg={{ size: 3, offset: 1 }}>
 
                         <FormGroup className="mb-3">

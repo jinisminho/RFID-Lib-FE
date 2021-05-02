@@ -48,6 +48,7 @@ class AdminNavbar extends React.Component {
                       <img
                         alt="..."
                         src={this.props.avatar}
+                        onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}
                       />
                     </span>
                     <Media className="ml-2 d-none d-lg-block">

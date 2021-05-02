@@ -198,7 +198,7 @@ class Checkout extends React.Component {
         )
     }
     imageFormatter(cell, row) {
-        return (<img className="img-thumbnail" src={row.copy.img} />)
+        return (<img className="img-thumbnail" src={row.copy.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>)
     }
     handleScan(data) {
         if (this.props.studentData != null) {

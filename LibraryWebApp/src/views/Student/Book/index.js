@@ -153,7 +153,7 @@ class Book extends React.Component {
     }
 
     imageFormatter(cell, row) {
-        return (<img className="img-thumbnail" src={cell} />)
+        return (<img className="img-thumbnail" src={cell} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>)
     }
 
     handleAddReminder(bookId, patronId) {

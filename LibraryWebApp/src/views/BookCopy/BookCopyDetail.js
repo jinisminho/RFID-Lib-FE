@@ -53,7 +53,7 @@ class BookCopyDetail extends React.Component {
                     <Col lg="1"></Col>
                     <Col lg="3">
                         <Row>
-                            <img className="img-thumbnail" src={thisBook.img} />
+                            <img className="img-thumbnail" src={thisBook.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>
                         </Row>
                     </Col>
                     <Col>

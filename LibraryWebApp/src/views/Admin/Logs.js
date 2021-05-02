@@ -91,7 +91,7 @@ class Logs extends React.Component {
 
     imageFormatter(cell, row) {
         let thisCopy = row.bookCopy
-        return (<img className="img-thumbnail" src={thisCopy.book.img} />)
+        return (<img className="img-thumbnail" src={thisCopy.book.img} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>)
     }
 
     handleSelect(date) {

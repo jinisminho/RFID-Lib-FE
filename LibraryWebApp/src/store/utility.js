@@ -185,7 +185,7 @@ export function bookDescriptionFormat(cell, row, extraData) {
 }
 
 export function imageFormatter(cell, row) {
-    return (<img className="img-thumbnail" src={cell} />)
+    return (<img className="img-thumbnail" src={cell} onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}/>)
 }
 
 export function responseError(func, err) {

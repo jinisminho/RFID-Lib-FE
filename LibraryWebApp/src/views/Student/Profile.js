@@ -71,7 +71,7 @@ class BookStu extends React.Component {
 
             //Set img src
             // document.getElementById('profileImg').src = require("assets/img/theme/team-4-800x800.jpg")
-            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : require("assets/img/theme/no-image.png")) : require("assets/img/theme/no-image.png")
 
             return
         }
@@ -88,7 +88,7 @@ class BookStu extends React.Component {
             this.setState({ errorShow: true, searchValue: '' })
         }
         if (prevProps.profile != this.props.profile) {
-            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg") : "https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg"
+            document.getElementById('profileImg').src = this.props.profile ? (this.props.profile.avatar ? this.props.profile.avatar : require("assets/img/theme/no-image.png")) : require("assets/img/theme/no-image.png")
         }
 
     }
@@ -156,6 +156,7 @@ class BookStu extends React.Component {
                                                 id="profileImg"
                                                 className="rounded-circle"
                                                 src='#'
+                                                onError={(e) => e.target.src = require("assets/img/theme/no-image.png")}
                                             />
                                         </a>
                                     </div>
