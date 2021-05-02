@@ -146,32 +146,14 @@ namespace DropBoxUI
             returnForm.ShowDialog();
         }
 
-        private void btGetPortFrontDoor_Click(object sender, EventArgs e)
+        private void cbFrontDoorPort_SelectedIndexChanged(object sender, EventArgs e)
         {
             portFD = cbFrontDoorPort.GetItemText(cbFrontDoorPort.SelectedItem);
-            //connectToFB();
         }
 
-        private void btnGetPortBD_Click(object sender, EventArgs e)
+        private void cbBackDoorPort_SelectedIndexChanged(object sender, EventArgs e)
         {
             portBD = cbBackDoorPort.GetItemText(cbBackDoorPort.SelectedItem);
-
-        }
-
-        private void btClose_Click(object sender, EventArgs e)
-        {
-            if (isFDConnecting)
-            {
-                serialFrontDoor.Write("#FDCL\n");
-            }
-        }
-
-        private void btOpen_Click(object sender, EventArgs e)
-        {
-            if (isFDConnecting)
-            {
-                serialFrontDoor.Write("#FDOP\n");
-            }
         }
     }
 }
