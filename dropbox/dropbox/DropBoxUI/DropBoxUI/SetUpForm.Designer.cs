@@ -35,20 +35,17 @@
             this.serialUHF = new System.IO.Ports.SerialPort(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btnGetPortBD = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cbBackDoorPort = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btGetPortFrontDoor = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.cbFrontDoorPort = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGetAllPort = new System.Windows.Forms.Button();
             this.pnRight = new System.Windows.Forms.Panel();
             this.btAccess = new System.Windows.Forms.Button();
-            this.btClose = new System.Windows.Forms.Button();
-            this.btOpen = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnRight.SuspendLayout();
@@ -61,24 +58,13 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.btnGetPortBD);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.cbBackDoorPort);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(3, 103);
+            this.panel3.Location = new System.Drawing.Point(3, 194);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(475, 100);
             this.panel3.TabIndex = 2;
-            // 
-            // btnGetPortBD
-            // 
-            this.btnGetPortBD.Location = new System.Drawing.Point(218, 49);
-            this.btnGetPortBD.Name = "btnGetPortBD";
-            this.btnGetPortBD.Size = new System.Drawing.Size(91, 27);
-            this.btnGetPortBD.TabIndex = 4;
-            this.btnGetPortBD.Text = "Get Port";
-            this.btnGetPortBD.UseVisualStyleBackColor = true;
-            this.btnGetPortBD.Click += new System.EventHandler(this.btnGetPortBD_Click);
             // 
             // label5
             // 
@@ -96,6 +82,7 @@
             this.cbBackDoorPort.Name = "cbBackDoorPort";
             this.cbBackDoorPort.Size = new System.Drawing.Size(121, 24);
             this.cbBackDoorPort.TabIndex = 1;
+            this.cbBackDoorPort.SelectedIndexChanged += new System.EventHandler(this.cbBackDoorPort_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -109,26 +96,13 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btOpen);
-            this.panel1.Controls.Add(this.btClose);
-            this.panel1.Controls.Add(this.btGetPortFrontDoor);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.cbFrontDoorPort);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(3, 94);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(475, 100);
             this.panel1.TabIndex = 0;
-            // 
-            // btGetPortFrontDoor
-            // 
-            this.btGetPortFrontDoor.Location = new System.Drawing.Point(218, 47);
-            this.btGetPortFrontDoor.Name = "btGetPortFrontDoor";
-            this.btGetPortFrontDoor.Size = new System.Drawing.Size(91, 26);
-            this.btGetPortFrontDoor.TabIndex = 3;
-            this.btGetPortFrontDoor.Text = "Get Port";
-            this.btGetPortFrontDoor.UseVisualStyleBackColor = true;
-            this.btGetPortFrontDoor.Click += new System.EventHandler(this.btGetPortFrontDoor_Click);
             // 
             // label4
             // 
@@ -146,6 +120,7 @@
             this.cbFrontDoorPort.Name = "cbFrontDoorPort";
             this.cbFrontDoorPort.Size = new System.Drawing.Size(121, 24);
             this.cbFrontDoorPort.TabIndex = 1;
+            this.cbFrontDoorPort.SelectedIndexChanged += new System.EventHandler(this.cbFrontDoorPort_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -158,7 +133,7 @@
             // 
             // btnGetAllPort
             // 
-            this.btnGetAllPort.Location = new System.Drawing.Point(3, 208);
+            this.btnGetAllPort.Location = new System.Drawing.Point(3, 299);
             this.btnGetAllPort.Name = "btnGetAllPort";
             this.btnGetAllPort.Size = new System.Drawing.Size(475, 37);
             this.btnGetAllPort.TabIndex = 4;
@@ -168,6 +143,7 @@
             // 
             // pnRight
             // 
+            this.pnRight.Controls.Add(this.label3);
             this.pnRight.Controls.Add(this.btAccess);
             this.pnRight.Controls.Add(this.btnGetAllPort);
             this.pnRight.Controls.Add(this.panel1);
@@ -175,12 +151,12 @@
             this.pnRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnRight.Location = new System.Drawing.Point(0, 0);
             this.pnRight.Name = "pnRight";
-            this.pnRight.Size = new System.Drawing.Size(481, 295);
+            this.pnRight.Size = new System.Drawing.Size(483, 381);
             this.pnRight.TabIndex = 4;
             // 
             // btAccess
             // 
-            this.btAccess.Location = new System.Drawing.Point(4, 250);
+            this.btAccess.Location = new System.Drawing.Point(4, 341);
             this.btAccess.Name = "btAccess";
             this.btAccess.Size = new System.Drawing.Size(475, 37);
             this.btAccess.TabIndex = 5;
@@ -188,31 +164,22 @@
             this.btAccess.UseVisualStyleBackColor = true;
             this.btAccess.Click += new System.EventHandler(this.btAccess_Click);
             // 
-            // btClose
+            // label3
             // 
-            this.btClose.Location = new System.Drawing.Point(378, 12);
-            this.btClose.Name = "btClose";
-            this.btClose.Size = new System.Drawing.Size(75, 23);
-            this.btClose.TabIndex = 4;
-            this.btClose.Text = "close";
-            this.btClose.UseVisualStyleBackColor = true;
-            this.btClose.Click += new System.EventHandler(this.btClose_Click);
-            // 
-            // btOpen
-            // 
-            this.btOpen.Location = new System.Drawing.Point(378, 49);
-            this.btOpen.Name = "btOpen";
-            this.btOpen.Size = new System.Drawing.Size(75, 23);
-            this.btOpen.TabIndex = 5;
-            this.btOpen.Text = "open";
-            this.btOpen.UseVisualStyleBackColor = true;
-            this.btOpen.Click += new System.EventHandler(this.btOpen_Click);
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label3.Location = new System.Drawing.Point(12, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(418, 25);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "SMART LIBRARY BOOK DROP SETTING";
             // 
             // SetUpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 295);
+            this.ClientSize = new System.Drawing.Size(483, 381);
             this.Controls.Add(this.pnRight);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetUpForm";
@@ -223,6 +190,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.pnRight.ResumeLayout(false);
+            this.pnRight.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -243,10 +211,7 @@
         private System.Windows.Forms.Button btnGetAllPort;
         private System.Windows.Forms.Panel pnRight;
         private System.Windows.Forms.Button btAccess;
-        private System.Windows.Forms.Button btnGetPortBD;
-        private System.Windows.Forms.Button btGetPortFrontDoor;
-        private System.Windows.Forms.Button btOpen;
-        private System.Windows.Forms.Button btClose;
+        private System.Windows.Forms.Label label3;
     }
 }
 

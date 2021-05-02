@@ -72,7 +72,7 @@ namespace DropBoxUI
             this.portBack = portBack;
             //this.TopMost = true;
             //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;
 
         }
 
@@ -210,8 +210,6 @@ namespace DropBoxUI
                 if (rs.book.status.Contains(BookStatus.RETURNED.ToString()))
                 {
                     processStatus = ProcessStatus.RETURNED;
-                    btStart.Text = ButtonText.DONE.ToString();
-                    btStart.Enabled = true;
                     txtMessage.ForeColor = Color.Green;
                     txtMessage.Text = "Returned item";
                     openBackDoor();
@@ -251,43 +249,20 @@ namespace DropBoxUI
         //call when close front door to scan
         private void timerCountBook_Tick(object sender, EventArgs e)
         {
-            string msg = serialMiddleApp.ReadLine();
-            Console.WriteLine("msg" + msg);
-            if (msg.Contains("#STOP"))
-            {
-                timerCountBook.Enabled = false;
-            }
-            else
-            {
-               
-                List<String> books = getRfid(msg.Trim());
-                numberOfBookScanned = books.Count();
-                //get list
-                if (numberOfBookScanned < 1)
+            if (serialMiddleApp.IsOpen) {
+                string msg = serialMiddleApp.ReadLine();
+                Console.WriteLine("msg" + msg);
+                if (msg.Contains("#STOP"))
                 {
-                    txtMessage.ForeColor = Color.Red;
-                    txtMessage.Text = "There is no item. The system will cancel automatically.";
-                    var t = new Timer();
-                    t.Interval = 4000;
-                    t.Tick += (s, d) =>
-                    {
-                        resetState();
-                        t.Stop();
-                    };
-                    t.Start();
-
-                }
-                else if (numberOfBookScanned > 1)
-                {
-                    txtMessage.ForeColor = Color.Red;
-                    txtMessage.Text = "Only one 1 item each transaction. Please take your items out. The door will close in few second.";
-                    processStatus = ProcessStatus.ERROR;
-                    openFrontDoor();
+                    timerCountBook.Enabled = false;
                 }
                 else
                 {
-                    bookRfid = books[0];
-                    if (bookRfid.Trim().Equals(""))
+
+                    List<String> books = getRfid(msg.Trim());
+                    numberOfBookScanned = books.Count();
+                    //get list
+                    if (numberOfBookScanned < 1)
                     {
                         txtMessage.ForeColor = Color.Red;
                         txtMessage.Text = "There is no item. The system will cancel automatically.";
@@ -299,13 +274,39 @@ namespace DropBoxUI
                             t.Stop();
                         };
                         t.Start();
+
+                    }
+                    else if (numberOfBookScanned > 1)
+                    {
+                        txtMessage.ForeColor = Color.Red;
+                        txtMessage.Text = "Only one 1 item each transaction. Please take your items out. The door will close in few second.";
+                        processStatus = ProcessStatus.ERROR;
+                        openFrontDoor();
                     }
                     else
                     {
-                        callReturnAPI();
+                        bookRfid = books[0];
+                        if (bookRfid.Trim().Equals(""))
+                        {
+                            txtMessage.ForeColor = Color.Red;
+                            txtMessage.Text = "There is no item. The system will cancel automatically.";
+                            var t = new Timer();
+                            t.Interval = 4000;
+                            t.Tick += (s, d) =>
+                            {
+                                resetState();
+                                t.Stop();
+                            };
+                            t.Start();
+                        }
+                        else
+                        {
+                            callReturnAPI();
+                        }
                     }
                 }
             }
+            
         }
 
         //bat dau tu day
@@ -377,7 +378,9 @@ namespace DropBoxUI
         private void timerResetSuccess_Tick(object sender, EventArgs e)
         {
             timerResetSuccess.Enabled = false;
-            resetState();
+            btStart.Text = ButtonText.DONE.ToString();
+            btStart.Enabled = true;
+            //resetState();
         }
 
         private List<String> getRfid(String message)
