@@ -33,8 +33,8 @@ class Main extends Component {
       <div className="wrapper">
         <Switch>
           <Route path="/auth" render={props => <AuthLayout {...props} />} />
-          <Route path="/search" render={props => <GuestLayout {...props} />} />
-          <Redirect from="*" to="/auth" />
+          {/* <Route path="/search" render={props => <GuestLayout {...props} />} /> */}
+          {/* <Redirect from="*" to="/auth" /> */}
         </Switch>
       </div>
     )

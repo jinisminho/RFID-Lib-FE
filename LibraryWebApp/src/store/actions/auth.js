@@ -100,7 +100,6 @@ export const authCheckState = ()=>{
                 const role= localStorage.getItem("Role")
                 const avt= localStorage.getItem("Avatar")
                 const username= localStorage.getItem("Username")
-                console.log(userId,role,avt,username)
                 dispatch(authSuccess(token, userId,role,avt,username))
         }
     }

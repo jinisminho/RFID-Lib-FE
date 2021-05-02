@@ -71,7 +71,7 @@ class AdminNavbar extends React.Component {
                     <span>Change password</span>
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={this.props.logout}>
+                  <DropdownItem href="/auth" onClick={this.props.logout}>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>
