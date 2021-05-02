@@ -103,7 +103,7 @@ class SearchBook extends React.Component {
     handleScan=(data)=> {
         if(data.trim().length == 24){
         for (let i = 0; i < this.props.data.length; i++) {
-            if (this.props.data[i].copyRfidList.includes(data.trim()) && !this.state.finishList.includes(data.trim())) {
+            if (this.props.data[i].copyRfidList.includes(data.trim().toUpperCase()) && !this.state.finishList.includes(data.trim().toUpperCase())) {
                 const audioEl = document.getElementsByClassName("audio-element")[0]
                 audioEl.pause()
                 audioEl.currentTime = 0;

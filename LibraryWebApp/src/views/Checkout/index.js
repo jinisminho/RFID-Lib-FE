@@ -206,9 +206,9 @@ class Checkout extends React.Component {
                 this.setState({
                     successShow: false,
                     errorShow: false,
-                    bookCodeList: [...this.state.bookCodeList, data.trim()]
+                    bookCodeList: [...this.state.bookCodeList, data.trim().toUpperCase()]
                 })
-                this.props.onGetBook(data.trim(), this.props.studentData.id)
+                this.props.onGetBook(data.trim().toUpperCase(), this.props.studentData.id)
             }
         } else if (data.trim().toUpperCase().includes("PAT#")) {
             this.setState({

@@ -102,9 +102,9 @@ class ReturnBook extends React.Component {
             this.setState({
                 successShow: false,
                 errorShow: false,
-                bookCodeList: [...this.state.bookCodeList, data.trim()]
+                bookCodeList: [...this.state.bookCodeList, data.trim().toUpperCase()]
             })
-            this.props.onGetBook(data.trim())
+            this.props.onGetBook(data.trim().toUpperCase())
         }
     }
     handleSearch(){

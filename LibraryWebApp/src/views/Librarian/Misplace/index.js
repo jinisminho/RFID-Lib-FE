@@ -155,7 +155,7 @@ class Misplace extends React.Component {
 
         if (this.props.bookData && data.trim().length == 24) {
             for (var i = 0; i < this.props.bookData.length; i++) {
-                if (this.props.bookData[i].rfid == data.trim()) {
+                if (this.props.bookData[i].rfid == data.trim().toUpperCase()) {
                     found = true;
                     break;
                 }
@@ -166,7 +166,7 @@ class Misplace extends React.Component {
             this.setState({
                 errorShow: true,
             })
-            this.props.onGetBook(data.trim())
+            this.props.onGetBook(data.trim().toUpperCase())
         }
     }
 
@@ -178,7 +178,7 @@ class Misplace extends React.Component {
 
         if (this.props.initPos && data.trim().length == 24) {
             for (var i = 0; i < this.props.initPos.length; i++) {
-                if (this.props.initPos[i].rfid == data.trim()) {
+                if (this.props.initPos[i].rfid == data.trim().toUpperCase()) {
                     found = true;
                     break;
                 }
@@ -192,7 +192,7 @@ class Misplace extends React.Component {
 
         if (this.props.bookData && data.trim().length == 24) {
             for (var i = 0; i < this.props.bookData.length; i++) {
-                if (this.props.bookData[i].rfid == data.trim()) {
+                if (this.props.bookData[i].rfid == data.trim().toUpperCase()) {
                     return
                 }
             }
@@ -201,12 +201,12 @@ class Misplace extends React.Component {
         this.setState({
             errorShow: true,
         })
-        this.props.onGetBook(data.trim())
+        this.props.onGetBook(data.trim().toUpperCase())
     }
 
     handlePositionScan(data) {
         if (data.trim().length == 24) {
-            this.props.onGetPosition(data.trim())
+            this.props.onGetPosition(data.trim().toUpperCase())
             this.setState({
                 errorShow: true,
             })
