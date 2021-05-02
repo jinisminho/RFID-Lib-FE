@@ -606,7 +606,7 @@ class Misplace extends React.Component {
                 </Container>
 
                 <CommonSuccessModal show={this.props.successMsg && this.state.successShow} hide={() => this.handleModalClose()} msg={this.props.successMsg} />
-                <CommonErrorModal show={this.props.bookError && this.state.errorShow} hide={() => this.clearReturnBookError()} msg={this.props.bookError} />
+                <CommonErrorModal show={this.props.bookError && this.state.errorShow && this.props.bookError != "This is a shelf RFID tag not a book RFID tag"} hide={() => this.clearReturnBookError()} msg={this.props.bookError} />
                 <CommonErrorModal show={this.props.error && this.state.errorShow} hide={() => this.handleModalClose()} msg={this.props.error} />
                 <CommonSuccessModal show={this.state.isCheckFinished} hide={() => this.handleModalClose()} msg="Finish check misplaced books" />
             </>
