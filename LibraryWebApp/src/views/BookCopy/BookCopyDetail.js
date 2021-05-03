@@ -85,7 +85,7 @@ class BookCopyDetail extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Price:</th>
-                                    <td>{thisCopy ? thisCopy.price + " " + MyConstant.CURRENCY : null}</td>
+                                    <td>{(thisCopy ? thisCopy.price + " " + MyConstant.CURRENCY : null) + (thisCopy ? (thisCopy.priceNote ? " - " + thisCopy.priceNote : null) : null)}</td>
                                 </tr>
                                 <tr>
                                     <th className="pl-sm-4 pl-7">Status:</th>
