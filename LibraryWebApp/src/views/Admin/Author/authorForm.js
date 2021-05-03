@@ -67,7 +67,9 @@ const validate = values => {
         errors.name = 'Author name is required';
     } else if (values.name.length > 50) {
         errors.name = 'Author name length is less than or equal 50';
-    }
+    }else if(!/^[a-zA-Z\s]+$/i.test(values.name)){
+      errors.name = 'Author name is not valid';
+  }
     if (!values.birthYear) {
         errors.birthYear = 'Birth year is required'
       } 

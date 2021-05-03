@@ -34,7 +34,7 @@ class Main extends Component {
         <Switch>
           <Route path="/auth" render={props => <AuthLayout {...props} />} />
           {/* <Route path="/search" render={props => <GuestLayout {...props} />} /> */}
-          {/* <Redirect from="*" to="/auth" /> */}
+          <Redirect from="*" to="/auth" />
         </Switch>
       </div>
     )
